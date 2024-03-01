@@ -5,4 +5,4 @@ metadata:
   namespace: cert-manager
 spec:
   ca:
-    secretName: ss-secret
+    secretName: sealed-ss-secret

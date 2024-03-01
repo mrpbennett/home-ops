@@ -26,4 +26,4 @@ spec:
   tls:
     - hosts: 
         - "homepage.pnfb.home"
-      secretName: ss-secret
+      secretName: sealed-ss-secret
