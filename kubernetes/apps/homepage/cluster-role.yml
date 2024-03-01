@@ -19,16 +19,11 @@ rules:
       - networking.k8s.io
     resources:
       - ingresses
+      - ingresses/status
     verbs:
       - get
       - list
-  - apiGroups:
-      - traefik.containo.us
-    resources:
-      - ingressroutes
-    verbs:
-      - get
-      - list
+      - watch
   - apiGroups:
       - metrics.k8s.io
     resources:
