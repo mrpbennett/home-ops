@@ -1,0 +1,7 @@
+- name: update all hosts
+  hosts: '*'
+  become: yes
+  tasks:
+    apt:
+      update_cache: yes
+      upgrade: 'yes'

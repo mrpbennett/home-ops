@@ -1,0 +1,78 @@
+xxx
+
+
+Pick your VIP ahead of time
+
+# FIRST SERVER
+curl -sfL https://get.k3s.io | K3S_TOKEN=xxx sh -s - server \
+    --cluster-init \
+    --disable=traefik \
+    --disable=servicelb \
+    --tls-san=192.168.6.10 # Optional, needed if using a fixed registration address
+
+
+## KUBE VIP
+
+su -
+apt install jq
+
+Step 1: Create Manifests Folder
+mkdir -p /var/lib/rancher/k3s/server/manifests/
+
+
+Step 2: Upload kube-vip RBAC Manifest
+curl https://kube-vip.io/manifests/rbac.yaml > /var/lib/rancher/k3s/server/manifests/kube-vip-rbac.yaml
+
+Step 3: Generate a kube-vip DaemonSet Manifest
+
+Create the RBAC settings
+kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
+
+Generating the manifest
+
+export VIP=192.168.6.10
+export INTERFACE=ens18
+KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
+
+For containerd, run the below command:
+
+alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
+
+kube-vip manifest daemonset \
+    --interface $INTERFACE \
+    --address $VIP \
+    --inCluster \
+    --taint \
+    --controlplane \
+    --services \
+    --arp \
+    --leaderElection
+
+# On-Premises (kube-vip-cloud-controller) kube-vip On-Prem
+
+Install the kube-vip Cloud Provider
+
+kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
+
+Create a global CIDR or IP Range
+
+kubectl create configmap -n kube-system kubevip --from-literal range-global=192.168.6.11-192.168.6.31
+
+
+# ADDIONTAL SERVER
+curl -sfL https://get.k3s.io | K3S_TOKEN=xxx sh -s - server \
+    --server https://192.168.6.1:6443 \
+    --disable=traefik \
+    --disable=servicelb \
+    --tls-san=192.168.6.10 # Optional, needed if using a fixed registration address
+
+
+# AGENT
+curl -sfL https://get.k3s.io | K3S_TOKEN=xxx sh -s - agent --server https://192.168.6.1:6443
+
+# KUBE CONF
+
+sudo cat /etc/rancher/k3s/k3s.yaml
+
+
+
