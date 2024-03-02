@@ -2,17 +2,21 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: kube-vip-ds
+    app.kubernetes.io/version: v0.7.1
   name: kube-vip-ds
   namespace: kube-system
 spec:
   selector:
     matchLabels:
-      name: kube-vip-ds
+      app.kubernetes.io/name: kube-vip-ds
   template:
     metadata:
       creationTimestamp: null
       labels:
-        name: kube-vip-ds
+        app.kubernetes.io/name: kube-vip-ds
+        app.kubernetes.io/version: v0.7.1
     spec:
       affinity:
         nodeAffinity:
@@ -36,16 +40,20 @@ spec:
           value: ens18
         - name: vip_cidr
           value: "32"
+        - name: dns_mode
+          value: first
         - name: cp_enable
           value: "true"
         - name: cp_namespace
           value: kube-system
-        - name: vip_ddns
-          value: "false"
         - name: svc_enable
           value: "true"
+        - name: svc_leasename
+          value: plndr-svcs-lock
         - name: vip_leaderelection
           value: "true"
+        - name: vip_leasename
+          value: plndr-cp-lock
         - name: vip_leaseduration
           value: "5"
         - name: vip_renewdeadline
@@ -54,7 +62,9 @@ spec:
           value: "1"
         - name: address
           value: 192.168.6.10
-        image: ghcr.io/kube-vip/kube-vip:v0.4.0
+        - name: prometheus_server
+          value: :2112
+        image: ghcr.io/kube-vip/kube-vip:v0.7.1
         imagePullPolicy: Always
         name: kube-vip
         resources: {}
@@ -63,7 +73,6 @@ spec:
             add:
             - NET_ADMIN
             - NET_RAW
-            - SYS_TIME
       hostNetwork: true
       serviceAccountName: kube-vip
       tolerations:
@@ -72,4 +81,3 @@ spec:
       - effect: NoExecute
         operator: Exists
   updateStrategy: {}
-
