@@ -12,6 +12,15 @@ data:
     title: homelab | pnfb.home
     theme: dark
     color: slate
+
+    layout:
+      Google:
+        style: row
+        columns: 3
+
+      BareMetal:
+        style: row
+        columns: 2
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
@@ -49,6 +58,56 @@ data:
           icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google-cloud-platform.svg
           href: https://console.cloud.google.com/welcome?authuser=1
           target: _blank
+
+    - BareMetal
+      - Proxmox 1:
+          icon: proxmox.png
+          href: https://pve1.pnfb.home:8006
+          description: HyperVisor
+          ping: 192.168.7.10
+          target: _blank
+          widget:
+              type: proxmox
+              url: https://192.168.7.10:8006
+              username: api@pam!homepage
+              password: 700c880d-0470-47b5-85b9-c64fa8bd21c1
+      
+      - WesternDigal Cloud:
+          icon: truenas.png
+          href: http://wd.pnfb.home
+          description: WD Cloud
+          ping: 192.168.4.110
+          target: _blank
+
+    - Applications:
+      - Kubernetes:
+          icon: kubernetes.png
+          href: http://localhost/
+          description: Container orchestration
+          target: _blank
+
+      - ArgoCD:
+          icon: argocd.png
+          href: https://192.168.5.11
+          description: GitOps for Kubernetes
+          target: _blank
+
+      - Portainer:
+          icon: portainer.png
+          href: https://portainer.pnfb.home:9443
+          description: Container management
+          target: _blank
+          widget:
+              type: portainer
+              url: https://192.168.4.11:9443
+              env: 2
+              key: ptr_3wDTxu01RXriNErtjeXITuAqZA5k2VyIItVSoFDbDzE=
+
+    - Code server:
+        icon: code.png
+        href: http://code.pnfb.home:8083/?folder=/home/coder
+        description: Code in the browser
+        target: _blank
 
 
     - Services:
@@ -105,9 +164,4 @@ data:
           cpu: true
           memory: true
           showLabel: true
-    - resources:
-        backend: resources
-        expanded: true
-        cpu: true
-        memory: true
   docker.yaml: ""
