@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: test-registry
+  name: &app ingress-nginx
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,18 +9,18 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/mrpbennett/home-ops.git'
-    path: kube-test/registry
+    path: kube-test/apps/ingress-nginx
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
+    namespace: *app
     server: 'https://kubernetes.default.svc'
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - Validate=true
       - CreateNamespace=true
     retry:
       limit: 5
