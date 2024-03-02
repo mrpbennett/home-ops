@@ -59,8 +59,8 @@ data:
           href: https://console.cloud.google.com/welcome?authuser=1
           target: _blank
 
-    - BareMetal
-      - Proxmox 1:
+    - BareMetal:
+      - Proxmox:
           icon: proxmox.png
           href: https://pve1.pnfb.home:8006
           description: HyperVisor
