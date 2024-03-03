@@ -16,18 +16,6 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=xxx sh -s - server \
 su -
 apt install jq
 
-Step 1: Create Manifests Folder
-mkdir -p /var/lib/rancher/k3s/server/manifests/
-
-
-Step 2: Upload kube-vip RBAC Manifest
-curl https://kube-vip.io/manifests/rbac.yaml > /var/lib/rancher/k3s/server/manifests/kube-vip-rbac.yaml
-
-Step 3: Generate a kube-vip DaemonSet Manifest
-
-Create the RBAC settings
-kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
-
 Generating the manifest
 
 export VIP=192.168.6.10
