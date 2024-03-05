@@ -1,3 +1,17 @@
+# This is the network config written by 'subiquity'
+network:
+version: 2
+renderer: networkd
+ethernets:
+ens18:
+addresses:
+- 192.168.5.1/22
+routes:
+- to: default
+via: 192.168.4.1 # router ip
+nameservers:
+addresses: [192.168.4.2, 1.1.1.1] # pihole DNS / cloudflare
+
 #!/usr/bin/bash
 
 # update system
