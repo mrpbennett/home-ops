@@ -14,7 +14,7 @@
 
 ### My Home Operations Repository :octocat:
 
-_... managed with ArgoCD and GitHub Actions_ 🤖
+_... managed with ArgoCD, Renovate and GitHub Actions_ 🤖
 
 </div>
 
@@ -22,9 +22,9 @@ _... managed with ArgoCD and GitHub Actions_ 🤖
 
 ## 📖 Overview
 
-This is a mono repository for my home infrastructure and Kubernetes cluster. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Ansible](https://www.ansible.com/), [Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/) and [GitHub Actions](https://github.com/features/actions).
+This is a mono repository for my home infrastructure and Kubernetes cluster. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Ansible](https://www.ansible.com/), [Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
-## The purpose here is to learn Kubernetes, while practicing GitOps
+## The purpose here is to learn Kubernetes, while practising GitOps
 
 ## ⛵ Kubernetes
 
