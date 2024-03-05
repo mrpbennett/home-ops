@@ -29,7 +29,7 @@ services:
       - loki
 
   promtail:
-    image: grafana/promtail:2.9.4
+    image: grafana/promtail:2.9.5
     container_name: promtail
     command: -config.file=/etc/promtail/promtail-config.yml
     restart: unless-stopped
