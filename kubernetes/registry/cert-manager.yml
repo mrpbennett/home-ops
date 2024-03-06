@@ -8,14 +8,14 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/mrpbennett/home-ops.git'
+    repoURL: "https://github.com/mrpbennett/home-ops.git"
     path: kubernetes/apps/cert-manager
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
     namespace: *app
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
       prune: true

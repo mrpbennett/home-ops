@@ -1,0 +1,151 @@
+version: v1alpha1 # Indicates the schema used to decode the contents.
+debug: false # Enable verbose logging to the console.
+persist: true
+# Provides machine specific configuration options.
+machine:
+  type: controlplane # Defines the role of the machine within the cluster.
+  token: q967b7.mbiyqqqp95tb0gdg # The `token` is used by a machine to join the PKI of the cluster.
+  # The root certificate authority of the PKI.
+  ca:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEJKMUZ2cGRHRVNYb05SNlBmT0tjTEZNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5EQXpNRFl4TWpRek5EaGFGdzB6TkRBek1EUXhNalF6TkRoYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBOVlaUTVwSEJmL1EzeEpGVDY1MHVJN21RbDYxZjVrRERTd3JvCkF2NUJMbCtqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVZUx5dXdISmNJVWtxYWlHWgo5ZGx3WXJVVEY3RXdCUVlESzJWd0EwRUFsUEZ5NDEwS2tXaUJMcTFNQk1wQWd2cDNTbzNRaXhPRUZiRGJIRjhJCm1YVHFENzI0eHlIUmRaVnZrRW82L2RmTG1VWk5ERm41ZGZkZUpvTVliUUpDQVE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0KTUM0Q0FRQXdCUVlESzJWd0JDSUVJT0pmRkQ0SUJlQ2YvYkxYYUhaUkYwY1dvK3NpRkhNeDVCVEVVbGdGMWV0TAotLS0tLUVORCBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0K
+  # Extra certificate subject alternative names for the machine's certificate.
+  certSANs: []
+
+  kubelet:
+    image: ghcr.io/siderolabs/kubelet:v1.29.2 # The `image` field is an optional reference to an alternative kubelet image.
+    defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
+    disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
+
+  network:
+    hostname: talos-cp-3
+    nameservers:
+      - 192.168.4.2
+      - 1.1.1.1
+    interfaces:
+      - deviceSelector:
+          busPath: "0*"
+        addresses:
+          - 192.168.7.12/22
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.4.1
+        vip:
+          ip: 192.168.7.200 # Specifies the IP address to be used.
+  time:
+    servers:
+      - time.cloudflare.com
+
+  install:
+    disk: /dev/sda # The disk used for installations.
+    image: ghcr.io/siderolabs/installer:v1.6.5 # Allows for supplying the image used to perform the installation.
+    wipe: false # Indicates if the installation disk should be wiped at installation time.
+
+  registries: {}
+
+  features:
+    rbac: true # Enable role-based access control (RBAC).
+    stableHostname: true # Enable stable default hostname.
+    apidCheckExtKeyUsage: true # Enable checks for extended key usage of client certificates in apid.
+    diskQuotaSupport: true # Enable XFS project quota support for EPHEMERAL partition and user disks.
+    # KubePrism - local proxy/load balancer on defined port that will distribute
+    kubePrism:
+      enabled: true # Enable KubePrism support - will start local load balacing proxy.
+      port: 7445 # KubePrism port.
+
+# Provides cluster specific configuration options.
+cluster:
+  id: lRsFgGRDdoX2CGoX4vFBdK6Idu857cGWZDprvyG1QUE= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: zjAIHLzmgWJGKjj87nTbT/+RRxPZUxAO7Z+nGqth2NQ= # Shared secret of cluster (base64 encoded random 32 bytes).
+  # Provides control plane specific configuration options.
+  controlPlane:
+    endpoint: https://192.168.7.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
+  clusterName: talos-cluster # Configures the cluster's name.
+  # Provides cluster specific network configuration options.
+  network:
+    dnsDomain: cluster.local # The domain used by Kubernetes DNS.
+    # The pod subnet CIDR.
+    podSubnets:
+      - 10.244.0.0/16
+    # The service subnet CIDR.
+    serviceSubnets:
+      - 10.96.0.0/12
+
+    # # The CNI used.
+    # cni:
+    #     name: custom # Name of CNI to use.
+    #     # URLs containing manifests to apply for the CNI.
+    #     urls:
+    #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
+  token: bfyjib.26aao6tqkc0vmqib # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  secretboxEncryptionSecret: VWqD+NAPq4bWbXJiw/yOauNI64MwLDLLOn6U8RJ5QWo= # A key used for the [encryption of secret data at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/).
+  # The base64 encoded root certificate authority used by Kubernetes.
+  ca:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRZFJ4M2wvTituakNlWjh3aEU2NFJGekFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNRE13TmpFeU5ETTBPRm9YRFRNME1ETXdOREV5TkRNMApPRm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCQ0NsWkNzOS8yNDl1akIydncxR2lzbE13UmpUT2hiVm43RFF5ZTFXZ1NraCtnZ0d2cWN4eUY3N2Z6QlAKYzZqTldaK3FoTS9DeFBXMElodGIvUWVhWFoyallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVV1YjU0QnZ4M0s5WHA0d2g5RDMyTWVBOFNWRFV3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnY3BuZkE4WWcKanRjNW1tS2pLSmthUFo5OGZOR21UOHdFeVl4TldNdFZ1c2dDSVFEMXpyNUFVbDNFL0dqS2RKSU9YbWxDOWRLbQphbVhGc3hDRlZoMWw1UjlGd3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSVBBRTRiWFZKY3FkaEN4empJTzV3Tjc3VjZZd1lzT3NzcCtsZURucnBLQTVvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFSUtWa0t6My9iajI2TUhhL0RVYUt5VXpCR05NNkZ0V2ZzTkRKN1ZhQktTSDZDQWErcHpISQpYdnQvTUU5enFNMVpuNnFFejhMRTliUWlHMXY5QjVwZG5RPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  # The base64 encoded aggregator certificate authority used by Kubernetes for front-proxy certificate generation.
+  aggregatorCA:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJYekNDQVFXZ0F3SUJBZ0lRSDFjK0dRSlRGZGRmZnduY2RLRVNqakFLQmdncWhrak9QUVFEQWpBQU1CNFgKRFRJME1ETXdOakV5TkRNME9Gb1hEVE0wTURNd05ERXlORE0wT0Zvd0FEQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxRwpTTTQ5QXdFSEEwSUFCREllcDVSMWxKZUZjdVRvTUdEK0pEMnhqZ3FKTEJQYVdFNDhxL090dTBybnptMWhGN2MyClRRMlpaTjM2dWlRMDhZVDl5TmlmSW1ESFlES2NObmJkNWlpallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWQKQmdOVkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZApCZ05WSFE0RUZnUVVNcUVRTDBjR294ZUFnbDNjZEcwQXplVGlEQTB3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUloCkFJK2hwaldZTHpBZkl4b1NOYnk4N3R0UGgySlROeEc1clpqR3hXMDRlbWl2QWlCNGlBaXJTR29aVFVWRFBERHEKZDRxK0lOSTcrM2pDQUJXTUo2Sngrd1FtTkE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUFVekZMS0Y0bFpRVm5DT2lqTVZPWURtcmtNajJWVWZKQlpGR0FuWEUzTnFvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFTWg2bmxIV1VsNFZ5NU9nd1lQNGtQYkdPQ29rc0U5cFlUanlyODYyN1N1Zk9iV0VYdHpaTgpEWmxrM2ZxNkpEVHhoUDNJMko4aVlNZGdNcHcyZHQzbUtBPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  # The base64 encoded private key for service account token generation.
+  serviceAccount:
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUVYOThUSXo5Y1N0MS9Wei9OdDkwYnRheGtuWGQxQTd6T1Z3WUc3SnRza1BvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFUmN1a2lteGdqZTV4aDZVSEZYZzk2TUlsczBVZ1MrQ29XczJSL3NJWUdXd2haaHFFeCsyZgpGV2lRQzJBc3hISUJIQmNhUGxZcVg2Nlhzc01WZGtweTlRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  # API server specific configuration options.
+  apiServer:
+    image: registry.k8s.io/kube-apiserver:v1.29.2 # The container image used in the API server manifest.
+    # Extra certificate subject alternative names for the API server's certificate.
+    certSANs:
+      - 192.168.7.200 # VIP
+    disablePodSecurityPolicy: true # Disable PodSecurityPolicy in the API server and default manifests.
+    # Configure the API server admission plugins.
+    admissionControl:
+      - name: PodSecurity # Name is the name of the admission controller.
+        # Configuration is an embedded configuration object to be used as the plugin's
+        configuration:
+          apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+          defaults:
+            audit: restricted
+            audit-version: latest
+            enforce: baseline
+            enforce-version: latest
+            warn: restricted
+            warn-version: latest
+          exemptions:
+            namespaces:
+              - kube-system
+            runtimeClasses: []
+            usernames: []
+          kind: PodSecurityConfiguration
+    # Configure the API server audit policy.
+    auditPolicy:
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      rules:
+        - level: Metadata
+  # Controller manager server specific configuration options.
+  controllerManager:
+    image: registry.k8s.io/kube-controller-manager:v1.29.2 # The container image used in the controller manager manifest.
+  # Kube-proxy server-specific configuration options
+  proxy:
+    image: registry.k8s.io/kube-proxy:v1.29.2 # The container image used in the kube-proxy manifest.
+  # Scheduler server specific configuration options.
+  scheduler:
+    image: registry.k8s.io/kube-scheduler:v1.29.2 # The container image used in the scheduler manifest.
+  # Configures cluster member discovery.
+  discovery:
+    enabled: true # Enable the cluster membership discovery feature.
+    # Configure registries used for cluster member discovery.
+    registries:
+      # Kubernetes registry uses Kubernetes API server to discover cluster members and stores additional information
+      kubernetes:
+        disabled: true # Disable Kubernetes discovery registry.
+      # Service registry is using an external service to push and pull information about cluster members.
+      service: {}
+  # Etcd specific configuration options.
+  etcd:
+    # The `ca` is the root certificate authority of the PKI.
+    ca:
+      crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJmakNDQVNPZ0F3SUJBZ0lRUWJSdTF2ZHJOMWZONTJVNEd6eDFmakFLQmdncWhrak9QUVFEQWpBUE1RMHcKQ3dZRFZRUUtFd1JsZEdOa01CNFhEVEkwTURNd05qRXlORE0wT0ZvWERUTTBNRE13TkRFeU5ETTBPRm93RHpFTgpNQXNHQTFVRUNoTUVaWFJqWkRCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQkxiSXg1SWhNRTVFCktQUmxwRHVURjVDOU1helUrSzhQODRNSkhMNm55elRQeGtXZVFUTkdEUzQveWZMNkJ6MnRvRU94ZERjZjhQeEoKZDFCaDY5aTNlVENqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjRApBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVS3I4MTlUcUJObWd1CnJSZEY5MDN1RTU1OG1aRXdDZ1lJS29aSXpqMEVBd0lEU1FBd1JnSWhBT0pya1hqYkZLNGVWbnI1MGIrZmtWdHMKdXF5M0FyclZjQkNzUFFITTVSUFVBaUVBZ05OeEFYN3pVYkNHZmtqcXpRSWtqak54TzFvdDFCdXl1Z09icjdMcwpxOGc9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+      key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUthNUpXSjdidERiVE1Wc2xiUkgydWlDcEg1Y3UralJ2cmVCc2dXZm1LTVBvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFdHNqSGtpRXdUa1FvOUdXa081TVhrTDB4ck5UNHJ3L3pnd2tjdnFmTE5NL0dSWjVCTTBZTgpMai9KOHZvSFBhMmdRN0YwTngvdy9FbDNVR0hyMkxkNU1BPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  extraManifests: []
+  inlineManifests: []
