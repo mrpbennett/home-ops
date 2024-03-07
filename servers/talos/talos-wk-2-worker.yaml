@@ -4,10 +4,10 @@ persist: true
 # Provides machine specific configuration options.
 machine:
   type: worker # Defines the role of the machine within the cluster.
-  token: q967b7.mbiyqqqp95tb0gdg # The `token` is used by a machine to join the PKI of the cluster.
+  token: 3en4qq.u1n1n3pufdwf973w # The `token` is used by a machine to join the PKI of the cluster.
   # The root certificate authority of the PKI.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEJKMUZ2cGRHRVNYb05SNlBmT0tjTEZNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5EQXpNRFl4TWpRek5EaGFGdzB6TkRBek1EUXhNalF6TkRoYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBOVlaUTVwSEJmL1EzeEpGVDY1MHVJN21RbDYxZjVrRERTd3JvCkF2NUJMbCtqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVZUx5dXdISmNJVWtxYWlHWgo5ZGx3WXJVVEY3RXdCUVlESzJWd0EwRUFsUEZ5NDEwS2tXaUJMcTFNQk1wQWd2cDNTbzNRaXhPRUZiRGJIRjhJCm1YVHFENzI0eHlIUmRaVnZrRW82L2RmTG1VWk5ERm41ZGZkZUpvTVliUUpDQVE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEJXN2k0TXlJMXRiT2EvMDh5d2FHc0hNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5EQXpNRGN4TmpNeE1EbGFGdzB6TkRBek1EVXhOak14TURsYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBdEgrK245VGxqbzM2QzZNcHJnZmkzK0NZemhkRDkrbmFZUWRECjZKcExJZDJqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVYkxnWVdxMUoweXVxcDgwLwpMa3pKUnVqNXd5a3dCUVlESzJWd0EwRUFvVGNvZ0JKSkVrNjJoNW96ajZ1MnBDMWZkQ3RTaHRFQm9ML1lqSlpNCnhrcjNibkRHM0JsbnVNcHBOV0wzMCtmdW9oVHZ4SGNLZkxxQitoQTNtU1RLQWc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Extra certificate subject alternative names for the machine's certificate.
   certSANs: []
@@ -27,7 +27,7 @@ machine:
       - deviceSelector:
           busPath: "0*"
         addresses:
-          - 192.168.7.14/22
+          - 192.168.5.7/22
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1
@@ -41,6 +41,7 @@ machine:
     image: ghcr.io/siderolabs/installer:v1.6.5 # Allows for supplying the image used to perform the installation.
     wipe: false # Indicates if the installation disk should be wiped at installation time.
 
+  # Used to configure the machine's container image registry mirrors.
   registries: {}
 
   # Features describe individual Talos features that can be switched on or off.
@@ -56,11 +57,11 @@ machine:
 
 # Provides cluster specific configuration options.
 cluster:
-  id: lRsFgGRDdoX2CGoX4vFBdK6Idu857cGWZDprvyG1QUE= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-  secret: zjAIHLzmgWJGKjj87nTbT/+RRxPZUxAO7Z+nGqth2NQ= # Shared secret of cluster (base64 encoded random 32 bytes).
+  id: jrfPH14emtX8FIqsQVWQplKvIW5lwPl8wgOTrqo8Mys= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: Ca6Ngu2mchFdtoTXqCXdlc55QYJe2Vst5v7gcO0NxpY= # Shared secret of cluster (base64 encoded random 32 bytes).
   # Provides control plane specific configuration options.
   controlPlane:
-    endpoint: https://192.168.7.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
+    endpoint: https://192.168.5.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
   # Provides cluster specific network configuration options.
   network:
     dnsDomain: cluster.local # The domain used by Kubernetes DNS.
@@ -77,10 +78,10 @@ cluster:
     #     # URLs containing manifests to apply for the CNI.
     #     urls:
     #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-  token: bfyjib.26aao6tqkc0vmqib # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  token: v6j22i.9is3o16p5wjkp3j2 # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
   # The base64 encoded root certificate authority used by Kubernetes.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRZFJ4M2wvTituakNlWjh3aEU2NFJGekFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNRE13TmpFeU5ETTBPRm9YRFRNME1ETXdOREV5TkRNMApPRm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCQ0NsWkNzOS8yNDl1akIydncxR2lzbE13UmpUT2hiVm43RFF5ZTFXZ1NraCtnZ0d2cWN4eUY3N2Z6QlAKYzZqTldaK3FoTS9DeFBXMElodGIvUWVhWFoyallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVV1YjU0QnZ4M0s5WHA0d2g5RDMyTWVBOFNWRFV3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnY3BuZkE4WWcKanRjNW1tS2pLSmthUFo5OGZOR21UOHdFeVl4TldNdFZ1c2dDSVFEMXpyNUFVbDNFL0dqS2RKSU9YbWxDOWRLbQphbVhGc3hDRlZoMWw1UjlGd3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRRUU1QzBDak85emVvS3NWUzFYVWpIVEFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNRE13TnpFMk16RXdPVm9YRFRNME1ETXdOVEUyTXpFdwpPVm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCRDBoRytSTGFtblAxV2tRTC9FK1pwS2ZIYmFCQVJNS2VtZi8rbHROOWU1dm9UZjI1N0dmUXJQZUhzcUwKbHlRemhYV1hRSEY1bE13Qnh2MXR0Qk1WTzN1allUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVUWjBpZ2R6ZEVBNm0zVkI2L3ROOFprb2taak13Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUloQVB3TGIyMlIKb0RBOXl1c0JJQXo0TUlBenBXTE1sck5zeHJTYVlUMWhnL3dmQWlBVTlibitGN21sd1JQZW53ZDhCRWJMb0docQo1TVlGWTZQMXRJS0ZOL0M3enc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Configures cluster member discovery.
   discovery:

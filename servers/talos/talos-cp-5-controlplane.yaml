@@ -23,7 +23,7 @@ machine:
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
 
   network:
-    hostname: talos-cp-2
+    hostname: talos-cp-5
     nameservers:
       - 192.168.4.2
       - 1.1.1.1
@@ -31,7 +31,7 @@ machine:
       - deviceSelector:
           busPath: "0*"
         addresses:
-          - 192.168.5.2/22
+          - 192.168.5.5/22
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1

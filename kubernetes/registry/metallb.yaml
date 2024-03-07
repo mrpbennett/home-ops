@@ -1,21 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kubevip
+  name: &app metallb
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/mrpbennett/home-ops.git'
-    path: kubernetes/apps/kubevip
+    repoURL: "https://github.com/mrpbennett/home-ops.git"
+    path: kubernetes/apps/metallb
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: kube-system
-    server: 'https://kubernetes.default.svc'
+    namespace: *app
+    server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
       prune: true
