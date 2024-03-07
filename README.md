@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-    <a href="https://k3s.io/"><img alt="k3s" src="https://img.shields.io/badge/k3s-v1.29.1-orange?logo=kubernetes&logoColor=white&style=flat-square"></a>
+    <a href="https://talos.dev/"><img alt="talos-os" src="https://img.shields.io/badge/talos-v1.6.5-orange?logo=kubernetes&logoColor=white&style=flat-square"></a>
     <a href="https://github.com/mrpbennett/home-ops/commits/master"><img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/mrpbennett/home-ops?logo=git&logoColor=white&color=purple&style=flat-square"></a>
     <a href="https://discord.gg/home-operations"><img alt="Home Operations Discord" src="https://img.shields.io/badge/discord-chat-7289DA.svg?logo=discord&logoColor=white&maxAge=60&style=flat-square"></a>
 </p>
@@ -30,9 +30,7 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 
 ### Installation
 
-My Kubernetes cluster is deployed with [K3s](https://www.k3s.io) and [Kube VIP](https://kube-vip.io/). This is a high availability cluster, running inside Proxmox.
-
-More info on installation [here](docs/installing-ks3-kubevip.md)
+My Kubernetes cluster is deployed with [Talos](https://www.talos.dev) and [Metal LB](https://metallb.universe.tf). This is a high availability cluster, running inside Proxmox.
 
 #### System Requirements
 
@@ -121,11 +119,6 @@ source:
         <td>The package manager for Kubernetes</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://avatars.githubusercontent.com/u/49319725"></td>
-        <td><a href="https://k3s.io">K3s</a></td>
-        <td>Lightweight distribution of Kubernetes</td>
-    </tr>
-    <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/13629408"></td>
         <td><a href="https://kubernetes.io">Kubernetes</a></td>
         <td>Container-orchestration system, the backbone of this project</td>
@@ -139,6 +132,11 @@ source:
         <td><img width="32" src="https://github.com/grafana/loki/blob/main/docs/sources/logo.png?raw=true"></td>
         <td><a href="https://grafana.com/oss/loki">Loki</a></td>
         <td>Log aggregation system</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://landscape.cncf.io/logos/d0ec559188c4650a465f4fb5a25dfa9ad006959bada907b569f7cff5653c7d96.svg"></td>
+        <td><a href="https://metallb.universe.tf/">MetalLB</a></td>
+        <td>A network load-balancer</td>
     </tr>
     <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/1412239?s=200&v=4"></td>
@@ -180,6 +178,7 @@ source:
         <td><a href="https://github.com/louislam/uptime-kuma">Uptime Kuma</a></td>
         <td>Open Source system monitoring</td>
     </tr>
+
 </table>
 
 ---
@@ -190,7 +189,7 @@ Below are a list of future plans for my cluster:
 
 - [ ]: deploy [Cert-Manager](https://cert-manager.io)
 - [ ]: deploy [Rook Ceph](https://rook.io/) across cluster
-- [ ]: migrate from k3s to [Talos OS](https://www.talos.dev/)
+- [ :white_check_mark: ]: migrate from k3s to [Talos OS](https://www.talos.dev/)
 
 ---
 
