@@ -1,3 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -7,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: "https://prometheus-community.github.io/helm-charts"
-    targetRevision: 56.21.4
+    targetRevision: 57.0.1
     chart: kube-prometheus-stack
     helm:
       values: |
