@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: <chart name>
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "<chart repo url"
+    targetRevision: xx.xx.xx # Specify the chart version here
+    chart: <chart name>
+    helm:
+      values: |
+        <Your customized values from values.yaml>
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
