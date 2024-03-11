@@ -8,13 +8,13 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/mrpbennett/home-ops.git'
+    repoURL: "https://github.com/mrpbennett/home-ops.git"
     path: kube-test/registry
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
       prune: true
