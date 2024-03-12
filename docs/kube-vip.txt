@@ -1,10 +1,10 @@
-xxx
+cxx
 
 
 Pick your VIP ahead of time
 
 # FIRST SERVER
-curl -sfL https://get.k3s.io | K3S_TOKEN=xxx sh -s - server \
+curl -sfL https://get.k3s.io | K3S_TOKEN=cxx sh -s - server \
     --cluster-init \
     --disable=traefik \
     --disable=servicelb \
@@ -48,7 +48,7 @@ kubectl create configmap -n kube-system kubevip --from-literal range-global=192.
 
 
 # ADDIONTAL SERVER
-curl -sfL https://get.k3s.io | K3S_TOKEN=xxx sh -s - server \
+curl -sfL https://get.k3s.io | K3S_TOKEN=cxx sh -s - server \
     --server https://192.168.6.1:6443 \
     --disable=traefik \
     --disable=servicelb \
@@ -56,7 +56,7 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=xxx sh -s - server \
 
 
 # AGENT
-curl -sfL https://get.k3s.io | K3S_TOKEN=xxx sh -s - agent --server https://192.168.6.1:6443
+curl -sfL https://get.k3s.io | K3S_TOKEN=cxx sh -s - agent --server https://192.168.6.1:6443
 
 # KUBE CONF
 
