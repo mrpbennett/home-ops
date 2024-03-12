@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: "https://prometheus-community.github.io/helm-charts"
-    targetRevision: 57.0.0
+    targetRevision: 57.0.1
     chart: kube-prometheus-stack
     helm:
       values: |
@@ -64,8 +64,8 @@ spec:
             enabled: true
           admin:
             existingSecret: grafana-admin-credentials
-            userKey: admin-user
-            passwordKey: admin-password
+            userKey: admin
+            passwordKey: 123qwe!!
 
         kubeApiServer:
           enabled: true

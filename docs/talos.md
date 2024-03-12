@@ -104,20 +104,21 @@ Now it's time to send our configuration to our first control plane. If you look 
 
 ```yaml
 network:
-    hostname: talos-cp-1
+    hostname: talos-cp-2
     nameservers:
       - 192.168.4.2
       - 1.1.1.1
     interfaces:
       - deviceSelector:
-          busPath: "0*" # Single Network Interface
+          busPath: "0*"
         addresses:
-          - 192.168.7.10/22 # static IP
+          - 192.168.5.2/22
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1
         vip:
-          ip: 192.168.7.200 # Specifies the IP address to be used.
+          ip: 192.168.5.200 # Specifies the IP address to be used.
+
   time:
     servers:
       - time.cloudflare.com
