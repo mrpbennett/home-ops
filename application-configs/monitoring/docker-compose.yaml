@@ -5,7 +5,7 @@ networks:
 
 services:
   loki:
-    image: grafana/loki:2.9.5
+    image: grafana/loki:2.9.6
     container_name: loki
     command: -config.file=/etc/loki/loki-config.yml
     restart: unless-stopped
