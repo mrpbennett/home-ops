@@ -13,5 +13,5 @@ network:
         - to: default
           via: 192.168.4.1 # router ip
       nameservers:
-        addresses: [192.168.4.2, 1.1.1.1] # pihole DNS / cloudflare
+        addresses: [192.168.4.2, 192.168.4.3, 1.1.1.1] # pihole DNS / cloudflare
 ```
