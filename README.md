@@ -195,13 +195,13 @@ Below are a list of future plans for my cluster:
 
 ## 🔧 Hardware
 
-![homelab](docs/images/homelab.png)
+
 
 | Device                             | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose    |
 | ---------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ---------- |
 | UniFi Dream Machine Pro (want!)    | 1     | -            | -              | 8TB  | -                | Gateway    |
 | UniFi Standard 16 port PoE (want!) | 1     | -            | -              | -    | -                | PoE switch |
-| Lenovo ThinkCentre M720q tiny      | 3     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor |
+| Lenovo ThinkCentre M720q tiny      | 1     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor |
 
 ---
 
