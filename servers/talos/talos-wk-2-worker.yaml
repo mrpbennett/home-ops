@@ -27,7 +27,7 @@ machine:
       - deviceSelector:
           busPath: "0*"
         addresses:
-          - 192.168.5.7/22
+          - 192.168.5.5/22
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1
