@@ -1,21 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app ingress-nginx
+  name: &app rook-ceph
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/mrpbennett/home-ops.git'
-    path: kube-test/apps/ingress-nginx
+    repoURL: "https://github.com/mrpbennett/home-ops.git"
+    path: kubernetes/apps/rook-ceph
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
     namespace: *app
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
       prune: true
