@@ -4,10 +4,10 @@ persist: true
 # Provides machine specific configuration options.
 machine:
   type: worker # Defines the role of the machine within the cluster.
-  token: yrejc6.17g1v8q5j0ksmpuy # The `token` is used by a machine to join the PKI of the cluster.
+  token: bhf0pa.wglsvhd9kdxnz9ib # The `token` is used by a machine to join the PKI of the cluster.
   # The root certificate authority of the PKI.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBNVhNMXc1UlBIZW1uWlFnK1FPVHBYakFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXdNekV5TVRRd01qVTRXaGNOTXpRd016RXdNVFF3TWpVNFdqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUplNVEwQ1IxUmFHQ2haeXlSS0F1Q0JOZE9xNDcyUzhtclVECkFBWHpvTmorbzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRk5hOUpLeXFOWHZERlNTeAp3MHA5NFhDc1VTUHNNQVVHQXl0bGNBTkJBSktJZXRJM3F6Y0QxQlJ4SWhkWmdSS0d5YjIyYmpRVmh6K29yKzc1CkJsVjRYSW4ySlJrcWdjV01CQVBlL285N09PdGxpSUxobCtZS2RXcXYxcE5YdEE0PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBbGs0NGRsbFBlZDZCS1BWZzM4em44ekFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXdOVEl4TURreE5ESTJXaGNOTXpRd05URTVNRGt4TkRJMldqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUR1dk9XOTZvMUZhMXpuM200ZTNPYkpoTStDQ3NlTjdhdVZHCkxjUDhqbk9ubzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkI0NS9QWmlrWFlsL3k3eApPYkhSSHcwRjJ0OENNQVVHQXl0bGNBTkJBTGoyYnVNbXlxRk9LeUtLOW9aQWEvOHI3dDNobWk5OUJ5OFJtNEtKClRFZjI2a2poTzB5SjlNUjc1QXJtcmNhVXVVR2NDcU9aUnhMdDJycDVBV3VCS2cwPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Extra certificate subject alternative names for the machine's certificate.
   certSANs: []
@@ -18,8 +18,9 @@ machine:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
 
+  # Provides machine specific network configuration options.
   network:
-    hostname: talos-wk-1
+    hostname: talos-wk-3
     nameservers:
       - 192.168.4.2
       - 1.1.1.1
@@ -27,7 +28,7 @@ machine:
       - deviceSelector:
           busPath: "0*"
         addresses:
-          - 192.168.5.4/22
+          - 192.168.5.6/22
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1
@@ -55,10 +56,11 @@ machine:
     kubePrism:
       enabled: true # Enable KubePrism support - will start local load balacing proxy.
       port: 7445 # KubePrism port.
+
 # Provides cluster specific configuration options.
 cluster:
-  id: GfSmED1Oo85uOYWo4DBmcsG82Mc4jUZTxqGGbXMvmlM= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-  secret: n6FnzVPmjxkmQr879q4VRc3vcGFzV+VuYIMq6xOHOs4= # Shared secret of cluster (base64 encoded random 32 bytes).
+  id: WkykF7kpb97x-PNHgtehpZaQEWhzr7_o6FpI5U20q4E= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: dYsJJR6QbuUDTLi5MSOPchW77t9PI7Yv0Tk5OsF+Rc8= # Shared secret of cluster (base64 encoded random 32 bytes).
   # Provides control plane specific configuration options.
   controlPlane:
     endpoint: https://192.168.5.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
@@ -78,10 +80,10 @@ cluster:
     #     # URLs containing manifests to apply for the CNI.
     #     urls:
     #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-  token: yr8h0l.c12vnskj61yhxeya # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  token: hze06v.7jvie4xjg32bcpjb # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
   # The base64 encoded root certificate authority used by Kubernetes.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVRDZ0F3SUJBZ0lSQVAvKzE2S01pSWFrS3hNQXJjVm8rMzR3Q2dZSUtvWkl6ajBFQXdJd0ZURVQKTUJFR0ExVUVDaE1LYTNWaVpYSnVaWFJsY3pBZUZ3MHlOREF6TVRJeE5EQXlOVGhhRncwek5EQXpNVEF4TkRBeQpOVGhhTUJVeEV6QVJCZ05WQkFvVENtdDFZbVZ5Ym1WMFpYTXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVJvSFZwYjgyRWtZTUl6eVpCYVR4SUxndFZSekZrTk9mR0I4bDJmVExHRFZWUzF5cHoxdTN3ZUJ2WWMKVU1ENnFuZjlPRkJkdWRMamF1MnJuaXFBcWpiMW8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXdIUVlEVlIwbApCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPCkJCWUVGSHFCWlJjZFUvTkk1d3c1N2JHSzEvU0pCdzVHTUFvR0NDcUdTTTQ5QkFNQ0EwY0FNRVFDSUZ4MnpGRkQKeUJkYWJHQnJ4cHNXVTArenZZRmNSak5NYnpTRGI0UVJXdmc5QWlBL0RIWUtDcTl3OUhLenpjd0NrcEtXL0hiQQpjbXFqTnVjK1crRDREanN0eHc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpekNDQVRDZ0F3SUJBZ0lSQUtDTTBZRXBqbE9NKzJmRzdHQ29Wa3N3Q2dZSUtvWkl6ajBFQXdJd0ZURVQKTUJFR0ExVUVDaE1LYTNWaVpYSnVaWFJsY3pBZUZ3MHlOREExTWpFd09URTBNalphRncwek5EQTFNVGt3T1RFMApNalphTUJVeEV6QVJCZ05WQkFvVENtdDFZbVZ5Ym1WMFpYTXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVNLMzMrRytzVVl2N05JUThJd2JGalVzVlNYOFJrZHhiMWNvK0o2Qmw2dE1Da2RnZmo3QnlzN1FZSUsKbk5aVHdnRlpta2xaRmJwbTF5V2hDdkdhQVNGTW8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXdIUVlEVlIwbApCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPCkJCWUVGTmRWVnBXSGhYNFZaM3Jwd3N0UWhja3pSNWZlTUFvR0NDcUdTTTQ5QkFNQ0Ewa0FNRVlDSVFEd3E1NlEKc0dHeEg5SFZMb3A3RGlZTFZ3SWxaUGJXeWxvVC9RTCt1RVZ1M2dJaEFJOVYxYzVTTmhHekJzRnBxeDFxbHhmegphSGpyTVVCTTBtcS9mOFpVT1JIWgotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Configures cluster member discovery.
   discovery:
