@@ -144,9 +144,9 @@ source:
         <td>Kubernetes Ingress Controller</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://ntfy.sh/_next/static/media/logo.077f6a13.svg"></td>
-        <td><a href="https://ntfy.sh">ntfy</a></td>
-        <td>Notification service to send notifications to your phone or desktop</td>
+        <td><img width="32" src="https://www.postgresql.org/media/img/about/press/elephant.png"></td>
+        <td><a href="https://www.postgresql.org/">Postgres</a></td>
+        <td>Database of choice</td>
     </tr>
     <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/3380462"></td>
@@ -162,11 +162,6 @@ source:
         <td><img width="32" src="https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/terraform.svg"></td>
         <td><a href="https://www.terraform.io/">Terraform</a></td>
         <td>Infrastructure as code</td>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/truenas.svg"></td>
-        <td><a href="https://www.terraform.io/">TrueNAS</a></td>
-        <td>NAS Storage on BareMetal</td>
     </tr>
     <tr>
         <td><img width="32" src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo-ubuntu_cof-orange-hex.svg"></td>
@@ -194,8 +189,6 @@ Below are a list of future plans for my cluster:
 ---
 
 ## 🔧 Hardware
-
-
 
 | Device                             | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose    |
 | ---------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ---------- |
