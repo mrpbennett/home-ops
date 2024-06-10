@@ -102,6 +102,12 @@ data:
           description: Open-source monitoring system
           target: _blank
 
+      - PGAdmin:
+          icon: postgres.png
+          href: http://192.168.5.58
+          description: PGAdmin for Postgres
+          target: _blank
+
       - Docker Registry:
           icon: docker.png
           href: http://registry.pnfb.home:5000/v2/_catalog
