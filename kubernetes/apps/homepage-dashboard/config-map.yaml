@@ -38,7 +38,6 @@ data:
           - icon: reddit.png
             href: http://192.168.100.1/
             description: ISP router
-
       - Github:
           - icon: github.png
             href: https://github.com/mrpbennett/home-ops
@@ -48,15 +47,6 @@ data:
             href: https://mrpbennett.dev
             description: Personal site
 
-      - 90 Days of DevOps:
-          - icon: github.png
-            href: https://github.com/MichaelCade/90DaysOfDevOps/tree/main/2024
-            description: DevOps
-
-      - Homepage Docs:
-          - icon: github.png
-            href: https://gethomepage.dev/latest/
-            description: Dashboard docs
   services.yaml: |
     - Google:
       - Gmail:
@@ -80,7 +70,7 @@ data:
           ping: 192.168.7.1
           target: _blank
 
-      - WesternDigal Cloud:
+      - WesternDigital Cloud:
           icon: truenas.png
           href: http://wd.pnfb.home
           description: WD Cloud
@@ -102,13 +92,13 @@ data:
 
       - Grafana:
           icon: grafana.png
-          href: http://192.168.5.55
+          href: http://192.168.5.56
           description: Managed observability platform
           target: _blank
 
       - Prometheus:
           icon: prometheus.png
-          href: http://192.168.5.56
+          href: http://192.168.5.55
           description: Open-source monitoring system
           target: _blank
 
