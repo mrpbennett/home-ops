@@ -49,17 +49,22 @@ This Git repository contains the following directories under [kubernetes](./kube
 
 ```sh
 📁 kubernetes
-├── 📁 apps                           # application directory
-│   └── 📁 application                # example application deployment
-│       ├── configmap.yml
-│       ├── service.yml
-│       └── deployment.yaml
-├── argo-root.yml
-├── 📁 networking                     # default networking manifests
-│   └── default-ingressclass.yml
-└── 📁 registry                       # application registry
-    ├── 📁 helm                       # helm deployments via argocd
-    └── kubevip.yml
+├── apps                                # application directory
+│   ├── 📁 application                  # example application deployment
+│   │   ├── manifest.yml
+│   │   └── manifest.yml
+├── argo-root.yaml
+├── 📁 networking
+│   └── default-ingressclass.yml        # default networking manifests
+└── 📁 registry                         # application registry
+    ├── 📁 helm                         # helm deployments via argocd
+    │   └── 📁 package                  # helm package
+    │       ├── package.yaml
+    │       └── values.yaml
+    ├── metallb.yaml
+
+
+
 ```
 
 My `argo-root.yml` argocd application checks for changes in `kubernetes/registry` for new `Application` manifests. That application then checks in the `apps` directory, and then deploys the app like the below:
