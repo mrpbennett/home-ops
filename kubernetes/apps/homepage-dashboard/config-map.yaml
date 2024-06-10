@@ -92,7 +92,7 @@ data:
 
       - PGAdmin:
           icon: postgres.png
-          href: http://192.168.5.58
+          href: http://192.168.5.53
           description: PGAdmin for Postgres
           target: _blank
 
