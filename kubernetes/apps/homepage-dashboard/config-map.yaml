@@ -105,20 +105,12 @@ data:
           href: http://192.168.5.55
           description: Managed observability platform
           target: _blank
-          widget:
-              type: grafana
-              url: http://192.168.5.55
-              username: admin
-              password: 123qwe!!
 
       - Prometheus:
           icon: prometheus.png
           href: http://192.168.5.56
           description: Open-source monitoring system
           target: _blank
-          widget:
-              type: prometheus
-              url: http://192.168.5.56
 
       - Docker Registry:
           icon: docker.png
