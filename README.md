@@ -105,11 +105,6 @@ source:
     </tr>
     <tr>
         <td><img width="32" src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png"></td>
-        <td><a href="https://www.docker.com">Docker</a></td>
-        <td>Docker host managed by Portainer</td>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png"></td>
         <td><a href="https://www.docker.com">Docker Registry</a></td>
         <td>Private container registry</td>
     </tr>
@@ -173,12 +168,6 @@ source:
         <td><a href="https://getfedora.org/en/server">Ubuntu Server</a></td>
         <td>Base OS minimized for all VMs</td>
     </tr>
-    <tr>
-        <td><img width="32" src="https://uptime.kuma.pet/img/icon.svg"></td>
-        <td><a href="https://github.com/louislam/uptime-kuma">Uptime Kuma</a></td>
-        <td>Open Source system monitoring</td>
-    </tr>
-
 </table>
 
 ---
