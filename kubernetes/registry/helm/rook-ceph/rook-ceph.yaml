@@ -16,6 +16,9 @@ spec:
     automated:
       prune: true
       selfHeal: true
+  ignoreDifferences:
+    - group: policy
+      kind: PodSecurityPolic
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -39,3 +42,6 @@ spec:
     automated:
       prune: true
       selfHeal: true
+  ignoreDifferences:
+    - group: policy
+      kind: PodSecurityPolicy
