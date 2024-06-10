@@ -100,28 +100,50 @@ This will create several files in the chosen directory: `controlplane.yaml`, `wo
 
 Now it's time to send our configuration to our first control plane. If you look in my [talos](https://github.com/mrpbennett/home-ops/tree/main/servers/talos) directory you can see that I have a `.yaml` for each one of my nodes. This is because I have given them a static IP. You can take a look at one of my configs [here](https://github.com/mrpbennett/home-ops/blob/main/servers/talos/talos-cp-1-controlplane.yaml).
 
-99.9% of the file is default apart from the `network` settings which I have amended to fit my needs, they're below:
+99.9% of the file is default apart from the `extraMounts, network` and `disks` settings which I have amended to fit my needs, they're below:
 
 ```yaml
-network:
-    hostname: talos-cp-2
+
+kubelet:
+    image: ghcr.io/siderolabs/kubelet:v1.29.2
+    defaultRuntimeSeccompProfileEnabled: true
+    disableManifestsDirectory: true
+
+    extraMounts:
+      - destination: /var/mnt/storage
+        type: bind
+        source: /var/mnt/storage
+        options:
+          - bind
+          - rshared
+          - rw
+
+  # Provides machine specific network configuration options.
+  network:
+    hostname: talos-cp-1
     nameservers:
-      - 192.168.4.2
+      - 192.168.4.100
       - 1.1.1.1
     interfaces:
       - deviceSelector:
           busPath: "0*"
         addresses:
-          - 192.168.5.2/22
+          - 192.168.5.1/22
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1
         vip:
-          ip: 192.168.5.200 # Specifies the IP address to be used.
-
+          ip: 192.168.5.200
   time:
     servers:
       - time.cloudflare.com
+```
+
+```yaml
+disks:
+  - device: /dev/sdb
+    partitions:
+      - mountpoint: /var/mnt/storage
 ```
 
 With this network config, everything is pretty straightforward, however, I found I had to use a `deviceSelector` as I wasn't sure what interface I was on. Because you can't `ssh` into the machine like you can on an ubuntu vm to run `ip a` I used a [Predictable Interface Names](https://www.talos.dev/v1.6/talos-guides/network/predictable-interface-names/).

@@ -5,13 +5,12 @@ metadata:
   namespace: homepage-dashboard
   labels:
     app.kubernetes.io/name: homepage
-  annotations:
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: homepage
   ports:
     - port: 3000
       targetPort: http
       protocol: TCP
       name: http
-  selector:
-    app.kubernetes.io/name: homepage

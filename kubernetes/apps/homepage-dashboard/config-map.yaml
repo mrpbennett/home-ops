@@ -18,6 +18,10 @@ data:
         style: row
         columns: 3
 
+      BareMetal:
+        style: row
+        columns: 2
+
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
@@ -39,6 +43,84 @@ data:
           icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google-cloud-platform.svg
           href: https://console.cloud.google.com/welcome?authuser=1
           target: _blank
+
+    - BareMetal:
+      - Proxmox:
+          icon: proxmox.png
+          href: https://proxmox.pnfb.home:8006
+          description: HyperVisor
+          ping: 192.168.7.1
+          target: _blank
+
+      - WesternDigal Cloud:
+          icon: truenas.png
+          href: http://wd.pnfb.home
+          description: WD Cloud
+          ping: 192.168.4.110
+          target: _blank
+
+    - Applications:
+      - Kubernetes:
+          icon: kubernetes.png
+          href: https://kube.pnfb.home
+          description: Container orchestration
+          target: _blank
+
+      - ArgoCD:
+          icon: argocd.png
+          href: https://192.168.5.51
+          description: GitOps for Kubernetes
+          target: _blank
+
+      - Grafana:
+          icon: grafana.png
+          href: http://192.168.5.55
+          description: Managed observability platform
+          target: _blank
+          widget:
+              type: grafana
+              url: http://192.168.5.55
+              username: admin
+              password: 123qwe!!
+
+      - Prometheus:
+          icon: prometheus.png
+          href: http://192.168.5.56
+          description: Open-source monitoring system
+          target: _blank
+          widget:
+              type: prometheus
+              url: http://192.168.5.56
+
+      - PiHole 1:
+          icon: pi-hole.png
+          href: http://pihole.pnfb.home/admin
+          description: Network Adblocking
+          ping: 192.168.4.2
+          target: _blank
+          widget:
+              type: pihole
+              url: http://192.168.4.2
+              key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
+
+      - PiHole 2:
+          icon: pi-hole.png
+          href: http://192.168.4.3/admin
+          description: Network Adblocking
+          ping: 192.168.4.3
+          target: _blank
+          widget:
+              type: pihole
+              url: http://192.168.4.3
+              key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
+
+      - Docker Registry:
+          icon: docker.png
+          href: http://registry.pnfb.home:5000/v2/_catalog
+          description: Self hosted registry
+          ping: 192.168.7.210
+          target: _blank
+
   widgets.yaml: |
     - kubernetes:
         cluster:
