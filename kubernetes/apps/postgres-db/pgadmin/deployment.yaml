@@ -17,9 +17,9 @@ spec:
           image: dpage/pgadmin4
           env:
             - name: PGADMIN_DEFAULT_EMAIL
-              value: "admin@admin.com"
+              value: "pbennett.uk@gmail.com"
             - name: PGADMIN_DEFAULT_PASSWORD
-              value: "admin"
+              value: "123qwe!!"
             - name: PGADMIN_PORT
               value: "80"
           ports:
