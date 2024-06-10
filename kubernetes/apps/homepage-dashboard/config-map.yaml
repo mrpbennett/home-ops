@@ -26,7 +26,7 @@ data:
         style: row
         columns: 2
 
-      Applications
+      Applications:
         style: row
         columns: 3
 
