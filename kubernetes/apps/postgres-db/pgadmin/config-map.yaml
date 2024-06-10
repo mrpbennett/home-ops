@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin-config
+data:
+  servers.json: |
+    {
+        "Servers": {
+          "1": {
+            "Name": "k8s-postgres",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "postgres",
+            "Host": "192.168.5.53",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+          }
+        }
+    }
