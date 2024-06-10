@@ -11,6 +11,6 @@ spec:
     app.kubernetes.io/name: homepage
   ports:
     - port: 3000
-      targetPort: http
-      protocol: TCP
-      name: http
+      # targetPort: http
+      # protocol: TCP
+      # name: http
