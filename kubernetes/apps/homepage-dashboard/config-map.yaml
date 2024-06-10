@@ -22,13 +22,37 @@ data:
         style: row
         columns: 2
 
+      Applications
+        style: row
+        columns: 3
+
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
-    - Developer:
-        - Github:
-            - abbr: GH
-              href: https://github.com/
+    - Links:
+      - Virgin Media:
+          - icon: reddit.png
+            href: http://192.168.100.1/
+            description: ISP router
+
+      - Github:
+          - icon: github.png
+            href: https://github.com/mrpbennett/home-ops
+            description: Homelab repo
+      - My Site:
+          - icon: nginx.png
+            href: https://mrpbennett.dev
+            description: Personal site
+
+      - 90 Days of DevOps:
+          - icon: github.png
+            href: https://github.com/MichaelCade/90DaysOfDevOps/tree/main/2024
+            description: DevOps
+
+      - Homepage Docs:
+          - icon: github.png
+            href: https://gethomepage.dev/latest/
+            description: Dashboard docs
   services.yaml: |
     - Google:
       - Gmail:
@@ -122,24 +146,21 @@ data:
           target: _blank
 
   widgets.yaml: |
-    - kubernetes:
-        cluster:
-          show: true
-          cpu: true
-          memory: true
-          showLabel: true
-          label: "cluster"
-        nodes:
-          show: true
-          cpu: true
-          memory: true
-          showLabel: true
-    - resources:
-        backend: resources
-        expanded: true
-        cpu: true
-        memory: true
-    - search:
-        provider: duckduckgo
-        target: _blank
+    - openweathermap:
+        label: Poole #optional
+        latitude: 50.7358911
+        longitude: -1.9443678
+        units: metric # or imperial
+        provider: openweathermap
+        apiKey: a086334dcea982bf622cc1f769ce2d25 # required only if not using provider, this reveals api key in requests
+        cache: 5 # Time in minutes to cache API responses, to stay within limits
+        format: # optional, Intl.NumberFormat options
+          maximumFractionDigits: 1
+
+    - datetime:
+        text_size: lg
+        format:
+            dateStyle: short
+            timeStyle: short
+            hour12: false
   docker.yaml: ""
