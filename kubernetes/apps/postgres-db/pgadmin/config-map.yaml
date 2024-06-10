@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: pgadmin-config
+  name: pgadmin
 data:
   servers.json: |
     {
