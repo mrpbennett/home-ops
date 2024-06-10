@@ -4,11 +4,9 @@ metadata:
   name: grafana
   namespace: monitoring
 spec:
+  type: LoadBalancer
   ports:
-    - port: 3000
-      protocol: TCP
-      targetPort: http-grafana
+    - port: 80
+      targetPort: 3000
   selector:
     app: grafana
-  sessionAffinity: None
-  type: LoadBalancer

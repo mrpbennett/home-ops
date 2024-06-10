@@ -4,6 +4,7 @@ metadata:
   name: grafana
   namespace: monitoring
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: grafana
@@ -12,44 +13,15 @@ spec:
       labels:
         app: grafana
     spec:
-      securityContext:
-        fsGroup: 472
-        supplementalGroups:
-          - 0
       containers:
         - name: grafana
           image: grafana/grafana:latest
-          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
-              name: http-grafana
-              protocol: TCP
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /robots.txt
-              port: 3000
-              scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 30
-            successThreshold: 1
-            timeoutSeconds: 2
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 3000
-            timeoutSeconds: 1
-          resources:
-            requests:
-              cpu: 250m
-              memory: 750Mi
           volumeMounts:
-            - mountPath: /var/lib/grafana
-              name: grafana-pv
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
       volumes:
-        - name: grafana-pv
+        - name: grafana-storage
           persistentVolumeClaim:
             claimName: grafana-pvc
