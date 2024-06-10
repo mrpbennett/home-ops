@@ -22,6 +22,10 @@ data:
         style: row
         columns: 2
 
+      Network:
+        style: row
+        columns: 2
+
       Applications
         style: row
         columns: 3
@@ -116,6 +120,14 @@ data:
               type: prometheus
               url: http://192.168.5.56
 
+      - Docker Registry:
+          icon: docker.png
+          href: http://registry.pnfb.home:5000/v2/_catalog
+          description: Self hosted registry
+          ping: 192.168.7.210
+          target: _blank
+
+    - Network:
       - PiHole 1:
           icon: pi-hole.png
           href: http://pihole.pnfb.home/admin
@@ -137,13 +149,6 @@ data:
               type: pihole
               url: http://192.168.4.3
               key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
-
-      - Docker Registry:
-          icon: docker.png
-          href: http://registry.pnfb.home:5000/v2/_catalog
-          description: Self hosted registry
-          ping: 192.168.7.210
-          target: _blank
 
   widgets.yaml: |
     - openweathermap:
