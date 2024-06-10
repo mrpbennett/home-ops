@@ -20,7 +20,7 @@ spec:
             - containerPort: 3000
           volumeMounts:
             - name: grafana-storage
-              mountPath: /var/lib/grafana
+              mountPath: /var/mnt/storage/grafana
       volumes:
         - name: grafana-storage
           persistentVolumeClaim:
