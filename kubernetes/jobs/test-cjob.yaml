@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: simple-bash-cronjob
+spec:
+  schedule: "10 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: simple-bash
+              image: bash:latest # Use a lightweight image with bash
+              command:
+                [
+                  "/bin/bash",
+                  "-c",
+                  "echo 'Hello World: date '+%Y-%m-%d %H:%M:%S'",
+                ]
+          restartPolicy: OnFailure
