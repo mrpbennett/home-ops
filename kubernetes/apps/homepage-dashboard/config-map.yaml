@@ -98,13 +98,13 @@ data:
 
       - Grafana:
           icon: grafana.png
-          href: http://192.168.5.56
+          href: http://192.168.5.59
           description: Managed observability platform
           target: _blank
 
       - Prometheus:
           icon: prometheus.png
-          href: http://192.168.5.55
+          href: http://192.168.5.56
           description: Open-source monitoring system
           target: _blank
 
