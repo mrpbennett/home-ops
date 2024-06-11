@@ -11,4 +11,4 @@ spec:
       targetPort: 9187
   selector:
     app: postgres-exporter
-  type: ClusterIP
+  type: LoadBalancer
