@@ -8,13 +8,16 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: *ns
-  source:
-    repoURL: <chart repo url>
-    targetRevision: <chart version>
-    chart: *app
-    helm:
-      valueFiles:
-        - <path to values.yaml>
+  sources:
+    - repoURL: <chart repo url>
+      targetRevision: <chart version>
+      chart: *app
+      helm:
+        valueFiles:
+          - $values/kubernetes/registry/helm/<directory storing helm app>/values.yaml
+    - repoURL: https://github.com/mrpbennett/home-ops.git
+      targetRevision: HEAD
+      ref: values
   syncPolicy:
     automated:
       prune: true
