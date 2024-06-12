@@ -23,15 +23,16 @@ spec:
             - "--storage.path=/alertmanager"
           ports:
             - containerPort: 9093
+          env:
+            - name: SMTP_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: alertmanager-secrets
+                  key: smtp_auth_password
           volumeMounts:
             - name: config-volume
               mountPath: /etc/alertmanager/config
-            - name: secret-volume
-              mountPath: /etc/alertmanager/secrets
       volumes:
         - name: config-volume
           configMap:
             name: alertmanager-config
-        - name: secret-volume
-          secret:
-            secretName: alertmanager-secrets

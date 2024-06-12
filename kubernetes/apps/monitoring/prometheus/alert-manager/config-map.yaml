@@ -10,7 +10,7 @@ data:
       smtp_smarthost: 'smtp.gmail.com:587'
       smtp_from: 'pbennett.uk@gmail.com'
       smtp_auth_username: 'pbennett.uk@gmail.com'
-      smtp_auth_password_file: /etc/alertmanager/secrets/auth_password
+      smtp_auth_password: '{{ env "SMTP_AUTH_PASSWORD" }}'
       smtp_require_tls: true
     route:
       group_by: ['alertname']
@@ -21,4 +21,4 @@ data:
     receivers:
     - name: 'email-notifications'
       email_configs:
-      - to: 'pbennett.uk@gmail.com.com'
+      - to: 'pbennett.uk@gmail.com'
