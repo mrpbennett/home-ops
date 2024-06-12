@@ -10,7 +10,7 @@ spec:
     namespace: *ns
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: <chart version>
+    targetRevision: 60.1.0
     chart: *app
     helm:
       valueFiles:
