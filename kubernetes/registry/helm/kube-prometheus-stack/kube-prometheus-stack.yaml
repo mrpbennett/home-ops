@@ -8,13 +8,16 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: *ns
-  source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 60.1.0
-    chart: *app
-    # helm:
-    #   valueFiles:
-    #     - values.yaml
+  sources:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: 60.1.0
+      chart: *app
+      helm:
+        valueFiles:
+          - $values/kubernetes/registry/helm/kube-prometheus-stack/values.yaml
+    - repoURL: https://github.com/mrpbennett/home-ops.git
+      targetRevision: HEAD
+      ref: values
   syncPolicy:
     automated:
       prune: true
