@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app <chart name>
-  namespace: &ns <namespace>
+  name: &app kube-prometheus-stack
+  namespace: &ns monitoring
 spec:
   project: default
   destination:
     server: "https://kubernetes.default.svc"
     namespace: *ns
   source:
-    repoURL: <chart repo url>
+    repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: <chart version>
     chart: *app
     helm:
       valueFiles:
-        - <path to values.yaml>
+        - values.yaml
   syncPolicy:
     automated:
       prune: true
