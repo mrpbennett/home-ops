@@ -12,9 +12,9 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 60.1.0
     chart: *app
-    helm:
-      valueFiles:
-        - values.yaml
+    # helm:
+    #   valueFiles:
+    #     - values.yaml
   syncPolicy:
     automated:
       prune: true
