@@ -28,7 +28,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: alertmanager-secrets
-                  key: smtp_auth_password
+                  key: auth_password
           volumeMounts:
             - name: config-volume
               mountPath: /etc/alertmanager/config
