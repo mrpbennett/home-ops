@@ -9,6 +9,7 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 60.1.0
     chart: kube-prometheus-stack
+    path: .
     helm:
       valueFiles:
         - values.yaml
