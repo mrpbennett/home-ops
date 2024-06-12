@@ -10,7 +10,7 @@ spec:
     targetRevision: 60.1.0
     chart: kube-prometheus-stack
     helm:
-      values:
+      valueFiles:
         - values.yaml
   destination:
     server: "https://kubernetes.default.svc"
