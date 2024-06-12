@@ -2,6 +2,7 @@ apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: node-exporter-psp
+  namespace: monitoring
 spec:
   privileged: false
   volumes:
