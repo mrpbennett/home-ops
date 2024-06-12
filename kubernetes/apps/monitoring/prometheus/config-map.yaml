@@ -8,6 +8,13 @@ data:
     global:
       scrape_interval: 15s
       evaluation_interval: 15s
+
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          - 'alertmanager.monitoring.svc:9093'
+
     scrape_configs:
       - job_name: 'prometheus'
         static_configs:
@@ -24,7 +31,6 @@ data:
           - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
             action: keep
             regex: monitoring;kube-state-metrics;http-metrics
-
 
       # --- POSTGRES EXPORTER ---
       - job_name: 'postgres-exporter'
