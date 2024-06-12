@@ -40,7 +40,7 @@ data:
         - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
           action: keep
           regex: monitoring;node-exporter;http
-
+          
       # --- POSTGRES EXPORTER ---
       - job_name: 'postgres-exporter'
         static_configs:
