@@ -16,8 +16,17 @@ data:
             '192.168.7.1:9100'          
           ]
 
+      # --- KUBE-STATE-METRICS ---
+      - job_name: 'kube-state-metrics'
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+            action: keep
+            regex: default;kube-state-metrics;http-metrics
 
-      # POSTGRES EXPORTER ---
+
+      # --- POSTGRES EXPORTER ---
       - job_name: 'postgres-exporter'
         static_configs:
           - targets: ['192.168.5.55:9187']
