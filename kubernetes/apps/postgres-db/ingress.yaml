@@ -14,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: nginx-service
+                name: postgres
                 port:
                   number: 80
