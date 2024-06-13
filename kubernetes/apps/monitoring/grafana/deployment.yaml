@@ -18,6 +18,12 @@ spec:
           image: grafana/grafana:latest
           ports:
             - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secret
+                  key: admin-password
           volumeMounts:
             - name: grafana-storage
               mountPath: /var/mnt/storage/grafana

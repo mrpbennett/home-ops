@@ -48,23 +48,23 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev) and [Metal
 This Git repository contains the following directories under [kubernetes](./kubernetes). I have the `apps` directory that stores all the `Application` manifests for deployed apps. The registry directory is where I store all my `Application` type manifests for deployed apps.
 
 ```sh
-📁 kubernetes
-├── apps                                # application directory
-│   ├── 📁 application                  # example application deployment
-│   │   ├── manifest.yml
-│   │   └── manifest.yml
+
+📁 kubernetes                               # root folder for all kubernetes manifests
+├── 📁 apps                                 # application directory deployed by ArgoCD
+│   ├── 📁 postgres-db
+│   │   ├── deployment.yaml
+│   │   └── service.yaml
 ├── argo-root.yaml
-├── 📁 networking
-│   └── default-ingressclass.yml        # default networking manifests
-└── 📁 registry                         # application registry
-    ├── 📁 helm                         # helm deployments via argocd
-    │   └── 📁 package                  # helm package
-    │       ├── package.yaml
+├── 📁 cluster                              # directory for cluster wide manifests
+│   └── cluster-role-binding.yaml
+├── 📁 jobs                                 # directory for all cron-jobs
+│   └── test-cjob.yaml
+└── 📁 registry                             # ArgoCD registry for all argocd apps
+    ├── 📁 helm                             # directory for all Helm applications
+    │   └── 📁 application
+    │       ├── application-helm.yaml
     │       └── values.yaml
-    ├── metallb.yaml
-
-
-
+    └── postgres-db.yaml
 ```
 
 My `argo-root.yml` argocd application checks for changes in `kubernetes/registry` for new `Application` manifests. That application then checks in the `apps` directory, and then deploys the app like the below:
