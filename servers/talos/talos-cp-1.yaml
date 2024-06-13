@@ -59,6 +59,12 @@ machine:
         endpoints:
           - http://192.168.7.210:5000
 
+    # Specifies TLS & auth configuration for HTTPS image registries.
+    config:
+      registry.insecure:
+        tls:
+          insecureSkipVerify: true
+
   # Features describe individual Talos features that can be switched on or off.
   features:
     rbac: true # Enable role-based access control (RBAC).

@@ -56,6 +56,10 @@ machine:
       personal_docker_registry:
         endpoints:
           - http://192.168.7.210:5000
+    config:
+      registry.insecure:
+        tls:
+          insecureSkipVerify: true
 
   # Features describe individual Talos features that can be switched on or off.
   features:
