@@ -1,20 +1,22 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: simple-bash-cronjob
+  name: simple-cronjob
+  namespace: cron-jobs
 spec:
-  schedule: "10 * * * *"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 5
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-            - name: simple-bash
-              image: bash:latest # Use a lightweight image with bash
-              command:
-                [
-                  "/bin/bash",
-                  "-c",
-                  "echo 'Hello World: date '+%Y-%m-%d %H:%M:%S'",
-                ]
+            - image: 192.168.7.210:5000/cron-test:0.0.1
+              imagePullPolicy: Always
+              name: my-cronjob-container
+              resources:
+                requests:
+                  memory: 256Mi
           restartPolicy: OnFailure
+          terminationGracePeriodSeconds: 30
+  schedule: "10 * * * *"

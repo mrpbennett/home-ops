@@ -57,7 +57,7 @@ machine:
     mirrors:
       personal_docker_registry:
         endpoints:
-          - http://192.168.7.210:5000/v2/_catalog
+          - http://192.168.7.210:5000
 
   # Features describe individual Talos features that can be switched on or off.
   features:
