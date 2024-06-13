@@ -13,6 +13,13 @@ spec:
         values: |
           preUpgradeChecker:
             jobEnabled: false
+
+          securityContext:
+            privileged: false
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
