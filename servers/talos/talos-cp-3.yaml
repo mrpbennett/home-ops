@@ -182,5 +182,7 @@ cluster:
       key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU54NmZwaUZxUnhYZ1lEeHcxOUlINjkwNTc5cDkvYkgyWVVaOXZuTUFpYXhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFTW04T2lCWUg0emVCbVlXRTNCT3BqK0FEUktlM1JmMk44Tnl6cVl2UGUwb2MxS0dEMmFENgpVMzZuanlsenA2aU0rSmJLRTk5WjIzQjBCaW1qanlaSnBRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
 
   # A list of urls that point to additional manifests.
-  extraManifests: []
-  inlineManifests: []
+  extraManifests:
+    [
+      https://raw.githubusercontent.com/mrpbennett/home-ops/main/kubernetes/cluster/cluster-role-binding.yaml,
+    ]
