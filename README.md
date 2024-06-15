@@ -30,7 +30,7 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 
 ### Installation
 
-My Kubernetes cluster is deployed with [Talos](https://www.talos.dev) and [Metal LB](https://metallb.universe.tf). This is a high availability cluster, running inside Proxmox.
+My Kubernetes cluster is deployed with [K3s](https://www.k3s.io), [KubeVIP]() [Metal LB](https://metallb.universe.tf). This is a high availability cluster, running inside Proxmox.
 
 #### System Requirements
 
