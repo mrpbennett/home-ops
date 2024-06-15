@@ -1,0 +1,37 @@
+frontend k3s-frontend
+    bind *:6443
+    mode tcp
+    option tcplog
+    default_backend k3s-backend
+
+backend k3s-backend
+    mode tcp
+    option tcp-check
+    balance roundrobin
+    default-server inter 10s downinter 5s
+    server k3s-cp-1 192.168.5.1:6443 check
+    server k3s-cp-2 192.168.5.2:6443 check
+    server k3s-cp-3 192.168.5.3:6443 check
+
+---
+
+vrrp_script chk_haproxy {
+    script 'killall -0 haproxy' # faster than pidof
+    interval 2
+}
+
+vrrp_instance haproxy-vip {
+   interface eth1
+    state <STATE> # MASTER on lb-1, BACKUP on lb-2
+    priority <PRIORITY> # 200 on lb-1, 100 on lb-2
+
+    virtual_router_id 51
+
+    virtual_ipaddress {
+        192.168.5.200/22
+    }
+
+    track_script {
+        chk_haproxy
+    }
+}
