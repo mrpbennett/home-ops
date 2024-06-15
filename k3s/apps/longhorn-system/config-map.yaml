@@ -1,0 +1,43 @@
+# Source: longhorn/templates/default-setting.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: longhorn-default-setting
+  namespace: longhorn-system
+  labels:
+    app.kubernetes.io/name: longhorn-system
+    app.kubernetes.io/instance: longhorn-system
+    app.kubernetes.io/version: v1.6.1
+data:
+  default-setting.yaml: |-
+    priority-class: longhorn-critical
+---
+# Source: longhorn/templates/storageclass.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: longhorn-storageclass
+  namespace: longhorn-system
+  labels:
+    app.kubernetes.io/name: longhorn-system
+    app.kubernetes.io/instance: longhorn-system
+    app.kubernetes.io/version: v1.6.1
+data:
+  storageclass.yaml: |
+    kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: longhorn
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+    provisioner: driver.longhorn.io
+    allowVolumeExpansion: true
+    reclaimPolicy: "Delete"
+    volumeBindingMode: Immediate
+    parameters:
+      numberOfReplicas: "3"
+      staleReplicaTimeout: "30"
+      fromBackup: ""
+      fsType: "ext4"
+      dataLocality: "disabled"
+      unmapMarkSnapChainRemoved: "ignored"

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  alertmanager.yml: |
+    global:
+      resolve_timeout: 5m
+      smtp_smarthost: 'smtp.gmail.com:587'
+      smtp_from: 'pbennett.uk@gmail.com'
+      smtp_auth_username: 'pbennett.uk@gmail.com'
+      smtp_auth_password: '{{ env "SMTP_AUTH_PASSWORD" }}'
+      smtp_require_tls: true
+    route:
+      group_by: ['alertname']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 12h
+      receiver: 'email-notifications'
+    receivers:
+    - name: 'email-notifications'
+      email_configs:
+      - to: 'pbennett.uk@gmail.com'

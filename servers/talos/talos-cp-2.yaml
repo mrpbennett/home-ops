@@ -18,12 +18,20 @@ machine:
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
 
-    # The `extraMounts` field is used to add additional mounts to the kubelet container.
     extraMounts:
-      - destination: /var/mnt/storage # Destination is the absolute path where the mount will be placed in the container.
-        type: bind # Type specifies the mount kind.
-        source: /var/mnt/storage # Source specifies the source path of the mount.
-        # Options are fstab style mount options.
+      # Storage mount
+      - destination: /var/mnt/storage
+        type: bind
+        source: /var/mnt/storage
+        options:
+          - bind
+          - rshared
+          - rw
+          -
+      # Lornhorn storage
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
         options:
           - bind
           - rshared
