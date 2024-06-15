@@ -9,9 +9,9 @@ backend k3s-backend
     option tcp-check
     balance roundrobin
     default-server inter 10s downinter 5s
-    server k3s-cp-1 192.168.5.1:6443 check
-    server k3s-cp-2 192.168.5.2:6443 check
-    server k3s-cp-3 192.168.5.3:6443 check
+    server k3s-cp-1 192.168.6.1:6443 check
+    server k3s-cp-2 192.168.6.2:6443 check
+    server k3s-cp-3 192.168.6.3:6443 check
 
 ---
 
@@ -28,7 +28,7 @@ vrrp_instance haproxy-vip {
     virtual_router_id 51
 
     virtual_ipaddress {
-        192.168.5.200/22
+        192.168.6.200/22
     }
 
     track_script {

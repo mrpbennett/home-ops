@@ -2,17 +2,17 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s 
     --cluster-init \
     --disable=traefik \
     --disable=servicelb \
-    --tls-san=192.168.5.200
+    --tls-san=192.168.6.200
 
 
 curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s - server \
-    --server https://192.168.5.1:6443 \
+    --server https://192.168.6.1:6443 \
     --disable=traefik \
     --disable=servicelb \
-    --tls-san=192.168.5.200
+    --tls-san=192.168.6.200
 
-curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s - agent --server https://192.168.5.1:6443
+curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s - agent --server https://192.168.6.1:6443
 
 # /etc/rancher/k3s/config.yaml
 token: 95e2850a0e0b505b8b677661885509a2
-tls-san: 192.168.5.200
+tls-san: 192.168.6.200
