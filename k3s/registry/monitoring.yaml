@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/monitoring
+    path: k3s/apps/monitoring
     targetRevision: HEAD
     directory:
       recurse: true

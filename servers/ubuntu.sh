@@ -10,7 +10,7 @@ sudo apt-get install qemu-guest-agent -y && sudo systemctl start qemu-guest-agen
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
 
 # Kubernetes only
-sudo apt install open-iscsi
+sudo apt install open-iscsi -y
 sudo ufw disable
 
 # HA Load Balancer

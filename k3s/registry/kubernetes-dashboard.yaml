@@ -8,14 +8,14 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/mrpbennett/home-ops.git'
-    path: kubernetes/apps/kubernetes-dashboard
+    repoURL: "https://github.com/mrpbennett/home-ops.git"
+    path: k3s/apps/kubernetes-dashboard
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
     namespace: *app
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
       prune: true

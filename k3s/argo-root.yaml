@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/registry
+    path: k3s/registry
     targetRevision: HEAD
     directory:
       recurse: true

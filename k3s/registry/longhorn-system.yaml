@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/longhorn-system
+    path: k3s/apps/longhorn-system
     targetRevision: HEAD
     directory:
       recurse: true

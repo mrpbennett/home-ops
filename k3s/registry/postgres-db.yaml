@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/postgres-db
+    path: k3s/apps/postgres-db
     targetRevision: HEAD
     directory:
       recurse: true

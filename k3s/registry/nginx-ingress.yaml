@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/nginx-ingress
+    path: k3s/apps/nginx-ingress
     targetRevision: HEAD
     directory:
       recurse: true

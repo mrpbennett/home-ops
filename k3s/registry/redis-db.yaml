@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/redis-db
+    path: k3s/apps/redis-db
     targetRevision: HEAD
     directory:
       recurse: true

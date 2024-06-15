@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/homepage-dashboard
+    path: k3s/apps/homepage-dashboard
     targetRevision: HEAD
     directory:
       recurse: true
