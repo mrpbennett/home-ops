@@ -16,3 +16,4 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s 
 # /etc/rancher/k3s/config.yaml
 token: 95e2850a0e0b505b8b677661885509a2
 tls-san: 192.168.6.200
+

@@ -16,5 +16,8 @@ sudo ufw disable
 # HA Load Balancer
 # sudo apt-get install haproxy keepalived
 
+# Install Tailscale
+curl -fsSL https://tailscale.com/install.sh | sh
+
 # reboot server
 sudo reboot
