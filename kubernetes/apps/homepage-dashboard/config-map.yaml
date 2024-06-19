@@ -65,7 +65,7 @@ data:
     - BareMetal:
       - Proxmox:
           icon: proxmox.png
-          href: https://proxmox.pnfb.home:8006
+          href: https://192.168.7.1:8006
           description: HyperVisor
           ping: 192.168.7.1
           target: _blank
@@ -104,13 +104,13 @@ data:
 
       - Prometheus:
           icon: prometheus.png
-          href: http://192.168.5.58
+          href: http://192.168.5.56
           description: Open-source monitoring system
           target: _blank
 
       - Longhorn:
           icon: longhorn.png
-          href: http://192.168.5.58
+          href: http://192.168.5.60
           description: Easy-to-use distributed block storage
           target: _blank
 
