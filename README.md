@@ -30,14 +30,14 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 
 ### Installation
 
-My Kubernetes cluster is deployed with [K3s](https://www.k3s.io), [KubeVIP]() [Metal LB](https://metallb.universe.tf). This is a high availability cluster, running inside Proxmox.
+My Kubernetes cluster is deployed with [K3s](https://www.k3s.io) and [KubeVIP](https://kube-vip.io/) This is a high availability cluster, running inside Proxmox.
 
 #### System Requirements
 
 | Role          | Memory | Cores | System Disk | Storage Disk |
 | ------------- | ------ | ----- | ----------- | ------------ |
-| Control Plane | 4 GiB  | 4     | 10 GiB      | 90 Gib       |
-| Node          | 2 Gib  | 2     | 10 GiB      | 90 Gib       |
+| Control Plane | 6 GiB  | 2     | 50 GiB      | 100 Gib      |
+| Node          | 4 Gib  | 2     | 50 GiB      | 100 Gib      |
 
 ### GitOps
 
@@ -127,16 +127,16 @@ source:
         <td><img width="32" src="https://raw.githubusercontent.com/cncf/artwork/master/projects/kubescape/stacked/color/kubescape-stacked-color.svg"></td>
         <td><a href="https://kubescape.io">Kubescape</a></td>
         <td>Kubernetes security platform</td>
+    <tr>
+        <td><img width="32" src="https://kube-vip.io/images/kube-vip.png"></td>
+        <td><a href="https://kube-vip.io/">Kube VIP</a></td>
+        <td>Kubernetes virtual IP for clusters and load balancer</td>
+    </tr>
     </tr>
     <tr>
         <td><img width="32" src="https://github.com/grafana/loki/blob/main/docs/sources/logo.png?raw=true"></td>
         <td><a href="https://grafana.com/oss/loki">Loki</a></td>
         <td>Log aggregation system</td>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://landscape.cncf.io/logos/d0ec559188c4650a465f4fb5a25dfa9ad006959bada907b569f7cff5653c7d96.svg"></td>
-        <td><a href="https://metallb.universe.tf/">MetalLB</a></td>
-        <td>A network load-balancer</td>
     </tr>
     <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/1412239?s=200&v=4"></td>

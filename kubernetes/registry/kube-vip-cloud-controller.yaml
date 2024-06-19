@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app homepage-dashboard
+  name: kube-vip-cloud-controller
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,19 +9,17 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: k3s/apps/homepage-dashboard
+    path: kubernetes/apps/kube-vip-cloud-controller
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: *app
+    namespace: kube-system
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
     retry:
       limit: 5
       backoff:
