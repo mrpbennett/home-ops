@@ -72,7 +72,7 @@ data:
 
       - WesternDigital Cloud:
           icon: truenas.png
-          href: http://wd.pnfb.home
+          href: http://192.168.4.110
           description: WD Cloud
           ping: 192.168.4.110
           target: _blank

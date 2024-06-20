@@ -9,4 +9,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /var/mnt/storage/grafana
+    path: /mnt/storage/grafana
