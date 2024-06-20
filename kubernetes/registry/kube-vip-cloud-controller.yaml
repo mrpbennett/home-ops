@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/kube-vip-cloud-controller
+    path: kubernetes/apps/kubevip-cloud-controller
     targetRevision: HEAD
     directory:
       recurse: true
