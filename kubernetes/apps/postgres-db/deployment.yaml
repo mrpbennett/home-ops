@@ -12,6 +12,13 @@ spec:
       labels:
         app: postgres
     spec:
+      initContainers:
+        - name: clean-up
+          image: busybox
+          command: ["sh", "-c", "rm -rf /var/lib/postgresql/data/*"]
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdata
       containers:
         - name: postgres
           image: "postgres:16"
