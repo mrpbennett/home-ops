@@ -5,7 +5,7 @@ metadata:
     app: node-exporter
     serviceMonitorSelector: prometheus
   name: node-exporter
-  namespace: monitoring
+  namespace: prometheus
 spec:
   endpoints:
     - honorLabels: true
