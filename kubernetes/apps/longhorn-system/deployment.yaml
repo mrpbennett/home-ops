@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
         - name: wait-longhorn-manager
-          image: longhornio/longhorn-manager:v1.6.1
+          image: longhornio/longhorn-manager:v1.6.2
           command:
             [
               "sh",
@@ -32,7 +32,7 @@ spec:
             ]
       containers:
         - name: longhorn-driver-deployer
-          image: longhornio/longhorn-manager:v1.6.1
+          image: longhornio/longhorn-manager:v1.6.2
           imagePullPolicy: IfNotPresent
           command:
             - longhorn-manager
