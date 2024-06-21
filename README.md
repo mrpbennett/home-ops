@@ -30,14 +30,14 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 
 ### Installation
 
-My Kubernetes cluster is deployed with [K3s](https://www.k3s.io) and [KubeVIP](https://kube-vip.io/) This is a high availability cluster, running inside Proxmox.
+My Kubernetes cluster is deployed with [K3s](https://www.k3s.io) and [KubeVIP](https://kube-vip.io/). This is a high availability cluster, running inside Proxmox.
 
 #### System Requirements
 
 | Role          | Memory | Cores | System Disk | Storage Disk |
 | ------------- | ------ | ----- | ----------- | ------------ |
-| Control Plane | 6 GiB  | 2     | 50 GiB      | 100 Gib      |
-| Node          | 4 Gib  | 2     | 50 GiB      | 100 Gib      |
+| Control Plane | 4 GiB  | 2     | 50 GiB      | 100 Gib      |
+| Node          | 2 Gib  | 2     | 50 GiB      | 100 Gib      |
 
 ### GitOps
 
@@ -174,16 +174,6 @@ source:
         <td>Base OS minimized for all VMs</td>
     </tr>
 </table>
-
----
-
-## Future plans
-
-Below are a list of future plans for my cluster:
-
-- [ ]: deploy [Cert-Manager](https://cert-manager.io)
-- [ ]: deploy [Rook Ceph](https://rook.io/) across cluster
-- [ :white_check_mark: ]: migrate from k3s to [Talos OS](https://www.talos.dev/)
 
 ---
 
