@@ -139,6 +139,11 @@ source:
         <td>Log aggregation system</td>
     </tr>
     <tr>
+        <td><img width="32" src="https://longhorn.io/img/logos/longhorn-icon-white.png"></td>
+        <td><a href="https://longhorn.io">Longhorn</a></td>
+        <td>Distributed block storage for Kubernetes</td>
+    </tr>
+    <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/1412239?s=200&v=4"></td>
         <td><a href="https://www.nginx.com">NGINX</a></td>
         <td>Kubernetes Ingress Controller</td>
