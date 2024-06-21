@@ -116,7 +116,7 @@ data:
 
       - Docker Registry:
           icon: docker.png
-          href: http://registry.pnfb.home:5000/v2/_catalog
+          href: http://192.168.7.210:5000/v2/_catalog
           description: Self hosted registry
           ping: 192.168.7.210
           target: _blank
