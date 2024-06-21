@@ -1,17 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: node-exporter
+  namespace: monitoring
   labels:
     app: node-exporter
-  name: node-exporter
-  namespace: prometheus
 spec:
-  ports:
-    - name: node-exporter
-      port: 9100
-      protocol: TCP
-      targetPort: 9100
+  type: LoadBalancer
   selector:
     app: node-exporter
-  sessionAffinity: None
-  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 9100
+      targetPort: 9100
