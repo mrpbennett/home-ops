@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-    <a href="https://talos.dev/"><img alt="talos-os" src="https://img.shields.io/badge/talos-v1.6.5-orange?logo=kubernetes&logoColor=white&style=flat-square"></a>
+    <a href="[https://talos.dev/](https://k3s.io/)"><img alt="k3s" src="https://img.shields.io/badge/k3s-v1.29.5-yellow?logo=kubernetes&logoColor=white&style=flat-square"></a>
     <a href="https://github.com/mrpbennett/home-ops/commits/master"><img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/mrpbennett/home-ops?logo=git&logoColor=white&color=purple&style=flat-square"></a>
     <a href="https://discord.gg/home-operations"><img alt="Home Operations Discord" src="https://img.shields.io/badge/discord-chat-7289DA.svg?logo=discord&logoColor=white&maxAge=60&style=flat-square"></a>
 </p>
