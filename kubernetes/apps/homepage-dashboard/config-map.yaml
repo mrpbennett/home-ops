@@ -92,13 +92,13 @@ data:
 
       - PGAdmin:
           icon: postgres.png
-          href: http://192.168.5.56
+          href: http://192.168.5.57
           description: PGAdmin for Postgres
           target: _blank
 
       - Grafana:
           icon: grafana.png
-          href: http://192.168.5.58
+          href: http://192.168.5.54
           description: Managed observability platform
           target: _blank
 
