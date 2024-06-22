@@ -12,18 +12,6 @@ spec:
       labels:
         app: postgres
     spec:
-      initContainers:
-        - name: clean-up
-          image: alpine
-          command:
-            [
-              "sh",
-              "-c",
-              "apk add --no-cache bash && bash -c 'shopt -s dotglob && rm -rf /var/lib/postgresql/data/*'",
-            ]
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgresdata
       containers:
         - name: postgres
           image: "postgres:16"
@@ -33,8 +21,11 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-secret
+          env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data/db
+            - mountPath: /var/lib/postgresql/data
               name: postgresdata
       volumes:
         - name: postgresdata
