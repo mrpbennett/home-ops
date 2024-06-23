@@ -41,11 +41,11 @@ My Kubernetes cluster is deployed with [K3s](https://www.k3s.io) and [KubeVIP](h
 
 ### GitOps
 
-[ArgoCD](https://argoproj.github.io/cd/) watches the clusters in my kubernetes folder (see Directories below) and makes the changes to my clusters based on the state of my Git repository. The way ArgoCD works for me here is it will search through `kubernetes/registry...`. Then deploy apps using the apps of apps pattern.
+[ArgoCD](https://argoproj.github.io/cd/) watches the cluster in my kubernetes directory (see structure below) and makes the changes to my cluster based on the state of my Git repository. The way ArgoCD works for me here is it will search through `kubernetes/registry...`. Then deploy apps using the [apps of apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern).
 
 ### Directories
 
-This Git repository contains the following directories under [kubernetes](./kubernetes). I have the `apps` directory that stores all the `Application` manifests for deployed apps. The registry directory is where I store all my `Application` type manifests for deployed apps.
+This Git repository contains the following directories under [kubernetes](./kubernetes). I have the `apps` directory that stores all the application manifests for deployed apps. The registry directory is where I store all my `Application` type manifests for deployed apps. I also have a `cluster` directory for all cluster wide manifests as well as a `jobs` directory for all CronJobs.
 
 ```sh
 
@@ -67,7 +67,7 @@ This Git repository contains the following directories under [kubernetes](./kube
     └── postgres-db.yaml
 ```
 
-My `argo-root.yml` argocd application checks for changes in `kubernetes/registry` for new `Application` manifests. That application then checks in the `apps` directory, and then deploys the app like the below:
+My `argo-root.yaml` argocd application checks for changes in `./kubernetes/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:
 
 ```yml
 source:
@@ -179,11 +179,12 @@ source:
 
 ## 🔧 Hardware
 
-| Device                             | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose    |
-| ---------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ---------- |
-| UniFi Dream Machine Pro (want!)    | 1     | -            | -              | 8TB  | -                | Gateway    |
-| UniFi Standard 16 port PoE (want!) | 1     | -            | -              | -    | -                | PoE switch |
-| Lenovo ThinkCentre M720q tiny      | 1     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor |
+| Device                        | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose      |
+| ----------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ------------ |
+| UniFi Express                 | 1     | -            | -              | -    | -                | Gateway / AP |
+| UniFi CloudKey+               | 1     | -            | -              | -    | -                | NVR          |
+| UniFi Pro Max 16 PoE          | 1     | -            | -              | -    | -                | PoE switch   |
+| Lenovo ThinkCentre M720q tiny | 1     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor   |
 
 ---
 

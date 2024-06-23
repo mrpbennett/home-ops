@@ -1,12 +1,12 @@
 resource "proxmox_vm_qemu" "vm" {
   count = 4 # Number of VMs to create
 
-  name        = "talos-wk-${count.index + 1}"
-  desc        = "Talos Worker ${count.index + 1}"
+  name        = "k3s-wk-${count.index + 1}"
+  desc        = "k3s Worker ${count.index + 1}"
   target_node = "pve2"
 
   # Example:
-  clone   = "talos-worker-template"
+  clone   = "k3s-worker-template"
   cores   = 2 # 2 / 4
   sockets = 1
   cpu     = "host"
@@ -19,16 +19,16 @@ resource "proxmox_vm_qemu" "vm" {
 
   disk {
     # BOOT
-    storage = "vm-ceph-pool"
-    size    = "10G"
-    type    = "scsi1"
+    storage = "vm-lvm"
+    size    = "50G"
+    type    = "scsi0"
   }
 
   disk {
     # STORAGE
-    storage = "vm-ceph-pool"
-    size    = "90G"
-    type    = "scsi2"
+    storage = "vm-lvm"
+    size    = "100G"
+    type    = "scsi1"
   }
 
 }
