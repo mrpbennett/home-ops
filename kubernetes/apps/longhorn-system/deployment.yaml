@@ -111,7 +111,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
       containers:
         - name: longhorn-ui
-          image: longhornio/longhorn-ui:v1.6.1
+          image: longhornio/longhorn-ui:v1.6.2
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: nginx-cache
