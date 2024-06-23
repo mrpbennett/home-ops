@@ -80,7 +80,7 @@ data:
     - Applications:
       - Kubernetes:
           icon: kubernetes.png
-          href: https://kube.pnfb.home
+          href: http://192.168.5.55
           description: Container orchestration
           target: _blank
 
@@ -98,7 +98,7 @@ data:
 
       - Grafana:
           icon: grafana.png
-          href: http://192.168.5.54
+          href: http://192.168.5.58
           description: Managed observability platform
           target: _blank
 
