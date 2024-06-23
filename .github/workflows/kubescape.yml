@@ -8,7 +8,7 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: kubescape/github-action@main
         continue-on-error: true
         with:
