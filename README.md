@@ -36,8 +36,8 @@ My Kubernetes cluster is deployed with [K3s](https://www.k3s.io) and [KubeVIP](h
 
 | Role          | Memory | Cores | System Disk | Storage Disk |
 | ------------- | ------ | ----- | ----------- | ------------ |
-| Control Plane | 4 GiB  | 4     | 50 GiB      | 100 Gib      |
-| Node          | 2 Gib  | 2     | 50 GiB      | 100 Gib      |
+| Control Plane | 6 GiB  | 4     | 50 GiB      | 100 Gib      |
+| Node          | 4 Gib  | 2     | 50 GiB      | 100 Gib      |
 
 ### GitOps
 

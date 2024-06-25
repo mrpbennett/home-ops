@@ -1,4 +1,4 @@
-# Install Tailscale Linux 
+# Install Tailscale Linux
 
 ```bash
 sudo curl -fsSL https://tailscale.com/install.sh | sh

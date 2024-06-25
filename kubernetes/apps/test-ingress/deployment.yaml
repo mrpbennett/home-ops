@@ -4,7 +4,7 @@ metadata:
   name: nginx-deployment
   namespace: test-ingress
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
