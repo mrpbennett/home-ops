@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pgadmin
+  name: pgadmin-svc
   labels:
     app: pgadmin
 spec:
   selector:
     app: pgadmin
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 80
       nodePort: 30200
