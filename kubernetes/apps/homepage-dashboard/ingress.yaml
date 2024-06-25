@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: homepage-ingress
-  namespace: monitoring
+  namespace: homepage-dashboard
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
