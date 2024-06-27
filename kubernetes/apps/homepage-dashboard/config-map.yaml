@@ -118,6 +118,20 @@ data:
           description: Easy-to-use distributed block storage
           target: _blank
 
+
+      - Home Assistant:
+          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/home-assistant-alt.svg
+          href: #
+          description: Home Automation
+          ping: #
+          target: _blank
+
+      - Cloudflare:
+          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/cloudflare.svg
+          href: https://dash.cloudflare.com/5a2fb936e1a58d410c2a9ab8cf7e5ec3
+          description: Domain and network tunnel
+          target: _blank
+
       - Docker Registry:
           icon: docker.png
           href: http://192.168.7.210:5000/v2/_catalog
@@ -125,14 +139,8 @@ data:
           ping: 192.168.7.210
           target: _blank
 
-      - Home Assistant:
-          icon: docker.png
-          href: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/home-assistant-alt.svg
-          description: Home Automation
-          ping: #
-          target: _blank
-
     - Network:
+
       - PiHole 1:
           icon: pi-hole.png
           href: http://pihole.pnfb.home/admin
@@ -149,12 +157,12 @@ data:
           href: https://unifi.host.or.ip:port
           description: Network Management
           target: _blank
-          widget:
-            type: unifi
-            url: https://unifi.host.or.ip:port
-            username: username
-            password: password
-            site: Site Name # optional
+          # widget:
+          #   type: unifi
+          #   url: https://unifi.host.or.ip:port
+          #   username: username
+          #   password: password
+          #   site: Site Name # optional
           
 
       - PiHole 2:
