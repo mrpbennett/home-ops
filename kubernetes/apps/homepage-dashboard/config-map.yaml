@@ -16,15 +16,15 @@ data:
     layout:
       Google:
         style: row
-        columns: 3
+        columns: 4
 
-      BareMetal:
+      Servers:
         style: row
         columns: 2
 
       Network:
         style: row
-        columns: 2
+        columns: 3
 
       Applications:
         style: row
@@ -61,8 +61,12 @@ data:
           icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google-cloud-platform.svg
           href: https://console.cloud.google.com/welcome?authuser=1
           target: _blank
+      - Looker Studio:
+          icon: https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg
+          href: https://lookerstudio.google.com/u/0/navigation/reporting
+          target: _blank
 
-    - BareMetal:
+    - Servers:
       - Proxmox:
           icon: proxmox.png
           href: https://192.168.7.1:8006
@@ -121,6 +125,13 @@ data:
           ping: 192.168.7.210
           target: _blank
 
+      - Home Assistant:
+          icon: docker.png
+          href: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/home-assistant-alt.svg
+          description: Home Automation
+          ping: #
+          target: _blank
+
     - Network:
       - PiHole 1:
           icon: pi-hole.png
@@ -132,6 +143,19 @@ data:
               type: pihole
               url: http://192.168.4.2
               key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
+
+      - Unifi:
+          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/unifi.svg
+          href: https://unifi.host.or.ip:port
+          description: Network Management
+          target: _blank
+          widget:
+            type: unifi
+            url: https://unifi.host.or.ip:port
+            username: username
+            password: password
+            site: Site Name # optional
+          
 
       - PiHole 2:
           icon: pi-hole.png
