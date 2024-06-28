@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: pgadmin.pnfb.uk
+    - host: postgres.pnfb.uk
       http:
         paths:
           - path: /
