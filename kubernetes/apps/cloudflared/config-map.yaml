@@ -19,5 +19,8 @@ data:
       - hostname: "*.pnfb.uk"
         service: http://192.168.5.53
 
+      - hostname: postgres.pnfb.uk
+        service: http://192.168.5.52
+
 
       - service: http_status:404
