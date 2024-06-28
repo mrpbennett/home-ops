@@ -23,15 +23,5 @@ data:
 
     ingress:
     - hostname: postgres.pnfb.uk
-      service: http://192.168.5.56
-
-    # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
-    # issues. If hello.example.com resolves and tunnel.example.com does not, then the problem is
-    # in the connection from cloudflared to your local service, not from the internet to cloudflared.
-
-    - hostname: hello.example.com
-      service: hello_world
-
-    # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
-
+      service: http://192.168.5.52
     - service: http_status:404
