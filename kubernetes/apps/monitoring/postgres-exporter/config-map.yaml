@@ -5,5 +5,5 @@ metadata:
   namespace: monitoring
 data:
   DATA_SOURCE_NAME: |
-    - "postgresql://postgres:password@192.168.5.58:5432/postgres?sslmode=disable"
+    - "postgresql://postgres:password@192.168.5.52:5432/postgres?sslmode=disable"
     - "postgresql://postgres:password@192.168.7.70:5432/postgres?sslmode=disable"

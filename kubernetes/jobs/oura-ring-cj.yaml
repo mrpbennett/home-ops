@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: oura-ring-data
+  namespace: cron-jobs
+spec:
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - image: 192.168.7.210:5000/oura_ring:0.0.1
+              imagePullPolicy: Always
+              name: oura-ring-data
+              resources:
+                requests:
+                  memory: 256Mi
+          restartPolicy: OnFailure
+          terminationGracePeriodSeconds: 30
+  schedule: "0 9 * * *"
