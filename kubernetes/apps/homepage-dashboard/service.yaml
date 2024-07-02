@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: homepage
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app.kubernetes.io/name: homepage
   ports:
