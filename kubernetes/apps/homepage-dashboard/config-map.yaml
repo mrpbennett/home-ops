@@ -137,9 +137,9 @@ data:
 
 
     - Docker:
-      - Portainer
+      - Portainer:
           icon: portainer.png
-          href: https://192.168.7.70:9443/
+          href: https://192.168.7.70:9443
           description: Container management
 
       - PGAdmin:
@@ -149,7 +149,7 @@ data:
           target: _blank
 
       - Code Server:
-          icon: vsc.png
+          icon: code.png
           href: http://192.168.7.70:8443
           description: VSC in the browser
           target: _blank
