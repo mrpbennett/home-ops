@@ -28,11 +28,11 @@ data:
 
       Kubernetes:
         style: row
-        columns: 2
+        columns: 4
 
       Docker:
         style: row
-        columns: 1
+        columns: 3
 
   custom.css: ""
   custom.js: ""
