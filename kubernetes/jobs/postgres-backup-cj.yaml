@@ -1,0 +1,75 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: cron-jobs
+spec:
+  schedule: "0 0 * * *" # Cron schedule (e.g., run daily at midnight)
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: postgres-backup
+              image: postgres:latest # Use an image with pg_dump installed
+              command:
+                - "/bin/bash"
+                - "-c"
+                - |
+                  #!/bin/bash
+
+                  # Variables
+                  PGHOST=192.168.5.52
+                  PGPORT=5432
+                  PGUSER=postgres
+                  PGDATABASE=password
+                  BACKUP_FILE=/tmp/backup_$(date +%Y%m%d_%H%M%S).sql  # Backup file path inside the pod
+
+                  # Log start of script
+                  echo "$(date +'%Y-%m-%d %H:%M:%S') - Starting backup script..."
+
+                  # Dump PostgreSQL database
+                  pg_dump -h $PGHOST -p $PGPORT -U $PGUSER $PGDATABASE > $BACKUP_FILE
+
+                  # Check if pg_dump was successful
+                  if [ $? -eq 0 ]; then
+                    echo "$(date +'%Y-%m-%d %H:%M:%S') - Database backup successful."
+                  else
+                    echo "$(date +'%Y-%m-%d %H:%M:%S') - ERROR: Database backup failed."
+                    exit 1
+                  fi
+
+                  # Copy backup file to Kubernetes Persistent Volume
+                  kubectl cp $BACKUP_FILE postgres-db/postgres-64449687f6-bs4m7:/mnt/storage/postgresql/backup
+
+                  # Check if copy was successful
+                  if [ $? -eq 0 ]; then
+                    echo "$(date +'%Y-%m-%d %H:%M:%S') - Backup file copied successfully."
+                  else
+                    echo "$(date +'%Y-%m-%d %H:%M:%S') - ERROR: Failed to copy backup file."
+                    exit 1
+                  fi
+
+                  # Example: Transfer backup file to external server via SCP
+                  scp $BACKUP_FILE sysadm@192.168.7.70:/home/sysadm/db_backup
+
+                  # Check if transfer was successful
+                  if [ $? -eq 0 ]; then
+                    echo "$(date +'%Y-%m-%d %H:%M:%S') - Backup file transferred successfully."
+                  else
+                    echo "$(date +'%Y-%m-%d %H:%M:%S') - ERROR: Failed to transfer backup file."
+                    exit 1
+                  fi
+
+                  # Log end of script
+                  echo "$(date +'%Y-%m-%d %H:%M:%S') - Backup script completed."
+
+              volumeMounts:
+                - name: backup-volume
+                  mountPath: /mnt/storage/postgresql/backup
+
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup-volume
+              persistentVolumeClaim:
+                claimName: backup-pvc
