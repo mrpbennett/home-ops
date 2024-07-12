@@ -10,6 +10,10 @@ spec:
   successfulJobsHistoryLimit: 4 # Default 3
   failedJobsHistoryLimit: 4 # Default 1
   suspend: false # Set to "true" to suspend scheduling
+  ttlStrategy:
+    secondsAfterCompletion: 10 # Time to live after workflow is completed, replaces ttlSecondsAfterFinished
+    secondsAfterSuccess: 5 # Time to live after workflow is successful
+    secondsAfterFailure: 5 # Time to live after workflow fails
   workflowSpec:
     entrypoint: py-test
     templates:
