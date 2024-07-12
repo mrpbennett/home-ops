@@ -20,7 +20,7 @@ data:
 
       Servers:
         style: row
-        columns: 2
+        columns: 3
 
       Network:
         style: row
@@ -85,6 +85,13 @@ data:
           ping: 192.168.4.110
           target: _blank
 
+      - Docker Registry:
+          icon: docker.png
+          href: http://192.168.7.210:5000/v2/_catalog
+          description: Self hosted registry
+          ping: 192.168.7.210
+          target: _blank
+
     - Kubernetes:
       - Kubernetes:
           icon: kubernetes.png
@@ -128,11 +135,10 @@ data:
           description: Domain and network tunnel
           target: _blank
 
-      - Docker Registry:
-          icon: docker.png
-          href: http://192.168.7.210:5000/v2/_catalog
-          description: Self hosted registry
-          ping: 192.168.7.210
+      - Redis:
+          icon: redis.svg
+          href: http://192.168.7.70:8001
+          description: World’s fastest data platform
           target: _blank
 
 
@@ -151,7 +157,7 @@ data:
       - Redis:
           icon: redis.svg
           href: http://192.168.7.70:8001
-          description: Open-source monitoring system
+          description: World’s fastest data platform
           target: _blank
           
       - Code Server:

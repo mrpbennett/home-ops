@@ -6,10 +6,12 @@ spec:
   selector:
     app: redis
   ports:
-    - protocol: TCP
+    - name: redis-port
+      protocol: TCP
       port: 6379
       targetPort: 6379
-    - protocol: TCP
+    - name: ui-port
+      protocol: TCP
       port: 8001
       targetPort: 8001
   type: LoadBalancer
