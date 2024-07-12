@@ -1,29 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-deployment
-  labels:
-    app: redis
+  name: redis-stack
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: redis
+      app: redis-stack
   template:
     metadata:
       labels:
-        app: redis
+        app: redis-stack
     spec:
       containers:
-        - name: redis
+        - name: redis-stack
           image: redis/redis-stack:latest
           ports:
             - containerPort: 6379
             - containerPort: 8001
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
+          volumeMounts:
+            - mountPath: /data
+              name: redis-data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc
