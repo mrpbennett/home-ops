@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: health-dashboard
+  name: users-etl
   namespace: cron-jobs
 spec:
   concurrencyPolicy: Replace
@@ -11,13 +11,12 @@ spec:
       template:
         spec:
           containers:
-            - image: 192.168.7.210:5000/health-dashboard:0.0.7
+            - image: 192.168.7.210:5000/user-etl:0.0.1
               imagePullPolicy: Always
-              name: health-dashboard
+              name: users-etl
               resources:
                 requests:
                   memory: 256Mi
           restartPolicy: OnFailure
           terminationGracePeriodSeconds: 30
-  schedule: "0 7 * * *"
-  timezone: "Europe/London"
+  schedule: "0 0 * * *"
