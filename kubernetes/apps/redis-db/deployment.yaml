@@ -16,9 +16,10 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:latest
+          image: redis/redis-stack:latest
           ports:
             - containerPort: 6379
+            - containerPort: 8001
           resources:
             requests:
               memory: "256Mi"

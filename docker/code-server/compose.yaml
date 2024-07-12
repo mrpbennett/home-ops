@@ -10,7 +10,7 @@ services:
       - SUDO_PASSWORD=password #optional
       - DEFAULT_WORKSPACE=/config/workspace #optional
     volumes:
-      - $HOME/.config/vscode/config:/home/coder/config
+      - /home/sysadm/.config/vscode/config:/home/coder/config
       - /home/sysadm/monitoring:/config/workspace/monitoring
     ports:
       - 8443:8443

@@ -148,6 +148,12 @@ data:
           description: PGAdmin for Postgres
           target: _blank
 
+      - Redis:
+          icon: redis.svg
+          href: http://192.168.7.70:8001
+          description: Open-source monitoring system
+          target: _blank
+          
       - Code Server:
           icon: code.png
           href: http://192.168.7.70:8443
@@ -165,6 +171,7 @@ data:
           href: http://192.168.7.70:9090
           description: Open-source monitoring system
           target: _blank
+
 
     - Network:
 

@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   postgres:
     container_name: postgres
@@ -26,6 +28,17 @@ services:
     restart: always
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+
+  postgres-exporter:
+    container_name: postgres-exporter
+    image: quay.io/prometheuscommunity/postgres-exporter
+    environment:
+      DATA_SOURCE_URI: "postgres://postgres:password@postgres:5432/postgres?sslmode=disable"
+      DATA_SOURCE_USER: postgres
+      DATA_SOURCE_PASS: password
+    depends_on:
+      - postgres
+      - pgadmin
 
 volumes:
   postgres_data:
