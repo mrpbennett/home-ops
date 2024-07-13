@@ -1,23 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  name: py-test
+  name: &app py-test
 spec:
-  schedule: "*/10 * * * *"
+  schedule: "* * * * *"
   timezone: "Europe/London" # Default to local machine timezone
   startingDeadlineSeconds: 0
   concurrencyPolicy: "Replace" # Default to "Allow"
-  successfulJobsHistoryLimit: 4 # Default 3
+  successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 4 # Default 1
   suspend: false # Set to "true" to suspend scheduling
-  ttlStrategy:
-    secondsAfterCompletion: 10 # Time to live after workflow is completed, replaces ttlSecondsAfterFinished
-    secondsAfterSuccess: 5 # Time to live after workflow is successful
-    secondsAfterFailure: 5 # Time to live after workflow fails
   workflowSpec:
-    entrypoint: py-test
+    entrypoint: *app
     templates:
-      - name: py-test
+      - name: *app
         container:
           image: 192.168.7.210:5000/py-test:0.0.1
           imagePullPolicy: Always
