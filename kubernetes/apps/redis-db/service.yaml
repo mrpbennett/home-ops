@@ -13,4 +13,3 @@ spec:
       targetPort: 6379
   selector:
     app.kubernetes.io/name: argocd-redis
-type: LoadBalancer
