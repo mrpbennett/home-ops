@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: loki
   namespace: monitoring
+  labels:
+    app: loki
 spec:
   replicas: 1
   selector:
@@ -15,19 +17,18 @@ spec:
     spec:
       containers:
         - name: loki
-          image: grafana/loki:latest
-          args:
-            - -config.file=/etc/loki/loki.yaml
-          volumeMounts:
-            - name: config-volume
-              mountPath: /etc/loki
-              readOnly: true
-            - name: loki-storage
-              mountPath: /loki
+          image: grafana/loki:2.7.1
           ports:
             - containerPort: 3100
+          volumeMounts:
+            - name: loki-config
+              mountPath: /etc/loki
+            - name: loki-storage
+              mountPath: /loki
+          args:
+            - -config.file=/etc/loki/loki-local-config.yaml
       volumes:
-        - name: config-volume
+        - name: loki-config
           configMap:
             name: loki-config
         - name: loki-storage
