@@ -17,24 +17,22 @@ spec:
     spec:
       containers:
         - name: loki
-          image: grafana/loki:3.1.0
+          image: grafana/loki:2.7.1
+          ports:
+            - containerPort: 3100
+          volumeMounts:
+            - name: loki-config
+              mountPath: /etc/loki
+            - name: loki-storage
+              mountPath: /loki
           args:
             - -config.file=/etc/loki/loki-local-config.yaml
             - -config.expand-env=true
-          ports:
-            - containerPort: 3100
-          env:
-            - name: LOKI_STORAGE_DIRECTORY
-              value: /data/loki
-            - name: LOKI_HTTP_PORT
-              value: "3100"
-          volumeMounts:
-            - name: config
-              mountPath: /etc/loki
-            - name: data
-              mountPath: /data
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
       volumes:
-        - name: config
+        - name: loki-config
           configMap:
             name: loki-config
         - name: loki-storage

@@ -3,48 +3,40 @@ kind: ConfigMap
 metadata:
   name: loki-config
   namespace: monitoring
-  labels:
-    app: loki
 data:
   loki-local-config.yaml: |
     auth_enabled: false
     server:
-      http_listen_port: ${LOKI_HTTP_PORT}
-    common:
-      path_prefix: ${LOKI_STORAGE_DIRECTORY}
-      replication_factor: 1
-      storage:
-        filesystem:
-          directory: ${LOKI_STORAGE_DIRECTORY}/chunks
-      ring:
-        kvstore:
-          store: inmemory
+      http_listen_port: 3100
     ingester:
       lifecycler:
         ring:
           kvstore:
             store: inmemory
+          replication_factor: 1
       chunk_idle_period: 5m
-      chunk_block_size: 262144
       chunk_retain_period: 30s
       max_transfer_retries: 0
     schema_config:
       configs:
         - from: 2020-10-24
-          store: boltdb-shipper
+          store: boltdb
           object_store: filesystem
           schema: v11
           index:
             prefix: index_
-            period: 24h
+            period: 168h
     storage_config:
-      boltdb_shipper:
-        active_index_directory: ${LOKI_STORAGE_DIRECTORY}/boltdb-shipper-active
-        cache_location: ${LOKI_STORAGE_DIRECTORY}/boltdb-shipper-cache
-        shared_store: filesystem
+      boltdb:
+        directory: /loki/index
+      filesystem:
+        directory: /loki/chunks
     limits_config:
+      enforce_metric_name: false
       reject_old_samples: true
       reject_old_samples_max_age: 168h
+    chunk_store_config:
+      max_look_back_period: 0s
     table_manager:
       retention_deletes_enabled: false
       retention_period: 0s
