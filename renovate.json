@@ -7,7 +7,21 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
+    },
+    {
+      "managers": ["dockerfile"],
+      "registryUrls": ["http://192.168.7.210:5000"]
     }
   ],
-  "platformAutomerge": true
+  "hostRules": [
+    {
+      "hostType": "docker",
+      "username": null,
+      "password": null
+    }
+  ],
+  "docker": {
+    "enabled": true
+  },
+  "platformAutomerge": false
 }
