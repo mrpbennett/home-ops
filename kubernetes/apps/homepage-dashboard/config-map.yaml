@@ -111,6 +111,12 @@ data:
           description: PGAdmin for Postgres
           target: _blank
 
+      - Redis:
+          icon: redis.svg
+          href: http://redis-insight.pnfb.home
+          description: World’s fastest data platform
+          target: _blank
+
       - Grafana:
           icon: grafana.png
           href: http://grafana.pnfb.home
@@ -121,6 +127,12 @@ data:
           icon: prometheus.png
           href: http://prometheus.pnfb.home
           description: Open-source monitoring system
+          target: _blank
+
+      - Loki:
+          icon: loki.png
+          href: http://loki.pnfb.home
+          description: Fully featured logging stack
           target: _blank
 
       - Longhorn:
@@ -135,11 +147,6 @@ data:
           description: Domain and network tunnel
           target: _blank
 
-      - Redis:
-          icon: redis.svg
-          href: http://redis-insight.pnfb.home
-          description: World’s fastest data platform
-          target: _blank
 
 
     - Docker:

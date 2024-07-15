@@ -1,0 +1,11 @@
+mirrors:
+  "192.168.7.210:5000":
+    endpoint:
+      - "http://192.168.7.210:5000"
+configs:
+  "192.168.7.210:5000":
+    tls:
+      insecure_skip_verify: true
+  "docker.io":
+    tls:
+      insecure_skip_verify: true

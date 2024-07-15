@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: loki
+  namespace: monitoring
+  labels:
+    app: loki
+    group: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loki
+      group: grafana
+  template:
+    metadata:
+      labels:
+        app: loki
+        group: grafana
+    spec:
+      serviceAccountName: loki
+      containers:
+        - name: loki
+          image: grafana/loki:master
+          imagePullPolicy: Always
+          args: ["-config.file=/etc/loki/loki-config.yaml"]
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: loki-config
+              mountPath: /etc/loki/
+      volumes:
+        - name: loki-config
+          configMap:
+            name: loki-config
