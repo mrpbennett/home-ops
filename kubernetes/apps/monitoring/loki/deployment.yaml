@@ -23,16 +23,18 @@ spec:
             - -config.expand-env=true
           ports:
             - containerPort: 3100
+          env:
+            - name: LOKI_STORAGE_DIRECTORY
+              value: /data/loki
+            - name: LOKI_HTTP_PORT
+              value: "3100"
           volumeMounts:
-            - name: loki-config
+            - name: config
               mountPath: /etc/loki
-            - name: loki-storage
-              mountPath: /loki
-          securityContext:
-            runAsUser: 0
-            runAsGroup: 0
+            - name: data
+              mountPath: /data
       volumes:
-        - name: loki-config
+        - name: config
           configMap:
             name: loki-config
         - name: loki-storage
