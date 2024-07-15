@@ -27,6 +27,10 @@ spec:
               mountPath: /loki
           args:
             - -config.file=/etc/loki/loki-local-config.yaml
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
       volumes:
         - name: loki-config
           configMap:
