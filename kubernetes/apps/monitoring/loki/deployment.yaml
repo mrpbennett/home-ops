@@ -18,6 +18,9 @@ spec:
       containers:
         - name: loki
           image: grafana/loki:3.1.0
+          args:
+            - -config.file=/etc/loki/loki-local-config.yaml
+            - -config.expand-env=true
           ports:
             - containerPort: 3100
           volumeMounts:
