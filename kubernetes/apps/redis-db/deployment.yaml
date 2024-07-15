@@ -1,79 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/name: argocd-redis
-    app.kubernetes.io/part-of: argocd
-    app.kubernetes.io/component: redis
-  name: argocd-redis
+  name: redis
+  namespace: redis-db
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: argocd-redis
+      app: redis
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: argocd-redis
+        app: redis
     spec:
-      initContainers:
-        - command:
-            - argocd
-            - admin
-            - redis-initial-password
-          image: quay.io/argoproj/argocd:latest
-          imagePullPolicy: IfNotPresent
-          name: secret-init
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            seccompProfile:
-              type: RuntimeDefault
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-        seccompProfile:
-          type: RuntimeDefault
-      serviceAccountName: argocd-redis
       containers:
         - name: redis
-          image: redis:7.0.15-alpine
-          imagePullPolicy: Always
-          args:
-            - "--save"
-            - ""
-            - "--appendonly"
-            - "no"
-            - --requirepass $(REDIS_PASSWORD)
-          env:
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: auth
-                  name: argocd-redis
+          image: redis:6.2
           ports:
             - containerPort: 6379
-          securityContext:
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/name: argocd-redis
-                topologyKey: kubernetes.io/hostname
-            - weight: 5
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/part-of: argocd
-                topologyKey: kubernetes.io/hostname
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+            - name: redis-config
+              mountPath: /usr/local/etc/redis/redis.conf
+              subPath: redis.conf
+          command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc
+        - name: redis-config
+          configMap:
+            name: redis-config

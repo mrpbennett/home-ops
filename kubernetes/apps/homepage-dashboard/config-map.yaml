@@ -137,7 +137,7 @@ data:
 
       - Redis:
           icon: redis.svg
-          href: http://192.168.7.70:8001
+          href: http://redis-insight.pnfb.home
           description: World’s fastest data platform
           target: _blank
 
