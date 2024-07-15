@@ -16,5 +16,5 @@ spec:
     templates:
       - name: *app
         container:
-          image: 192.168.7.210:5000/user-etl:0.0.1
+          image: 192.168.7.210:5000/user-etl:0.0.2
           imagePullPolicy: Always
