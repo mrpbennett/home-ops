@@ -28,9 +28,9 @@ spec:
           args:
             - -config.file=/etc/loki/loki-local-config.yaml
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 0
+            runAsGroup: 0
+            fsGroup: 0
       volumes:
         - name: loki-config
           configMap:
