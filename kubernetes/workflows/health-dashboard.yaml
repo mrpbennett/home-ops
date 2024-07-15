@@ -4,7 +4,7 @@ metadata:
   name: &app health-dashboard
   namespace: cron-jobs
 spec:
-  schedule: "* * * * *"
+  schedule: "0 7 * * *"
   timezone: "Europe/London" # Default to local machine timezone
   startingDeadlineSeconds: 0
   concurrencyPolicy: "Replace" # Default to "Allow"
