@@ -3,15 +3,12 @@ kind: Service
 metadata:
   name: loki-svc
   namespace: monitoring
-  labels:
-    app: loki
-    group: grafana
 spec:
-  type: NodePort
-  ports:
-    - port: 3100
-      targetPort: 3100
-      protocol: TCP
+  type: LoadBalancer
   selector:
     app: loki
-    group: grafana
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3100
+      targetPort: 3100

@@ -4,81 +4,48 @@ metadata:
   name: promtail-config
   namespace: monitoring
 data:
-  promtail-config.yaml: |-
+  promtail.yaml: |-
     server:
-      http_listen_port: 0
+      http_listen_port: 9080
       grpc_listen_port: 0
-
     positions:
       filename: /tmp/positions.yaml
-
-    client:
-      url: http://loki:3100/api/prom/push
-
+    clients:
+      - url: http://loki:3100/loki/api/v1/push
     scrape_configs:
       - job_name: kubernetes-pods
         kubernetes_sd_configs:
-        - role: pod
+          - role: pod
+        pipeline_stages:
+          - cri: {}
         relabel_configs:
-        - source_labels:
-          - __meta_kubernetes_pod_node_name
-          target_label: __host__
-        - action: drop
-          regex: ^$
-          source_labels:
-          - __meta_kubernetes_pod_label_name
-        - action: replace
-          replacement: $1
-          separator: /
-          source_labels:
-          - __meta_kubernetes_namespace
-          - __meta_kubernetes_pod_label_name
-          target_label: job
-        - action: replace
-          source_labels:
-          - __meta_kubernetes_namespace
-          target_label: namespace
-        - action: replace
-          source_labels:
-          - __meta_kubernetes_pod_name
-          target_label: instance
-        - replacement: /var/log/pods/$1
-          separator: /
-          source_labels:
-          - __meta_kubernetes_pod_uid
-          - __meta_kubernetes_pod_container_name
-          target_label: __path__
-      - job_name: kubernetes-pods-app
+          - source_labels: [__meta_kubernetes_pod_label_name]
+            target_label: job
+      - job_name: kubernetes-nodes
         kubernetes_sd_configs:
-        - role: pod
+          - role: node
+        pipeline_stages:
+          - cri: {}
         relabel_configs:
-        - source_labels:
-          - __meta_kubernetes_pod_node_name
-          target_label: __host__
-        - action: drop
-          regex: ^$
-          source_labels:
-          - __meta_kubernetes_pod_label_app
-        - action: replace
-          replacement: $1
-          separator: /
-          source_labels:
-          - __meta_kubernetes_namespace
-          - __meta_kubernetes_pod_label_app
-          target_label: job
-        - action: replace
-          source_labels:
-          - __meta_kubernetes_namespace
-          target_label: namespace
-        - action: replace
-          source_labels:
-          - __meta_kubernetes_pod_name
-          target_label: instance
-        - action: labelmap
-          regex: __meta_kubernetes_pod_label_(.+)
-        - replacement: /var/log/pods/$1
-          separator: /
-          source_labels:
-          - __meta_kubernetes_pod_uid
-          - __meta_kubernetes_pod_container_name
-          target_label: __path__
+          - source_labels: [__meta_kubernetes_node_name]
+            target_label: node
+      - job_name: kubernetes-apiservers
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_service_name]
+            action: keep
+            regex: kubernetes
+      - job_name: kubernetes-kubelet
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_node_label_kubernetes_io_hostname]
+            target_label: instance
+        static_configs:
+          - targets:
+              - localhost:10250  # Kubelet API
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          insecure_skip_verify: true
