@@ -223,5 +223,16 @@ data:
               url: http://192.168.4.3
               key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
 
-  widgets.yaml: ""
+  widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+
   docker.yaml: ""
