@@ -18,7 +18,7 @@ spec:
       labels:
         app.kubernetes.io/name: homepage
     spec:
-      serviceAccountName: homepage
+      serviceAccountName: homepage-serviceaccount
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
@@ -60,6 +60,6 @@ spec:
       volumes:
         - name: homepage-config
           configMap:
-            name: homepage
+            name: homepage-configmap
         - name: logs
           emptyDir: {}
