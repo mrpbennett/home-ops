@@ -16,5 +16,5 @@ spec:
     templates:
       - name: *app
         container:
-          image: 192.168.7.210:5000/health-dashboard:0.0.8
+          image: 192.168.7.210:5000/health-dashboard:0.0.9
           imagePullPolicy: Always
