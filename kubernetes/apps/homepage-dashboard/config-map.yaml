@@ -131,7 +131,7 @@ data:
 
       - Loki:
           icon: loki.png
-          href: http://loki.pnfb.home
+          href: http://192.168.5.62:3100/metrics
           description: Fully featured logging stack
           target: _blank
 
