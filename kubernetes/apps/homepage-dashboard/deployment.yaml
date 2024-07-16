@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: homepage-deployment
+  name: homepage
   namespace: homepage-dashboard
   labels:
     app.kubernetes.io/name: homepage
@@ -18,7 +18,7 @@ spec:
       labels:
         app.kubernetes.io/name: homepage
     spec:
-      serviceAccountName: homepage-serviceaccount
+      serviceAccountName: homepage
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
@@ -60,6 +60,6 @@ spec:
       volumes:
         - name: homepage-config
           configMap:
-            name: homepage-configmap
+            name: homepage
         - name: logs
           emptyDir: {}
