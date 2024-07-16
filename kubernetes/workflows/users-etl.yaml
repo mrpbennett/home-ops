@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
   name: &app user-etl
-  namespace: cron-jobs
+  namespace: workflows
 spec:
   schedule: "@monthly"
   timezone: "Europe/London" # Default to local machine timezone

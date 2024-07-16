@@ -1,7 +1,7 @@
-# Configuration file for k3s
+# Configuration file for k3s - /etc/rancher/k3s/config.yaml
 
 # Node Configuration
-node-name: "my-k3s-node" # The name of the node
+node-name: "my-k3s-node"
 token: 95e2850a0e0b505b8b677661885509a2
 
 # TLS Configuration
@@ -17,3 +17,8 @@ etcd-snapshot-dir: "/var/lib/rancher/k3s/etcd/snapshots" # Directory to store ET
 disable:
   - "traefik"
   - "servicelb"
+
+# Node taints
+node-taint:
+  - "node-role.kubernetes.io/control-plane=true:NoSchedule"
+  - "node.kubernetes.io/unreachable=true:NoExecute"

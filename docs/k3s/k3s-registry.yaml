@@ -1,3 +1,4 @@
+# /etc/rancher/k3s/registries.yaml
 mirrors:
   "192.168.7.210:5000":
     endpoint:
