@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: homepage
+  name: homepage-svc
   namespace: homepage-dashboard
   labels:
     app.kubernetes.io/name: homepage

@@ -1,0 +1,10 @@
+# Worker node configuration file
+
+node-name: "k3s-wk-1"
+node-ip: 192.168.5.4
+token: 95e2850xxx
+
+server: 192.168.5.200
+
+node-taint:
+  - "node.kubernetes.io/unreachable=true:NoExecute"

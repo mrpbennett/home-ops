@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: postgres-deployment
 spec:
   replicas: 1
   selector:
@@ -20,7 +20,7 @@ spec:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-                name: postgres-secret
+                name: postgres-configmap
           env:
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata

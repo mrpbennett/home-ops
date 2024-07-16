@@ -7,18 +7,17 @@ token: 95e2850a0e0b505b8b677661885509a2
 # TLS Configuration
 tls-san: 192.168.5.200
 
+data-dir: /var/lib/rancher/k3s
+
 # ETCD configuration
 etcd-snapshot-schedule-cron: "0 */6 * * *" #Schedule ETCD snapshots every 6 hours
 etcd-snapshot-retention: 7 # Retain the last 7 snapshots
 etcd-snapshot-dir: "/var/lib/rancher/k3s/etcd/snapshots" # Directory to store ETCD snapshots
 
-# Security Configuration
-# List of features to disable
 disable:
   - "traefik"
   - "servicelb"
 
-# Node taints
 node-taint:
   - "node-role.kubernetes.io/control-plane=true:NoSchedule"
   - "node.kubernetes.io/unreachable=true:NoExecute"
