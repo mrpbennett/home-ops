@@ -154,44 +154,6 @@ data:
           target: _blank
 
 
-
-    - Docker:
-      - Portainer:
-          icon: portainer.png
-          href: https://192.168.7.70:9443
-          description: Container management
-
-      - PGAdmin:
-          icon: postgres.png
-          href: http://192.168.7.70:5050
-          description: PGAdmin for Postgres
-          target: _blank
-
-      - Redis:
-          icon: redis.svg
-          href: http://192.168.7.70:8001
-          description: World’s fastest data platform
-          target: _blank
-          
-      - Code Server:
-          icon: code.png
-          href: http://192.168.7.70:8443
-          description: VSC in the browser
-          target: _blank
-
-      - Grafana:
-          icon: grafana.png
-          href: http://192.168.7.70:3000
-          description: Managed observability platform
-          target: _blank
-
-      - Prometheus:
-          icon: prometheus.png
-          href: http://192.168.7.70:9090
-          description: Open-source monitoring system
-          target: _blank
-
-
     - Network:
 
       - PiHole 1:
