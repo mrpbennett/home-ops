@@ -23,17 +23,41 @@ spec:
                   name: coder-db-url
                   key: url
 
-          # coder.volumeMounts -- A list of extra volume mounts to add to the Coder pod.
-          volumeMounts:
-            - name: coder-storage
-              mountPath: "/mnt/storage/coder"
-
           # coder.ingress -- The Ingress object to expose for Coder.
           ingress:
             enabled: true
             host: coder.pnfb.home
             tls:
               enabled: false
+
+          extraTemplates: |
+            apiVersion: v1
+            kind: PersistentVolumeClaim
+            metadata:
+              name: coder-pvc
+              labels:
+                app: coder
+            spec:
+              accessModes:
+                - ReadWriteMany
+              resources:
+                requests:
+                  storage: 50Gi
+            ---
+            apiVersion: v1
+            kind: PersistentVolume
+            metadata:
+              name: coder-pv
+              labels:
+                type: local
+                app: coder
+            spec:
+              capacity:
+                storage: 50Gi
+              accessModes:
+                - ReadWriteMany
+              hostPath:
+                path: /mnt/storage/coder
 
   destination:
     server: "https://kubernetes.default.svc"
