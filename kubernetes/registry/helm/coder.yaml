@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coder
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: coder
+    repoURL: https://helm.coder.com/v2
+    targetRevision: 2.13.0
+    helm:
+      valueObject:
+        coder:
+          env:
+            - name: CODER_PG_CONNECTION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: coder-db-url
+                  key: url
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: coder
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
