@@ -10,8 +10,9 @@ spec:
     repoURL: https://helm.coder.com/v2
     targetRevision: 2.13.0
     helm:
-      valueObject:
+      valuesObject:
         coder:
+          # coder.env -- The environment variables to set for Coder.
           env:
             - name: CODER_ACCESS_URL
               value: http://coder.pnfb.home
@@ -22,6 +23,12 @@ spec:
                   name: coder-db-url
                   key: url
 
+          # coder.volumeMounts -- A list of extra volume mounts to add to the Coder pod.
+          volumeMounts:
+            - name: coder-storage
+              mountPath: "/mnt/storage/coder"
+
+          # coder.ingress -- The Ingress object to expose for Coder.
           ingress:
             enabled: true
             host: coder.pnfb.home
