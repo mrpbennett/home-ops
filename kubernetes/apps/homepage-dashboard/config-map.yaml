@@ -153,6 +153,12 @@ data:
           description: Domain and network tunnel
           target: _blank
 
+      - Tailscale:
+          icon: tailscale.svg
+          href: https://login.tailscale.com/admin/machines
+          description: Secure networking easily
+          target: _blank
+
 
     - Network:
 
