@@ -66,3 +66,30 @@ spec:
     automated:
       prune: true
       selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coder-db
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: postgresql
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 15.5.17
+    helm:
+      valuesObject:
+        auth:
+          username: coder
+          password: coder
+          database: coder
+        persistence:
+          size: 10Gi
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: coder
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
