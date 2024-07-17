@@ -13,11 +13,21 @@ spec:
       valueObject:
         coder:
           env:
+            - name: CODER_ACCESS_URL
+              value: http://coder.pnfb.home
+
             - name: CODER_PG_CONNECTION_URL
               valueFrom:
                 secretKeyRef:
                   name: coder-db-url
                   key: url
+
+          ingress:
+            enabled: true
+            host: coder.pnfb.home
+            tls:
+              enabled: false
+
   destination:
     server: "https://kubernetes.default.svc"
     namespace: coder
