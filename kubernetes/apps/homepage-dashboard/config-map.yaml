@@ -26,13 +26,9 @@ data:
         style: row
         columns: 3
 
-      Kubernetes:
+      Applications:
         style: row
         columns: 4
-
-      Docker:
-        style: row
-        columns: 3
 
   custom.css: ""
   custom.js: ""
@@ -92,7 +88,7 @@ data:
           ping: 192.168.7.210
           target: _blank
 
-    - Kubernetes:
+    - Applications:
       - Kubernetes:
           icon: kubernetes.png
           href: http://192.168.5.55
@@ -156,7 +152,19 @@ data:
       - Tailscale:
           icon: tailscale.svg
           href: https://login.tailscale.com/admin/machines
-          description: Secure networking easily
+          description: Zero config VPN
+          target: _blank
+
+      - Portainer:
+          icon: portainer.svg
+          href: https://192.168.7.70:9443
+          description: Docker container mangement
+          target: _blank
+
+      - Home Assistant:
+          icon: homeassistant.svg
+          href: http://192.168.7.70:8123
+          description: Home automation
           target: _blank
 
 

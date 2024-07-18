@@ -12,6 +12,7 @@ services:
     volumes:
       - /home/sysadm/.config/vscode/config:/home/coder/config
       - /home/sysadm/monitoring:/config/workspace/monitoring
+      - /home/sysadm/home-assistant:/config/workspace/home-assistant
     ports:
       - 8443:8443
     restart: always

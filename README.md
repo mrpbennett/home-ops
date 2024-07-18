@@ -164,6 +164,11 @@ source:
         <td>Bare Metal hypervisor OS</td>
     </tr>
     <tr>
+        <td><img width="32" src="https://store-images.s-microsoft.com/image/apps.1667.62b087ba-b0aa-4d22-aa02-a155bc245ecb.81d32dfa-16ca-4058-982c-03bd0fce135f.4e41e100-e821-4a7d-9a32-47c7ac37db51"></td>
+        <td><a href="https://tailscale.com/">TailScale</a></td>
+        <td>Zero config VPN</td>
+    </tr>
+    <tr>
         <td><img width="32" src="https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/terraform.svg"></td>
         <td><a href="https://www.terraform.io/">Terraform</a></td>
         <td>Infrastructure as code</td>
@@ -179,12 +184,11 @@ source:
 
 ## 🔧 Hardware
 
-| Device                        | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose      |
-| ----------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ------------ |
-| UniFi Express                 | 1     | -            | -              | -    | -                | Gateway / AP |
-| UniFi CloudKey+               | 1     | -            | -              | -    | -                | NVR          |
-| UniFi Pro Max 16 PoE          | 1     | -            | -              | -    | -                | PoE switch   |
-| Lenovo ThinkCentre M720q tiny | 1     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor   |
+| Device                        | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose            |
+| ----------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ------------------ |
+| UniFi Cloud Gateway Max 1TB   | 1     | -            | 1TB NVMe       | -    | -                | Gateway / AP / NVR |
+| UniFi Lite 8 PoE              | 2     | -            | -              | -    | -                | PoE switch         |
+| Lenovo ThinkCentre M720q tiny | 1     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor         |
 
 ---
 
