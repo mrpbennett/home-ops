@@ -155,17 +155,18 @@ data:
           description: Zero config VPN
           target: _blank
 
+      - Home Assistant:
+          icon: home-assistant.svg
+          href: http://192.168.7.70:8123
+          description: Home automation
+          target: _blank
+          
       - Portainer:
           icon: portainer.svg
           href: https://192.168.7.70:9443
           description: Docker container mangement
           target: _blank
 
-      - Home Assistant:
-          icon: homeassistant.svg
-          href: http://192.168.7.70:8123
-          description: Home automation
-          target: _blank
 
 
     - Network:
