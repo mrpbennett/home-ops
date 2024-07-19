@@ -21,6 +21,12 @@ spec:
         - name: pgadmin
           image: dpage/pgadmin4:5.4
           imagePullPolicy: Always
+          command:
+            [
+              "sh",
+              "-c",
+              "mkdir -p /var/lib/pgadmin/sessions && chmod -R 777 /var/lib/pgadmin && /entrypoint.sh",
+            ]
           env:
             - name: PGADMIN_DEFAULT_EMAIL
               value: "pbennett.uk@gmail.com"
