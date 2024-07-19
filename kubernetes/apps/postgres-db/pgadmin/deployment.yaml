@@ -25,14 +25,14 @@ spec:
           ports:
             - containerPort: 80
               name: pgadminport
-      volumeMounts:
-        - mountPath: /var/lib/pgadmin
-          name: pgadmin-data
+          volumeMounts:
+            - mountPath: /var/lib/pgadmin
+              name: pgadmin-data
 
-        - name: pgadmin-config
-          mountPath: /pgadmin4/servers.json
-          subPath: servers.json
-          readOnly: true
+            - name: pgadmin-config
+              mountPath: /pgadmin4/servers.json
+              subPath: servers.json
+              readOnly: true
       volumes:
         - name: pgadmin-data
           persistentVolumeClaim:
