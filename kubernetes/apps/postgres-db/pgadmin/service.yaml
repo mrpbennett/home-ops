@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pgadmin-svc
+  name: pgadmin-service
   labels:
     app: pgadmin
 spec:
