@@ -19,7 +19,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: pgadmin
-          image: dpage/pgadmin4:5.4
+          image: dpage/pgadmin4:5.7
           imagePullPolicy: Always
           command:
             [
