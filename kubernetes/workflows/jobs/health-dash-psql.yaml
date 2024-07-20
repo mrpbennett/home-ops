@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  name: &app health-dashboard
+  name: &app health-dash-psql
   namespace: workflows
 spec:
   schedule: "0 7 * * *"
