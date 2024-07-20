@@ -24,7 +24,7 @@ pihole:
   hosts:
     192.168.4.2:
     192.168.4.3:
-postgres:
+docker:
   hosts:
     192.168.7.70:
 registry:

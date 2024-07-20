@@ -157,13 +157,13 @@ data:
 
       - Home Assistant:
           icon: home-assistant.svg
-          href: http://192.168.7.70:8123
+          href: http://192.168.7.210:8123
           description: Home automation
           target: _blank
           
       - Portainer:
           icon: portainer.svg
-          href: https://192.168.7.70:9443
+          href: https://192.168.7.210:9443
           description: Docker container mangement
           target: _blank
 
