@@ -53,4 +53,4 @@ data:
       # --- POSTGRES EXPORTER ---
       - job_name: 'postgres-exporter'
         static_configs:
-          - targets: ['192.168.5.54:9187']
+          - targets: ['192.168.5.55:9187']

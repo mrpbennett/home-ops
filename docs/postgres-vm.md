@@ -39,7 +39,7 @@ When you install a PostgreSQL server, it is only accessible locally through the 
 Let’s now exit the interactive psql session by typing exit, and access postgresql.conf configuration file of PostgreSQL version 14 by using vim text editor.
 
 ```bash
-sudo vim /etc/postgresql/14/main/postgresql.conf
+sudo vim /etc/postgresql/16/main/postgresql.conf
 ```
 
 Uncomment and edit the listen_addresses attribute to start listening to start listening to all available IP addresses.
@@ -51,7 +51,7 @@ listen_addresses = '*'
 Now edit the PostgreSQL access policy configuration file.
 
 ```bash
-sudo vim /etc/postgresql/14/main/pg_hba.conf
+sudo vim /etc/postgresql/16/main/pg_hba.conf
 ```
 
 Append a new connection policy (a pattern stands for `[CONNECTION_TYPE][DATABASE][USER] [ADDRESS][METHOD]`) in the bottom of the file.
