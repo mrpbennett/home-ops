@@ -11,3 +11,4 @@ network:
           via: 192.168.4.1 # router ip
       nameservers:
         addresses: [192.168.4.100, 1.1.1.1] # PiHole VIP / cloudflare
+

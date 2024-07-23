@@ -1,5 +1,7 @@
 # Setting up Postgres on a VM
 
+Setting up a database in the homelab can be a great way of learning new skills. Particularly Database Administrator / Engineering skills. This is how I have set up my Postgres database on a VM within Proxmox.
+
 1. Update Package List and Install PostgreSQL
 
 ```bash
@@ -36,7 +38,7 @@ It’s fun to play with the database locally, but eventually you will need to co
 
 When you install a PostgreSQL server, it is only accessible locally through the loopback IP address of your machine. However, you may change this setting in the PostgreSQL configuration file to allow remote access.
 
-Let’s now exit the interactive psql session by typing exit, and access postgresql.conf configuration file of PostgreSQL version 14 by using vim text editor.
+Let’s now exit the interactive psql session by typing exit, and access `postgresql.conf` configuration file of PostgreSQL version 16 by using vim text editor.
 
 ```bash
 sudo vim /etc/postgresql/16/main/postgresql.conf
@@ -63,7 +65,7 @@ host all all 0.0.0.0/0 md5
 It is now time to restart your PostgreSQL service to load your configuration changes.
 
 ```bash
-systemctl restart postgresql
+sudo systemctl restart postgresql
 ```
 
 And make sure your system is listening to the 5432 port that is reserved for PostgreSQL.

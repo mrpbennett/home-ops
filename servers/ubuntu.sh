@@ -17,6 +17,10 @@ sudo apt-get install qemu-guest-agent -y && sudo systemctl start qemu-guest-agen
 # install oh-my-bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
 
+# lazyvim
+sudo apt install gcc build-essential neovim -y
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+
 # Install Tailscale
 curl -fsSL https://tailscale.com/install.sh | sh
 

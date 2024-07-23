@@ -125,6 +125,12 @@ data:
           description: Open-source monitoring system
           target: _blank
 
+      - Prometheus Server:
+          icon: prometheus.png
+          href: http://192.168.7.215:9090
+          description: Open-source monitoring system
+          target: _blank
+
       - Loki:
           icon: loki.png
           href: http://192.168.5.62:3100/metrics
