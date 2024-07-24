@@ -42,3 +42,5 @@ spec:
             items:
               - key: postgresql.conf
                 path: postgresql.conf
+              - key: pg_hba.conf
+                path: pg_hba.conf
