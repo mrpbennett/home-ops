@@ -9,3 +9,5 @@ data:
     listen_addresses = '*'
     max_connections = 100
     shared_buffers = 128MB
+  pg_hba.conf: |
+    host all all 0.0.0.0/0 md5
