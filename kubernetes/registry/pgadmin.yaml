@@ -14,7 +14,7 @@ spec:
     directory:
       recurse: true
   destination:
-    namespace: postgres-db
+    namespace: pgadmin
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
