@@ -49,7 +49,7 @@ services:
       - prom_data:/prometheus
 ```
 
-Once Prometheus is up and running it will be a case of adding [postgres_exporter](), [Loki]() and [Promtail]() to each server, the easiest way to do this would be with Docker compose.
+Once Prometheus is up and running it will be a case of adding [postgres_exporter](https://github.com/prometheus-community/postgres_exporter), [Loki](https://grafana.com/oss/loki/) and [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) to each server, the easiest way to do this would be with Docker compose.
 
 ```yaml
 version: '3.7'
@@ -87,12 +87,12 @@ volumes:
   promtail-config:
 ```
 
-Then each VM would need the following configuration files for Loki and Promtail. Here's an example configuration for each below, but before that the config directories need to be created
+Then each VM would need the following configuration files for Loki and Promtail. Here's an example configuration for each below, but before that the config directory will need to be created
 
-- Create the directories `./loki-config` and `./promtail-config`.
+- Create the directory `monitoring`.
 - Place the provided configuration files into these directories.
 
-**Loki Configuration (./loki-config/local-config.yaml):**
+**Loki Configuration (./monitoring/local-config.yaml):**
 
 ```yaml
 auth_enabled: false
@@ -140,7 +140,7 @@ table_manager:
   retention_period: 168h
 ```
 
-**Promtail Configuration (./promtail-config/promtail-config.yaml):**
+**Promtail Configuration (./monitoring/promtail-config.yaml):**
 
 ```yaml
 server:
@@ -151,7 +151,7 @@ positions:
   filename: /tmp/positions.yaml
 
 clients:
-  - url: http://<loki_host>:3100/loki/api/v1/push
+  - url: http://localhost:3100/loki/api/v1/push
 
 scrape_configs:
   - job_name: system
@@ -170,14 +170,18 @@ scrape_configs:
           __path__: /var/log/postgresql/postgresql-*.log
 ```
 
-Once that is dont it will be time to update the Prometheus config file on the Prometheus server
+Once that is done it will be time to update the Prometheus config file on the Prometheus server
 
-```1,1 All
+```yaml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
 scrape_configs:
   - job_name: 'postgres'
     static_configs:
       - targets:
-        - 192.168.6.1:5432
-        - 192.168.6.2:5432
-        - 192.168.6.3:5432
+          - 192.168.6.1:9187
+          - 192.168.6.2:9187
+          - 192.168.6.3:9187
 ```
