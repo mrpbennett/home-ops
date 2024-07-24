@@ -5,7 +5,6 @@ metadata:
   labels:
     app: pgadmin
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:

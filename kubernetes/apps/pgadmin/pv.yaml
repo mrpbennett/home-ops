@@ -6,7 +6,6 @@ metadata:
     type: local
     app: pgadmin
 spec:
-  storageClassName: manual
   capacity:
     storage: 5Gi
   accessModes:
