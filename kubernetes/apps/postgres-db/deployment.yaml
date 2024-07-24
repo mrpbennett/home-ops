@@ -41,7 +41,7 @@ spec:
             name: postgres-configmap
             items:
               - key: postgresql.conf
-                path: /etc/postgresql/main/postgresql.conf
+                path: postgresql.conf
 
               - key: pg_hba.conf
-                path: /etc/postgresql/main/pg_hba.conf
+                path: pg_hba.conf
