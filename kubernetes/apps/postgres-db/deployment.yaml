@@ -20,7 +20,8 @@ spec:
             - containerPort: 5432
           env:
             - name: PGDATA
-              value: /etc/postgresql/main
+              # value: /var/lib/postgresql/data/pgdata
+              value: /etc/postgresql/main/pgdata
 
             - name: POSTGRES_PASSWORD
               valueFrom:
@@ -29,19 +30,19 @@ spec:
                   key: POSTGRES_PASSWORD
 
           volumeMounts:
-            - mountPath: /etc/postgresql
-              name: postgres-data
+            - name: postgres-data
+              # mountPath: /var/lib/postgresql/data
+              mountPath: /etc/postgresql/data
+
+            - name: postgres-config
+              mountPath: /etc/postgresql
+
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
             claimName: postgres-pvc
 
-        - name: postgres-config-vol
+        - name: postgres-config
           configMap:
             name: postgres-configmap
-            items:
-              - key: postgresql.conf
-                path: postgresql.conf
-
-              - key: pg_hba.conf
-                path: pg_hba.conf
+            defaultMode: 0755

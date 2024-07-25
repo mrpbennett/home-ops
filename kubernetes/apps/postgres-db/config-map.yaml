@@ -5,9 +5,48 @@ metadata:
   labels:
     app: postgres
 data:
-  postgresql.conf: |
+  pg_hba.conf: |+
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    host     replication     all         0.0.0.0/0        md5
+    # "local" is for Unix domain socket connections only
+    local   all             all                                     trust
+    # IPv4 local connections:
+    host    all             all             127.0.0.1/32            trust
+    # IPv6 local connections:
+    host    all             all             ::1/128                 trust
+    # Allow replication connections from localhost, by a user with the
+    # replication privilege.
+    local   replication     all                                     trust
+    host    replication     all             127.0.0.1/32            trust
+    host    replication     all             ::1/128                 trust
+
+    host all all all scram-sha-256
+  postgresql.conf: |+
+    data_directory = '/data/pgdata'
+    hba_file = '/config/pg_hba.conf'
+    ident_file = '/config/pg_ident.conf'
+
+    port = 5432
     listen_addresses = '*'
     max_connections = 100
     shared_buffers = 128MB
-  pg_hba.conf: |
-    host all all 0.0.0.0/0 md5
+    dynamic_shared_memory_type = posix
+    max_wal_size = 1GB
+    min_wal_size = 80MB
+    log_timezone = 'Etc/UTC'
+    datestyle = 'iso, mdy'
+    timezone = 'Etc/UTC'
+
+    #locale settings
+    lc_messages = 'en_US.utf8'			# locale for system error message
+    lc_monetary = 'en_US.utf8'			# locale for monetary formatting
+    lc_numeric = 'en_US.utf8'			# locale for number formatting
+    lc_time = 'en_US.utf8'				# locale for time formatting
+
+    default_text_search_config = 'pg_catalog.english'
+
+    #replication
+    wal_level = replica
+    archive_mode = on
+    archive_command = 'test ! -f /data/archive/%f && cp %p /data/archive/%f'
+    max_wal_senders = 3

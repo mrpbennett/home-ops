@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: postgres-db
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  serviceName: "postgres"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      terminationGracePeriodSeconds: 30
+      initContainers:
+        - name: init
+          image: postgres:16
+          command: ["bash", "-c"]
+          args:
+            - |
+              #create archive directory
+              mkdir -p /data/archive && chown -R 999:999 /data/archive
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              readOnly: false
+      containers:
+        - name: postgres
+          image: postgres:16
+          args: ["-c", "config_file=/config/postgresql.conf"]
+          ports:
+            - containerPort: 5432
+              name: database
+          env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+                  optional: false
+
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: false
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              readOnly: false
+
+      volumes:
+        - name: config
+          configMap:
+            name: postgres-configmap
+            defaultMode: 0755
+
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "standard"
+        resources:
+          requests:
+            storage: 100Mi
