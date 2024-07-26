@@ -41,10 +41,3 @@ data:
     lc_numeric = 'en_US.utf8'			# locale for number formatting
     lc_time = 'en_US.utf8'				# locale for time formatting
 
-    default_text_search_config = 'pg_catalog.english'
-
-    #replication
-    wal_level = replica
-    archive_mode = on
-    archive_command = 'test ! -f /data/archive/%f && cp %p /data/archive/%f'
-    max_wal_senders = 3
