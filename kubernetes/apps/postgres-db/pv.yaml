@@ -6,7 +6,6 @@ metadata:
     type: local
     app: postgres
 spec:
-  storageClassName: manual
   capacity:
     storage: 50Gi
   accessModes:
