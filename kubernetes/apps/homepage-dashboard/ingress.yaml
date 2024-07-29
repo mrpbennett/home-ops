@@ -9,7 +9,7 @@ metadata:
     acme.cert-manager.io/http01-ingress-class: "nginx"
 spec:
   rules:
-    - host: homepage.pnfb.home
+    - host: homepage.pnfb.uk
       http:
         paths:
           - path: /
@@ -21,5 +21,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - homepage.pnfb.home
+        - homepage.pnfb.uk
       secretName: homepage-tls
