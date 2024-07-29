@@ -5,6 +5,8 @@ metadata:
   namespace: homepage-dashboard
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    acme.cert-manager.io/http01-ingress-class: "nginx"
 spec:
   rules:
     - host: homepage.pnfb.home
@@ -17,3 +19,7 @@ spec:
                 name: homepage
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - homepage.pnfb.home
+      secretName: homepage-tls
