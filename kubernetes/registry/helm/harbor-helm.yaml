@@ -1,0 +1,135 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: harbor-registry
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: harbor/harbor
+    repoURL: https://helm.goharbor.io
+    targetRevision: 1.15.0
+    helm:
+      valuesObject:
+        # Common configurations
+        harborAdminPassword: "Harbor12345"
+
+        # External URL for Harbor core
+        expose:
+          type: ingress
+          tls:
+            enabled: false
+            commonName: "harbor.pnfb.home"
+          ingress:
+            hosts:
+              core: "harbor.pnfb.home"
+
+        # Database settings
+        database:
+          type: external
+          external:
+            host: "harbor-db-postgresql.harbor.svc.cluster.local"
+            port: "5432"
+            username: "harbor"
+            password: "password"
+            coreDatabase: "registry"
+            clairDatabase: "clair"
+            notaryServerDatabase: "notary_server"
+            notarySignerDatabase: "notary_signer"
+
+        # Redis settings
+        redis:
+          type: external
+          external:
+            addr: "192.168.5.51:6379"
+            password: ""
+
+        # Persistence settings
+        persistence:
+          enabled: true
+          persistentVolumeClaim:
+            registry:
+              size: 100Gi
+            chartmuseum:
+              size: 5Gi
+            jobservice:
+              size: 5Gi
+            trivy:
+              size: 5Gi
+
+        # Jobservice settings
+        jobservice:
+          replicas: 1
+
+        # Core settings
+        core:
+          replicas: 1
+
+        # Portal settings
+        portal:
+          replicas: 1
+
+        # Registry settings
+        registry:
+          replicas: 1
+          storage:
+            filesystem:
+              rootdirectory: /storage
+
+        # ChartMuseum settings
+        chartmuseum:
+          enabled: true
+          absoluteUrl: true
+
+        # Clair settings
+        clair:
+          enabled: true
+
+        # Notary settings
+        notary:
+          enabled: true
+          server:
+            replicas: 1
+          signer:
+            replicas: 1
+
+        # Trivy settings
+        trivy:
+          enabled: true
+          securityContext:
+            runAsUser: 0
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: harbor
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: harbor-db
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: postgresql
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 15.5.17
+    helm:
+      valuesObject:
+        auth:
+          username: harbor
+          password: password
+          database: harbor
+        persistence:
+          size: 10Gi
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: coder
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
