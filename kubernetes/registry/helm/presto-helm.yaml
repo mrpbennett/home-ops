@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: presto-db
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: presto
+    repoURL: https://prestodb.github.io/presto-helm-charts
+    targetRevision: 0.3.0
+    # helm:
+    #   valuesObject:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: presto
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
