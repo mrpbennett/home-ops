@@ -6,13 +6,13 @@ metadata:
 spec:
   project: default
   source:
-    chart: harbor/harbor
+    chart: bitnami/harbor
     repoURL: https://helm.goharbor.io
-    targetRevision: 1.15.0
+    targetRevision: 22.0.4
     helm:
       valuesObject:
         # Common configurations
-        harborAdminPassword: "Harbor12345"
+        harborAdminPassword: "123qwe!!"
 
         # External URL for Harbor core
         expose:
