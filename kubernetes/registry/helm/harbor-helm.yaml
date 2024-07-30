@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    chart: bitnami/harbor
+    chart: harbor
     repoURL: https://helm.goharbor.io
-    targetRevision: 22.0.4
+    targetRevision: 1.15.0
     helm:
       valuesObject:
         # Common configurations
