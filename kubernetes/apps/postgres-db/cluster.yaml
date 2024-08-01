@@ -1,0 +1,13 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: k8s-psql-cluster
+  namespace: postgres-db
+spec:
+  instances: 3
+
+  storage:
+    size: 5Gi
+
+  monitoring:
+    enablePodMonitor: true

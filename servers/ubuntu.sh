@@ -9,7 +9,7 @@ sudo systemctl enable open-iscsi --now
 sudo ufw disable
 
 # ubuntu minimal
-sudo apt install curl nano jq vim git ufw -y
+sudo apt install curl nano jq git ufw -y
 
 # install qemu
 sudo apt-get install qemu-guest-agent -y && sudo systemctl start qemu-guest-agent && sudo systemctl enable qemu-guest-agent
