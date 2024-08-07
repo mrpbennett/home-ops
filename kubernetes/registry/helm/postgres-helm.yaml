@@ -19,7 +19,6 @@ spec:
         primary:
           service:
             type: LoadBalancer
-            loadBalancerClass: "nginx"
 
         persistence:
           size: 10Gi
