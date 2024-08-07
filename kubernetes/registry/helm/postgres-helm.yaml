@@ -15,8 +15,15 @@ spec:
           username: postgres
           password: postgres
           database: postgres
+
+        primary:
+          service:
+            type: LoadBalancer
+            loadBalancerClass: "nginx"
+
         persistence:
           size: 10Gi
+
   destination:
     server: "https://kubernetes.default.svc"
     namespace: postgres-db
