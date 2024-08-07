@@ -45,26 +45,30 @@ My Kubernetes cluster is deployed with [K3s](https://www.k3s.io) and [KubeVIP](h
 
 ### Directories
 
-This Git repository contains the following directories under [kubernetes](./kubernetes). I have the `apps` directory that stores all the application manifests for deployed apps. The registry directory is where I store all my `Application` type manifests for deployed apps. I also have a `cluster` directory for all cluster wide manifests as well as a `jobs` directory for all CronJobs.
+This Git repository contains the following directories under [kubernetes](./kubernetes). I have the `apps` directory that stores all the application manifests for deployed apps. The registry directory is where I store all my `Application` type manifests for deployed apps. I also have a `cluster` directory for all cluster wide manifests as well as a `workflows` directory for all CronWorkflow via ArgoCD.
+
+All Helm deployment `values.yaml` are contained within the Application under the `helm.valuesObject`
 
 ```sh
-
-📁 kubernetes                               # root folder for all kubernetes manifests
-├── 📁 apps                                 # application directory deployed by ArgoCD
-│   ├── 📁 postgres-db
-│   │   ├── deployment.yaml
-│   │   └── service.yaml
+📁 kubernetes                          # root folder for all kubernetes manifests
+├── 📁 apps                            # application directory deployed by ArgoCD
+│   └── 📁 application
+│       ├── deployment.yaml
+│       ├── ingress.yaml
+│       ├── namespace.yaml
+│       └── service.yaml
 ├── argo-root.yaml
-├── 📁 cluster                              # directory for cluster wide manifests
+├── 📁 cluster                          # directory for cluster wide manifests
+│   ├── cj-namespace.yaml
 │   └── cluster-role-binding.yaml
-├── 📁 jobs                                 # directory for all cron-jobs
-│   └── test-cjob.yaml
-└── 📁 registry                             # ArgoCD registry for all argocd apps
-    ├── 📁 helm                             # directory for all Helm applications
-    │   └── 📁 application
-    │       ├── application-helm.yaml
-    │       └── values.yaml
-    └── postgres-db.yaml
+├── 📁 registry                         # folder to hold all argo applications
+│   ├── 📁 helm                         # folder for all helm deployments
+│   │   └── application-helm.yaml
+│   └── application.yaml
+└── 📁 workflows                        # # directory for all argo cron workflows
+    ├── 📁 jobs
+    │   └── cron-workflow.yaml
+    └── namespace.yaml
 ```
 
 My `argo-root.yaml` argocd application checks for changes in `./kubernetes/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:
