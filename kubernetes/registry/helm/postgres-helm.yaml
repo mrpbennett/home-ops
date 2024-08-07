@@ -14,7 +14,6 @@ spec:
         auth:
           username: postgres
           password: postgres
-          database: postgres
 
         primary:
           service:
