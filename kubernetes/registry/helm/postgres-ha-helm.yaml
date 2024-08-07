@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgres-db
+  name: postgres-db-ha
   namespace: argocd
 spec:
   project: default
   source:
-    chart: postgresql
+    chart: postgresql-ha
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 15.5.17
+    targetRevision: 14.2.15
     helm:
       valuesObject:
         # PostgreSQL common parameters
@@ -20,6 +20,17 @@ spec:
         primary:
           service:
             type: LoadBalancer
+
+        # PostgreSQL with Repmgr parameters
+        postgresql:
+          extraVolumes:
+            - name: dshm
+              emptyDir:
+                medium: Memory
+                sizeLimit: 512Mi
+          extraVolumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
 
         persistence:
           size: 10Gi
