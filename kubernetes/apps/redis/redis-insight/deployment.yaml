@@ -18,6 +18,10 @@ spec:
       containers:
         - name: redisinsight #Container name (DNS_LABEL, unique)
           image: redis/redisinsight:latest #repo/image
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           imagePullPolicy: IfNotPresent #Installs the latest Redis Insight version
           volumeMounts:
             - name: redisinsight #Pod volumes to mount into the container's filesystem. Cannot be updated.
@@ -25,14 +29,7 @@ spec:
           ports:
             - containerPort: 5540 #exposed container port and protocol
               protocol: TCP
-
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
-              memory: "512mi"
-              cpu: "500m"
       volumes:
         - name: redisinsight
           emptyDir: {} # node-ephemeral volume https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
+
