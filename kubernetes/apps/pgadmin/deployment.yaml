@@ -36,6 +36,14 @@ spec:
               mountPath: /pgadmin4/servers.json
               subPath: servers.json
               readOnly: true
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
       volumes:
         - name: pgadmin-data
           persistentVolumeClaim:

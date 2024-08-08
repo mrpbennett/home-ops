@@ -28,6 +28,13 @@ spec:
           image: ghcr.io/kube-vip/kube-vip-cloud-provider:v0.0.9
           name: kube-vip-cloud-provider
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

@@ -25,6 +25,14 @@ spec:
           ports:
             - containerPort: 5540 #exposed container port and protocol
               protocol: TCP
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
       volumes:
         - name: redisinsight
           emptyDir: {} # node-ephemeral volume https://kubernetes.io/docs/concepts/storage/volumes/#emptydir

@@ -48,6 +48,13 @@ spec:
             - mountPath: /oauth
               name: oauth
               readOnly: true
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
       nodeSelector:
         kubernetes.io/os: linux
       serviceAccountName: operator

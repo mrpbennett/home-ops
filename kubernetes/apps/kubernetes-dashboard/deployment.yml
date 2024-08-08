@@ -51,6 +51,13 @@ spec:
             readOnlyRootFilesystem: true
             runAsUser: 1001
             runAsGroup: 2001
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
       volumes:
         - name: kubernetes-dashboard-certs
           secret:
@@ -66,7 +73,6 @@ spec:
           effect: NoSchedule
 
 ---
-
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -102,13 +108,20 @@ spec:
             initialDelaySeconds: 30
             timeoutSeconds: 30
           volumeMounts:
-          - mountPath: /tmp
-            name: tmp-volume
+            - mountPath: /tmp
+              name: tmp-volume
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsUser: 1001
             runAsGroup: 2001
+          resources:
+            limits:
+              cpu: 100m
+              memory: 50Mi
+            requests:
+              cpu: 100m
+              memory: 50Mi
       serviceAccountName: kubernetes-dashboard
       nodeSelector:
         "kubernetes.io/os": linux
