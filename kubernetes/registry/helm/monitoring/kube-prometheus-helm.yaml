@@ -11,28 +11,29 @@ spec:
     targetRevision: 9.5.11
     helm:
       valuesObject:
+        # Prometheus Operator Parameters
+        operator:
+          enabled: true
+          resourcesPreset: "nano"
+          service:
+            type: LoadBalancer
+
         # Prometheus parameters
         prometheus:
           service:
             type: LoadBalancer
 
+          resourcesPreset: "nano"
           scrapeInterval: 15s
           evaluationInterval: 15s
 
           persistence:
             enabled: true
 
-          thanos:
-            enabled: true
-
-            image:
-              registry: docker.io
-              repository: bitnami/thanos
-
         # Alertmanager parameters
         alertmanager:
           enabled: true
-
+          resourcesPreset: "nano"
           services:
             type: LoadBalancer
 
