@@ -1,0 +1,193 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 61.7.1
+    helm:
+      valuesObject:
+        namespaceOverride: "monitoring"
+
+        defaultRules:
+          create: true
+          rules:
+            alertmanager: true
+            etcd: true
+            configReloaders: true
+            general: true
+            k8sContainerCpuUsageSecondsTotal: true
+            k8sContainerMemoryCache: true
+            k8sContainerMemoryRss: true
+            k8sContainerMemorySwap: true
+            k8sContainerResource: true
+            k8sContainerMemoryWorkingSetBytes: true
+            k8sPodOwner: true
+            kubeApiserverAvailability: true
+            kubeApiserverBurnrate: true
+            kubeApiserverHistogram: true
+            kubeApiserverSlos: true
+            kubeControllerManager: true
+            kubelet: true
+            kubeProxy: true
+            kubePrometheusGeneral: true
+            kubePrometheusNodeRecording: true
+            kubernetesApps: true
+            kubernetesResources: true
+            kubernetesStorage: true
+            kubernetesSystem: true
+            kubeSchedulerAlerting: true
+            kubeSchedulerRecording: true
+            kubeStateMetrics: true
+            network: true
+            node: true
+            nodeExporterAlerting: true
+            nodeExporterRecording: true
+            prometheus: true
+            prometheusOperator: true
+            windows: true
+
+        # ALERT MANAGER
+        alertmanager:
+          enabled: true
+          fullnameOverride: alertmanager
+          ingress:
+            enabled: false
+
+        # GRAFANA
+        grafana:
+          enabled: true
+          fullnameOverride: grafana
+          adminPassword: "admin"
+          defaultDashboardsEnabled: true
+          defaultDashboardsTimezone: utc
+
+        # KUBE CONTROLLER MANAGER
+        kubeControllerManager:
+          enabled: true
+          endpoints:
+            - 192.168.5.1
+            - 192.168.5.2
+            - 192.168.5.3
+
+        # KUBE ETCD
+        kubeEtcd:
+          enabled: true
+          endpoints:
+            - 192.168.5.1
+            - 192.168.5.2
+            - 192.168.5.3
+            -
+        # KUBE SCHCEDULER
+        kubeScheduler:
+          enabled: true
+          endpoints:
+            - 192.168.5.1
+            - 192.168.5.2
+            - 192.168.5.3
+            -
+        # KUBE PROXY
+        kubeProxy:
+          enabled: true
+          endpoints:
+            - 192.168.5.1
+            - 192.168.5.2
+            - 192.168.5.3
+
+        # KUBE STATE METRICS
+        kube-state-metrics:
+          fullnameOverride: kube-state-metrics
+          selfMonitor:
+            enabled: true
+          prometheus:
+            monitor:
+              enabled: true
+              relabelings:
+                - action: replace
+                  regex: (.*)
+                  replacement: $1
+                  sourceLabels:
+                    - __meta_kubernetes_pod_node_name
+                  targetLabel: kubernetes_node
+
+        # NODE EXPORTER
+        nodeExporter:
+          enabled: true
+          serviceMonitor:
+            relabelings:
+              - action: replace
+                regex: (.*)
+                replacement: $1
+                sourceLabels:
+                  - __meta_kubernetes_pod_node_name
+                targetLabel: kubernetes_node
+
+        # PROMETHEUS NODE EXPORTER
+        prometheus-node-exporter:
+          fullnameOverride: node-exporter
+          podLabels:
+            jobLabel: node-exporter
+          extraArgs:
+            - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+            - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+          service:
+            portName: http-metrics
+          prometheus:
+            monitor:
+              enabled: true
+              relabelings:
+                - action: replace
+                  regex: (.*)
+                  replacement: $1
+                  sourceLabels:
+                    - __meta_kubernetes_pod_node_name
+                  targetLabel: kubernetes_node
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 250m
+            limits:
+              memory: 2048Mi
+
+        # PROMETHEUS OPERATOR
+        prometheusOperator:
+          enabled: true
+          prometheusConfigReloader:
+            resources:
+              requests:
+                cpu: 200m
+                memory: 50Mi
+              limits:
+                memory: 100Mi
+
+        # PROMETHEUS
+        prometheus:
+          enabled: true
+          prometheusSpec:
+            replicas: 1
+            replicaExternalLabelName: "replica"
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+            probeSelectorNilUsesHelmValues: false
+            retention: 6h
+            enableAdminAPI: true
+            walCompression: true
+            scrapeInterval: 30s
+            evaluationInterval: 30s
+
+        # THANOS
+        thanosRuler:
+          enabled: true
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
