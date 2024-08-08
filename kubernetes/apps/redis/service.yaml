@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: redis-svc
-  namespace: redis-db
+  namespace: redis
 spec:
   type: LoadBalancer
   ports:

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: redis-config
-  namespace: redis-db
+  namespace: redis
 data:
   redis.conf: |
     bind 0.0.0.0

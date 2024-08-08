@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: redis-ingress
-  namespace: redis-db
+  namespace: redis
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
