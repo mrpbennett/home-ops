@@ -9,7 +9,7 @@ data:
     kubernetes.yaml: |
         mode: cluster
     settings.yaml: |
-        title: homelab | pnfb.home
+        title: homelab | 70ld.dev
         theme: dark
         color: slate
 
