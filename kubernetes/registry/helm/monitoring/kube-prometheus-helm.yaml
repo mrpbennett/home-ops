@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pkube-prometheus
+  name: kube-prometheus
   namespace: argocd
 spec:
   project: default
