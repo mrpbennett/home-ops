@@ -16,6 +16,15 @@ spec:
       valuesObject:
         service:
           type: LoadBalancer
+          ports:
+            restAPI: 9200
+            transport: 9300
+
+        ingress:
+          enabled: true
+          hostname: elastic.70ld.home
+          path: /
+          ingressClassName: nginx
 
         master:
           masterOnly: false

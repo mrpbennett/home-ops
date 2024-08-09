@@ -14,11 +14,27 @@ spec:
     targetRevision: 11.2.16
     helm:
       valuesObject:
+        persistance:
+          enabled: true
+          accessModes:
+            - ReadWriteOnce
+          size: 10Gi
+
         service:
+          ports:
+            http: 5601
           type: LoadBalancer
 
+        ingress:
+          enabled: true
+          hostname: kibana.70ld.home
+          path: /
+          ingressClassName: nginx
+
+        resourcesPreset: "small"
+
         elasticsearch:
-          host: elasticsearch-master
+          host: elasticsearch-master-0
           port: 920
 
   syncPolicy:
