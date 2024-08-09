@@ -4,7 +4,7 @@
 sudo apt-get update -y && sudo apt-get upgrade -y
 
 # Kubernetes only
-sudo apt install open-iscsi nfs-common curl nano jq vim git -y
+sudo apt install open-iscsi nfs-common curl nano jq ufw git net-tools lsof -y
 sudo systemctl enable open-iscsi --now
 sudo ufw disable
 
