@@ -16,7 +16,7 @@ spec:
         namespaceOverride: "monitoring"
 
         crds:
-          enabled: false
+          enabled: true
         prometheus:
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false
