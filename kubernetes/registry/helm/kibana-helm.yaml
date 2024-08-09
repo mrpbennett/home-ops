@@ -1,25 +1,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &chart-name coder-db
+  name: &chart-name kibana
   namespace: argocd
 spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: kibana
   project: default
   source:
     chart: *chart-name
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 15.5.17
+    targetRevision: 11.2.16
     helm:
       valuesObject:
-        # auth:
-        #   username: coder
-        #   password: coder
-        #   database: coder
-        # persistence:
-        #   size: 10Gi
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: coder
+        service:
+          type: LoadBalancer
+
+        elasticsearch:
+          host: elasticsearch-master
+          port: 920
+
   syncPolicy:
     automated:
       prune: true
