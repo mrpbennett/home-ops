@@ -2,7 +2,7 @@
 
 node-name: "k3s-wk-1"
 node-ip: 192.168.5.4
-token: 95e2850xxx
+token: 95e2850a0e0b505b8b677661885509a2
 
 server: 192.168.5.200
 
