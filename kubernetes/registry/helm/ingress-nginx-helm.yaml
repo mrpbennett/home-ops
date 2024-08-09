@@ -17,8 +17,6 @@ spec:
 
       valuesObject:
         controller:
-          extraArgs:
-            default-ssl-certificate: "ingress-nginx/wildcard-cert"
           metrics:
             enabled: true
             serviceMonitor:
