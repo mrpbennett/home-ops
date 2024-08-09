@@ -17,6 +17,11 @@ spec:
 
       valuesObject:
         controller:
+          ingressClass: nginx # default: nginx
+          ingressClassResource:
+            name: nginx # default: nginx
+            enabled: true
+            default: true
           metrics:
             enabled: true
             serviceMonitor:
