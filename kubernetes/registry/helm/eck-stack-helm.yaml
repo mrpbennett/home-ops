@@ -17,7 +17,7 @@ spec:
         eck-elasticsearch:
           nodeSets:
             - name: default
-              count: 3
+              count: 1
               config:
                 node.store.allow_mmap: false
               podTemplate:
@@ -26,9 +26,9 @@ spec:
                     - name: elasticsearch
                       resources:
                         limits:
-                          memory: 2Gi
+                          memory: 1Gi
                         requests:
-                          memory: 2Gi
+                          memory: 1Gi
 
         eck-kibana:
           enabled: true
