@@ -133,12 +133,25 @@ data:
               target: _blank
 
 
-          - Loki:
-              icon: loki.png
+          - Elasticsearch:
+              icon: elasticsearch.png
               href: http://192.168.5.62:3100/metrics
-              description: Fully featured logging stack
+              description: Faster analytics, faster solutions
               target: _blank
 
+
+          - Logstash:
+              icon: elastic-logstash.png
+              href: http://192.168.5.62:3100/metrics
+              description: Faster analytics, faster solutions
+              target: _blank
+
+          - Kibana:
+              icon: elastic-kibana.png
+              href: http://192.168.5.62:3100/metrics
+              description: Faster analytics, faster solutions
+              target: _blank
+              
           - Longhorn:
               icon: longhorn.png
               href: http://longhorn.pnfb.home
