@@ -14,6 +14,8 @@ spec:
     targetRevision: 6.3.2
     helm:
       valuesObject:
+        resourcesPreset: "nano"
+
         persistence:
           enabled: true
           accessModes:
@@ -30,8 +32,6 @@ spec:
           hostname: logstash.70ld.home
           path: /
           ingressClassName: nginx
-
-        resourcesPreset: "small"
 
   syncPolicy:
     automated:
