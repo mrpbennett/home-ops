@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: elastic-stack
+    namespace: elasticsearch
   project: default
   source:
     chart: *chart-name
@@ -29,6 +29,7 @@ spec:
                           memory: 2Gi
                         requests:
                           memory: 2Gi
+
         eck-kibana:
           enabled: true
           spec:
@@ -39,6 +40,13 @@ spec:
               service:
                 spec:
                   type: LoadBalancer
+          ingress:
+            enabled: true
+            pathType: Prefix
+            hosts:
+              - host: "kibana.70ld.home"
+                path: "/"
+
         eck-beats:
           enabled: true
           spec:
