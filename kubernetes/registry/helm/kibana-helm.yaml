@@ -14,7 +14,7 @@ spec:
     targetRevision: 11.2.16
     helm:
       valuesObject:
-        persistance:
+        persistence:
           enabled: true
           accessModes:
             - ReadWriteOnce
@@ -34,7 +34,7 @@ spec:
         resourcesPreset: "small"
 
         elasticsearch:
-          host: elasticsearch-master-0
+          host: elasticsearch-master
           port: 920
 
   syncPolicy:
