@@ -36,7 +36,7 @@ spec:
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
-                      storage: 50Gi
+                      storage: 5Gi
 
         alertmanager:
           # ingress:
@@ -55,7 +55,7 @@ spec:
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
-                      storage: 10Gi
+                      storage: 5Gi
 
         kubelet:
           enabled: true
