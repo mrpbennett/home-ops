@@ -110,25 +110,25 @@ data:
 
           - PGAdmin:
               icon: postgres.png
-              href: http://pgadmin.pnfb.home
+              href: http://pgadmin.70ld.home
               description: PGAdmin for Postgres
               target: _blank
 
           - Redis:
               icon: redis.svg
-              href: http://redis-insight.pnfb.home
+              href: http://redis-insight.70ld.home
               description: World’s fastest data platform
               target: _blank
 
           - Grafana:
               icon: grafana.png
-              href: http://grafana.pnfb.home
+              href: http://grafana.70ld.home
               description: Managed observability platform
               target: _blank
 
           - Prometheus:
               icon: prometheus.png
-              href: http://prometheus.pnfb.home
+              href: http://prometheus.70ld.home
               description: Open-source monitoring system
               target: _blank
 
@@ -142,25 +142,25 @@ data:
 
           - Logstash:
               icon: elastic-logstash.png
-              href: http://192.168.5.62:3100/metrics
+              href: http://logstash.70ld.home/
               description: Faster analytics, faster solutions
               target: _blank
 
           - Kibana:
               icon: elastic-kibana.png
-              href: http://192.168.5.62:3100/metrics
+              href: http://kibana.70ld.home/
               description: Faster analytics, faster solutions
               target: _blank
-              
+
           - Longhorn:
               icon: longhorn.png
-              href: http://longhorn.pnfb.home
+              href: http://longhorn.70ld.home/
               description: Easy-to-use distributed block storage
               target: _blank
 
           - Code Server:
               icon: code.png
-              href: http://coder.pnfb.home
+              href: http://coder.70ld.home/
               description: VSC in the browser
               target: _blank
 

@@ -6,6 +6,9 @@ metadata:
   annotations:
     argocd.argoproj.io/compare-options: ServerSideDiff=true
 spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: monitoring
   project: default
   source:
     chart: kube-prometheus-stack
@@ -16,6 +19,12 @@ spec:
         namespaceOverride: "monitoring"
 
         prometheus:
+          ingress:
+            enabled: true
+            hostname: prometheus.70ld.home
+            path: /
+            ingressClassName: nginx
+
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false
             ruleSelectorNilUsesHelmValues: false
@@ -28,14 +37,14 @@ spec:
                   resources:
                     requests:
                       storage: 50Gi
-            resources:
-              requests:
-                cpu: 300m
-                memory: 2Gi
-              limits:
-                memory: 2Gi
 
         alertmanager:
+          ingress:
+            enabled: true
+            hostname: alertmanager.70ld.home
+            path: /
+            ingressClassName: nginx
+
           alertmanagerSpec:
             useExistingSecret: true
             configSecret: alertmanager-secret
@@ -47,13 +56,20 @@ spec:
                   resources:
                     requests:
                       storage: 10Gi
-        grafana:
-          persistence:
-            enabled: true
-            type: sts
-            storageClassName: longhorn
-            accessModes: ["ReadWriteOnce"]
-            size: 20Gi
+        # grafana:
+        #   ingress:
+        #     enabled: true
+        #     hostname: grafana.70ld.home
+        #     path: /
+        #     ingressClassName: nginx
+
+        #   persistence:
+        #     enabled: true
+        #     type: sts
+        #     storageClassName: longhorn
+        #     accessModes: ["ReadWriteOnce"]
+        #     size: 20Gi
+
         kubelet:
           enabled: true
           serviceMonitor:
@@ -117,9 +133,6 @@ spec:
         kubeProxy:
           enabled: false
 
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: monitoring
   syncPolicy:
     automated:
       prune: true
