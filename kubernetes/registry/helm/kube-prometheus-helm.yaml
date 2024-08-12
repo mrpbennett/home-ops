@@ -39,11 +39,11 @@ spec:
                       storage: 50Gi
 
         alertmanager:
-          ingress:
-            enabled: true
-            hostname: alertmanager.70ld.home
-            path: /
-            ingressClassName: nginx
+          # ingress:
+          #   enabled: true
+          #   hostname: alertmanager.70ld.home
+          #   path: /
+          #   ingressClassName: nginx
 
           alertmanagerSpec:
             useExistingSecret: true
