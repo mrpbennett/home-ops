@@ -56,7 +56,7 @@ spec:
               filebeat.inputs:
                 - type: log
                   paths:
-                    - /data/logstash-tutorial.log
+                    - /data/logstash.log
               processors:
                 - add_host_metadata: {}
                 - add_cloud_metadata: {}
@@ -74,7 +74,7 @@ spec:
                       args:
                         [
                           "-c",
-                          "curl -L https://download.elastic.co/demos/logstash/gettingstarted/logstash-tutorial.log.gz | gunzip -c > /data/logstash-tutorial.log",
+                          "curl -L https://download.elastic.co/demos/logstash/gettingstarted/logstash.log.gz | gunzip -c > /data/logstash.log",
                         ]
                       volumeMounts:
                         - name: data
