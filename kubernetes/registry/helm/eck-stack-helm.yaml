@@ -21,7 +21,7 @@ spec:
             enabled: true
             pathType: Prefix
             hosts:
-              - host: "kibana.70ld.home"
+              - host: "elasticsearch.70ld.home"
                 path: "/"
 
   syncPolicy:
