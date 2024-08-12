@@ -56,19 +56,6 @@ spec:
                   resources:
                     requests:
                       storage: 10Gi
-        # grafana:
-        #   ingress:
-        #     enabled: true
-        #     hostname: grafana.70ld.home
-        #     path: /
-        #     ingressClassName: nginx
-
-        #   persistence:
-        #     enabled: true
-        #     type: sts
-        #     storageClassName: longhorn
-        #     accessModes: ["ReadWriteOnce"]
-        #     size: 20Gi
 
         kubelet:
           enabled: true

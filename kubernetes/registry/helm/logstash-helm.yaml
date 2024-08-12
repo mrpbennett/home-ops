@@ -1,41 +1,41 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: &chart-name logstash
-  namespace: argocd
-spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: logstash
-  project: default
-  source:
-    chart: *chart-name
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 6.3.2
-    helm:
-      valuesObject:
-        resourcesPreset: "nano"
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: &chart-name logstash
+#   namespace: argocd
+# spec:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: logstash
+#   project: default
+#   source:
+#     chart: *chart-name
+#     repoURL: https://charts.bitnami.com/bitnami
+#     targetRevision: 6.3.2
+#     helm:
+#       valuesObject:
+#         resourcesPreset: "nano"
 
-        persistence:
-          enabled: true
-          accessModes:
-            - ReadWriteOnce
-          size: 2Gi
+#         persistence:
+#           enabled: true
+#           accessModes:
+#             - ReadWriteOnce
+#           size: 2Gi
 
-        service:
-          ports:
-            http: 5601
-          type: LoadBalancer
+#         service:
+#           ports:
+#             http: 5601
+#           type: LoadBalancer
 
-        ingress:
-          enabled: true
-          hostname: logstash.70ld.home
-          path: /
-          ingressClassName: nginx
+#         ingress:
+#           enabled: true
+#           hostname: logstash.70ld.home
+#           path: /
+#           ingressClassName: nginx
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
