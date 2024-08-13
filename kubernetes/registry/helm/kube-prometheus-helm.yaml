@@ -18,6 +18,26 @@ spec:
       valuesObject:
         namespaceOverride: "monitoring"
 
+        # PROMETHEUS
+        prometheus:
+          service:
+            type: LoadBalancer
+
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - prometheus.70ld.home
+
+        # GRAFANA
+        grafana:
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - grafana.70ld.home
+            path: /
+
   syncPolicy:
     automated:
       prune: true
