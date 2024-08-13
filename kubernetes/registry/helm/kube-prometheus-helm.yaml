@@ -32,6 +32,7 @@ spec:
 
         # GRAFANA
         grafana:
+          adminPassword: password
           ingress:
             enabled: true
             ingressClassName: nginx
