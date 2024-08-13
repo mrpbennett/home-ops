@@ -1,225 +1,227 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: homepage
-  namespace: homepage-dashboard
-  labels:
-    app.kubernetes.io/name: homepage
+    name: homepage
+    namespace: homepage-dashboard
+    labels:
+        app.kubernetes.io/name: homepage
 data:
-  kubernetes.yaml: |
-    mode: cluster
-  settings.yaml: |
-    title: homelab | 70ld.dev
+    kubernetes.yaml: |
+        mode: cluster
+    settings.yaml: |
+        title: homelab | 70ld.dev
 
-    theme: dark
-    color: slate
+        theme: dark
+        color: slate
 
-    layout:
-      Google:
-        style: row
-        columns: 4
+        layout:
+          Google:
+            style: row
+            columns: 4
 
-      Servers:
-        style: row
-        columns: 3
+          Servers:
+            style: row
+            columns: 3
 
-      Network:
-        style: row
-        columns: 3
+          Network:
+            style: row
+            columns: 3
 
-      Applications:
-        style: row
-        columns: 4
+          Applications:
+            style: row
+            columns: 4
 
-  custom.css: ""
-  custom.js: ""
-  bookmarks.yaml: |
-    - Links:
-      - Virgin Media:
-          - icon: reddit.png
-            href: http://192.168.100.1/
-            description: ISP router
-      - Github:
-          - icon: github.png
-            href: https://github.com/mrpbennett/home-ops
-            description: Homelab repo
-      - My Site:
-          - icon: nginx.png
-            href: https://mrpbennett.dev
-            description: Personal site
+    custom.css: |
+        #bookmarks { display: hidden;}
 
-  services.yaml: |
-    - Google:
-      - Gmail:
-          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google.svg
-          href: https://mail.google.com/mail/u/0/#inbox
-          target: _blank
-      - Gcal:
-          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google-calendar.svg
-          href: https://calendar.google.com/calendar/u/0
-          target: _blank
-      - Google Cloud:
-          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google-cloud-platform.svg
-          href: https://console.cloud.google.com/welcome?authuser=1
-          target: _blank
-      - Looker Studio:
-          icon: https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg
-          href: https://lookerstudio.google.com/u/0/navigation/reporting
-          target: _blank
+    custom.js: ""
+    bookmarks.yaml: |
+        - Links:
+          - Virgin Media:
+              - icon: reddit.png
+                href: http://192.168.100.1/
+                description: ISP router
+          - Github:
+              - icon: github.png
+                href: https://github.com/mrpbennett/home-ops
+                description: Homelab repo
+          - My Site:
+              - icon: nginx.png
+                href: https://mrpbennett.dev
+                description: Personal site
 
-    - Servers:
-      - Proxmox:
-          icon: proxmox.png
-          href: https://192.168.7.1:8006
-          description: HyperVisor
-          ping: 192.168.7.1
-          target: _blank
+    services.yaml: |
+        - Google:
+          - Gmail:
+              icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google.svg
+              href: https://mail.google.com/mail/u/0/#inbox
+              target: _blank
+          - Gcal:
+              icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google-calendar.svg
+              href: https://calendar.google.com/calendar/u/0
+              target: _blank
+          - Google Cloud:
+              icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/google-cloud-platform.svg
+              href: https://console.cloud.google.com/welcome?authuser=1
+              target: _blank
+          - Looker Studio:
+              icon: https://www.gstatic.com/analytics-lego/svg/ic_looker_studio.svg
+              href: https://lookerstudio.google.com/u/0/navigation/reporting
+              target: _blank
 
-      - WesternDigital Cloud:
-          icon: truenas.png
-          href: http://192.168.4.110
-          description: WD Cloud
-          ping: 192.168.4.110
-          target: _blank
+        - Servers:
+          - Proxmox:
+              icon: proxmox.png
+              href: https://192.168.7.1:8006
+              description: HyperVisor
+              ping: 192.168.7.1
+              target: _blank
 
-      - Docker Registry:
-          icon: docker.png
-          href: http://192.168.7.210:5000/v2/_catalog
-          description: Self hosted registry
-          ping: 192.168.7.210
-          target: _blank
+          - WesternDigital Cloud:
+              icon: truenas.png
+              href: http://192.168.4.110
+              description: WD Cloud
+              ping: 192.168.4.110
+              target: _blank
 
-    - Applications:
-      - Kubernetes:
-          icon: kubernetes.png
-          href: http://192.168.5.55
-          description: Container orchestration
-          target: _blank
+          - Docker Registry:
+              icon: docker.png
+              href: http://192.168.7.210:5000/v2/_catalog
+              description: Self hosted registry
+              ping: 192.168.7.210
+              target: _blank
 
-      - ArgoCD:
-          icon: argocd.png
-          href: https://192.168.5.50
-          description: GitOps for Kubernetes
-          target: _blank
+        - Applications:
+          - Kubernetes:
+              icon: kubernetes.png
+              href: http://192.168.5.55
+              description: Container orchestration
+              target: _blank
 
-      - PGAdmin:
-          icon: postgres.png
-          href: http://pgadmin.70ld.home
-          description: PGAdmin for Postgres
-          target: _blank
+          - ArgoCD:
+              icon: argocd.png
+              href: https://192.168.5.50
+              description: GitOps for Kubernetes
+              target: _blank
 
-      - Redis:
-          icon: redis.svg
-          href: http://redis-insight.70ld.home
-          description: World’s fastest data platform
-          target: _blank
+          - PGAdmin:
+              icon: postgres.png
+              href: http://pgadmin.70ld.home
+              description: PGAdmin for Postgres
+              target: _blank
 
-      - Grafana:
-          icon: grafana.png
-          href: http://grafana.70ld.home
-          description: Managed observability platform
-          target: _blank
+          - Redis:
+              icon: redis.svg
+              href: http://redis-insight.70ld.home
+              description: World’s fastest data platform
+              target: _blank
 
-      - Prometheus:
-          icon: prometheus.png
-          href: http://prometheus.70ld.home
-          description: Open-source monitoring system
-          target: _blank
+          - Grafana:
+              icon: grafana.png
+              href: http://grafana.70ld.home
+              description: Managed observability platform
+              target: _blank
 
-      - Longhorn:
-          icon: longhorn.png
-          href: http://longhorn.70ld.home/
-          description: Easy-to-use distributed block storage
-          target: _blank
+          - Prometheus:
+              icon: prometheus.png
+              href: http://prometheus.70ld.home
+              description: Open-source monitoring system
+              target: _blank
 
-      - Code Server:
-          icon: code.png
-          href: http://coder.70ld.home/
-          description: VSC in the browser
-          target: _blank
+          - Longhorn:
+              icon: longhorn.png
+              href: http://longhorn.70ld.home/
+              description: Easy-to-use distributed block storage
+              target: _blank
 
-      - Elasticsearch:
-          icon: elasticsearch.png
-          href: http://192.168.5.62:3100/metrics
-          description: Faster analytics, faster solutions
-          target: _blank
+          - Code Server:
+              icon: code.png
+              href: http://coder.70ld.home/
+              description: VSC in the browser
+              target: _blank
 
-
-      - Logstash:
-          icon: elastic-logstash.png
-          href: http://logstash.70ld.home/
-          description: Faster analytics, faster solutions
-          target: _blank
-
-      - Kibana:
-          icon: elastic-kibana.png
-          href: http://kibana.70ld.home/
-          description: Faster analytics, faster solutions
-          target: _blank
+          - Elasticsearch:
+              icon: elasticsearch.png
+              href: http://192.168.5.62:3100/metrics
+              description: Faster analytics, faster solutions
+              target: _blank
 
 
-      - Cloudflare:
-          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/cloudflare.svg
-          href: https://dash.cloudflare.com/5a2fb936e1a58d410c2a9ab8cf7e5ec3
-          description: Domain and network tunnel
-          target: _blank
+          - Logstash:
+              icon: elastic-logstash.png
+              href: http://logstash.70ld.home/
+              description: Faster analytics, faster solutions
+              target: _blank
 
-      - Tailscale:
-          icon: tailscale.svg
-          href: https://login.tailscale.com/admin/machines
-          description: Zero config VPN
-          target: _blank
-
-      - Home Assistant:
-          icon: home-assistant.svg
-          href: http://192.168.7.210:8123
-          description: Home automation
-          target: _blank
-          
-      - Portainer:
-          icon: portainer.svg
-          href: https://192.168.7.210:9443
-          description: Docker container mangement
-          target: _blank
+          - Kibana:
+              icon: elastic-kibana.png
+              href: http://kibana.70ld.home/
+              description: Faster analytics, faster solutions
+              target: _blank
 
 
+          - Cloudflare:
+              icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/cloudflare.svg
+              href: https://dash.cloudflare.com/5a2fb936e1a58d410c2a9ab8cf7e5ec3
+              description: Domain and network tunnel
+              target: _blank
 
-    - Network:
+          - Tailscale:
+              icon: tailscale.svg
+              href: https://login.tailscale.com/admin/machines
+              description: Zero config VPN
+              target: _blank
 
-      - PiHole 1:
-          icon: pi-hole.png
-          href: http://pihole.pnfb.home/admin
-          description: Network Adblocking
-          ping: 192.168.4.2
-          target: _blank
-          widget:
-              type: pihole
-              url: http://192.168.4.2
-              key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
+          - Home Assistant:
+              icon: home-assistant.svg
+              href: http://192.168.7.210:8123
+              description: Home automation
+              target: _blank
+              
+          - Portainer:
+              icon: portainer.svg
+              href: https://192.168.7.210:9443
+              description: Docker container mangement
+              target: _blank
 
-      - Unifi:
-          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/unifi.svg
-          href: https://unifi.host.or.ip:port
-          description: Network Management
-          target: _blank
-          # widget:
-          #   type: unifi
-          #   url: https://unifi.host.or.ip:port
-          #   username: username
-          #   password: password
-          #   site: Site Name # optional
-          
 
-      - PiHole 2:
-          icon: pi-hole.png
-          href: http://192.168.4.3/admin
-          description: Network Adblocking
-          ping: 192.168.4.3
-          target: _blank
-          widget:
-              type: pihole
-              url: http://192.168.4.3
-              key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
 
-  widgets.yaml: ""
-  docker.yaml: ""
+        - Network:
+
+          - PiHole 1:
+              icon: pi-hole.png
+              href: http://pihole.pnfb.home/admin
+              description: Network Adblocking
+              ping: 192.168.4.2
+              target: _blank
+              widget:
+                  type: pihole
+                  url: http://192.168.4.2
+                  key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
+
+          - Unifi:
+              icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/unifi.svg
+              href: https://unifi.host.or.ip:port
+              description: Network Management
+              target: _blank
+              # widget:
+              #   type: unifi
+              #   url: https://unifi.host.or.ip:port
+              #   username: username
+              #   password: password
+              #   site: Site Name # optional
+              
+
+          - PiHole 2:
+              icon: pi-hole.png
+              href: http://192.168.4.3/admin
+              description: Network Adblocking
+              ping: 192.168.4.3
+              target: _blank
+              widget:
+                  type: pihole
+                  url: http://192.168.4.3
+                  key: 3520250f7c1621b4bc5a3e2b0b465de5f29309ac50d3100f2d7663fb00b16dc1
+
+    widgets.yaml: ""
+    docker.yaml: ""
