@@ -28,6 +28,7 @@ spec:
             ingressClassName: nginx
             hosts:
               - prometheus.70ld.home
+            path: /
 
         # GRAFANA
         grafana:
