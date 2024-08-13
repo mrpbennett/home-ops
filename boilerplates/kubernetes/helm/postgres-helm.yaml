@@ -4,6 +4,9 @@ metadata:
   name: postgres-db
   namespace: argocd
 spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: postgres-db
   project: default
   source:
     chart: postgresql
@@ -11,22 +14,51 @@ spec:
     targetRevision: 15.5.17
     helm:
       valuesObject:
-        # PostgreSQL common parameters
-        auth:
-          username: postgres
-          password: postgres
+        # Global parameters
+        global:
+          defaultStorageClass: longhorn
 
-        # PostgreSQL Primary parameters
+        # Auth parameters
+        auth:
+          enablePostgresUser: true
+          postgresPassword: password
+          username: postgres
+          password: password
+          database: postgres
+
+          replicationUsername: repl_user
+          replicationPassword: password
+
+        # Primary parameters
         primary:
           service:
             type: LoadBalancer
 
-        persistence:
-          size: 10Gi
+          persistence:
+            enabled: true
+            accessMode:
+              - ReadWriteOnce
+            size: 8Gi
 
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: postgres-db
+        # readReplicas parameters
+        readReplicas:
+          service:
+            type: LoadBalancer
+
+          persistence:
+            enabled: true
+            accessMode:
+              - ReadWriteOnce
+            size: 8Gi
+
+        # Metric exporter parameters
+        metrics:
+          enabled: true
+
+          serviceMonitor:
+            enabled: true
+            namespace: monitoring
+
   syncPolicy:
     automated:
       prune: true
