@@ -4,6 +4,9 @@ metadata:
   name: &chart-name coder-db
   namespace: argocd
 spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: *chart-name
   project: default
   source:
     chart: *chart-name
@@ -17,9 +20,6 @@ spec:
         #   database: coder
         # persistence:
         #   size: 10Gi
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: coder
   syncPolicy:
     automated:
       prune: true
