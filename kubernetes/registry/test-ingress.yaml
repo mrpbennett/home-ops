@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: k3s
+  project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
     path: kubernetes/apps/test-ingress

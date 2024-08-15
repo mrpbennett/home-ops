@@ -7,7 +7,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ingress-nginx
-  project: k3s
+  project: default
   source:
     chart: ingress-nginx
     helm:
