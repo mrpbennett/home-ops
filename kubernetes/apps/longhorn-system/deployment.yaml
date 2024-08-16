@@ -34,6 +34,13 @@ spec:
         - name: longhorn-driver-deployer
           image: longhornio/longhorn-manager:v1.6.1
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "100m" # 0.1 CPU
+              memory: "128Mi" # 128 MiB of memory
+            limits:
+              cpu: "500m" # 0.5 CPU
+              memory: "512Mi" # 512 MiB of memory
           command:
             - longhorn-manager
             - -d
@@ -113,6 +120,13 @@ spec:
         - name: longhorn-ui
           image: longhornio/longhorn-ui:v1.6.1
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "100m" # 0.1 CPU
+              memory: "128Mi" # 128 MiB of memory
+            limits:
+              cpu: "500m" # 0.5 CPU
+              memory: "512Mi" # 512 MiB of memory
           volumeMounts:
             - name: nginx-cache
               mountPath: /var/cache/nginx/
