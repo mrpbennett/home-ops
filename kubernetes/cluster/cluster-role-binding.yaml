@@ -1,3 +1,4 @@
+# K3S USER
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -5,6 +6,20 @@ metadata:
 subjects:
   - kind: User
     name: "admin@k3s-cluster"
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+# TAILSCALE USER
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-admin-binding-mrpbennett
+subjects:
+  - kind: User
+    name: mrpbennett@github # Tailscale user
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
