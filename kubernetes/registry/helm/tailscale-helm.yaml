@@ -15,11 +15,16 @@ spec:
     helm:
       valuesObject:
         oauth:
-          clientId: "kCLnJyS3dd11CNTRL"
-          clientSecret: "tskey-client-kCLnJyS3dd11CNTRL-1P9nwLcTojPP2yxKX7M9kP7CnWfj8xsXe"
+          clientId: "kcBxGEekLS11CNTRL"
+          clientSecret: "tskey-client-kcBxGEekLS11CNTRL-o3Xv4s8n4fRoDBTdTVZseRVifqYFZ6yE"
+
+        operatorConfig:
+          defaultTags:
+            - "tag:k8s-operator"
+          logging: debug
 
         apiServerProxyConfig:
-          mode: "noauth"
+          mode: "true"
 
   syncPolicy:
     automated:
