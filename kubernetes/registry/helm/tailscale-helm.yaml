@@ -18,6 +18,9 @@ spec:
           clientId: "kCLnJyS3dd11CNTRL"
           clientSecret: "tskey-client-kCLnJyS3dd11CNTRL-1P9nwLcTojPP2yxKX7M9kP7CnWfj8xsXe"
 
+        apiServerProxyConfig:
+          mode: "noauth"
+
   syncPolicy:
     automated:
       prune: true
