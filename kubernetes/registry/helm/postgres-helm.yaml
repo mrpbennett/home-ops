@@ -1,69 +1,80 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: postgres
-#   namespace: argocd
-# spec:
-#   destination:
-#     server: "https://kubernetes.default.svc"
-#     namespace: postgres
-#   project: default
-#   source:
-#     chart: postgresql
-#     repoURL: https://charts.bitnami.com/bitnami
-#     targetRevision: 15.5.17
-#     helm:
-#       valuesObject:
-#         # Global parameters
-#         global:
-#           defaultStorageClass: longhorn
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: postgres
+  project: default
+  source:
+    chart: postgresql
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 15.5.17
+    helm:
+      valuesObject:
+        # Global parameters
+        global:
+          defaultStorageClass: longhorn
 
-#         # Auth parameters
-#         auth:
-#           enablePostgresUser: true
-#           postgresPassword: password
-#           username: postgres
-#           password: password
-#           database: postgres
+        # Auth parameters
+        auth:
+          enablePostgresUser: true
+          postgresPassword: password
+          username: postgres
+          password: password
+          database: postgres
 
-#           replicationUsername: repl_user
-#           replicationPassword: password
+          replicationUsername: repl_user
+          replicationPassword: password
 
-#         # Primary parameters
-#         primary:
-#           resourcesPreset: nano
-#           service:
-#             type: LoadBalancer
+        # Primary parameters
+        primary:
+          resourcesPreset: nano
+          service:
+            type: LoadBalancer
 
-#           persistence:
-#             enabled: true
-#             accessMode:
-#               - ReadWriteOnce
-#             size: 8Gi
+          persistence:
+            enabled: true
+            accessMode:
+              - ReadWriteOnce
+            size: 5Gi
 
-#         # readReplicas parameters
-#         readReplicas:
-#           resourcesPreset: nano
-#           service:
-#             type: LoadBalancer
+        # readReplicas parameters
+        readReplicas:
+          resourcesPreset: nano
+          service:
+            type: LoadBalancer
 
-#           persistence:
-#             enabled: true
-#             accessMode:
-#               - ReadWriteOnce
-#             size: 8Gi
+          persistence:
+            enabled: true
+            accessMode:
+              - ReadWriteOnce
+            size: 5Gi
 
-#         # Metric exporter parameters
-#         metrics:
-#           enabled: true
+        # Backup parameters
+        backup:
+          enabled: true
+          cronjob:
+            schedule: "@daily"
+            resourcesPreset: nano
+            storage:
+              storageClass: longhorn
+              size: 5Gi
 
-#           serviceMonitor:
-#             enabled: true
-#             namespace: monitoring
+        # Metric exporter parameters
+        metrics:
+          enabled: true
+          resourcesPreset: nano
 
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+          serviceMonitor:
+            enabled: true
+            namespace: monitoring
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
