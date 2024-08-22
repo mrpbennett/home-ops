@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: 70ld-site
+  name: sevenzerold-site
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: 70ld-site
+      app: sevenzerold-site
   template:
     metadata:
       labels:
-        app: 70ld-site
+        app: sevenzerold-site
     spec:
       containers:
-        - name: 70ld-site
+        - name: sevenzerold-site
           image: 192.168.7.210:5000/70ld-site:0.0.1
           resources:
             limits:
@@ -25,10 +25,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: 70ld-site-svc
+  name: sevenzerold-site-svc
 spec:
   selector:
-    app: 70ld-site
+    app: sevenzerold-site
   ports:
     - port: 80
       targetPort: 80
