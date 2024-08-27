@@ -29,6 +29,7 @@ metadata:
 spec:
   selector:
     app: sevenzerold-site
+    type: LoadBalancer
   ports:
     - port: 80
       targetPort: 80
