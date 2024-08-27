@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sevenzerold-site
+  namespace: websites
 spec:
   replicas: 1
   selector:
@@ -21,15 +22,3 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sevenzerold-site-svc
-spec:
-  selector:
-    app: sevenzerold-site
-    type: LoadBalancer
-  ports:
-    - port: 80
-      targetPort: 80
