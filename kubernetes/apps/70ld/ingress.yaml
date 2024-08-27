@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: longhorn.70ld.home
+    - host: 70ld.home
       http:
         paths:
           - path: /
