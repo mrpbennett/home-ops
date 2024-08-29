@@ -1,3 +1,4 @@
+# ELASTICSEARCH
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -10,45 +11,34 @@ spec:
   project: default
   source:
     chart: elasticsearch
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 21.3.6
+    repoURL: https://helm.elastic.co
+    targetRevision: 8.5.1
     helm:
       valuesObject:
-        ## @section Global parameters
-        global:
-          defaultStorageClass: longhorn
+        replicas: 1
 
-        ## Elasticsearch service parameters
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "1Gi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+
         service:
           type: LoadBalancer
 
-        ## Elasticsearch ingress parameters
         ingress:
           enabled: true
-          ingressClassName: nginx
-          hostname: elastic.70ld.home
-          path: /
+          className: nginx
+          hosts:
+            - host: elasticsearch.70ld.home
+              paths:
+                - /
 
-        ## @section Master-elegible nodes parameters
-        master:
-          replicaCount: 1
-          resourcesPreset: micro
-
-          persistence:
-            storageClass: longhorn
-            size: 6Gi
-
-        ## @section Data-only nodes parameters
-        data:
-          replicaCount: 1
-
-        ## @section Coordinating-only nodes parameters
-        coordinating:
-          replicaCount: 1
-
-        ## @section Ingest-only nodes parameters
-        ingest:
-          replicaCount: 1
+        networkPolicy:
+          http:
+            enabled: true
 
   syncPolicy:
     automated:
@@ -57,6 +47,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
+# LOGSTASH
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -69,18 +60,33 @@ spec:
   project: default
   source:
     chart: logstash
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 6.3.2
+    repoURL: https://helm.elastic.co
+    targetRevision: 8.5.1
     helm:
       valuesObject:
+        replicas: 1
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "1536Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1536Mi"
+
         service:
           type: LoadBalancer
 
         ingress:
           enabled: true
-          ingressClassName: nginx
-          hostname: logstash.70ld.home
-          path: /
+          className: nginx
+          hosts:
+            - host: logstash.70ld.home
+              paths:
+                - path: /beats
+                  servicePort: 5044
+                - path: /http
+                  servicePort: 8080
 
   syncPolicy:
     automated:
@@ -89,6 +95,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
+# KIBANA
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -97,22 +104,48 @@ metadata:
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: tailscale
+    namespace: elk-stack
   project: default
   source:
     chart: kibana
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 11.2.16
+    repoURL: https://helm.elastic.co
+    targetRevision: 8.5.1
     helm:
       valuesObject:
+        elasticsearchHosts: "http://elasticsearch-master:9200"
+        elasticsearchCertificateSecret: elasticsearch-master-certs
+        elasticsearchCertificateAuthoritiesFile: ca.crt
+        elasticsearchCredentialSecret: elasticsearch-master-credentials
+
+        replicas: 1
+
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "1Gi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+
+        protocol: http
+        serverHost: "0.0.0.0"
+        healthCheckPath: "/app/kibana"
+
+        kibanaConfig:
+          kibana.yml: |
+            key:
+              nestedkey: value
+
         service:
           type: LoadBalancer
 
         ingress:
           enabled: true
-          ingressClassName: nginx
-          hostname: kibana.70ld.home
-          path: /
+          className: nginx
+          hosts:
+            - host: kibana.70ld.home
+              paths:
+                - path: /
 
   syncPolicy:
     automated:

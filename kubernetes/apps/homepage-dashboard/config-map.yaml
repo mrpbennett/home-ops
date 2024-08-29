@@ -142,7 +142,7 @@ data:
 
           - Elasticsearch:
               icon: elasticsearch.png
-              href: http://192.168.5.62:3100/metrics
+              href: http://elastic.70ld.home/
               description: Faster analytics, faster solutions
               target: _blank
 
