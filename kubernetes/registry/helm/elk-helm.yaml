@@ -1,50 +1,20 @@
-# ELASTICSEARCH
+# ECK-OPERATOR
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: elasticsearch
+  name: eck-operator
   namespace: argocd
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: elk-stack
+    namespace: elastic-system
   project: default
   source:
-    chart: elasticsearch
+    chart: eck-operator
     repoURL: https://helm.elastic.co
-    targetRevision: 8.5.1
-    helm:
-      valuesObject:
-        replicas: 1
-
-        resources:
-          requests:
-            cpu: "1000m"
-            memory: "1Gi"
-          limits:
-            cpu: "1000m"
-            memory: "2Gi"
-
-        volumeClaimTemplate:
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 5Gi
-
-        service:
-          type: LoadBalancer
-
-        ingress:
-          enabled: true
-          className: nginx
-          hosts:
-            - host: elasticsearch.70ld.home
-              paths:
-                - path: /
-
-        networkPolicy:
-          http:
-            enabled: true
+    targetRevision: 2.14.0
+    # helm:
+    #   valuesObject:
 
   syncPolicy:
     automated:
@@ -53,114 +23,28 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
-# LOGSTASH
+# ECK-STACK
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: logstash
+  name: eck-stack
   namespace: argocd
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: elk-stack
+    namespace: elastic-system
   project: default
   source:
-    chart: logstash
+    chart: eck-stack
     repoURL: https://helm.elastic.co
-    targetRevision: 8.5.1
+    targetRevision: 0.12.0
     helm:
       valuesObject:
-        replicas: 1
-
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "1536Mi"
-          limits:
-            cpu: "1000m"
-            memory: "1536Mi"
-
-        service:
-          type: LoadBalancer
-          ports:
-            - name: beats
-              port: 5044
-              protocol: TCP
-              targetPort: 5044
-            - name: http
-              port: 8080
-              protocol: TCP
-              targetPort: 8080
-
-        ingress:
+        eck-elasticsearch:
           enabled: true
-          className: nginx
-          hosts:
-            - host: logstash.70ld.home
-              paths:
-                - path: /beats
-                  servicePort: 5044
-                - path: /http
-                  servicePort: 8080
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
----
-# KIBANA
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: kibana
-  namespace: argocd
-spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: elk-stack
-  project: default
-  source:
-    chart: kibana
-    repoURL: https://helm.elastic.co
-    targetRevision: 8.5.1
-    helm:
-      valuesObject:
-        elasticsearchHosts: "http://elasticsearch-master:9200"
-        elasticsearchCertificateSecret: elasticsearch-master-certs
-        elasticsearchCertificateAuthoritiesFile: ca.crt
-        elasticsearchCredentialSecret: elasticsearch-master-credentials
-
-        replicas: 1
-
-        resources:
-          requests:
-            cpu: "1000m"
-            memory: "1Gi"
-          limits:
-            cpu: "1000m"
-            memory: "2Gi"
-
-        protocol: http
-        serverHost: "0.0.0.0"
-        healthCheckPath: "/app/kibana"
-
-        kibanaConfig:
-          kibana.yml: |
-            key:
-              nestedkey: value
-
-        service:
-          type: LoadBalancer
-
-        ingress:
+        eck-kibana:
           enabled: true
-          className: nginx
-          hosts:
-            - host: kibana.70ld.home
-              paths:
-                - path: /
 
   syncPolicy:
     automated:
