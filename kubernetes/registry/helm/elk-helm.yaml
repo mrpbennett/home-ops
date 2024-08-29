@@ -14,14 +14,41 @@ spec:
     targetRevision: 21.3.6
     helm:
       valuesObject:
+        ## @section Global parameters
+        global:
+          defaultStorageClass: longhorn
+
+        ## Elasticsearch service parameters
         service:
           type: LoadBalancer
 
+        ## Elasticsearch ingress parameters
         ingress:
           enabled: true
           ingressClassName: nginx
           hostname: elastic.70ld.home
           path: /
+
+        ## @section Master-elegible nodes parameters
+        master:
+          replicaCount: 1
+          resourcesPreset: micro
+
+          persistence:
+            storageClass: longhorn
+            size: 6Gi
+
+        ## @section Data-only nodes parameters
+        data:
+          replicaCount: 1
+
+        ## @section Coordinating-only nodes parameters
+        coordinating:
+          replicaCount: 1
+
+        ## @section Ingest-only nodes parameters
+        ingest:
+          replicaCount: 1
 
   syncPolicy:
     automated:
