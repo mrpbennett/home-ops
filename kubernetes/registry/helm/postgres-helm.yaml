@@ -55,9 +55,9 @@ spec:
 
         # Backup parameters
         backup:
-          enabled: true
+          enabled: false
           cronjob:
-            schedule: "@daily"
+            schedule: "@monthly"
             resourcesPreset: nano
             storage:
               storageClass: longhorn

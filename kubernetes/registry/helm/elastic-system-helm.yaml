@@ -79,6 +79,11 @@ spec:
 
         eck-kibana:
           enabled: true
+          spec:
+            count: 1
+            elasticsearchRef:
+              name: eck-elasticsearch
+              namespace: elastic-system
 
           ingress:
             enabled: true
@@ -89,6 +94,11 @@ spec:
 
         eck-logstash:
           enabled: true
+          count: 1
+
+          elasticsearchRefs:
+            - namespace: elastic-system
+              name: eck-elasticsearch
 
   syncPolicy:
     automated:
