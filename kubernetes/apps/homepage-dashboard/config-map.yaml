@@ -180,11 +180,9 @@ data:
               
           - Portainer:
               icon: portainer.svg
-              href: https://192.168.7.210:9443
+              href: https://192.168.7.106:9443
               description: Docker container mangement
               target: _blank
-
-
 
         - Network:
 
