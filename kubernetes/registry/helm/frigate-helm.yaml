@@ -1,0 +1,68 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frigate_nvr
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: frigate
+  project: default
+  source:
+    chart: frigate
+    repoURL: https://blakeblackshear.github.io/blakeshome-charts
+    targetRevision: 7.5.1
+    helm:
+      valuesObject:
+        mqtt:
+          enabled: False
+
+        cameras:
+          dummy_camera: # <--- this will be changed to your actual camera later
+            enabled: False
+            ffmpeg:
+              inputs:
+                - path: rtsp://127.0.0.1:554/rtsp
+                  roles:
+                    - detect
+
+        service:
+          type: LoadBalancer
+          port: 5000
+
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          hosts:
+            host: frigate.70ld.dev
+            paths:
+              - /
+
+        persistance:
+          data:
+            enabled: true
+            accessMode: ReadWriteOnce
+            size: 10Gi
+
+          config:
+            enabled: true
+            storageClass: longhorn
+            accessMode: ReadWriteOnce
+            size: 100Mi
+
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+            gpu.intel.com/i915: 1
+          requests:
+            cpu: 100m
+            memory: 128Mi
+            gpu.intel.com/i915: 1
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
