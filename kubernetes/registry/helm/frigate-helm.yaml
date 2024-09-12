@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: frigate_nvr
+  name: frigate
   namespace: argocd
 spec:
   destination:
