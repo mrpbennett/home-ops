@@ -34,7 +34,7 @@ spec:
           enabled: true
           ingressClassName: nginx
           hosts:
-            host: frigate.70ld.dev
+            host: frigate.70ld.home
             paths:
               - /
 
