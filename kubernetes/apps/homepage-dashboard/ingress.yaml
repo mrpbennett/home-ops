@@ -4,10 +4,9 @@ metadata:
   name: homepage-ingress
   namespace: homepage-dashboard
   annotations:
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
-
 spec:
-  ingressClassName: nginx
   rules:
     - host: homepage.70ld.home
       http:

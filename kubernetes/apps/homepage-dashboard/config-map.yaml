@@ -177,6 +177,12 @@ data:
               href: http://192.168.7.216:8123
               description: Home automation
               target: _blank
+
+          - Scrypted:
+              icon: https://www.scrypted.app/images/web_hi_res_512.png
+              href: https://192.168.7.113:10443/endpoint/@scrypted/core/public/#/device
+              description: High performance NVR
+              target: _blank
               
           - Portainer:
               icon: portainer.svg
