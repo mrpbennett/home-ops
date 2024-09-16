@@ -96,12 +96,6 @@ data:
           target: _blank
 
     - Kubernetes:
-      - Kubernetes:
-          icon: kubernetes.png
-          href: http://192.168.5.55
-          description: Container orchestration
-          target: _blank
-
       - ArgoCD:
           icon: argocd.png
           href: https://192.168.5.50
