@@ -118,7 +118,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
       containers:
         - name: longhorn-ui
-          image: longhornio/longhorn-ui:v1.6.1
+          image: longhornio/longhorn-ui:v1.7.1
           imagePullPolicy: IfNotPresent
           resources:
             requests:
