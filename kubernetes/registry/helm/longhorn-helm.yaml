@@ -26,6 +26,10 @@ spec:
 
         ingress:
           enabled: true
+          host: longhorn.70ld.home
+          path: /
+          annotations:
+            kubernetes.io/ingress.class: nginx
 
   syncPolicy:
     automated:
