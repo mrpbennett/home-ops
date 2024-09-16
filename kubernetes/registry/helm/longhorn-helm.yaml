@@ -18,6 +18,9 @@ spec:
           ui:
             type: LoadBalancer
 
+        preUpgradeChecker:
+          jobEnabled: false
+
         LonghornUI:
           replicas: 1
 
