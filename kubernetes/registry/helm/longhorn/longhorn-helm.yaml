@@ -18,6 +18,12 @@ spec:
           ui:
             type: LoadBalancer
 
+        LonghornUI:
+          replicas: 1
+
+        ingress:
+          enabled: true
+
   syncPolicy:
     automated:
       prune: true
