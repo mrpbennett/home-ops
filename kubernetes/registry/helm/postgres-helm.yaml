@@ -7,7 +7,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: postgres
-  project: default
+  project: k3s
   source:
     chart: postgresql
     repoURL: https://charts.bitnami.com/bitnami

@@ -19,5 +19,4 @@ disable:
   - "servicelb"
 
 node-taint:
-  - "node-role.kubernetes.io/control-plane=true:NoSchedule"
   - "node.kubernetes.io/unreachable=true:NoExecute"

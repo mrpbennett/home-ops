@@ -7,7 +7,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: longhorn-system
-  project: default
+  project: k3s
   source:
     chart: longhorn
     repoURL: https://charts.longhorn.io
@@ -27,9 +27,12 @@ spec:
           defaultClassReplicaCount: 3
           reclaimPolicy: Delete
 
+        defaultSettings:
+          defaultDataPath: /var/lib/longhorn
+
         preUpgradeChecker:
           jobEnabled: false
-          upgradeVersionCheck: true
+          upgradeVersionCheck: false
 
         LonghornUI:
           replicas: 1
