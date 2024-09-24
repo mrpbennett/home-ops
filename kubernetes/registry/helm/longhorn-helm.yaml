@@ -34,7 +34,6 @@ spec:
 
         defaultSettings:
           guaranteedInstanceManagerCPU: 10
-          backupTarget: nfs://192.168.4.110/nfs/longhorn
           defaultReplicaCount: 1
 
         LonghornUI:
