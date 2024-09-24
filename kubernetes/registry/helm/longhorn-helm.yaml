@@ -20,6 +20,7 @@ spec:
         service:
           ui:
             type: LoadBalancer
+            nodePort: 31047
 
         persistance:
           defaultClass: true
@@ -30,6 +31,11 @@ spec:
         preUpgradeChecker:
           jobEnabled: false
           upgradeVersionCheck: false
+
+        defaultSettings:
+          guaranteedInstanceManagerCPU: 10
+          backupTarget: NFS
+          defaultReplicaCount: 1
 
         LonghornUI:
           replicas: 1
