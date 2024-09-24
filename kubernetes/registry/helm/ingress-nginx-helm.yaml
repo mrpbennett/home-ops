@@ -10,22 +10,49 @@ spec:
   project: k3s
   source:
     chart: ingress-nginx
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.11.1
     helm:
       valuesObject:
         controller:
-          service:
-            internal:
-              loadBalancerIP: 192.168.5.53
+          containerPort:
+            http: 80
+            https: 443
 
-          ingressClass: nginx # default: nginx
           ingressClassResource:
             name: nginx # default: nginx
             enabled: true
             default: true
+
+          ingressClass: nginx # default: nginx
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 90Mi
+
+          service:
+            enabled: true
+            external:
+              # -- Enable the external controller service or not. Useful for internal-only deployments.
+              enabled: true
+            type: LoadBalancer
+            ipFamilies:
+              - IPv4
+            enableHttp: true
+            enableHttps: true
+            ports:
+              http: 80
+              https: 443
+              targetPorts:
+                http: http
+                https: https
+
           metrics:
             enabled: true
             serviceMonitor:
               enabled: true
+
             prometheusRule:
               enabled: true
               rules:
@@ -81,14 +108,7 @@ spec:
                           values:
                             - controller
                     topologyKey: kubernetes.io/hostname
-          resources:
-            requests:
-              cpu: 100m
-              memory: 250Mi
-            limits:
-              memory: 250Mi
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.11.1
+
   syncPolicy:
     automated:
       prune: true
