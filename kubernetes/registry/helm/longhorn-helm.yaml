@@ -27,9 +27,6 @@ spec:
           defaultClassReplicaCount: 3
           reclaimPolicy: Delete
 
-        defaultSettings:
-          defaultDataPath: /var/lib/longhorn
-
         preUpgradeChecker:
           jobEnabled: false
           upgradeVersionCheck: false

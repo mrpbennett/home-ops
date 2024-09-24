@@ -10,5 +10,4 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    # path: "/mnt/storage/pgadmin"
-    path: "/var/lib/longhorn/pgadmin"
+    path: /var/lib/longhorn/pgadmin
