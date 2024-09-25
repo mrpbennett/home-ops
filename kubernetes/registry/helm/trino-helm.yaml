@@ -35,6 +35,12 @@ spec:
           type: LoadBalancer
           port: 8080
 
+        ingress:
+          enabled: true
+          className: nginx
+          host: trino.70ld.home
+          path: /
+
   syncPolicy:
     automated:
       prune: true
