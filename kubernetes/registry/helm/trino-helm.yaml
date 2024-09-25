@@ -1,72 +1,69 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: trino
-  namespace: argocd
-spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: trino
-  project: k3s
-  source:
-    chart: trino
-    repoURL: https://trinodb.github.io/charts
-    targetRevision: 0.29.0
-    helm:
-      valuesObject:
-        server:
-          workers: 2
-          node:
-            environment: production
-            dataDir: /data/trino
-            pluginDir: /usr/lib/trino/plugin
-          log:
-            trino:
-              level: INFO
-          config:
-            path: /etc/trino
-            http:
-              port: 8080
-            https:
-              enabled: false
-              port: 8443
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: trino
+#   namespace: argocd
+# spec:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: trino
+#   project: k3s
+#   source:
+#     chart: trino
+#     repoURL: https://trinodb.github.io/charts
+#     targetRevision: 0.29.0
+#     helm:
+#       valuesObject:
+#         server:
+#           workers: 2
+#           node:
+#             environment: production
+#             dataDir: /data/trino
+#             pluginDir: /usr/lib/trino/plugin
+#           log:
+#             trino:
+#               level: INFO
+#           config:
+#             path: /etc/trino
+#             http:
+#               port: 8080
 
-        service:
-          type: LoadBalancer
-          port: 8080
+#         service:
+#           type: LoadBalancer
+#           port: 8080
 
-        coordinator:
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
+#         coordinator:
+#           resources:
+#             limits:
+#               cpu: 100m
+#               memory: 128Mi
+#             requests:
+#               cpu: 100m
+#               memory: 128Mi
 
-        worker:
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
+#         worker:
+#           resources:
+#             limits:
+#               cpu: 100m
+#               memory: 128Mi
+#             requests:
+#               cpu: 100m
+#               memory: 128Mi
 
-        serviceMonitor:
-          enabled: true
-          labels: { "prometheus": "kube-prometheus" }
-          interval: 30s
+#         serviceMonitor:
+#           enabled: true
+#           labels: { "prometheus": "kube-prometheus" }
+#           interval: 30s
 
-        # ingress:
-        #   enabled: true
-        #   className: nginx
-        #   host: trino.70ld.home
-        #   path: /
+#         # ingress:
+#         #   enabled: true
+#         #   className: nginx
+#         #   host: trino.70ld.home
+#         #   path: /
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
