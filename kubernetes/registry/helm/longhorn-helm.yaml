@@ -33,7 +33,7 @@ spec:
           upgradeVersionCheck: true
 
         defaultSettings:
-          guaranteedInstanceManagerCPU: 10
+          guaranteedInstanceManagerCPU: 12
           defaultReplicaCount: 1
 
         LonghornUI:
