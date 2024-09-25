@@ -58,11 +58,11 @@ spec:
           labels: { "prometheus": "kube-prometheus" }
           interval: 30s
 
-        ingress:
-          enabled: true
-          className: nginx
-          host: trino.70ld.home
-          path: /
+        # ingress:
+        #   enabled: true
+        #   className: nginx
+        #   host: trino.70ld.home
+        #   path: /
 
   syncPolicy:
     automated:
