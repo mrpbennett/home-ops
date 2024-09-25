@@ -10,7 +10,7 @@ spec:
   project: k3s
   source:
     chart: trino
-    repoURL: https://pkgs.tailscale.com/helmcharts
+    repoURL: https://trinodb.github.io/charts
     targetRevision: 0.29.0
     helm:
       valuesObject:
