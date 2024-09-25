@@ -35,6 +35,29 @@ spec:
           type: LoadBalancer
           port: 8080
 
+        coordinator:
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+        worker:
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+        serviceMonitor:
+          enabled: true
+          labels: { "prometheus": "kube-prometheus" }
+          interval: 30s
+
         ingress:
           enabled: true
           className: nginx
