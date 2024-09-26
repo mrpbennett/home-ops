@@ -39,10 +39,14 @@ spec:
             elasticsearchRef:
               name: elasticsearch
 
-          http:
-            service:
-              spec:
-                type: LoadBalancer
+            config:
+              server:
+                publicBaseUrl: kibana.70ld.home
+
+            http:
+              service:
+                spec:
+                  type: LoadBalancer
 
           ingress:
             enabled: true
