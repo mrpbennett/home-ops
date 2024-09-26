@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: elastic-system
+    namespace: elastic-stack
   project: k3s
   source:
     chart: eck-stack
@@ -38,10 +38,6 @@ spec:
             count: 1
             elasticsearchRef:
               name: elasticsearch
-
-          http:
-            service:
-              type: LoadBalancer
 
           ingress:
             enabled: true
