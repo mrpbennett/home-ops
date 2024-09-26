@@ -39,12 +39,20 @@ spec:
             elasticsearchRef:
               name: elasticsearch
 
+          http:
+            service:
+              spec:
+                type: LoadBalancer
+
           ingress:
             enabled: true
+            className: nginx
             pathType: Prefix
             hosts:
               - host: kibana.70ld.home
                 path: /
+            tls:
+              enabled: false
 
         # BEATS
         eck-beats:
