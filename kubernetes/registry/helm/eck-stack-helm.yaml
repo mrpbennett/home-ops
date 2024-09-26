@@ -31,13 +31,6 @@ spec:
                         requests:
                           memory: 1Gi
 
-          ingress:
-            enabled: true
-            pathType: Prefix
-            hosts:
-              - host: elasticsearch.70ld.home
-                path: /
-
         # KIBANA
         eck-kibana:
           enabled: true
@@ -45,6 +38,10 @@ spec:
             count: 1
             elasticsearchRef:
               name: elasticsearch
+
+          http:
+            service:
+              type: LoadBalancer
 
           ingress:
             enabled: true
