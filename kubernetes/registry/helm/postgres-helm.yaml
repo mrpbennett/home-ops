@@ -31,7 +31,7 @@ spec:
 
         # Primary parameters
         primary:
-          resourcesPreset: nano
+          resourcesPreset: micro
           service:
             type: LoadBalancer
 
@@ -43,7 +43,7 @@ spec:
 
         # readReplicas parameters
         readReplicas:
-          resourcesPreset: nano
+          resourcesPreset: micro
           service:
             type: LoadBalancer
 
@@ -58,7 +58,7 @@ spec:
           enabled: false
           cronjob:
             schedule: "@monthly"
-            resourcesPreset: nano
+            resourcesPreset: micro
             storage:
               storageClass: longhorn
               size: 5Gi
@@ -66,7 +66,7 @@ spec:
         # Metric exporter parameters
         metrics:
           enabled: true
-          resourcesPreset: nano
+          resourcesPreset: micro
 
           serviceMonitor:
             enabled: true
