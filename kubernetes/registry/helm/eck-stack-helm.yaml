@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: eck-stack
+    namespace: elastic-system
   project: k3s
   source:
     chart: eck-stack
