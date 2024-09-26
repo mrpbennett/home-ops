@@ -1,0 +1,164 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: redis
+  project: k3s
+  source:
+    chart: redis
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 20.0.1
+    helm:
+      valuesObject:
+        global:
+          defaultStorageClass: longhorn
+          redis:
+            password: password
+
+        auth:
+          enabled: true
+          password: password
+
+        master:
+          count: 1
+          containerPorts:
+            redis: 6379
+
+          resourcesPreset: nano
+
+          persistance:
+            enabled: true
+            path: /data
+            storageClass: longhorn
+            accessModes:
+              - ReadWriteOnce
+            size: 8Gi
+
+          service:
+            type: LoadBalancer
+            portNames:
+              redis: tcp-redis
+            ports:
+              redis: 6379
+
+        replica:
+          kind: StatefulSet
+          replicaCount: 1
+
+          resourcesPreset: "nano"
+
+          persistance:
+            enabled: true
+            path: /data
+            storageClass: longhorn
+            accessModes:
+              - ReadWriteOnce
+            size: 8Gi
+
+          service:
+            type: LoadBalancer
+            ports:
+              redis: 6379
+
+          autoscaling:
+            enabled: false
+            minReplicas: 1
+            maxReplicas: 3
+            targetCPU: 80
+
+        metrics:
+          enabled: false
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+---
+# Redis Insight service with name 'redisinsight-service'
+apiVersion: v1
+kind: Service
+metadata:
+  name: redisinsight-service
+  namespace: redis
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 5540
+  selector:
+    app: redisinsight
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redisinsight-pv-claim
+  namespace: redis
+  labels:
+    app: redisinsight
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: default
+---
+# Redis Insight deployment with name 'redisinsight'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redisinsight #deployment name
+  namespace: redis
+  labels:
+    app: redisinsight #deployment label
+spec:
+  replicas: 1 #a single replica pod
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redisinsight #which pods is the deployment managing, as defined by the pod template
+  template: #pod template
+    metadata:
+      labels:
+        app: redisinsight #label for pod/s
+    spec:
+      volumes:
+        - name: redisinsight
+          persistentVolumeClaim:
+            claimName: redisinsight-pv-claim
+      initContainers:
+        - name: init
+          image: busybox
+          command:
+            - /bin/sh
+            - "-c"
+            - |
+              chown -R 1000 /data
+          resources: {}
+          volumeMounts:
+            - name: redisinsight
+              mountPath: /data
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      containers:
+        - name: redisinsight #Container name (DNS_LABEL, unique)
+          image: redis/redisinsight:latest #repo/image
+          imagePullPolicy: IfNotPresent #Always pull image
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: redisinsight #Pod volumes to mount into the container's filesystem. Cannot be updated.
+              mountPath: /data
+          ports:
+            - containerPort: 5540 #exposed container port and protocol
+              protocol: TCP
