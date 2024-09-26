@@ -74,7 +74,14 @@ data:
           target: _blank
 
     - Servers:
-      - Proxmox:
+      - Proxmox 1:
+          icon: proxmox.png
+          href: https://192.168.7.1:8006
+          description: HyperVisor
+          ping: 192.168.7.1
+          target: _blank
+
+      - Proxmox 2:
           icon: proxmox.png
           href: https://192.168.7.1:8006
           description: HyperVisor
@@ -88,18 +95,36 @@ data:
           ping: 192.168.4.110
           target: _blank
 
-      - Docker Registry:
-          icon: docker.png
-          href: http://192.168.7.210:5000/v2/_catalog
-          description: Self hosted registry
-          ping: 192.168.7.210
-          target: _blank
+      
 
     - Kubernetes:
+        
+      # MAIN APPLICATIONS
+        
+      - Kubernetes:
+          icon: kubernetes.png
+          href: http://192.168.5.55
+          description: Container orchestration
+          target: _blank
+
       - ArgoCD:
           icon: argocd.png
           href: https://192.168.5.50
           description: GitOps for Kubernetes
+          target: _blank
+
+      - Longhorn:
+          icon: longhorn.png
+          href: http://longhorn.70ld.home/
+          description: Easy-to-use distributed block storage
+          target: _blank
+
+      # DATABASES
+
+      - Trino:
+          icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
+          href: http://trino.70ld.home
+          description: Fast distributed SQL query engine
           target: _blank
 
       - PGAdmin:
@@ -107,6 +132,14 @@ data:
           href: http://pgadmin.70ld.home
           description: PGAdmin for Postgres
           target: _blank
+
+      - Redis:
+          icon: redis.svg
+          href: http://redis-insight.70ld.home
+          description: World’s fastest data platform
+          target: _blank
+
+      # MONITORING
 
       - Grafana:
           icon: grafana.png
@@ -120,17 +153,25 @@ data:
           description: Open-source monitoring system
           target: _blank
 
-      - Longhorn:
-          icon: longhorn.png
-          href: http://longhorn.70ld.home/
-          description: Easy-to-use distributed block storage
+      - Kibana:
+          icon: elastic-kibana.png
+          href: http://kibana.70ld.home/
+          description: Faster analytics, faster solutions
           target: _blank
 
+      # TOOLS
 
       - Cloudflare:
           icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/cloudflare.svg
           href: https://dash.cloudflare.com/5a2fb936e1a58d410c2a9ab8cf7e5ec3
           description: Domain and network tunnel
+          target: _blank
+
+      - Docker Registry:
+          icon: docker.png
+          href: http://192.168.7.210:5000/v2/_catalog
+          description: Self hosted registry
+          ping: 192.168.7.210
           target: _blank
 
       - Tailscale:
