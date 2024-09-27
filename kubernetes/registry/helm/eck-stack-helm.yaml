@@ -17,9 +17,7 @@ spec:
         # ELASTICSEARCH
         eck-elasticsearch:
           auth:
-            disableElasticUser: true
-            username: admin
-            password: admin
+            disableElasticUser: false
 
           http:
             service:
@@ -138,8 +136,8 @@ spec:
                 output {
                   elasticsearch {
                     hosts => [ "192.168.5.57:9200"]
-                    user => "admin"
-                    password => "admin"
+                    user => "elastic"
+                    password => "5i9uQKLY02g5198Rctb5HqC9"
                     index => logstash
 
                   }
