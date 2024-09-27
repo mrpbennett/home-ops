@@ -16,6 +16,14 @@ spec:
       valuesObject:
         # ELASTICSEARCH
         eck-elasticsearch:
+          http:
+            service:
+              spec:
+                type: LoadBalancer
+            tls:
+              selfSignedCertificate:
+                disabled: true
+
           nodeSets:
             - name: default
               count: 1
@@ -125,6 +133,8 @@ spec:
                 output {
                   elasticsearch {
                     hosts => [ "10.42.0.24:9200"]
+                    user => "elastic"
+                    password => "fKwctJg17Hu846Ng1r73m1q4"
                     index => logstash
 
                   }
