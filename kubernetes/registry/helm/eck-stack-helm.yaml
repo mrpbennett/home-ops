@@ -132,7 +132,7 @@ spec:
                 }
                 output {
                   elasticsearch {
-                    hosts => [ "10.42.0.24:9200"]
+                    hosts => [ "192.168.5.57:9200"]
                     user => "elastic"
                     password => "fKwctJg17Hu846Ng1r73m1q4"
                     index => logstash
