@@ -41,7 +41,7 @@ spec:
 
             config:
               server:
-                publicBaseUrl: kibana.70ld.home
+                publicBaseUrl: http://kibana.70ld.home
 
             http:
               service:

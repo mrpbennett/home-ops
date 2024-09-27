@@ -36,6 +36,8 @@ spec:
           guaranteedInstanceManagerCPU: 12
           defaultReplicaCount: 1
           defaultDataPath: /mnt/storage
+          storageOverProvisioningPercentage: 100
+          storageMinimalAvailablePercentage: 10
 
         LonghornUI:
           replicas: 1
