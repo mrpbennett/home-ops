@@ -14,9 +14,15 @@ spec:
     targetRevision: 2.10.2
     helm:
       valuesObject:
+        test_pod:
+          enabled: true
+          image: bats/bats:1.8.2
+          pullPolicy: IfNotPresent
+
         loki:
           enabled: true
           isDefault: true
+          url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
           readinessProbe:
             httpGet:
               path: /ready
@@ -27,6 +33,9 @@ spec:
               path: /ready
               port: http-metrics
             initialDelaySeconds: 45
+          datasource:
+            jsonData: "{}"
+            uid: ""
 
         promtail:
           enabled: true
