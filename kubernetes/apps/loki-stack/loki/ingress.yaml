@@ -6,7 +6,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClass: nginx
+  ingressClassName: nginx
   rules:
     - host: loki.70ld.home
       http:
