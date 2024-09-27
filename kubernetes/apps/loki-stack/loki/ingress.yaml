@@ -10,7 +10,7 @@ spec:
     - host: loki.70ld.home
       http:
         paths:
-          - path: /
+          - path: /metrics
             pathType: Prefix
             backend:
               service:
