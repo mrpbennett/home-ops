@@ -36,7 +36,7 @@ spec:
             storageClass: longhorn
             accessModes:
               - ReadWriteOnce
-            size: 8Gi
+            size: 2Gi
 
           service:
             type: LoadBalancer
@@ -57,7 +57,7 @@ spec:
             storageClass: longhorn
             accessModes:
               - ReadWriteOnce
-            size: 8Gi
+            size: 2Gi
 
           service:
             type: LoadBalancer
