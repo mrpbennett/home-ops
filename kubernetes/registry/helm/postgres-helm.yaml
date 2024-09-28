@@ -31,7 +31,7 @@ spec:
 
         architecture: replication
         replication:
-          synchronousCommit: "on"
+          synchronousCommit: "off"
           numSynchronousReplicas: 1
 
         # Primary parameters
