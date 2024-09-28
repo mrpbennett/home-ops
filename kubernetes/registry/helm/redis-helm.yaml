@@ -24,7 +24,7 @@ spec:
           password: password
 
         master:
-          count: 1
+          count: 2
           containerPorts:
             redis: 6379
 
