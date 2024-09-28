@@ -29,9 +29,9 @@ spec:
           replicationUsername: repl_user
           replicationPassword: password
 
-        architecture: replication
+        architecture: standalone
         replication:
-          synchronousCommit: "off"
+          synchronousCommit: "on"
           numSynchronousReplicas: 1
 
         # Primary parameters
