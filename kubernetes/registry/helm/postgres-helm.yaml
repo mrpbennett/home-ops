@@ -34,6 +34,9 @@ spec:
           resourcesPreset: micro
           service:
             type: LoadBalancer
+            ports:
+              postgresql: 5432
+            loadBalancerIP: 192.168.5.58
 
           persistence:
             enabled: true
@@ -45,7 +48,7 @@ spec:
         readReplicas:
           resourcesPreset: micro
           service:
-            type: LoadBalancer
+            type: ClusterIP
 
           persistence:
             enabled: true
