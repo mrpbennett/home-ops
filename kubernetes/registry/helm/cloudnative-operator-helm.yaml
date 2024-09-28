@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudnative-pg
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: postgres
+  project: k3s
+  source:
+    chart: cloudnative-pg
+    repoURL: https://cloudnative-pg.github.io/charts
+    targetRevision: 0.22.0
+    helm:
+      valuesObject:
+        replicaCount: 2
+        image:
+          repository: ghcr.io/cloudnative-pg/cloudnative-pg
+          pullPolicy: IfNotPresent
+
+        commonAnnotations:
+          kube-vip.io/loadbalancerIPs: 192.168.5.60
+
+        service:
+          type: LoadBalancer
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
