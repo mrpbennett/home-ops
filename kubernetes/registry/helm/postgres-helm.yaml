@@ -119,7 +119,7 @@ spec:
         backup:
           enabled: true
           cronjob:
-            schedule: "@monthly"
+            schedule: "@daily"
             timeZone: GMT
             restartPolicy: OnFailure
             command:
