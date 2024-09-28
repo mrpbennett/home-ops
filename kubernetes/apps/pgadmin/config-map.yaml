@@ -11,12 +11,12 @@ data:
             "Group": "Servers",
             "Port": 5432,
             "Username": "postgres",
-            "Host": "192.168.5.52",
+            "Host": "192.168.5.58",
             "SSLMode": "prefer",
             "MaintenanceDB": "postgres"
           },
           "2": {
-            "Name": "postgres-master",
+            "Name": "postgres-1",
             "Group": "Servers",
             "Port": 5432,
             "Username": "postgres",
@@ -24,14 +24,5 @@ data:
             "SSLMode": "prefer",
             "MaintenanceDB": "postgres"
           },
-          "3": {
-            "Name": "postgres-test",
-            "Group": "Servers",
-            "Port": 5432,
-            "Username": "postgres",
-            "Host": "192.168.6.3",
-            "SSLMode": "prefer",
-            "MaintenanceDB": "postgres"
-          }
         }
     }
