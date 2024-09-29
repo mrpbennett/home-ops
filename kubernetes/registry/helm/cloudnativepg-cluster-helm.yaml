@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudnativepg-cluster
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: postgres
+  project: k3s
+  source:
+    chart: cluster
+    repoURL: https://cloudnative-pg.github.io/charts
+    targetRevision: 0.0.11
+    helm:
+      valuesObject:
+        type: postgresql
+        mode: standalone
+        recovery:
+          method: backup
+
+        cluster:
+          instances: 3
+
+          storage:
+            size: 1Gi
+            storageClass: longhorn
+
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 2Gi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
+
+          monitoring:
+            enabled: true
+            podMonitor:
+              enabled: true
+            prometheusRule:
+              enabled: true
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

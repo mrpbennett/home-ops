@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudnativepg-operator
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: postgres
+  project: k3s
+  source:
+    chart: cloudnative-pg
+    repoURL: https://cloudnative-pg.github.io/charts
+    targetRevision: 0.22.0
+    helm:
+      valuesObject:
+        replicaCount: 1
+        image:
+          repository: ghcr.io/cloudnative-pg/cloudnative-pg
+          pullPolicy: IfNotPresent
+
+        crds:
+          create: true
+
+        config:
+          create: true
+          name: cnpg-controller-manager-config
+
+        service:
+          type: ClusterIP
+          name: cnpg-webhook-service
+          port: 443
+
+        monitoring:
+          enabled: true
+          podMonitorEnabled: true
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
