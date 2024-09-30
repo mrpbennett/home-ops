@@ -1,9 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gatus
+  name: gatus-svc
   namespace: gatus
+  annotations:
+    kube-vip.io/loadbalancerIPs: 192.168.5.100
 spec:
+  type: LoadBalancer
   ports:
     - name: http
       port: 8080
