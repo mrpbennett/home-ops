@@ -23,8 +23,7 @@ spec:
             service:
               spec:
                 type: LoadBalancer
-                annotations:
-                  kube-vip.io/loadbalancerIPs: 192.168.5.90
+
             tls:
               selfSignedCertificate:
                 disabled: false
