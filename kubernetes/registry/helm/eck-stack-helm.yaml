@@ -155,7 +155,7 @@ spec:
                 }
                 output {
                   elasticsearch {
-                    hosts => [ "192.168.5.57:9200"]
+                    hosts => [ "192.168.5.90:9200"]
                     user => "elastic"
                     password => "5QsAjh5T70843g102SHimzxW"
                     index => logstash
