@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gatus
+  namespace: gatus
+data:
+  config.yaml: |
+    storage:
+      type: postgres
+      path: "postgres://gatus_user:gatuspassword@192.168.5.58:5432/gatus?sslmode=disable"
+      caching: true
+
+    metrics: true
+    ui:
+      title: Status | Gatus
+      header: Status
+
+    endpoints:
+      - name: Postgres
+        group: databases
+        url: "icmp://192.168.5.58"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
+
+      - name: Redis Master
+        group: databases
+        url: "icmp://192.168.5.54"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
+
+      - name: Redis Replica
+        group: databases
+        url: "icmp://192.168.5.55"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
