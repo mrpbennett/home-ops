@@ -23,9 +23,13 @@ spec:
             service:
               spec:
                 type: LoadBalancer
+                annotations:
+                  kube-vip.io/loadbalancerIPs: 192.168.5.90
             tls:
               selfSignedCertificate:
-                disabled: true
+                disabled: false
+                certificate:
+                  secretName: letsencrypt-selfsigned
 
           nodeSets:
             - name: default
@@ -41,6 +45,19 @@ spec:
                           memory: 1Gi
                         requests:
                           memory: 1Gi
+
+          ingress:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              cert-manager.io/issuer: letsencrypt-selfsigned
+            pathType: Prefix
+            hosts:
+              - host: elasticsearch.70ld.home
+                path: /
+            tls:
+              enabled: true
+              secretName: letsencrypt-selfsigned
 
         # KIBANA
         eck-kibana:
@@ -63,11 +80,14 @@ spec:
             enabled: true
             annotations:
               kubernetes.io/ingress.class: nginx
-            className: nginx
+              cert-manager.io/issuer: letsencrypt-selfsigned
             pathType: Prefix
             hosts:
               - host: kibana.70ld.home
                 path: /
+            tls:
+              enabled: true
+              secretName: letsencrypt-selfsigned
 
         # BEATS
         eck-beats:
@@ -137,7 +157,7 @@ spec:
                   elasticsearch {
                     hosts => [ "192.168.5.57:9200"]
                     user => "elastic"
-                    password => "5i9uQKLY02g5198Rctb5HqC9"
+                    password => "5QsAjh5T70843g102SHimzxW"
                     index => logstash
 
                   }
