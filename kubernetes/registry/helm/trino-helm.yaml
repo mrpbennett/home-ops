@@ -40,7 +40,7 @@ spec:
             https:
               enabled: false
               ports: 8443
-            authenticationType: PASSWORD
+            authenticationType: ""
             query:
               maxMemory: 1GB
 
