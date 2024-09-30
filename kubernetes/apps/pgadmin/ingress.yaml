@@ -5,7 +5,7 @@ metadata:
   namespace: pgadmin
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: letsencrypt-selfsigned
+
 spec:
   ingressClassName: nginx
   rules:
@@ -19,7 +19,3 @@ spec:
                 name: pgadmin-service
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - pgadmin.70ld.home
-      secretName: letsencrypt-selfsigned-secret

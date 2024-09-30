@@ -63,15 +63,11 @@ spec:
             enabled: true
             annotations:
               kubernetes.io/ingress.class: nginx
-              cert-manager.io/cluster-issuer: letsencrypt-selfsigned-prod
             className: nginx
             pathType: Prefix
             hosts:
               - host: kibana.70ld.home
                 path: /
-            tls:
-              enabled: true
-              secretName: letsencrypt-selfsigned
 
         # BEATS
         eck-beats:

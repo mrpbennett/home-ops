@@ -5,7 +5,6 @@ metadata:
   namespace: redisinsight
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: letsencrypt-selfsigned
 spec:
   ingressClassName: nginx
   rules:
@@ -19,7 +18,3 @@ spec:
                 name: redisinsight-service
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - redisinsight.70ld.home
-      secretName: letsencrypt-selfsigned-secret
