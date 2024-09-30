@@ -34,7 +34,7 @@ spec:
               level: INFO
 
           config:
-            path: /etc/trino
+            path: /etc/trino.
             http:
               port: 8081
             https:
