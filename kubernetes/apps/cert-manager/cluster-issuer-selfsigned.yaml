@@ -22,7 +22,7 @@ metadata:
 spec:
   isCA: true
   commonName: osm-system
-  secretName: letsencrypt-selfsigned-secret
+  secretName: letsencrypt-selfsigned
   issuerRef:
     name: letsencrypt-selfsigned-prod
     kind: ClusterIssuer

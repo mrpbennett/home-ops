@@ -5,7 +5,7 @@ metadata:
   namespace: pgadmin
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: letsencrypt-selfsigned-prod
+    cert-manager.io/cluster-issuer: letsencrypt-selfsigned
 spec:
   ingressClassName: nginx
   rules:
