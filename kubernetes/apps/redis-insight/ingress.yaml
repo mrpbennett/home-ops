@@ -5,7 +5,7 @@ metadata:
   namespace: redisinsight
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: letsencrypt-selfsigned-prod
 spec:
   ingressClassName: nginx
   rules:
@@ -22,4 +22,4 @@ spec:
   tls:
     - hosts:
         - redisinsight.70ld.home
-      secretName: letsencrypt-ca
+      secretName: letsencrypt-selfsigned-secret
