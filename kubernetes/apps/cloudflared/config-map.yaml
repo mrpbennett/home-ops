@@ -18,9 +18,9 @@ data:
 
     ingress:
       - hostname: 70ld.dev
-        service: https://ingress-nginx-controller.ingress-nginx.cluster.local:443
+        service: https://ingress-nginx-controller.ingress-nginx.svc.cluster.local:443
 
       - hostname: "*.70ld.dev"
-        service: https://ingress-nginx-controller.ingress-nginx.cluster.local:443
+        service: https://ingress-nginx-controller.ingress-nginx.svc.cluster.local:443
 
       - service: http_status:404
