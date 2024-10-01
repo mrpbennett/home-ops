@@ -1,175 +1,175 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: eck-stack
-  namespace: argocd
-spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: elastic-stack
-  project: k3s
-  source:
-    chart: eck-stack
-    repoURL: https://helm.elastic.co
-    targetRevision: 0.12.0
-    helm:
-      valuesObject:
-        # ELASTICSEARCH
-        eck-elasticsearch:
-          auth:
-            disableElasticUser: false
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: eck-stack
+#   namespace: argocd
+# spec:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: elastic-stack
+#   project: k3s
+#   source:
+#     chart: eck-stack
+#     repoURL: https://helm.elastic.co
+#     targetRevision: 0.12.0
+#     helm:
+#       valuesObject:
+#         # ELASTICSEARCH
+#         eck-elasticsearch:
+#           auth:
+#             disableElasticUser: false
 
-          http:
-            service:
-              spec:
-                type: LoadBalancer
+#           http:
+#             service:
+#               spec:
+#                 type: LoadBalancer
 
-            tls:
-              selfSignedCertificate:
-                disabled: false
+#             tls:
+#               selfSignedCertificate:
+#                 disabled: false
 
-          nodeSets:
-            - name: default
-              count: 1
-              config:
-                node.store.allow_mmap: false
-              podTemplate:
-                spec:
-                  containers:
-                    - name: elasticsearch
-                      resources:
-                        limits:
-                          memory: 1Gi
-                        requests:
-                          memory: 1Gi
+#           nodeSets:
+#             - name: default
+#               count: 1
+#               config:
+#                 node.store.allow_mmap: false
+#               podTemplate:
+#                 spec:
+#                   containers:
+#                     - name: elasticsearch
+#                       resources:
+#                         limits:
+#                           memory: 1Gi
+#                         requests:
+#                           memory: 1Gi
 
-          ingress:
-            enabled: true
-            annotations:
-              kubernetes.io/ingress.class: nginx
-            pathType: Prefix
-            hosts:
-              - host: elasticsearch.70ld.home
-                path: /
-            tls:
-              enabled: false
+#           ingress:
+#             enabled: true
+#             annotations:
+#               kubernetes.io/ingress.class: nginx
+#             pathType: Prefix
+#             hosts:
+#               - host: elasticsearch.70ld.home
+#                 path: /
+#             tls:
+#               enabled: false
 
-        # KIBANA
-        eck-kibana:
-          enabled: true
-          spec:
-            count: 1
-            elasticsearchRef:
-              name: elasticsearch
+#         # KIBANA
+#         eck-kibana:
+#           enabled: true
+#           spec:
+#             count: 1
+#             elasticsearchRef:
+#               name: elasticsearch
 
-            config:
-              server:
-                publicBaseUrl: http://kibana.70ld.home
+#             config:
+#               server:
+#                 publicBaseUrl: http://kibana.70ld.home
 
-            http:
-              service:
-                spec:
-                  type: LoadBalancer
+#             http:
+#               service:
+#                 spec:
+#                   type: LoadBalancer
 
-          ingress:
-            enabled: true
-            annotations:
-              kubernetes.io/ingress.class: nginx
+#           ingress:
+#             enabled: true
+#             annotations:
+#               kubernetes.io/ingress.class: nginx
 
-            pathType: Prefix
-            hosts:
-              - host: kibana.70ld.home
-                path: /
-            tls:
-              enabled: false
+#             pathType: Prefix
+#             hosts:
+#               - host: kibana.70ld.home
+#                 path: /
+#             tls:
+#               enabled: false
 
-        # BEATS
-        eck-beats:
-          enabled: true
-          spec:
-            type: filebeat
-            daemonSet: null
-            config:
-              filebeat.inputs:
-                - type: log
-                  paths:
-                    - /data/logstash.log
-              processors:
-                - add_host_metadata: {}
-                - add_cloud_metadata: {}
-              output.logstash:
-                # This needs to be {{logstash-name}}-ls-beats:5044
-                hosts: ["logstash-ls-beats-ls-beats:5044"]
-            deployment:
-              podTemplate:
-                spec:
-                  automountServiceAccountToken: true
-                  containers:
-                    - name: filebeat
-                      securityContext:
-                        runAsUser: 1000
-                      volumeMounts:
-                        - name: data
-                          mountPath: /data
-                        - name: beat-data
-                          mountPath: /usr/share/filebeat/data
-                  volumes:
-                    - name: data
-                      emptydir: {}
-                    - name: beat-data
-                      emptydir: {}
+#         # BEATS
+#         eck-beats:
+#           enabled: true
+#           spec:
+#             type: filebeat
+#             daemonSet: null
+#             config:
+#               filebeat.inputs:
+#                 - type: log
+#                   paths:
+#                     - /data/logstash.log
+#               processors:
+#                 - add_host_metadata: {}
+#                 - add_cloud_metadata: {}
+#               output.logstash:
+#                 # This needs to be {{logstash-name}}-ls-beats:5044
+#                 hosts: ["logstash-ls-beats-ls-beats:5044"]
+#             deployment:
+#               podTemplate:
+#                 spec:
+#                   automountServiceAccountToken: true
+#                   containers:
+#                     - name: filebeat
+#                       securityContext:
+#                         runAsUser: 1000
+#                       volumeMounts:
+#                         - name: data
+#                           mountPath: /data
+#                         - name: beat-data
+#                           mountPath: /usr/share/filebeat/data
+#                   volumes:
+#                     - name: data
+#                       emptydir: {}
+#                     - name: beat-data
+#                       emptydir: {}
 
-        # LOGSTASH
-        eck-logstash:
-          enabled: true
-          # This is required to be able to set the logstash
-          # output of beats in a consistent manner.
-          fullnameOverride: "logstash-ls-beats"
-          elasticsearchRefs:
-            # This clusterName is required to match the environment variables
-            # used in the below config.string output section.
-            - clusterName: k3s
-              name: elasticsearch
-          pipelines:
-            - pipeline.id: main
-              config.string: |
-                input {
-                  beats {
-                    port => 5044
-                  }
-                }
-                filter {
-                  grok {
-                    match => { "message" => "%{HTTPD_COMMONLOG}"}
-                  }
-                  geoip {
-                    source => "[source][address]"
-                    target => "[source]"
-                  }
-                }
-                output {
-                  elasticsearch {
-                    hosts => [ "192.168.5.90:9200"]
-                    user => "elastic"
-                    password => "5QsAjh5T70843g102SHimzxW"
-                    index => logstash
+#         # LOGSTASH
+#         eck-logstash:
+#           enabled: true
+#           # This is required to be able to set the logstash
+#           # output of beats in a consistent manner.
+#           fullnameOverride: "logstash-ls-beats"
+#           elasticsearchRefs:
+#             # This clusterName is required to match the environment variables
+#             # used in the below config.string output section.
+#             - clusterName: k3s
+#               name: elasticsearch
+#           pipelines:
+#             - pipeline.id: main
+#               config.string: |
+#                 input {
+#                   beats {
+#                     port => 5044
+#                   }
+#                 }
+#                 filter {
+#                   grok {
+#                     match => { "message" => "%{HTTPD_COMMONLOG}"}
+#                   }
+#                   geoip {
+#                     source => "[source][address]"
+#                     target => "[source]"
+#                   }
+#                 }
+#                 output {
+#                   elasticsearch {
+#                     hosts => [ "192.168.5.90:9200"]
+#                     user => "elastic"
+#                     password => "5QsAjh5T70843g102SHimzxW"
+#                     index => logstash
 
-                  }
-                }
-          services:
-            - name: beats
-              service:
-                spec:
-                  type: LoadBalancer
-                  ports:
-                    - port: 5044
-                      name: "filebeat"
-                      protocol: TCP
-                      targetPort: 5044
+#                   }
+#                 }
+#           services:
+#             - name: beats
+#               service:
+#                 spec:
+#                   type: LoadBalancer
+#                   ports:
+#                     - port: 5044
+#                       name: "filebeat"
+#                       protocol: TCP
+#                       targetPort: 5044
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
