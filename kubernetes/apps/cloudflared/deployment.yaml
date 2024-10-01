@@ -29,9 +29,10 @@ spec:
               # it has an active connection to the edge.
               path: /ready
               port: 2000
-            failureThreshold: 1
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
             periodSeconds: 10
+            failureThreshold: 3
           volumeMounts:
             - name: config
               mountPath: /etc/cloudflared/config
