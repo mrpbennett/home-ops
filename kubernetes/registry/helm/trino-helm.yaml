@@ -66,6 +66,19 @@
 #                     periodSeconds: 15
 #                 selectPolicy: Max
 
+#         # CATALOGS
+#         additionalCatalogs:
+#           postgres-k8s: |
+#             connector.name=postgresql
+#             connection-url=jdbc:postgresql://192.168.5.58:5432/postgres
+#             connection-user=postgres
+#             connection-password=postgres
+
+#           redis-k8s: |
+#             connector.name=redis
+#             redis.table-names=redis
+#             redis.nodes=192.168.5.54:6379
+
 #         service:
 #           annotations:
 #             kube-vip.io/loadbalancerIPs: 192.168.5.60

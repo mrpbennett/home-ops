@@ -8,7 +8,6 @@ data:
     storage:
       type: postgres
       path: "postgres://gatus_user:gatuspassword@192.168.5.58:5432/gatus?sslmode=disable"
-      caching: true
 
     metrics: true
     ui:
@@ -16,6 +15,51 @@ data:
       header: Status
 
     endpoints:
+      # KUBERNETES
+      - name: k3s-cp-1
+        group: kubernetes
+        url: "icmp://192.168.5.1"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
+
+      - name: k3s-cp-2
+        group: kubernetes
+        url: "icmp://192.168.5.2"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
+
+      - name: k3s-cp-3
+        group: kubernetes
+        url: "icmp://192.168.5.3"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
+
+      - name: k3s-wk-1
+        group: kubernetes
+        url: "icmp://192.168.5.4"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
+
+      - name: k3s-wk-2
+        group: kubernetes
+        url: "icmp://192.168.5.5"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
+
+      - name: k3s-wk-3
+        group: kubernetes
+        url: "icmp://192.168.5.6"
+        interval: 30s
+        conditions:
+          - "[CONNECTED] == true"
+
+
+      # DATABASES
       - name: Postgres
         group: databases
         url: "icmp://192.168.5.58"

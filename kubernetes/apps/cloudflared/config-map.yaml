@@ -4,7 +4,7 @@ metadata:
   name: cloudflared
 data:
   config.yaml: |
-    tunnel: pnfb-tunnel
+    tunnel: 70ld-tunnel
 
     credentials-file: /etc/cloudflared/creds/credentials.json
 
@@ -13,10 +13,10 @@ data:
     no-autoupdate: true
 
     ingress:
-      - hostname: pnfb.uk
+      - hostname: 70ld.uk
         service: http://192.168.5.53
 
-      - hostname: "*.pnfb.uk"
+      - hostname: "*.70ld.uk"
         service: http://192.168.5.53
 
       - service: http_status:404
