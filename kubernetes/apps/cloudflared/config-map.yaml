@@ -9,6 +9,8 @@ data:
     originRequest:
       connectTimeout: 30s
 
+    loglevel: debug
+
     no-autoupdate: true
 
     ingress:
