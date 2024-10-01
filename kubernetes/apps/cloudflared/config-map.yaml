@@ -4,19 +4,18 @@ metadata:
   name: cloudflared
 data:
   config.yaml: |
-    tunnel: 70ld-tunnel
-
+    tunnel: 818b692b-e3db-4098-b00e-ac999382bf90
     credentials-file: /etc/cloudflared/creds/credentials.json
-
-    metrics: 0.0.0.0:2000
+    originRequest:
+      connectTimeout: 30s
 
     no-autoupdate: true
 
     ingress:
-      - hostname: 70ld.uk
-        service: http://192.168.5.53
+      - hostname: 70ld.dev
+        service: https://ingress-nginx-controller.ingress-nginx.cluster.local:443
 
-      - hostname: "*.70ld.uk"
-        service: http://192.168.5.53
+      - hostname: "*.70ld.dev"
+        service: https://ingress-nginx-controller.ingress-nginx.cluster.local:443
 
       - service: http_status:404
