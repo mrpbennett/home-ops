@@ -4,6 +4,7 @@ metadata:
   name: cloudflared
 data:
   config.yaml: |
+
     tunnel: 818b692b-e3db-4098-b00e-ac999382bf90
 
     credentials-file: /etc/cloudflared/creds/credentials.json
