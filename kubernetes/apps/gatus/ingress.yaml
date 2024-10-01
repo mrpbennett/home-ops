@@ -5,9 +5,13 @@ metadata:
   namespace: gatus
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-
+    cert-manager.io/issuer: "letsencrypt-selfsigned-prod"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - gatus.70ld.dev
+      secretName: letsencrypt-selfsigned
   rules:
     - host: gatus.70ld.dev
       http:
