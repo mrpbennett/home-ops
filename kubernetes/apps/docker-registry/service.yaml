@@ -5,6 +5,7 @@ metadata:
   annotations:
     kube-vip.io/loadbalancerIPs: 192.168.7.210
 spec:
+  type: LoadBalancer
   selector:
     app: docker-registry
   ports:
