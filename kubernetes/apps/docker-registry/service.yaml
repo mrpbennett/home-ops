@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-registry-svc
+  annotations:
+    kube-vip.io/loadbalancerIPs: 192.168.7.210
+spec:
+  selector:
+    app: docker-registry
+  ports:
+    - port: 5000
+      targetPort: 5000
