@@ -1,0 +1,16 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-cluster
+spec:
+  instances: 3
+  startDelay: 300
+  stopDelay: 300
+
+  primaryUpdateStrategy: unsupervised
+  storage:
+    storageClass: longhorn
+    size: 1Gi
+
+  monitoring:
+    enablePodMonitor: true
