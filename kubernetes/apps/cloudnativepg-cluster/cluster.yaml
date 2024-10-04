@@ -10,7 +10,7 @@ spec:
 
   bootstrap:
     initdb:
-      database: test
+      database: 70ld_db
       owner: paul
       secret:
         name: cnpg-cluster-custom-user
@@ -23,7 +23,7 @@ spec:
             metadata:
               name: postgres-rw-svc
               annotations:
-                kube-vip.io/loadbalancerIPs: 192.168.5.58
+                kube-vip.io/loadbalancerIPs: 192.168.5.60
             spec:
               type: LoadBalancer
 
