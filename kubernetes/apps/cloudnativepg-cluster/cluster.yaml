@@ -9,7 +9,7 @@ spec:
 
   postgresql:
     pg_hba:
-      - host all all 0.0.0.0/0 md5
+      - host all all 192.168.5.57/22 md5
 
   primaryUpdateStrategy: unsupervised
   storage:
