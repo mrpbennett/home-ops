@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cpng-cluster-tcp-services
+  namespace: cnpg-cluster
+data:
+  5432: cnpg-cluster/postgres-example-rw:5432
