@@ -13,7 +13,11 @@ spec:
       database: 70ld_db
       owner: paul
       secret:
-        name: cnpg-cluster-custom-user
+        name: cnpg-cluster-user
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-cluster-superuser
 
   managed:
     services:
