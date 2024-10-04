@@ -3,10 +3,15 @@ kind: Cluster
 metadata:
   name: cnpg-cluster
 spec:
+  description: "Homelab Postgres Cluster"
   instances: 3
   startDelay: 300
   stopDelay: 300
 
+  superuserSecret:
+    name: cnpg-cluster-credentials
+
+  # CONFIG
   postgresql:
     pg_hba:
       - host all all 192.168.5.57/22 md5
