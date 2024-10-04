@@ -49,7 +49,11 @@ spec:
                 https: https
 
           metrics:
-            enabled: true
+            metrics:
+              enabled: true
+            podAnnotations:
+              prometheus.io/port: "10254"
+              prometheus.io/scrape: "true"
             serviceMonitor:
               enabled: true
 
