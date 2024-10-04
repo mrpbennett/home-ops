@@ -8,9 +8,12 @@ spec:
   startDelay: 300
   stopDelay: 300
 
-  enableSuperuserAccess: true
-  superuserSecret:
-    name: cnpg-cluster-superuser
+  bootstrap:
+    initdb:
+      database: test
+      owner: paul
+      secret:
+        name: cnpg-cluster-custom-user
 
   managed:
     services:
