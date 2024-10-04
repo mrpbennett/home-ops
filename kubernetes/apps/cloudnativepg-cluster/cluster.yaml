@@ -10,7 +10,7 @@ spec:
 
   enableSuperuserAccess: true
   superuserSecret:
-    name: cnpg-cluster-credentials
+    name: cnpg-cluster-superuser
 
   managed:
     services:
