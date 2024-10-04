@@ -11,10 +11,17 @@ spec:
   superuserSecret:
     name: cnpg-cluster-credentials
 
-  # CONFIG
-  postgresql:
-    pg_hba:
-      - host all all 192.168.5.57/22 md5
+  managed:
+    services:
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: postgres-rw
+              annotations:
+                kube-vip.io/loadbalancerIPs: 192.168.5.58
+            spec:
+              type: LoadBalancer
 
   primaryUpdateStrategy: unsupervised
   storage:
