@@ -23,6 +23,10 @@ spec:
           service:
             type: LoadBalancer
 
+          prometheusSpec:
+            podMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+
           ingress:
             enabled: true
             ingressClassName: nginx
