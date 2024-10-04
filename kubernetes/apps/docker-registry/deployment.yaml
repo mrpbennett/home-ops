@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: docker-registry
-          image: registry registry:2.8
+          image: registry:2.8
           resources:
             limits:
               memory: "128Mi"
