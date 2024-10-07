@@ -58,10 +58,6 @@ spec:
           {{- end }}
           {{- end }}
 
-        rbac:
-          create: true
-          createSCCRoleBinding: false
-
         enableBuiltInSecretEnvVars:
           AIRFLOW__CORE__FERNET_KEY: true
           # For Airflow <2.3, backward compatibility; moved to [database] in 2.3
@@ -152,31 +148,31 @@ spec:
                   port: 80
                   targetPort: airflow-ui
 
-          trigger:
+        trigger:
+          enabled: true
+          replicas: 1
+
+          persistance:
             enabled: true
-            replicas: 1
+            size: 15Gi
+            storageClass: longhorn
 
-            persistance:
-              enabled: true
-              size: 15Gi
-              storageClass: longhorn
+        redis:
+          enabled: true
 
-          redis:
+          persistance:
             enabled: true
+            size: 1Gi
+            storageClass: longhorn
 
-            persistance:
-              enabled: true
-              size: 1Gi
-              storageClass: longhorn
+        dags:
+          persistance:
+            enabled: false
 
-          dags:
-            persistance:
-              enabled: false
-
-          logs:
-            persistance:
-              enabled: false
-              size: 15Gi
+        logs:
+          persistance:
+            enabled: false
+            size: 15Gi
 
   syncPolicy:
     automated:
