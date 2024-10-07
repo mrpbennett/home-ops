@@ -148,6 +148,15 @@ spec:
                 port: 80
                 targetPort: airflow-ui
 
+        triggerer:
+          enabled: true
+          replicas: 1
+
+          persistence:
+            enabled: true
+            size: 15Gi
+            storageClassName: longhorn
+
         trigger:
           enabled: true
           replicas: 1
