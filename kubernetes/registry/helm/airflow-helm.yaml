@@ -141,7 +141,7 @@ spec:
 
           service:
             type: LoadBalancer
-            annoations:
+            annotations:
               kube-vip.io/loadbalancerIPs: 192.168.5.61
             ports:
               - name: airflow-ui
