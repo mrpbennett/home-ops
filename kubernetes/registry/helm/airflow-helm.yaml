@@ -84,7 +84,7 @@ spec:
         workers:
           replicas: 1
 
-          persistance:
+          persistence:
             enabled: true
             size: 15Gi
             storageClass: longhorn
@@ -152,7 +152,7 @@ spec:
           enabled: true
           replicas: 1
 
-          persistance:
+          persistence:
             enabled: true
             size: 15Gi
             storageClass: longhorn
@@ -160,17 +160,17 @@ spec:
         redis:
           enabled: true
 
-          persistance:
+          persistence:
             enabled: true
             size: 1Gi
             storageClass: longhorn
 
         dags:
-          persistance:
+          persistence:
             enabled: false
 
         logs:
-          persistance:
+          persistence:
             enabled: false
             size: 15Gi
 
