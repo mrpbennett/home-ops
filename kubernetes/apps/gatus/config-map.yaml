@@ -7,7 +7,7 @@ data:
   config.yaml: |
     storage:
       type: postgres
-      path: "postgres://gatus_user:gatuspassword@192.168.5.58:5432/gatus?sslmode=disable"
+      path: "postgres://gatus_user:gatuspassword@192.168.5.60:5432/gatus_db?sslmode=disable"
 
     metrics: true
     ui:
