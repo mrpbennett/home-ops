@@ -87,7 +87,7 @@ spec:
           persistence:
             enabled: true
             size: 15Gi
-            storageClass: longhorn
+            storageClassName: longhorn
 
           resources:
             limits:
@@ -155,7 +155,7 @@ spec:
           persistence:
             enabled: true
             size: 15Gi
-            storageClass: longhorn
+            storageClassName: longhorn
 
         redis:
           enabled: true
@@ -163,7 +163,7 @@ spec:
           persistence:
             enabled: true
             size: 1Gi
-            storageClass: longhorn
+            storageClassName: longhorn
 
         dags:
           persistence:
