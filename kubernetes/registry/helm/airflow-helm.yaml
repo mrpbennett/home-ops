@@ -139,14 +139,14 @@ spec:
             lastName: Bennett
             password: admin
 
-            service:
-              type: LoadBalancer
-              annoations:
-                kube-vip.io/loadbalancerIPs: 192.168.5.61
-              ports:
-                - name: airflow-ui
-                  port: 80
-                  targetPort: airflow-ui
+          service:
+            type: LoadBalancer
+            annoations:
+              kube-vip.io/loadbalancerIPs: 192.168.5.61
+            ports:
+              - name: airflow-ui
+                port: 80
+                targetPort: airflow-ui
 
         trigger:
           enabled: true
