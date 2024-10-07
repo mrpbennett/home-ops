@@ -62,7 +62,7 @@ data:
       # DATABASES
       - name: Postgres
         group: databases
-        url: "icmp://192.168.5.58"
+        url: "icmp://192.168.5.60"
         interval: 30s
         conditions:
           - "[CONNECTED] == true"
