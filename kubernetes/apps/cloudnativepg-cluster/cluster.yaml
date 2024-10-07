@@ -8,13 +8,6 @@ spec:
   startDelay: 300
   stopDelay: 300
 
-  bootstrap:
-    initdb:
-      database: 70ld_db
-      owner: paul
-      secret:
-        name: cnpg-cluster-custom-user
-
   enableSuperuserAccess: true
   superuserSecret:
     name: cnpg-cluster-custom-superuser
