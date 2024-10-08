@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app elastic-system
+  name: eck-operator
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,12 +9,12 @@ spec:
   project: k3s
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/elastic-system
+    path: kubernetes/apps/eck-operator
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: *app
+    namespace: elastic-system
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

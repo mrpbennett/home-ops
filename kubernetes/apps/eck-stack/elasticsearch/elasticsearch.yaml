@@ -1,0 +1,14 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: 70ld
+spec:
+  version: 8.15.2
+  auth:
+    fileRealm:
+      - secretName: es-basic-auth
+  nodeSets:
+    - name: masters
+      count: 1
+      config:
+        node.store.allow_mmap: false
