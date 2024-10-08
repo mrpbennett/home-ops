@@ -9,13 +9,17 @@ spec:
   elasticsearchRef:
     name: 70ld-es
 
-  spec:
-    containers:
-      - name: kibana
-        resources:
-          limits:
-            memory: 1Gi
-            cpu: 1
+  podTemplate:
+    metadata:
+      labels:
+        foo: bar
+    spec:
+      containers:
+        - name: 70ld-kibana
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: 1
 
   http:
     service:
