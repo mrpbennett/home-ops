@@ -1,12 +1,11 @@
 apiVersion: logstash.k8s.elastic.co/v1alpha1
 kind: Logstash
 metadata:
-  name: 70ld-logstash
+  name: logstash
 spec:
   count: 1
   elasticsearchRefs:
-    - name: 70ld-es
-      clusterName: elasticsearch
+    - name: elasticsearch
   version: 8.15.2
   pipelines:
     - pipeline.id: main
@@ -18,7 +17,7 @@ spec:
         }
         output {
           elasticsearch {
-            hosts => [ "${ELASTICSEARCH_ES_HOSTS}" ]
+            hosts => [ "http://elasticsearch-es-http:9200" ]
             user => "${ELASTICSEARCH_ES_USER}"
             password => "${ELASTICSEARCH_ES_PASSWORD}"
           }
