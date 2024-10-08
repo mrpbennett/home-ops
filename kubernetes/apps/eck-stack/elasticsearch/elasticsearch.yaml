@@ -41,3 +41,8 @@ spec:
     service:
       spec:
         type: LoadBalancer
+        ports:
+          - protocol: TCP
+            port: 9200
+            targetPort: 9200
+            name: http
