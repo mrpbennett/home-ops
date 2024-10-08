@@ -1,12 +1,12 @@
 apiVersion: logstash.k8s.elastic.co/v1alpha1
 kind: Logstash
 metadata:
-  name: 70ld
+  name: logstash
 spec:
   count: 1
   elasticsearchRefs:
-    - name: 70ld
-      clusterName: 70ld
+    - name: elasticsearch
+      clusterName: elasticsearch
   version: 8.15.2
   pipelines:
     - pipeline.id: main

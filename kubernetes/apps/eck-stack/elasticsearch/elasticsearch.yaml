@@ -1,7 +1,7 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: 70ld
+  name: elasticsearch
 spec:
   auth:
     fileRealm:

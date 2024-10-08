@@ -1,13 +1,13 @@
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: 70ld
+  name: kibana
 spec:
   version: 8.15.2
   count: 1
 
   elasticsearchRef:
-    name: 70ld
+    name: elasticsearch
 
   podTemplate:
     metadata:
