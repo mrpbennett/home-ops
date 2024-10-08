@@ -1,12 +1,12 @@
 apiVersion: logstash.k8s.elastic.co/v1alpha1
 kind: Logstash
 metadata:
-  name: 70ld
+  name: 70ld-logstash
 spec:
   count: 1
   elasticsearchRefs:
-    - name: 70ld
-      clusterName: qs
+    - name: 70ld-es
+      clusterName: elasticsearch
   version: 8.15.2
   pipelines:
     - pipeline.id: main
@@ -18,13 +18,22 @@ spec:
         }
         output {
           elasticsearch {
-            hosts => [ "${QS_ES_HOSTS}" ]
-            user => "${QS_ES_USER}"
-            password => "${QS_ES_PASSWORD}"
-            ssl_certificate_authorities => "${QS_ES_SSL_CERTIFICATE_AUTHORITY}"
+            hosts => [ "${ELASTICSEARCH_ES_HOSTS}" ]
+            user => "${ELASTICSEARCH_ES_USER}"
+            password => "${ELASTICSEARCH_ES_PASSWORD}"
           }
         }
   services:
+    - name: api
+      service:
+        spec:
+          type: LoadBalancer
+          ports:
+            - port: 9601
+              name: "api"
+              protocol: TCP
+              targetPort: 9601
+
     - name: beats
       service:
         spec:

@@ -1,7 +1,7 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: 70ld
+  name: 70ld-es
 spec:
   version: 8.15.2
   auth:
@@ -11,4 +11,33 @@ spec:
     - name: masters
       count: 1
       config:
+        node.roles: ["master", "data", "ingest"]
         node.store.allow_mmap: false
+
+      podTemplate:
+        metadata:
+          labels:
+            app: 70ld-es
+        spec:
+          containers:
+            - name: elasticsearch
+              resources:
+                limits:
+                  memory: 4Gi
+                  cpu: 1
+
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Gi
+        storageClassName: longhorn
+
+  http:
+    service:
+      spec:
+        type: LoadBalancer

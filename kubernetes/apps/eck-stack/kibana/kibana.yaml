@@ -1,9 +1,23 @@
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: 70ld
+  name: 70ld-kibana
 spec:
   version: 8.15.2
   count: 1
+
   elasticsearchRef:
-    name: 70ld
+    name: 70ld-es
+
+  spec:
+    containers:
+      - name: kibana
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 1
+
+  http:
+    service:
+      spec:
+        type: LoadBalancer
