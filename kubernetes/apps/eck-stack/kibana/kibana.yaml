@@ -12,10 +12,13 @@ spec:
   podTemplate:
     metadata:
       labels:
-        foo: kibana
+        pod: kibana
     spec:
       containers:
         - name: kibana
+          ports:
+            - containerPort: 5601
+              name: http
           resources:
             limits:
               memory: 1Gi
@@ -25,3 +28,4 @@ spec:
     service:
       spec:
         type: LoadBalancer
+        loadBalancerIP: 192.168.5.53
