@@ -20,7 +20,7 @@ spec:
           elasticsearch {
             hosts => [ "http://192.168.5.52:9200" ]
             user => "admin"
-            password => "admin"
+            password => "123qwe!!"
           }
         }
   services:
