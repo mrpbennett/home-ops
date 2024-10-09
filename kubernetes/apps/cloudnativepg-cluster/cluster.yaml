@@ -34,7 +34,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   storage:
     storageClass: longhorn
-    size: 1Gi
+    size: 8Gi
 
   monitoring:
     enablePodMonitor: true
