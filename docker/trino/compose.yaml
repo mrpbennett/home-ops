@@ -1,0 +1,13 @@
+version: '3'
+services:
+  trino:
+    container_name: trino
+    image: trinodb/trino
+    ports:
+      - '8080:8080'
+    environment:
+      - CATALOG_MANAGEMENT=dynamic
+    volumes:
+      - /home/sysadm/trino/catalog:/etc/trino/catalog
+
+    restart: always

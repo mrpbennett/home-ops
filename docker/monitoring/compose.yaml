@@ -1,27 +1,37 @@
+version: '3.9'
+
 services:
   prometheus:
-    image: prom/prometheus
     container_name: prometheus
+    image: prom/prometheus
+    restart: unless-stopped
     command:
-      - "--config.file=/etc/prometheus/prometheus.yaml"
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
     ports:
       - 9090:9090
-    restart: always
     volumes:
-      - /home/sysadm/monitoring/prometheus:/etc/prometheus
-      - prom_data:/prometheus
+      - /home/sysadm/monitoring:/etc/prometheus
+      - prometheus_data:/prometheus
 
   grafana:
     image: grafana/grafana
     container_name: grafana
+    restart: unless-stopped
     ports:
       - 3000:3000
-    restart: always
     environment:
       - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=grafana
+      - GF_SECURITY_ADMIN_PASSWORD=123qwe!!
     volumes:
-      - /home/sysadm/monitoring/grafana:/etc/grafana/provisioning/datasources
+      - /home/sysadm/monitoring:/etc/grafana/provisioning/datasources
+
+networks:
+  monitoring:
+    driver: bridge
 
 volumes:
-  prom_data:
+  prometheus_data: {}

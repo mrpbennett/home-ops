@@ -83,3 +83,5 @@ Stop and remove the containers. Use `-v` to remove the volumes if looking to era
 ```
 docker compose down -v
 ```
+
+- [Installing node-exporter outside of Docker](https://www.mrpbennett.dev/posts/Installing%20Node%20exporter%20outside%20of%20Docker)
