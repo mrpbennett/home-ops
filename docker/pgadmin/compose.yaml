@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  pgadmin:
+    container_name: pgadmin
+    restart: unless-stopped
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_SERVER_JSON_FILE=/home/sysadm/pgadmin/servers.json
+    ports:
+      - '5050:80'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  pgadmin_data:

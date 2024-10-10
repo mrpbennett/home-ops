@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  gatus:
+    container_name: gatus
+    image: twinproduction/gatus:latest
+    restart: always
+    ports:
+      - '8080:8080'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - /home/sysadm/gatus:/config
