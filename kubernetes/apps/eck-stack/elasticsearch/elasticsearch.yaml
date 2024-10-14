@@ -52,3 +52,7 @@ spec:
             port: 443
             targetPort: 9200
             protocol: TCP
+
+    tls:
+      selfSignedCertificate:
+        disabled: false
