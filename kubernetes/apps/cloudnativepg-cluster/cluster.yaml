@@ -36,5 +36,8 @@ spec:
     storageClass: longhorn
     size: 8Gi
 
+  backup:
+    retentionPolicy: "30d"
+
   monitoring:
     enablePodMonitor: true
