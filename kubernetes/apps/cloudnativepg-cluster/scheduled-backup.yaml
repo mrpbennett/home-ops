@@ -3,7 +3,7 @@ kind: ScheduledBackup
 metadata:
   name: weekly-backup
 spec:
-  schedule: "0 0 * * 0"
+  schedule: "@weekly"
   backupOwnerReference: self
   cluster:
     name: cnpg-cluster
