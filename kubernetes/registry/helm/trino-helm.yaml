@@ -68,20 +68,15 @@
 
 #         # CATALOGS
 #         additionalCatalogs:
-#           postgres-k8s: |
+#           cnpg: |
 #             connector.name=postgresql
-#             connection-url=jdbc:postgresql://192.168.5.58:5432/postgres
+#             connection-url=jdbc:postgresql://192.168.5.60:5432/70_ld
 #             connection-user=postgres
 #             connection-password=postgres
 
-#           redis-k8s: |
-#             connector.name=redis
-#             redis.table-names=redis
-#             redis.nodes=192.168.5.54:6379
-
 #         service:
 #           annotations:
-#             kube-vip.io/loadbalancerIPs: 192.168.5.60
+#             kube-vip.io/loadbalancerIPs: 192.168.5.61
 #           type: LoadBalancer
 #           port: 8080
 
