@@ -17,6 +17,7 @@ spec:
 
   elasticsearchRef:
     name: elasticsearch
+    namespace: elastic-stack
 
   podTemplate:
     metadata:
@@ -38,8 +39,7 @@ spec:
       spec:
         type: LoadBalancer
         loadBalancerIP: 192.168.5.53
-        ports:
-          - name: https
-            protocol: TCP
-            port: 443
-            targetPort: 5601
+
+    tls:
+      selfSignedCertificate:
+        disabled: true
