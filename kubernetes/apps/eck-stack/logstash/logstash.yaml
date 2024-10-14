@@ -2,6 +2,7 @@ apiVersion: logstash.k8s.elastic.co/v1alpha1
 kind: Logstash
 metadata:
   name: logstash
+  namespace: elastic-stack
 spec:
   count: 1
   elasticsearchRefs:
@@ -20,7 +21,7 @@ spec:
           elasticsearch {
             hosts => [ "http://192.168.5.52:9200" ]
             user => "admin"
-            password => "123qwe!!"
+            password => "password"
           }
         }
   services:

@@ -2,9 +2,18 @@ apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
   name: kibana
+  namespace: elastic-stack
 spec:
   version: 8.15.2
   count: 1
+
+  config:
+    elasticsearch.hosts:
+      - https://192.168.5.52:9200
+    elasticsearch.username: elastic
+
+  secureSettings:
+    - secretName: elasticsearch-basic-auth
 
   elasticsearchRef:
     name: elasticsearch

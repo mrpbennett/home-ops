@@ -19,13 +19,11 @@
 #           replicas: 1
 #           persistence:
 #             enabled: true
-#             size: 100Gi
 
 #         # Airflow Triggerer Config
 #         triggerer:
 #           persistence:
 #             enabled: true
-#             size: 100Gi
 
 #         # Airflow create user job settings
 #         createUserJob:
