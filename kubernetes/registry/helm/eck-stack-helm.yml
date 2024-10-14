@@ -37,9 +37,9 @@ spec:
                     targetPort: 9200
                     protocol: TCP
 
-            # tls:
-            #   selfSignedCertificate:
-            #     disabled: false
+            tls:
+              selfSignedCertificate:
+                disabled: false
 
           nodeSets:
             - name: masters
@@ -120,6 +120,8 @@ spec:
                     hosts => [ "https://192.168.5.52:9200" ]
                     user => "admin"
                     password => "password"
+                    ssl => true
+                    ssl_certificate_verification => false
                   }
                 }
           services:
