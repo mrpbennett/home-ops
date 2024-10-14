@@ -14,126 +14,42 @@ spec:
     targetRevision: 0.12.1
     helm:
       valuesObject:
-        # ELASTIC SEARCH
         eck-elasticsearch:
           auth:
             disableElasticUser: true
             fileRealm:
               - secretName: elasticsearch-basic-auth
-
           http:
             service:
               spec:
                 type: LoadBalancer
                 loadBalancerIP: 192.168.5.52
-                ports:
-                  - name: http
-                    port: 9200
-                    targetPort: 9200
-                    protocol: TCP
-
-                  - name: https
-                    port: 443
-                    targetPort: 9200
-                    protocol: TCP
-
-            tls:
-              selfSignedCertificate:
-                disabled: false
 
           nodeSets:
-            - name: masters
-              count: 1
+            - name: default
+              count: 3
               config:
-                node.roles: ["master", "data", "ingest"]
+                # Comment out when setting the vm.max_map_count via initContainer, as these are mutually exclusive.
+                # For production workloads, it is strongly recommended to increase the kernel setting vm.max_map_count to 262144
+                # and leave node.store.allow_mmap unset.
+                # ref: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-virtual-memory.html
+                #
                 node.store.allow_mmap: false
-
               podTemplate:
                 spec:
                   containers:
                     - name: elasticsearch
                       resources:
                         limits:
-                          memory: 1Gi
+                          memory: 2Gi
                         requests:
-                          memory: 1Gi
-
-          ingress:
-            enabled: true
-            annotations:
-              kubernetes.io/ingress.class: nginx
-            pathType: Prefix
-            hosts:
-              - host: elasticsearch.70ld.home
-                path: /
-            tls:
-              enabled: false
-
-        # KIBANA
+                          memory: 2Gi
         eck-kibana:
           enabled: true
           spec:
             count: 1
             elasticsearchRef:
               name: elasticsearch
-
-          ingress:
-            enabled: true
-            annotations:
-              kubernetes.io/ingress.class: nginx
-            pathType: Prefix
-            hosts:
-              - host: kibana.70ld.home
-                path: /
-            tls:
-              enabled: false
-
-        eck-logstash:
-          enabled: true
-          # This is required to be able to set the logstash
-          # output of beats in a consistent manner.
-          fullnameOverride: "logstash-ls-beats"
-          elasticsearchRefs:
-            # This clusterName is required to match the environment variables
-            # used in the below config.string output section.
-            - clusterName: eck
-              name: elasticsearch
-          pipelines:
-            - pipeline.id: main
-              config.string: |
-                input {
-                  beats {
-                    port => 5044
-                  }
-                }
-                filter {
-                  grok {
-                    match => { "message" => "%{HTTPD_COMMONLOG}"}
-                  }
-                  geoip {
-                    source => "[source][address]"
-                    target => "[source]"
-                  }
-                }
-                output {
-                  elasticsearch {
-                    hosts => [ "https://192.168.5.52:9200" ]
-                    user => "admin"
-                    password => "password"
-                    ssl => true
-                    ssl_certificate_verification => false
-                  }
-                }
-          services:
-            - name: beats
-              service:
-                spec:
-                  type: ClusterIP
-                  ports:
-                    - port: 5044
-                      name: "filebeat"
-                      protocol: TCP
-                      targetPort: 5044
         eck-beats:
           enabled: true
           spec:
@@ -180,6 +96,51 @@ spec:
                       emptydir: {}
                     - name: beat-data
                       emptydir: {}
+        eck-logstash:
+          enabled: true
+          # This is required to be able to set the logstash
+          # output of beats in a consistent manner.
+          fullnameOverride: "logstash-ls-beats"
+          elasticsearchRefs:
+            # This clusterName is required to match the environment variables
+            # used in the below config.string output section.
+            - clusterName: eck
+              name: elasticsearch
+          pipelines:
+            - pipeline.id: main
+              config.string: |
+                input {
+                  beats {
+                    port => 5044
+                  }
+                }
+                filter {
+                  grok {
+                    match => { "message" => "%{HTTPD_COMMONLOG}"}
+                  }
+                  geoip {
+                    source => "[source][address]"
+                    target => "[source]"
+                  }
+                }
+                output {
+                  elasticsearch {
+                    hosts => [ "https://192.168.5.52:9200" ]
+                    user => "admin"
+                    password => "password"
+                    ssl_certificate_authorities => "${ECK_ES_SSL_CERTIFICATE_AUTHORITY}"
+                  }
+                }
+          services:
+            - name: beats
+              service:
+                spec:
+                  type: ClusterIP
+                  ports:
+                    - port: 5044
+                      name: "filebeat"
+                      protocol: TCP
+                      targetPort: 5044
 
   syncPolicy:
     automated:
