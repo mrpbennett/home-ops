@@ -19,21 +19,6 @@ spec:
     name: elasticsearch
     namespace: elastic-stack
 
-  podTemplate:
-    metadata:
-      labels:
-        pod: kibana
-    spec:
-      containers:
-        - name: kibana
-          ports:
-            - containerPort: 5601
-              name: http
-          resources:
-            limits:
-              memory: 1Gi
-              cpu: 1
-
   http:
     service:
       spec:
@@ -43,3 +28,14 @@ spec:
     tls:
       selfSignedCertificate:
         disabled: true
+
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    pathType: Prefix
+    hosts:
+      - host: kibana.70ld.home
+        path: /
+    tls:
+      enabled: false
