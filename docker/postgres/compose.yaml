@@ -1,45 +1,52 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:latest
+  # Postgres with read-write
+  postgres-main:
+    container_name: postgres-main
+    hostname: postgres-main
+    image: postgres:17.0
     restart: always
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 1s
-      timeout: 5s
-      retries: 10
+      - '5432:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata-main:/var/lib/postgresql/data
 
+  # pgAdmin UI
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4:latest
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=pbennett.uk@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=password
-    ports:
-      - "5050:80"
     restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_SERVER_JSON_FILE=/home/sysadm/pgadmin/servers.json
+    ports:
+      - '5050:80'
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres-main
 
+  # Postgres Exporter
   postgres-exporter:
     container_name: postgres-exporter
-    image: quay.io/prometheuscommunity/postgres-exporter
+    hostname: postgres-exporter
+    image: wrouesnel/postgres_exporter:v0.8.0
+    restart: always
     environment:
-      DATA_SOURCE_URI: "postgres://postgres:password@postgres:5432/postgres?sslmode=disable"
-      DATA_SOURCE_USER: postgres
-      DATA_SOURCE_PASS: password
+      - DATA_SOURCE_URI=postgres-main:5432/${POSTGRES_DB}?sslmode=disable
+      - DATA_SOURCE_USER=${POSTGRES_USER}
+      - DATA_SOURCE_PASS=${POSTGRES_PASSWORD}
+    ports:
+      - '9187:9187'
     depends_on:
-      - postgres
-      - pgadmin
+      - postgres-main
 
 volumes:
-  postgres_data:
+  pgdata-main:
   pgadmin_data:

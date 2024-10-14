@@ -14,5 +14,5 @@ services:
       DB_SQLITE_FILE: '/data/database.sqlite'
 
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+      - /home/sysadm/proxy/data:/data
+      - /home/sysadm/proxy/letsencrypt:/etc/letsencrypt
