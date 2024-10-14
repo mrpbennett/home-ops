@@ -14,11 +14,25 @@ spec:
     targetRevision: 1.15.0
     helm:
       valuesObject:
-        # Installing the Chart with Argo CD, Flux, Rancher or Terraform
-        # https://airflow.apache.org/docs/helm-chart/stable/index.html#installing-the-chart-with-argo-cd-flux-rancher-or-terraform
+        # Airflow Worker Config
+        workers:
+          replicas: 1
+          persistence:
+            enabled: true
+            size: 10Gi
+
+        # Airflow Triggerer Config
+        triggerer:
+          persistence:
+            enabled: true
+            size: 10Gi
+
+        # Airflow create user job settings
         createUserJob:
           useHelmHooks: false
           applyCustomEnv: false
+
+        # Airflow database migration job settings
         migrateDatabaseJob:
           useHelmHooks: false
           applyCustomEnv: false
