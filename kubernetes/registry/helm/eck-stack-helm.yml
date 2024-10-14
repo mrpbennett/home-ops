@@ -36,9 +36,9 @@ spec:
                     targetPort: 9200
                     protocol: TCP
 
-            tls:
-              selfSignedCertificate:
-                disabled: false
+            # tls:
+            #   selfSignedCertificate:
+            #     disabled: false
 
           nodeSets:
             - name: masters
