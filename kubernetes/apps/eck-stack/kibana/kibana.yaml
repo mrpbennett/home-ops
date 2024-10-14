@@ -7,13 +7,6 @@ spec:
   version: 8.15.2
   count: 1
 
-  config:
-    elasticsearch.hosts:
-      - https://192.168.5.52:9200
-
-  secureSettings:
-    - secretName: elasticsearch-basic-auth
-
   elasticsearchRef:
     name: elasticsearch
     namespace: elastic-stack
