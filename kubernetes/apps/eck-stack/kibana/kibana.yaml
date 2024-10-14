@@ -10,7 +10,6 @@ spec:
   config:
     elasticsearch.hosts:
       - https://192.168.5.52:9200
-    elasticsearch.username: elastic
 
   secureSettings:
     - secretName: elasticsearch-basic-auth
@@ -28,14 +27,3 @@ spec:
     tls:
       selfSignedCertificate:
         disabled: true
-
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-    pathType: Prefix
-    hosts:
-      - host: kibana.70ld.home
-        path: /
-    tls:
-      enabled: false
