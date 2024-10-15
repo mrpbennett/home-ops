@@ -7,7 +7,7 @@
 #   destination:
 #     server: "https://kubernetes.default.svc"
 #     namespace: elastic-stack
-#   project: talos
+#   project: k3s
 #   source:
 #     chart: *chart-name
 #     repoURL: https://helm.elastic.co

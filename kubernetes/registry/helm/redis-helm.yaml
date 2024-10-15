@@ -7,7 +7,7 @@
 #   destination:
 #     server: "https://kubernetes.default.svc"
 #     namespace: redis
-#   project: talos
+#   project: k3s
 #   source:
 #     chart: redis
 #     repoURL: https://charts.bitnami.com/bitnami

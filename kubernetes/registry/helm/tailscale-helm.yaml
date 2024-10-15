@@ -7,7 +7,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: tailscale
-  project: talos
+  project: k3s
   source:
     chart: tailscale-operator
     repoURL: https://pkgs.tailscale.com/helmcharts

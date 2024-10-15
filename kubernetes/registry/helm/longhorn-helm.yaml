@@ -7,7 +7,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: longhorn-system
-  project: talos
+  project: k3s
   source:
     chart: longhorn
     repoURL: https://charts.longhorn.io
