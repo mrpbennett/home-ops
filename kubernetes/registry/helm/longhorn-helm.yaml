@@ -14,9 +14,6 @@ spec:
     targetRevision: 1.7.1
     helm:
       valuesObject:
-        networkPolicies:
-          type: k3s
-
         service:
           ui:
             type: LoadBalancer
@@ -35,7 +32,6 @@ spec:
         defaultSettings:
           guaranteedInstanceManagerCPU: 12
           defaultReplicaCount: 1
-          defaultDataPath: /mnt/storage
           storageOverProvisioningPercentage: 100
           storageMinimalAvailablePercentage: 10
 
