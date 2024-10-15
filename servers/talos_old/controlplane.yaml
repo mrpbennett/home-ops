@@ -19,16 +19,6 @@ machine:
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
 
     extraMounts:
-      # Storage mount
-      - destination: /var/mnt/storage
-        type: bind
-        source: /var/mnt/storage
-        options:
-          - bind
-          - rshared
-          - rw
-          -
-      # Lornhorn storage
       - destination: /var/lib/longhorn
         type: bind
         source: /var/lib/longhorn
@@ -94,12 +84,6 @@ machine:
       allowedKubernetesNamespaces:
         - kube-system
 
-  # MachineDisks list example.
-  disks:
-    - device: /dev/sdb # The name of the disk to use.
-      partitions:
-        - mountpoint: /var/mnt/storage # Where to mount the partition.
-
 # Provides cluster specific configuration options.
 cluster:
   id: TnZJctrL_fkAAsR-zpibsgsvF4qsHAZTa0_VC1FDpb0= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
@@ -154,6 +138,7 @@ cluster:
           exemptions:
             namespaces:
               - kube-system
+              - longhorn-system
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration

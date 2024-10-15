@@ -5,7 +5,7 @@ metadata:
   name: cluster-admin-binding
 subjects:
   - kind: User
-    name: "admin@k3s-cluster"
+    name: "admin@talos"
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole

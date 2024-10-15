@@ -19,16 +19,6 @@ machine:
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
 
     extraMounts:
-      # Storage mount
-      - destination: /var/mnt/storage
-        type: bind
-        source: /var/mnt/storage
-        options:
-          - bind
-          - rshared
-          - rw
-          -
-      # Lornhorn storage
       - destination: /var/lib/longhorn
         type: bind
         source: /var/lib/longhorn
@@ -80,12 +70,6 @@ machine:
     kubePrism:
       enabled: true # Enable KubePrism support - will start local load balacing proxy.
       port: 7445 # KubePrism port.
-
-  # MachineDisks list example.
-  disks:
-    - device: /dev/sdb # The name of the disk to use.
-      partitions:
-        - mountpoint: /var/mnt/storage # Where to mount the partition.
 
 # Provides cluster specific configuration options.
 cluster:

@@ -29,12 +29,6 @@ spec:
           jobEnabled: false
           upgradeVersionCheck: true
 
-        defaultSettings:
-          guaranteedInstanceManagerCPU: 12
-          defaultReplicaCount: 1
-          storageOverProvisioningPercentage: 100
-          storageMinimalAvailablePercentage: 10
-
         LonghornUI:
           replicas: 1
 
