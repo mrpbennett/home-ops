@@ -4,10 +4,10 @@ persist: true
 # Provides machine specific configuration options.
 machine:
   type: worker # Defines the role of the machine within the cluster.
-  token: 3kodq8.37nw5cukhgy6grns # The `token` is used by a machine to join the PKI of the cluster.
+  token: b9qk5s.iuf74bcfb0rehree # The `token` is used by a machine to join the PKI of the cluster.
   # The root certificate authority of the PKI.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBajdNNDZ0QjV4Tnh0NHZaYUtrUk9VVEFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXhNREUxTVRBME5EUXhXaGNOTXpReE1ERXpNVEEwTkRReFdqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQU0vMlBJejVFMEhHOWVCbFpIRmJKVkNDZXl5VURVbHQ0TzZjClQ3YWx0OWJ1bzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkRZendIR01EeVVtV09oZwpCUEhCa3VndHpuUHpNQVVHQXl0bGNBTkJBUFVod2N4cWIxR2p5V3M2SCt6YlRuYmNzdHVsMUo4TkQvSXNWNXF0Ck5Vbm93TjlVWXBVK1RjQWhsN01NSHE1TVJJem9ROXRCbXduYjBldDA3YmYzUGcwPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEI4cEp1R1pVT2swN3JkWmJkYjlTYi9NQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5ERXdNVFV4TVRJek16QmFGdzB6TkRFd01UTXhNVEl6TXpCYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBY0QwK2Z6bThyYXhaa3hSd3lEc0RDSXhxNFpSQVpab0w0d0dJCmNYQWEvcm1qWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVTUhHdkVjdUFMV2JWMjNHdQpIN3kwYnpJaFN1QXdCUVlESzJWd0EwRUE0N0pOM1VFM0o0Y0NMcmZSbXN2bVZaN0l1bFB6VEN1WlVMOHpucGloClVtem9Tc2cvLzdQRGh1UUFvUTQxTVlJM2ZBODJuWmc2ZXVFTFZmMCtTOEFoREE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Extra certificate subject alternative names for the machine's certificate.
   certSANs: []
@@ -30,7 +30,7 @@ machine:
     # # The `extraArgs` field is used to provide additional flags to the kubelet.
     # extraArgs:
     #     key: value
-    # LONGHORN MOUNTS
+
     extraMounts:
       - destination: /var/lib/longhorn
         type: bind
@@ -39,46 +39,36 @@ machine:
           - bind
           - rshared
           - rw
-      # # The `extraMounts` field is used to add additional mounts to the kubelet container.
-      # extraMounts:
-      #     - destination: /var/lib/example # Destination is the absolute path where the mount will be placed in the container.
-      #       type: bind # Type specifies the mount kind.
-      #       source: /var/lib/example # Source specifies the source path of the mount.
-      #       # Options are fstab style mount options.
-      #       options:
-      #         - bind
-      #         - rshared
-      #         - rw
 
-      # # The `extraConfig` field is used to provide kubelet configuration overrides.
-      # extraConfig:
-      #     serverTLSBootstrap: true
+    # # The `extraConfig` field is used to provide kubelet configuration overrides.
+    # extraConfig:
+    #     serverTLSBootstrap: true
 
-      # # The `KubeletCredentialProviderConfig` field is used to provide kubelet credential configuration.
-      # credentialProviderConfig:
-      #     apiVersion: kubelet.config.k8s.io/v1
-      #     kind: CredentialProviderConfig
-      #     providers:
-      #         - apiVersion: credentialprovider.kubelet.k8s.io/v1
-      #           defaultCacheDuration: 12h
-      #           matchImages:
-      #             - '*.dkr.ecr.*.amazonaws.com'
-      #             - '*.dkr.ecr.*.amazonaws.com.cn'
-      #             - '*.dkr.ecr-fips.*.amazonaws.com'
-      #             - '*.dkr.ecr.us-iso-east-1.c2s.ic.gov'
-      #             - '*.dkr.ecr.us-isob-east-1.sc2s.sgov.gov'
-      #           name: ecr-credential-provider
+    # # The `KubeletCredentialProviderConfig` field is used to provide kubelet credential configuration.
+    # credentialProviderConfig:
+    #     apiVersion: kubelet.config.k8s.io/v1
+    #     kind: CredentialProviderConfig
+    #     providers:
+    #         - apiVersion: credentialprovider.kubelet.k8s.io/v1
+    #           defaultCacheDuration: 12h
+    #           matchImages:
+    #             - '*.dkr.ecr.*.amazonaws.com'
+    #             - '*.dkr.ecr.*.amazonaws.com.cn'
+    #             - '*.dkr.ecr-fips.*.amazonaws.com'
+    #             - '*.dkr.ecr.us-iso-east-1.c2s.ic.gov'
+    #             - '*.dkr.ecr.us-isob-east-1.sc2s.sgov.gov'
+    #           name: ecr-credential-provider
 
-      # # The `nodeIP` field is used to configure `--node-ip` flag for the kubelet.
-      # nodeIP:
-      #     # The `validSubnets` field configures the networks to pick kubelet node IP from.
-      #     validSubnets:
-      #         - 10.0.0.0/8
-      #         - '!10.0.0.3/32'
-      #         - fdc7::/16
+    # # The `nodeIP` field is used to configure `--node-ip` flag for the kubelet.
+    # nodeIP:
+    #     # The `validSubnets` field configures the networks to pick kubelet node IP from.
+    #     validSubnets:
+    #         - 10.0.0.0/8
+    #         - '!10.0.0.3/32'
+    #         - fdc7::/16
   # Provides machine specific network configuration options.
   network:
-    hostname: talos-wk-1
+    hostname: talos-wk-2
     nameservers:
       - 192.168.4.100
       - 1.1.1.1
@@ -86,7 +76,7 @@ machine:
       - deviceSelector:
           busPath: "0*" # Single Network Interface
         addresses:
-          - 192.168.5.4/22 # static IP
+          - 192.168.5.5/22 # static IP
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1
@@ -330,12 +320,12 @@ machine:
   # # Used to configure the machine's time settings.
 
   # # Example configuration for cloudflare ntp server.
-  time:
-    disabled: false # Indicates if the time service is disabled for the machine.
-    # Specifies time (NTP) servers to use for setting the system time.
-    servers:
-      - time.cloudflare.com
-    #bootTimeout: 2m0s # Specifies the timeout when the node time is considered to be in sync unlocking the boot sequence.
+  # time:
+  #     disabled: false # Indicates if the time service is disabled for the machine.
+  #     # Specifies time (NTP) servers to use for setting the system time.
+  #     servers:
+  #         - time.cloudflare.com
+  #     bootTimeout: 2m0s # Specifies the timeout when the node time is considered to be in sync unlocking the boot sequence.
 
   # # Used to configure the machine's sysctls.
 
@@ -416,8 +406,8 @@ machine:
   #     exampleTaint: exampleTaintValue:NoSchedule
 # Provides cluster specific configuration options.
 cluster:
-  id: fnEKkbUAsTfoJP68UWcaDGkb0RBv8FKtAJWIqH1JoNo= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-  secret: U0BBmKsvLkeJrFHseHfMCZ4sfqz+MHtkBJ/8PkTOptA= # Shared secret of cluster (base64 encoded random 32 bytes).
+  id: 0Ntr8xyZrsBvXH-UPW2fLTBcxhjX1ATQmsdorEf2g4I= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: oa0TK2D/1mGMOnT8zjirv/LkvJqDd88cn7ob2Z1UECQ= # Shared secret of cluster (base64 encoded random 32 bytes).
   # Provides control plane specific configuration options.
   controlPlane:
     endpoint: https://192.168.5.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
@@ -437,10 +427,10 @@ cluster:
     #     # URLs containing manifests to apply for the CNI.
     #     urls:
     #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-  token: fejigu.e22us07ityf72bs0 # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  token: cvv759.tnzjhss84xljmpfq # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
   # The base64 encoded root certificate authority used by Kubernetes.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRQ0dZeHdMYlhiblNzOUZxdi9vdWh1ekFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEF4TlRFd05EUTBNVm9YRFRNME1UQXhNekV3TkRRMApNVm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCQ3M4WUxCZlpzZjZUVHo0MmRhd2cwa0VBTVJWaFBWZUpKNng3ZFhZTVVvWS9xbXRHYitGUkhuMk1QUUIKNXRkOFh3MXdmcVZZOHRubGFFM0ZvSHE5eVhpallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVKN1NuZVBpeW9JejVSbUVSSS9qN0F0NFdPeUl3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnTDNneHFaWlMKaTkrWVVZRFJlalZzT2ZWQUUzMk81L1RIUThrWFUvWDd5dmdDSVFEODRuQVBpN0VyTHBHc05rVzhOUmVVY0hqSwo4Z29wcS9BZE1XbDBJVk8zTUE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpakNDQVRDZ0F3SUJBZ0lSQU9IVWVIbDZHKzd3WXVvWmxSS3JOLzh3Q2dZSUtvWkl6ajBFQXdJd0ZURVQKTUJFR0ExVUVDaE1LYTNWaVpYSnVaWFJsY3pBZUZ3MHlOREV3TVRVeE1USXpNekJhRncwek5ERXdNVE14TVRJegpNekJhTUJVeEV6QVJCZ05WQkFvVENtdDFZbVZ5Ym1WMFpYTXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVJ3dmpWblBQZ2xNMG40QzRVTXQ4cEFlVnQxQUhaVkQ2MzNTUjF0dUkwMlp5WEw5THVEV3VldXVRZUcKYVN4Z3E4WURxRkt3K09WTEpyM2xOOEROT25Hdm8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXdIUVlEVlIwbApCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPCkJCWUVGRTBvNXQ4bmovK0p1TCt0OVN6MWk1bkttNEdsTUFvR0NDcUdTTTQ5QkFNQ0EwZ0FNRVVDSVFDUUlJVzEKR21ITzllcU1wcUR5UmVwL0h6OU5icjBnVDZTYW5NaWZ2dlVmRVFJZ05OdWJrS3paQXRmcSswRXVjLzE2eHIzMQpOb0JQS3ZqemMxOUFQc2RYZCs0PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Configures cluster member discovery.
   discovery:
