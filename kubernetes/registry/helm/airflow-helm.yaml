@@ -7,7 +7,7 @@
 #   destination:
 #     server: "https://kubernetes.default.svc"
 #     namespace: *chart-name
-#   project: k3s
+#   project: talos
 #   source:
 #     chart: *chart-name
 #     repoURL: https://airflow.apache.org

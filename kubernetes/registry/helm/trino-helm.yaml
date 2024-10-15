@@ -7,7 +7,7 @@
 #   destination:
 #     server: "https://kubernetes.default.svc"
 #     namespace: trino
-#   project: k3s
+#   project: talos
 #   source:
 #     chart: trino
 #     repoURL: https://trinodb.github.io/charts
