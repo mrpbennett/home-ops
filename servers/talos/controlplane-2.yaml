@@ -23,9 +23,9 @@ machine:
     #     key: value
 
     extraMounts:
-      - destination: /var/lib/longhorn
+      - destination: /var/mnt/longhorn
         type: bind
-        source: /var/lib/longhorn
+        source: /var/mnt/longhorn
         options:
           - bind
           - rshared
@@ -33,7 +33,7 @@ machine:
 
   # Provides machine specific network configuration options.
   network:
-    hostname: talos-cp-1
+    hostname: talos-cp-2
     nameservers:
       - 192.168.4.100
       - 1.1.1.1
@@ -41,7 +41,7 @@ machine:
       - deviceSelector:
           busPath: "0*" # Single Network Interface
         addresses:
-          - 192.168.5.1/22 # static IP
+          - 192.168.5.2/22 # static IP
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1
@@ -258,19 +258,11 @@ machine:
 
   # # Used to partition, format and mount additional disks.
 
-  # # MachineDisks list example.
-  # disks:
-  #     - device: /dev/sdb # The name of the disk to use.
-  #       # A list of partitions to create on the disk.
-  #       partitions:
-  #         - mountpoint: /var/mnt/extra # Where to mount the partition.
-  #
-  #           # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
-
-  #           # # Human readable representation.
-  #           # size: 100 MB
-  #           # # Precise value in bytes.
-  #           # size: 1073741824
+  # MachineDisks list example.
+  disks:
+    - device: /dev/sdb # The name of the disk to use.
+      partitions:
+        - mountpoint: /var/mnt/longhorn
 
   # # Allows the addition of user specified files.
 
@@ -440,6 +432,7 @@ cluster:
             namespaces:
               - kube-system
               - longhorn-system
+              - monitoring
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration
@@ -480,38 +473,8 @@ cluster:
       crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJmekNDQVNTZ0F3SUJBZ0lSQU5uSXljbmVyUGoyZmZVdnJnT1FYZ1F3Q2dZSUtvWkl6ajBFQXdJd0R6RU4KTUFzR0ExVUVDaE1FWlhSalpEQWVGdzB5TkRFd01UWXhNRFU1TUROYUZ3MHpOREV3TVRReE1EVTVNRE5hTUE4eApEVEFMQmdOVkJBb1RCR1YwWTJRd1dUQVRCZ2NxaGtqT1BRSUJCZ2dxaGtqT1BRTUJCd05DQUFTWk5YVzF2UXFUCkxHcWovZDlGMllxTTdBakt4OTZ1WDZXTjdJMFNoQnNoM1hQKzdZN0FVam50WndiYkhlOWNvSUwrdXRuZGovU1AKR011V1pRUlRrZUNjbzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSApBd0VHQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRklSdTR0Ujl5MEk3CkZRdTVWMGhhdUZ6RFVIWTNNQW9HQ0NxR1NNNDlCQU1DQTBrQU1FWUNJUUNUN2VVUWhoWGZ2QS9kNXdLaFcxN0MKNFJiZWgyOEdnTk1JUVJaQ01FMmIxUUloQUp2S21LK3VxaThlOU1qeVRUcWpVR2hzU243aVBjY2l6NC91S1UxSAoybThRCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
       key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUZsemFnOWlpd0dhVjNhdFUrMXFCVXFpZ3B4Q0lZWUtab1FwMk5oN2FPYm9vQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFbVRWMXRiMEtreXhxby8zZlJkbUtqT3dJeXNmZXJsK2xqZXlORW9RYklkMXovdTJPd0ZJNQo3V2NHMngzdlhLQ0MvcnJaM1kvMGp4akxsbVVFVTVIZ25BPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
 
-    # # The container image used to create the etcd service.
-    # image: gcr.io/etcd-development/etcd:v3.5.11-arm64
-
-    # # The `advertisedSubnets` field configures the networks to pick etcd advertised IP from.
-    # advertisedSubnets:
-    #     - 10.0.0.0/8
-  # A list of urls that point to additional manifests.
-  extraManifests: []
-  #   - https://www.example.com/manifest1.yaml
-  #   - https://www.example.com/manifest2.yaml
-
   # A list of inline Kubernetes manifests.
-  inlineManifests:
-    - name: namespace-longhorn-system
-      contents: |
-        apiVersion: v1
-          kind: Namespace
-          metadata:
-            name: longhorn-system
-            labels:
-              pod-security.kubernetes.io/enforce: privileged
-              pod-security.kubernetes.io/enforce-version: latest
-              pod-security.kubernetes.io/audit: privileged
-              pod-security.kubernetes.io/audit-version: latest
-              pod-security.kubernetes.io/warn: privileged
-              pod-security.kubernetes.io/warn-version: latest
-
-  # # External cloud provider configuration.
-  externalCloudProvider:
-    enabled: true
-    manifests:
-      - https://raw.githubusercontent.com/mrpbennett/home-ops/main/kubernetes/cluster/cluster-role-binding.yaml
+  inlineManifests: []
 
   # # Allows running workload on control-plane nodes.
   # allowSchedulingOnControlPlanes: true

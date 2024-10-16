@@ -33,7 +33,7 @@ machine:
 
   # Provides machine specific network configuration options.
   network:
-    hostname: talos-cp-1
+    hostname: talos-cp-3
     nameservers:
       - 192.168.4.100
       - 1.1.1.1
@@ -41,7 +41,7 @@ machine:
       - deviceSelector:
           busPath: "0*" # Single Network Interface
         addresses:
-          - 192.168.5.1/22 # static IP
+          - 192.168.5.3/22 # static IP
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.4.1
@@ -432,6 +432,7 @@ cluster:
             namespaces:
               - kube-system
               - longhorn-system
+              - monitoring
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration
