@@ -40,12 +40,11 @@
 
 #           service:
 #             type: LoadBalancer
+#             loadBalancerIP: 192.168.5.54
 #             portNames:
 #               redis: tcp-redis
 #             ports:
 #               redis: 6379
-#             annotations:
-#               kube-vip.io/loadbalancerIPs: 192.168.5.54
 
 #         replica:
 #           kind: StatefulSet
@@ -63,10 +62,9 @@
 
 #           service:
 #             type: LoadBalancer
+#             loadBalancerIP: 192.168.5.55
 #             ports:
 #               redis: 6379
-#             annotations:
-#               kube-vip.io/loadbalancerIPs: 192.168.5.55
 
 #           autoscaling:
 #             enabled: false

@@ -75,9 +75,8 @@
 #             connection-password=postgres
 
 #         service:
-#           annotations:
-#             kube-vip.io/loadbalancerIPs: 192.168.5.61
 #           type: LoadBalancer
+#           loadBalancerIP: 192.168.5.61
 #           port: 8080
 
 #         coordinator:
