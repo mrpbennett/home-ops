@@ -24,7 +24,4 @@ spec:
             - containerPort: 5000
           env:
             - name: REGISTRY_HTTP_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: docker-registry-secret
-                  key: REGISTRY_HTTP_SECRET
+              value: "4f6f4a1b5e4f87e4c7a4d2e2a4b634ff47f8a0a2c58b2f3e839b374d80765842"
