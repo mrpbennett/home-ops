@@ -22,3 +22,9 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 5000
+          env:
+            - name: REGISTRY_HTTP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: docker-registry-secret
+                  key: REGISTRY_HTTP_SECRET
