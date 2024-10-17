@@ -215,7 +215,7 @@ machine:
     mirrors:
       personal_docker_registry:
         endpoints:
-          - http://192.168.7.210:5000
+          - http://192.168.5.110:5000
 
     # Specifies TLS & auth configuration for HTTPS image registries.
     config:
