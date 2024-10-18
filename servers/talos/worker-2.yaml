@@ -4,10 +4,10 @@ persist: true
 # Provides machine specific configuration options.
 machine:
   type: worker # Defines the role of the machine within the cluster.
-  token: 2t48d8.8jp6q97alqd0dfr2 # The `token` is used by a machine to join the PKI of the cluster.
+  token: deybjm.9y9yl3sszs911vxc # The `token` is used by a machine to join the PKI of the cluster.
   # The root certificate authority of the PKI.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBN211ODRhbU1XYzFsT2xxWk41d1lWREFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXhNREU0TVRNME5UUXdXaGNOTXpReE1ERTJNVE0wTlRRd1dqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUUrK1JPUHJ0bUZvOXI2TEtoT3NNRCtSWmc1dzVVcE5GOGF4ClJOWTVCa2hubzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkFtWnhVSTBkZlhJMm5oRAp3dzY0YTdKR0pyNDdNQVVHQXl0bGNBTkJBQjA3UHMwZnVpTW9rVjlaR0VWZ25aYUx4bHA2bXNpZGdDTjlyQ2FrCmlhQlc1U2FJL00yY0pML0FyRFMxMlBKY2tKMmI2cWxnZWNVNVBMM2xWOWw4NndNPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBbEg3YjZZSGJHcjVPbEtaK1FLeDNLekFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXhNREU0TVRRMU5ETXdXaGNOTXpReE1ERTJNVFExTkRNd1dqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUxzTGdyanJZOW1VWndDUUJZTm5nVWNOcHd5ays4Qm9Ma29lCldKWTVGZUs0bzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRlByZit5a2ROTXdHTmowLwo5WTlnR2tKOEx2S0hNQVVHQXl0bGNBTkJBTkl4Sk9SSGFOR0tCTGg5a0lSeTNHZ1VGQjJxbVpzZFhra0x0RG1nCm1WdllhRDdEcVhYdjNOSmliTnNJaGRBSldzSkV3RzRORktHSTJPTkZiVWNMN1FZPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Extra certificate subject alternative names for the machine's certificate.
   certSANs: []
@@ -282,18 +282,19 @@ machine:
 
   # # Used to partition, format and mount additional disks.
 
-  # MachineDisks list example.
+  # # MachineDisks list example.
   # disks:
-  #   - device: /dev/sdb # The name of the disk to use.
-  #     partitions:
-  #       - mountpoint: /var/mnt/longhorn # Where to mount the partition.
+  #     - device: /dev/sdb # The name of the disk to use.
+  #       # A list of partitions to create on the disk.
+  #       partitions:
+  #         - mountpoint: /var/mnt/extra # Where to mount the partition.
+  #
+  #           # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
 
-  # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
-
-  # # Human readable representation.
-  # size: 100 MB
-  # # Precise value in bytes.
-  # size: 1073741824
+  #           # # Human readable representation.
+  #           # size: 100 MB
+  #           # # Precise value in bytes.
+  #           # size: 1073741824
 
   # # Allows the addition of user specified files.
 
@@ -404,8 +405,8 @@ machine:
   #     exampleTaint: exampleTaintValue:NoSchedule
 # Provides cluster specific configuration options.
 cluster:
-  id: tDYSodDkZH1Ru3_fWX-Ssmhgx1qAZzxJ5VNAukt6VfI= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-  secret: zKp2CjsxqHcnBr1HGcD+53iDW1yZz4/hMTrNwgzTw+k= # Shared secret of cluster (base64 encoded random 32 bytes).
+  id: f-z9vIaTYE8_5GCLSKxqCr3wZAgcXg_PustB7joOiyc= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: L4zEldNe+GemVKqpZdw7n6ohQ6+27aaveweuC/n/gR0= # Shared secret of cluster (base64 encoded random 32 bytes).
   # Provides control plane specific configuration options.
   controlPlane:
     endpoint: https://192.168.5.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
@@ -425,10 +426,10 @@ cluster:
     #     # URLs containing manifests to apply for the CNI.
     #     urls:
     #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-  token: z9qskc.5hei2gxc3leyt11o # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  token: 21cnf6.0tavckhkd57in90z # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
   # The base64 encoded root certificate authority used by Kubernetes.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpRENDQVMrZ0F3SUJBZ0lRUlpxdUNGYVVuOUxZdzhqS1pFM05vREFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEF4T0RFek5EVTBNRm9YRFRNME1UQXhOakV6TkRVMApNRm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCTmp6V1V6ZG9hZGJ2K3ZPUUpVMEY1cUkwV2tnRVRDaElUUnpoUEYzWGRmRkpqbWUvejROUU1kMjh0U3MKVFNhTkRRR0xHSi8xMlNmYzYzR3pBNnhGMTNtallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVUyQkQrTStKMm5DbDQrN1NFbldyZ21DSnhlV1V3Q2dZSUtvWkl6ajBFQXdJRFJ3QXdSQUlnU05HMGw0c24KdVEwV1VrT3Rhb05BQ3RtMFpsN0xYSE1qd3YxT05waGxvMnNDSUc1ZEJkNG9sN0U5MEJMVVJ3S09mWThMNlZuUQpZRjhvOWJhb2ZFcWMzUFdFCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRTmZzWGRvTE1ReGtRTldqWkFlNjcrREFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEF4T0RFME5UUXpNRm9YRFRNME1UQXhOakUwTlRRegpNRm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCRWQrNzdFUVZEazR1T1U4dU9CbUhRNEVhNGdOTmJVc1RoTzBzU3FlQWdJV1lFWlB3cGFqWDRIRmFBZ2IKSTZCaWhTWGhKYkpBV0ViOU90N0F5eC9FOVdlallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVGM24wOXdxcDNwcitJYlpaaldXbGM0cGgwRDR3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUloQVA3dVc1b24KZVFSaFh6SWZzMzdwRFJZaGhEVnR6ak9iaHBTcCtocFJLalpnQWlBUGdDYWQyaHpaMXpYUHhqdGR4OXBPZ0p5egpxVFdVU0IwbkxFeHVsb0FRRnc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Configures cluster member discovery.
   discovery:
