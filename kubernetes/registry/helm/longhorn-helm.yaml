@@ -32,7 +32,6 @@ spec:
         defaultSettings:
           guaranteedInstanceManagerCPU: 12
           defaultReplicaCount: 1
-          defaultDataPath: /mnt/storage
           storageOverProvisioningPercentage: 100
           storageMinimalAvailablePercentage: 10
 
