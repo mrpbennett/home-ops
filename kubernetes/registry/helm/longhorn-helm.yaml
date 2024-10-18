@@ -32,7 +32,7 @@ spec:
         defaultSettings:
           guaranteedInstanceManagerCPU: 12
           defaultReplicaCount: 1
-          defaultDataPath: /var/mnt/longhorn
+          defaultDataPath: /mnt/storage
           storageOverProvisioningPercentage: 100
           storageMinimalAvailablePercentage: 10
 

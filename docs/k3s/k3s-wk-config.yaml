@@ -5,6 +5,3 @@ node-ip: 192.168.5.4
 token: 95e2850a0e0b505b8b677661885509a2
 
 server: 192.168.5.200
-
-node-taint:
-  - "node.kubernetes.io/unreachable=true:NoExecute"

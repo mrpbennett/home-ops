@@ -4,7 +4,7 @@ metadata:
   name: docker-registry-svc
 spec:
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.5.110
+    kube-vip.io/loadbalancerIPs: 192.168.5.100
   type: LoadBalancer
   selector:
     app: docker-registry

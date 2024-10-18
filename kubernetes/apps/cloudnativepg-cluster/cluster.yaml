@@ -32,7 +32,7 @@ spec:
             metadata:
               name: postgres-rw-svc
               annotations:
-                metallb.universe.tf/loadBalancerIPs: 192.168.5.60
+                kube-vip.io/loadbalancerIPs: 192.168.5.80
             spec:
               type: LoadBalancer
 

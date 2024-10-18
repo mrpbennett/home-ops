@@ -70,13 +70,13 @@
 #         additionalCatalogs:
 #           cnpg: |
 #             connector.name=postgresql
-#             connection-url=jdbc:postgresql://192.168.5.60:5432/70_ld
+#             connection-url=jdbc:postgresql://192.168.5.80:5432/70_ld
 #             connection-user=postgres
 #             connection-password=postgres
 
 #         service:
 #           type: LoadBalancer
-#           loadBalancerIP: 192.168.5.61
+#           loadBalancerIP: 192.168.5.79
 #           port: 8080
 
 #         coordinator:
