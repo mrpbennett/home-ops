@@ -4,11 +4,11 @@ persist: true
 # Provides machine specific configuration options.
 machine:
   type: controlplane # Defines the role of the machine within the cluster.
-  token: dnlp63.o8r5yw6ptqxcuh7m # The `token` is used by a machine to join the PKI of the cluster.
+  token: 2t48d8.8jp6q97alqd0dfr2 # The `token` is used by a machine to join the PKI of the cluster.
   # The root certificate authority of the PKI.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEI0dldaZ0M0bzNlUTFHSC82SWVSRERNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5ERXdNVFl4TmpJeU1EZGFGdzB6TkRFd01UUXhOakl5TURkYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBYVU2QjRnSERzK0k5UUVnOTNSSitRVHRFNjVnQ010cHVhMU5RCnUwV2o5MjZqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVVWUvMXNYNjRzMHN1SFJvbwpoMFlXQ2VUQmx6QXdCUVlESzJWd0EwRUFDblRtMkNPWVREc05UU1hlMEg3WkxHaVMrTzVzSlZBM2xlN3NrU1F1ClNiTmd5bFU2YXcvYng3R0U1WU83WDc1cEs5eU9vWEp6ZVphazUxbUsxa1EwQlE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
-    key: LS0tLS1CRUdJTiBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0KTUM0Q0FRQXdCUVlESzJWd0JDSUVJS1d0R0cxc3ZKeTRDamZOYmxFbENGZVpONXlkYXFaVEVIREQ2M0xSNzBiaAotLS0tLUVORCBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0K
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBN211ODRhbU1XYzFsT2xxWk41d1lWREFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXhNREU0TVRNME5UUXdXaGNOTXpReE1ERTJNVE0wTlRRd1dqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUUrK1JPUHJ0bUZvOXI2TEtoT3NNRCtSWmc1dzVVcE5GOGF4ClJOWTVCa2hubzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkFtWnhVSTBkZlhJMm5oRAp3dzY0YTdKR0pyNDdNQVVHQXl0bGNBTkJBQjA3UHMwZnVpTW9rVjlaR0VWZ25aYUx4bHA2bXNpZGdDTjlyQ2FrCmlhQlc1U2FJL00yY0pML0FyRFMxMlBKY2tKMmI2cWxnZWNVNVBMM2xWOWw4NndNPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0KTUM0Q0FRQXdCUVlESzJWd0JDSUVJS0trYlREbGpOVUVrWldFUFBEVkVyRklEQzV3S242Z1ZKNWV4dDkvRHdlRAotLS0tLUVORCBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0K
   # Extra certificate subject alternative names for the machine's certificate.
   certSANs: []
   #   # Uncomment this to enable SANs.
@@ -31,15 +31,15 @@ machine:
     # extraArgs:
     #     key: value
 
-    # # The `extraMounts` field is used to add additional mounts to the kubelet container.
-    extraMounts:
-      - destination: /var/mnt/longhorn
-        type: bind
-        source: /var/mnt/longhorn
-        options:
-          - bind
-          - rshared
-          - rw
+    # The `extraMounts` field is used to add additional mounts to the kubelet container.
+    # extraMounts:
+    #   - destination: /var/mnt/longhorn
+    #     type: bind
+    #     source: /var/mnt/longhorn
+    #     options:
+    #       - bind
+    #       - rshared
+    #       - rw
 
     # # The `extraConfig` field is used to provide kubelet configuration overrides.
     # extraConfig:
@@ -211,17 +211,7 @@ machine:
     # extensions:
     #     - image: ghcr.io/siderolabs/gvisor:20220117.0-v1.0.0 # System extension image.
   # Used to configure the machine's container image registry mirrors.
-  registries:
-    mirrors:
-      personal_docker_registry:
-        endpoints:
-          - http://192.168.7.210:5000
-
-    # Specifies TLS & auth configuration for HTTPS image registries.
-    config:
-      registry.insecure:
-        tls:
-          insecureSkipVerify: true
+  registries: {}
   # # Specifies mirror configuration for each registry host namespace.
   # mirrors:
   #     ghcr.io:
@@ -332,7 +322,7 @@ machine:
 
   # # Used to configure the machine's time settings.
 
-  # # Example configuration for cloudflare ntp server.
+  # Example configuration for cloudflare ntp server.
   time:
     disabled: false
     servers:
@@ -417,8 +407,8 @@ machine:
   #     exampleTaint: exampleTaintValue:NoSchedule
 # Provides cluster specific configuration options.
 cluster:
-  id: rQLU7IG6LRCOqOrFh1fu7AQk9Cen1Hbpgrd2QUXuTAg= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-  secret: 9PpvWU8Fv9p8e1JfHI9oSjOUs7R1tUvhbVA/xFJDO40= # Shared secret of cluster (base64 encoded random 32 bytes).
+  id: tDYSodDkZH1Ru3_fWX-Ssmhgx1qAZzxJ5VNAukt6VfI= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: zKp2CjsxqHcnBr1HGcD+53iDW1yZz4/hMTrNwgzTw+k= # Shared secret of cluster (base64 encoded random 32 bytes).
   # Provides control plane specific configuration options.
   controlPlane:
     endpoint: https://192.168.5.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
@@ -439,19 +429,19 @@ cluster:
     #     # URLs containing manifests to apply for the CNI.
     #     urls:
     #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-  token: 3osc3k.nav1tgapkhopdzbw # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
-  secretboxEncryptionSecret: rcPbWT2Jbd4KCx+X3xMBnHyi+Xzpr9ArhyZh9Gc++Ps= # A key used for the [encryption of secret data at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/).
+  token: z9qskc.5hei2gxc3leyt11o # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  secretboxEncryptionSecret: 5GybpURWjznm6gDAsEnJyApytU16SpeP6tdnbElnAMg= # A key used for the [encryption of secret data at rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/).
   # The base64 encoded root certificate authority used by Kubernetes.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRZWk3K1ZDMGR2QUJKQ1N3dGF2OG5JREFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEF4TmpFMk1qSXdOMW9YRFRNME1UQXhOREUyTWpJdwpOMW93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCUGo2S0xLSmwzNXBVSnIyZlhPZVRsbkQ2TXB3eHR2NmJOeTgwOVR4MUxtenE5N05wKy93N0E1OTQwTksKUXZ4Z0ZON0JVTkNQdStJTmtyT3QzN3IrMHhLallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVFZ3JlUEVxWjdQZ2RPeHVhcTdOWlVkd1VWYkF3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnWlo2VE5DdkoKRzk4dGRtclVVUFpuSWtBUlRmRjZzdndHdk5za3VwV0RsUG9DSVFEVTFqWkJ0NzhCYkFHaHROYS9yeExIQ1NSbwpIbisybEllYmlQNjBiUGRNc0E9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
-    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNsNUZUYldhU1NnS3RuS2VzNDA0aU12YWtDY3JJZCtMTSszY3FmdFFWNWJvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFK1Bvb3NvbVhmbWxRbXZaOWM1NU9XY1BveW5ERzIvcHMzTHpUMVBIVXViT3IzczJuNy9EcwpEbjNqUTBwQy9HQVUzc0ZRMEkrNzRnMlNzNjNmdXY3VEVnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpRENDQVMrZ0F3SUJBZ0lRUlpxdUNGYVVuOUxZdzhqS1pFM05vREFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEF4T0RFek5EVTBNRm9YRFRNME1UQXhOakV6TkRVMApNRm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCTmp6V1V6ZG9hZGJ2K3ZPUUpVMEY1cUkwV2tnRVRDaElUUnpoUEYzWGRmRkpqbWUvejROUU1kMjh0U3MKVFNhTkRRR0xHSi8xMlNmYzYzR3pBNnhGMTNtallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVUyQkQrTStKMm5DbDQrN1NFbldyZ21DSnhlV1V3Q2dZSUtvWkl6ajBFQXdJRFJ3QXdSQUlnU05HMGw0c24KdVEwV1VrT3Rhb05BQ3RtMFpsN0xYSE1qd3YxT05waGxvMnNDSUc1ZEJkNG9sN0U5MEJMVVJ3S09mWThMNlZuUQpZRjhvOWJhb2ZFcWMzUFdFCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUhiRWNsQ2lsdGdjMENYTUpObDdmdTkyVjl6ZElMTVgrcW1jNjkzZU1DVEFvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMlBOWlROMmhwMXUvNjg1QWxUUVhtb2pSYVNBUk1LRWhOSE9FOFhkZDE4VW1PWjcvUGcxQQp4M2J5MUt4TkpvME5BWXNZbi9YWko5enJjYk1EckVYWGVRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
   # The base64 encoded aggregator certificate authority used by Kubernetes for front-proxy certificate generation.
   aggregatorCA:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJZRENDQVFhZ0F3SUJBZ0lSQUxwaGFqS2FrclNuN0tZS0RiMG5NdDR3Q2dZSUtvWkl6ajBFQXdJd0FEQWUKRncweU5ERXdNVFl4TmpJeU1EZGFGdzB6TkRFd01UUXhOakl5TURkYU1BQXdXVEFUQmdjcWhrak9QUUlCQmdncQpoa2pPUFFNQkJ3TkNBQVE1WWpVQTFqRzRCS0NweGhFS0d3Q3k5dVczTmpKR0JrYmpQSWJTeE1WL01BdWFmdUFZCnhtN2ZDZ1k5ajlmQVllRENTVm9RUTdrcStUYy9BS2dJL0Q3Rm8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXcKSFFZRFZSMGxCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4dwpIUVlEVlIwT0JCWUVGQ1BHRGVOSlk4dUdpT0FvV3MycDl2TEVjYnM5TUFvR0NDcUdTTTQ5QkFNQ0EwZ0FNRVVDCklRREF5OGgra2JBdzBMQ2JKYXR4N3ZHaHRBOHAzL1AxUlNpazRQUTgwancxYXdJZ2MxeVN1YkhBM2RtQnhZSjQKVDN3N21Yb0IyVDRxb3BXeFJkdWVOalJtVXpjPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
-    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU9od1ZXbjNkYXFxemU2TVBwaEY4dHkxUTFQM3ZuRXZYMXgxVFJTZElHRytvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFT1dJMUFOWXh1QVNncWNZUkNoc0FzdmJsdHpZeVJnWkc0enlHMHNURmZ6QUxtbjdnR01adQozd29HUFkvWHdHSGd3a2xhRUVPNUt2azNQd0NvQ1B3K3hRPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJYekNDQVFhZ0F3SUJBZ0lSQU5tai9LMHR1U1k0UG5xVnJhRjN5L1F3Q2dZSUtvWkl6ajBFQXdJd0FEQWUKRncweU5ERXdNVGd4TXpRMU5EQmFGdzB6TkRFd01UWXhNelExTkRCYU1BQXdXVEFUQmdjcWhrak9QUUlCQmdncQpoa2pPUFFNQkJ3TkNBQVRYclFFTVRnakpYZ2dkS1lCaVdUU1pvclQ0RjBSTDFrNUVLcHk1SytYTCsxL2l3N0ZxCk1rYWtyck1tTDlNblRaR2ZRSHR4a1MyTnZhQ1gyRUhrS3ZuQ28yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXcKSFFZRFZSMGxCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4dwpIUVlEVlIwT0JCWUVGRUFibzkrT1NxenZkTTlSck9VN2lQb0xOVVMxTUFvR0NDcUdTTTQ5QkFNQ0EwY0FNRVFDCklEejlsS0YxdFlMcEVnOVRBV2xFQktlY2N6Q0xmbDZBVGt2dk4yZlFqQ3REQWlCcnNxV2g5L0xtd2lmRVZFR0kKYmlaaDdteFpvQTc4Z21pcGRmcU9SeDcvU2c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUE2VEVTNzB3dmhBcFV1bnpOQU4vOXZBWDJIQjRuWFZOVG05SUNQbENiNnBvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMTYwQkRFNEl5VjRJSFNtQVlsazBtYUswK0JkRVM5Wk9SQ3FjdVN2bHkvdGY0c094YWpKRwpwSzZ6SmkvVEowMlJuMEI3Y1pFdGpiMmdsOWhCNUNyNXdnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
   # The base64 encoded private key for service account token generation.
   serviceAccount:
-    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUo0V0FDZ2p2aEVwdmx4SXVkempDb1RzdUVTLzV4dzBPbUQ4QlNIbUlBb2VvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFQW1EZDRTYmlkNE92L0doUUJoajRZbjg0NmhPeHY2QThuVFRrdU5wRnlBcFBKNVZTSTVMNApEOWpYQnh1amNSTmJmV3BXYzlEUGJCZDFaaTVrSDAvWThnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU8vM21KTHJCeHhMSHA4M21nQXpDT2V6WHJzWGRBSWZsV0VGT0RxcWJRQkFvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFRjFsdHY2RkxVRWZXdzROMlNNSThHaldRYjVFWDRrYWM0MzQxeEQ0Y1l1eXFHVHRzODVMTQpOdytYZWJ1T3BVc0pVai9vNGY4ZURaR1pvRkJpZU15SFZBPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
   # API server specific configuration options.
   apiServer:
     image: registry.k8s.io/kube-apiserver:v1.29.2 # The container image used in the API server manifest.
@@ -514,8 +504,8 @@ cluster:
   etcd:
     # The `ca` is the root certificate authority of the PKI.
     ca:
-      crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJmVENDQVNTZ0F3SUJBZ0lSQU5SV1dicW5pMzVGRThHYTZRTG9Qend3Q2dZSUtvWkl6ajBFQXdJd0R6RU4KTUFzR0ExVUVDaE1FWlhSalpEQWVGdzB5TkRFd01UWXhOakl5TURkYUZ3MHpOREV3TVRReE5qSXlNRGRhTUE4eApEVEFMQmdOVkJBb1RCR1YwWTJRd1dUQVRCZ2NxaGtqT1BRSUJCZ2dxaGtqT1BRTUJCd05DQUFRUndVbEIvbUNNCnBsbHRrVTMvZFk4NXBlRTgrUVRhYWxUakJyWC9sZStvdXVxd0NHbEV6QjQwRktnOHZXRkI4UE5TRVRKZS90bkgKUXdJL3dpVllZSTI2bzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSApBd0VHQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkVTcGdKdlAzRGRMCmRtQStOM1FiLy9yZk5oZlFNQW9HQ0NxR1NNNDlCQU1DQTBjQU1FUUNJQUhhczlNNndzdFM0VUJiZFlnR3pibFMKYnMvQUJBbFlab2dLSXRQTW5DMHZBaUIwUDQ1K2VXTVNpdFRhQ2Y2T1VGUG9jcVJ0WEVCMkpick83K3gxMmlHdApLZz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
-      key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU1OeS9mOUk2SXBGeWpFNTdPc0pXSmphMEVJQ2U0di95TEF6ZUhrNUw3SURvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFRWNGSlFmNWdqS1paYlpGTi8zV1BPYVhoUFBrRTJtcFU0d2ExLzVYdnFMcnFzQWhwUk13ZQpOQlNvUEwxaFFmRHpVaEV5WHY3WngwTUNQOElsV0dDTnVnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+      crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJmVENDQVNPZ0F3SUJBZ0lRZVVHeVdFcCtqN21uM3ROVmJsU2pqREFLQmdncWhrak9QUVFEQWpBUE1RMHcKQ3dZRFZRUUtFd1JsZEdOa01CNFhEVEkwTVRBeE9ERXpORFUwTUZvWERUTTBNVEF4TmpFek5EVTBNRm93RHpFTgpNQXNHQTFVRUNoTUVaWFJqWkRCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQk5OUjRVc3luYVZ6CktTVE1WWndDSmRUY1VaK3ZrUEE3SUl0N2VVRXF6TkZGTkdpSDRQSExEL2tQUFV6bWt1RFlNSTNYc1FKV0N6d1cKWjFPaE0vMER2dENqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjRApBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVdmsxbE5YRDY5bkVzCmhuN1ZCM2RiTjFXQ2VzZ3dDZ1lJS29aSXpqMEVBd0lEU0FBd1JRSWhBTnhxRVN4ak1UdW52ZWY0djRGdmRKeGgKQ0plejI3akxFd09tWk9mem5aa1hBaUIrV3NwdnppK1NWREU3ZHVrTlM4MlpKRWlTU3c4UU9zN1NXbWtiNDhrcApMQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+      key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSURLWEZzWnVkY0J3VUZUMGJYQTJFQlBZREoxV3ZqQmVNMVFodE5qcFE1d1VvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFMDFIaFN6S2RwWE1wSk14Vm5BSWwxTnhSbjYrUThEc2dpM3Q1UVNyTTBVVTBhSWZnOGNzUAorUTg5VE9hUzROZ3dqZGV4QWxZTFBCWm5VNkV6L1FPKzBBPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
 
     # # The container image used to create the etcd service.
     # image: gcr.io/etcd-development/etcd:v3.5.11-arm64
@@ -564,4 +554,4 @@ cluster:
   #     certLifetime: 1h0m0s # Admin kubeconfig certificate lifetime (default is 1 year).
 
   # # Allows running workload on control-plane nodes.
-  allowSchedulingOnControlPlanes: true
+  # allowSchedulingOnControlPlanes: true
