@@ -33,9 +33,9 @@ machine:
 
     # The `extraMounts` field is used to add additional mounts to the kubelet container.
     extraMounts:
-      - destination: /var/mnt/longhorn
+      - destination: /var/lib/longhorn
         type: bind
-        source: /var/mnt/longhorn
+        source: /var/lib/longhorn
         options:
           - bind
           - rshared
@@ -283,17 +283,13 @@ machine:
   # # Used to partition, format and mount additional disks.
 
   # MachineDisks list example.
-  disks:
-    - device: /dev/sdb # The name of the disk to use.
-      partitions:
-        - mountpoint: /var/mnt/longhorn # Where to mount the partition.
 
-          # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
+  # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
 
-          # # Human readable representation.
-          # size: 100 MB
-          # # Precise value in bytes.
-          # size: 1073741824
+  # # Human readable representation.
+  # size: 100 MB
+  # # Precise value in bytes.
+  # size: 1073741824
 
   # # Allows the addition of user specified files.
 
