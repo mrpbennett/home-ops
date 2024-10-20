@@ -9,42 +9,42 @@ ui:
 
 endpoints:
   # KUBERNETES
-  - name: k3s-cp-1
+  - name: talos-cp-1
     group: kubernetes
     url: "icmp://192.168.5.1"
     interval: 30s
     conditions:
       - "[CONNECTED] == true"
 
-  - name: k3s-cp-2
+  - name: talos-cp-2
     group: kubernetes
     url: "icmp://192.168.5.2"
     interval: 30s
     conditions:
       - "[CONNECTED] == true"
 
-  - name: k3s-cp-3
+  - name: talos-cp-3
     group: kubernetes
     url: "icmp://192.168.5.3"
     interval: 30s
     conditions:
       - "[CONNECTED] == true"
 
-  - name: k3s-wk-1
+  - name: talos-wk-1
     group: kubernetes
     url: "icmp://192.168.5.4"
     interval: 30s
     conditions:
       - "[CONNECTED] == true"
 
-  - name: k3s-wk-2
+  - name: talos-wk-2
     group: kubernetes
     url: "icmp://192.168.5.5"
     interval: 30s
     conditions:
       - "[CONNECTED] == true"
 
-  - name: k3s-wk-3
+  - name: talos-wk-3
     group: kubernetes
     url: "icmp://192.168.5.6"
     interval: 30s

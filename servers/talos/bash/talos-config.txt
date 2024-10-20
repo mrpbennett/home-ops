@@ -10,13 +10,11 @@ talosctl apply-config \
     --file controlplane-2.yaml \
     --talosconfig talosconfig
 
-
 talosctl apply-config \
     --nodes 192.168.5.3 \
     --endpoints 192.168.5.3 \
     --file controlplane-3.yaml \
     --talosconfig talosconfig
-
 
 talosctl apply-config \
     --nodes 192.168.5.4 \
@@ -24,13 +22,11 @@ talosctl apply-config \
     --file worker-1.yaml \
     --talosconfig talosconfig
 
-
 talosctl apply-config \
     --nodes 192.168.5.5 \
     --endpoints 192.168.5.5 \
     --file worker-2.yaml \
     --talosconfig talosconfig
-
 
 talosctl apply-config \
     --nodes 192.168.5.6 \

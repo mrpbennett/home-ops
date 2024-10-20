@@ -43,8 +43,8 @@ machine:
     #         - rw
 
     # # The `extraConfig` field is used to provide kubelet configuration overrides.
-    # extraConfig:
-    #     serverTLSBootstrap: true
+    extraArgs:
+      rotate-server-certificates: true
 
     # # The `KubeletCredentialProviderConfig` field is used to provide kubelet credential configuration.
     # credentialProviderConfig:

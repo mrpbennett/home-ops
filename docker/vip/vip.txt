@@ -1,0 +1,17 @@
+# MANAGER ----------------------------
+vrrp_instance PI_HOLE {
+    state MASTER
+    interface ens18
+    virtual_router_id 84
+    priority 200
+    advert_int 1
+
+    authentication {
+        auth_type PASS
+        auth_pass gz&KR6cJ
+    }
+
+    virtual_ipaddress {
+        192.168.6.10/22
+    }
+}

@@ -28,8 +28,8 @@ machine:
     #     - 169.254.2.53
 
     # # The `extraArgs` field is used to provide additional flags to the kubelet.
-    # extraArgs:
-    #     key: value
+    extraArgs:
+      rotate-server-certificates: true
 
     # # The `extraMounts` field is used to add additional mounts to the kubelet container.
     # extraMounts:
@@ -516,8 +516,6 @@ cluster:
     #     - 10.0.0.0/8
   # A list of urls that point to additional manifests.
   extraManifests: []
-  #   - https://www.example.com/manifest1.yaml
-  #   - https://www.example.com/manifest2.yaml
 
   # A list of inline Kubernetes manifests.
   inlineManifests: []
