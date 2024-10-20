@@ -1,6 +1,6 @@
 storage:
   type: postgres
-  path: "postgres://gatus_user:gatuspassword@192.168.5.60:5432/gatus_db?sslmode=disable"
+  path: "postgres://gatus_user:gatuspassword@192.168.5.80:5432/gatus_db?sslmode=disable"
 
 metrics: true
 ui:
@@ -8,6 +8,35 @@ ui:
   header: Status
 
 endpoints:
+  # BARE METAL
+  - name: pve-1
+    group: servers
+    url: "icmp://192.168.7.1"
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: pve-2
+    group: servers
+    url: "icmp://192.168.7.2"
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+
+  # - name: pve-3
+  #   group: servers
+  #   url: "icmp://192.168.7.3"
+  #   interval: 30s
+  #   conditions:
+  #     - "[CONNECTED] == true"
+
+  - name: WD Cloud
+    group: servers
+    url: "icmp://192.168.4.110"
+    interval: 30s
+    conditions:
+      - "[CONNECTED] == true"
+
   # KUBERNETES
   - name: talos-cp-1
     group: kubernetes
@@ -50,25 +79,46 @@ endpoints:
     interval: 30s
     conditions:
       - "[CONNECTED] == true"
+      -
+  # - name: talos-wk-4
+  #   group: kubernetes
+  #   url: "icmp://192.168.5.7"
+  #   interval: 30s
+  #   conditions:
+  #     - "[CONNECTED] == true"
+
+  # - name: talos-wk-5
+  #   group: kubernetes
+  #   url: "icmp://192.168.5.8"
+  #   interval: 30s
+  #   conditions:
+  #     - "[CONNECTED] == true"
+
+  # - name: talos-wk-6
+  #   group: kubernetes
+  #   url: "icmp://192.168.5.9"
+  #   interval: 30s
+  #   conditions:
+  #     - "[CONNECTED] == true"
 
   # DATABASES
-  - name: Postgres
+  - name: CNPG Cluster
     group: databases
-    url: "icmp://192.168.5.60"
+    url: "icmp://192.168.5.80"
     interval: 30s
     conditions:
       - "[CONNECTED] == true"
 
-  - name: Redis Master
-    group: databases
-    url: "icmp://192.168.5.54"
-    interval: 30s
-    conditions:
-      - "[CONNECTED] == true"
+  # - name: Redis Master
+  #   group: databases
+  #   url: "icmp://192.168.5.54"
+  #   interval: 30s
+  #   conditions:
+  #     - "[CONNECTED] == true"
 
-  - name: Redis Replica
-    group: databases
-    url: "icmp://192.168.5.55"
-    interval: 30s
-    conditions:
-      - "[CONNECTED] == true"
+  # - name: Redis Replica
+  #   group: databases
+  #   url: "icmp://192.168.5.55"
+  #   interval: 30s
+  #   conditions:
+  #     - "[CONNECTED] == true"

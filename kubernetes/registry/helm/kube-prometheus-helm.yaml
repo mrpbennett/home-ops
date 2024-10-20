@@ -13,7 +13,7 @@ spec:
   source:
     chart: kube-prometheus-stack
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 65.0.0
+    targetRevision: 61.7.1
     helm:
       valuesObject:
         namespaceOverride: "monitoring"
