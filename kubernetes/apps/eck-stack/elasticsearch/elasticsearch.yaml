@@ -42,10 +42,7 @@ spec:
   http:
     service:
       spec:
-        type: LoadBalancer
-        metadata:
-          annotations:
-            metallb.universe.tf/loadBalancerIPs: 192.168.5.110
+        type: ClusterIP
         ports:
           - name: http
             port: 9200
