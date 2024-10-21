@@ -212,31 +212,28 @@ machine:
     # extensions:
     #     - image: ghcr.io/siderolabs/gvisor:20220117.0-v1.0.0 # System extension image.
   # Used to configure the machine's container image registry mirrors.
-  registries: {}
-  # # Specifies mirror configuration for each registry host namespace.
-  # mirrors:
-  #     ghcr.io:
-  #         # List of endpoints (URLs) for registry mirrors to use.
-  #         endpoints:
-  #             - https://registry.insecure
-  #             - https://ghcr.io/v2/
+  registries:
+    mirrors:
+      docker.io:
+        endpoints:
+          - http://192.168.5.100:5000
 
-  # # Specifies TLS & auth configuration for HTTPS image registries.
-  # config:
-  #     registry.insecure:
-  #         # The TLS configuration for the registry.
-  #         tls:
-  #             insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
-  #
-  #             # # Enable mutual TLS authentication with the registry.
-  #             # clientIdentity:
-  #             #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
-  #             #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
-  #
-  #         # # The auth configuration for this registry.
-  #         # auth:
-  #         #     username: username # Optional registry authentication.
-  #         #     password: password # Optional registry authentication.
+    # Specifies TLS & auth configuration for HTTPS image registries.
+    config:
+      registry.local:
+        # The TLS configuration for the registry.
+        tls:
+          insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
+
+        # # Enable mutual TLS authentication with the registry.
+        # clientIdentity:
+        #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
+        #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
+
+      # # The auth configuration for this registry.
+      # auth:
+      #     username: username # Optional registry authentication.
+      #     password: password # Optional registry authentication.
 
   # Features describe individual Talos features that can be switched on or off.
   features:
