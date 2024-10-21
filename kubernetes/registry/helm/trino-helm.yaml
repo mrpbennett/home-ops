@@ -11,38 +11,35 @@ spec:
   source:
     chart: trino
     repoURL: https://trinodb.github.io/charts
-    targetRevision: 0.29.0
+    targetRevision: 0.30.0
     helm:
       valuesObject:
-        image:
-          repository: trinodb/trino
-          pullPolicy: IfNotPresent
-
-        imagePullSecrets:
-          name: ""
+        imagePullSecrets: []
 
         server:
           workers: 2
-
           node:
             environment: production
             dataDir: /data/trino
             pluginDir: /usr/lib/trino/plugin
-
           log:
             trino:
               level: INFO
-
           config:
-            path: /etc/trino.
+            path: /etc/trino
             http:
-              port: 8081
+              port: 8080
             https:
               enabled: false
-              ports: 8443
+              port: 8443
+              keystore:
+                path: ""
+            # -- Trino supports multiple [authentication
+            # types](https://trino.io/docs/current/security/authentication-types.html):
+            # PASSWORD, CERTIFICATE, OAUTH2, JWT, KERBEROS.
             authenticationType: ""
             query:
-              maxMemory: 1GB
+              maxMemory: "4GB"
 
           autoscaling:
             enabled: true
@@ -67,7 +64,7 @@ spec:
                 selectPolicy: Max
 
         # CATALOGS
-        additionalCatalogs:
+        catalogs:
           cnpg: |
             connector.name=postgresql
             connection-url=jdbc:postgresql://192.168.5.80:5432/70_ld
@@ -78,29 +75,6 @@ spec:
           type: LoadBalancer
           loadBalancerIP: 192.168.5.79
           port: 8080
-
-        coordinator:
-          livenessProbe:
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 6
-            successThreshold: 1
-
-          readinessProbe:
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 6
-            successThreshold: 1
-
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
 
         worker:
           resources:
