@@ -31,17 +31,6 @@ spec:
             hosts:
               - name: airflow.70ld.home
 
-        # Airflow database & redis config
-        data:
-          metadataConnection:
-          user: postgres
-          pass: postgres
-          protocol: postgresql
-          host: 192.168.5.80
-          port: 5432
-          db: airflow_db
-          sslmode: disable
-
         # Airflow Worker Config
         workers:
           replicas: 1
