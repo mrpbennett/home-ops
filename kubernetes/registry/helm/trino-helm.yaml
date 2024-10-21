@@ -52,7 +52,8 @@ spec:
 
         service:
           type: LoadBalancer
-          loadBalancerIP: 192.168.5.79
+          annotations:
+            metallb.universe.tf/loadBalancerIPs: 192.168.5.79
 
         auth: {}
 
