@@ -4,6 +4,7 @@ metadata:
   name: pgvector-cluster
 spec:
   description: "pgvector Postgres Cluster"
+  imageName: pgvector:15
   instances: 3
   startDelay: 300
   stopDelay: 300
