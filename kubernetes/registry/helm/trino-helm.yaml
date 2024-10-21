@@ -25,43 +25,13 @@ spec:
           log:
             trino:
               level: INFO
-          config:
-            path: /etc/trino
-            http:
-              port: 8080
-            https:
-              enabled: false
-              port: 8443
-              keystore:
-                path: ""
+
             # -- Trino supports multiple [authentication
             # types](https://trino.io/docs/current/security/authentication-types.html):
             # PASSWORD, CERTIFICATE, OAUTH2, JWT, KERBEROS.
             authenticationType: ""
             query:
               maxMemory: "4GB"
-
-          autoscaling:
-            enabled: true
-            maxReplicas: 2
-            targetCPUUtilizationPercentage: 25
-            behavior:
-              scaleDown:
-                stabilizationWindowSeconds: 300
-                policies:
-                  - type: Percent
-                    value: 100
-                    periodSeconds: 15
-              scaleUp:
-                stabilizationWindowSeconds: 0
-                policies:
-                  - type: Percent
-                    value: 100
-                    periodSeconds: 15
-                  - type: Pods
-                    value: 4
-                    periodSeconds: 15
-                selectPolicy: Max
 
         # CATALOGS
         catalogs:
@@ -74,20 +44,38 @@ spec:
         service:
           type: LoadBalancer
           loadBalancerIP: 192.168.5.79
-          port: 8080
+
+        auth: {}
+
+        coordinator:
+          jvm:
+            maxHeapSize: "8G"
+            gcMethod:
+              type: "UseG1GC"
+              g1:
+                heapRegionSize: "32M"
 
         worker:
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
+          jvm:
+            maxHeapSize: "8G"
+            gcMethod:
+              type: "UseG1GC"
+              g1:
+                heapRegionSize: "32M"
+
+          config:
+            memory:
+              heapHeadroomPerNode: ""
+            query:
+              maxMemoryPerNode: "1GB"
+
+        kafka:
+          mountPath: "/etc/trino/schemas"
 
         serviceMonitor:
           enabled: true
-          labels: { "prometheus": "kube-prometheus" }
+          labels:
+            prometheus: kube-prometheus
           interval: 30s
 
         ingress:
