@@ -21,7 +21,22 @@ spec:
               memory: "128Mi"
               cpu: "500m"
           ports:
-            - containerPort: 5000
+            - name: http
+              containerPort: 5000
+          volumeMounts:
+            - name: image-store
+              mountPath: "/var/lib/registry"
           env:
+            - name: REGISTRY_HTTP_ADDR
+              value: ":5000"
+
+            - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+              value: "/var/lib/registry"
+
             - name: REGISTRY_HTTP_SECRET
               value: "4f6f4a1b5e4f87e4c7a4d2e2a4b634ff47f8a0a2c58b2f3e839b374d80765842"
+
+      volumes:
+        - name: image-store
+          persistentVolumeClaim:
+            claimName: docker-registry-pvc
