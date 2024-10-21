@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: docker-test
+  namespace: cron-jobs
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: docker-test
+              image: 192.168.5.100/docker-test:0.0.1
+          restartPolicy: OnFailure

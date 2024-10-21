@@ -215,13 +215,13 @@ machine:
   # Used to configure the machine's container image registry mirrors.
   registries:
     mirrors:
-      docker.io:
+      192.168.5.100:
         endpoints:
           - http://192.168.5.100:5000
 
     # Specifies TLS & auth configuration for HTTPS image registries.
     config:
-      registry.local:
+      192.168.5.100:
         # The TLS configuration for the registry.
         tls:
           insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
