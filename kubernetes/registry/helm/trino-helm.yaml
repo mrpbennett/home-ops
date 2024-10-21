@@ -35,11 +35,11 @@ spec:
 
         # CATALOGS
         catalogs:
-          cnpg: |
+          cnpg70ld: |
             connector.name=postgresql
             connection-url=jdbc:postgresql://192.168.5.80:5432/70_ld
-            connection-user=postgres
-            connection-password=postgres
+            connection-user=paul
+            connection-password=password
 
         service:
           type: LoadBalancer
