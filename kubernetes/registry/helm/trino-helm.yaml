@@ -34,7 +34,7 @@ spec:
               maxMemory: "4GB"
 
         additionalConfigProperties:
-          - http-server.process-forwarded=false
+          - http-server.process-forwarded=true
 
         # CATALOGS
         catalogs:
