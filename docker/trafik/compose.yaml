@@ -4,7 +4,7 @@ services:
   traefik:
     # The official v3 Traefik docker image
     container_name: traefik
-    image: traefik:v3.1
+    image: traefik:v3.2
     restart: unless-stopped
     user: 0:0
     # Enables the web UI and tells Traefik to listen to docker
