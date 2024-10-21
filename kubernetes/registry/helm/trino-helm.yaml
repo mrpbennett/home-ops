@@ -37,7 +37,7 @@ spec:
         catalogs:
           cnpg70ld: |
             connector.name=postgresql
-            connection-url=jdbc:postgresql://192.168.5.80:5432/70_ld
+            connection-url=jdbc:postgresql://192.168.5.80:5432/70ld_db
             connection-user=paul
             connection-password=password
 
@@ -84,7 +84,7 @@ spec:
           hosts:
             - host: trino.70ld.home
               paths:
-                - path: /
+                - path: /ui
                   pathType: ImplementationSpecific
 
   syncPolicy:
