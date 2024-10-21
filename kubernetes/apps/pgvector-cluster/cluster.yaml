@@ -20,11 +20,11 @@ spec:
       postInitTemplateSQL:
         - "CREATE EXTENSION IF NOT EXISTS vector;"
       secret:
-        name: cnpg-cluster-custom-user
+        name: pgvector-cluster-custom-user
 
   enableSuperuserAccess: true
   superuserSecret:
-    name: cnpg-cluster-custom-superuser
+    name: pgvector-cluster-custom-superuser
 
   managed:
     services:
