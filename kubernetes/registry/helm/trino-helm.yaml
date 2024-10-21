@@ -33,13 +33,22 @@ spec:
             query:
               maxMemory: "4GB"
 
+        additionalConfigProperties:
+          - http-server.process-forwarded=false
+
         # CATALOGS
         catalogs:
-          cnpg70ld: |
+          cnpg_70ld: |
             connector.name=postgresql
             connection-url=jdbc:postgresql://192.168.5.80:5432/70ld_db
             connection-user=paul
             connection-password=password
+
+          cnpg_gatus: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://192.168.5.80:5432/gatus_db
+            connection-user=gatus_user
+            connection-password=gatuspassword
 
         service:
           type: LoadBalancer
