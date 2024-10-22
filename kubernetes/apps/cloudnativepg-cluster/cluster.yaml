@@ -5,6 +5,7 @@ metadata:
 spec:
   description: "Homelab Postgres Cluster"
   instances: 3
+  # imageName: "192.168.5.100:5000/custom-image:16"
   startDelay: 300
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
@@ -13,12 +14,21 @@ spec:
     parameters:
       shared_buffers: 256MB
 
+      # # pg_cron
+      # shared_preload_libraries: "pg_cron"
+      # cron.timezone: GMT
+
   bootstrap:
     initdb:
       database: 70ld_db
       owner: paul
       secret:
         name: cnpg-cluster-custom-user
+      # postInitTemplateSQL:
+      #   - "CREATE EXTENSION IF NOT EXISTS pg_cron;"
+      #   - "GRANT USAGE ON SCHEMA cron TO marco;"
+
+      #   - "CREATE EXTENSION IF NOT EXISTS timescaledb;"
 
   enableSuperuserAccess: true
   superuserSecret:
