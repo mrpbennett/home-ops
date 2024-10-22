@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: custom-cnpg-cluster
-  namespace: custon-cnpg
+  namespace: custom-cnpg
 spec:
   description: "Custom CNPG Postgres Cluster"
   instances: 3
