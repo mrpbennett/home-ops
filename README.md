@@ -30,14 +30,14 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 
 ### Installation
 
-My Kubernetes cluster is deployed with [K3s](https://www.k3s.io) and [KubeVIP](https://kube-vip.io/). This is a high availability cluster, running inside Proxmox.
+My Kubernetes cluster is deployed with [Talos](https://www.talos.dev) and [MetalLB](https://metallb.universe.tf/). This is a high availability cluster, running inside Proxmox.
 
 #### System Requirements
 
-| Role          | Memory | Cores | System Disk | Storage Disk |
-| ------------- | ------ | ----- | ----------- | ------------ |
-| Control Plane | 6 GiB  | 4     | 50 GiB      | 100 Gib      |
-| Node          | 4 Gib  | 2     | 50 GiB      | 100 Gib      |
+| Role          | Memory | Cores | System Disk | 
+| ------------- | ------ | ----- | ----------- | 
+| Control Plane | 4 GiB  | 2     | 100 GiB      | 
+| Node          | 12 Gib  | 4     | 400 GiB      | 
 
 ### GitOps
 
@@ -192,10 +192,18 @@ source:
 | ----------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ------------------ |
 | UniFi Cloud Gateway Max 1TB   | 1     | -            | 1TB NVMe       | -    | -                | Gateway / AP / NVR |
 | UniFi Lite 8 PoE              | 2     | -            | -              | -    | -                | PoE switch         |
-| Lenovo ThinkCentre M720q tiny | 1     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor         |
+| Lenovo ThinkCentre M720q tiny | 3     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor         |
 
 ---
+## ⭐ Stargazers
 
+<div align="center">
+  
+[![Star History Chart](https://api.star-history.com/svg?repos=mrpbennett/home-ops&type=Date)](https://star-history.com/#mrpbennett/home-ops&Date)
+  
+</div>
+
+---
 ## 🤝 Gratitude and Thanks
 
 Thanks to all the people who donate their time to the [Home Operations](https://discord.gg/home-operations) Discord community. Be sure to check out [kubesearch.dev](https://kubesearch.dev/) for ideas on how to deploy applications or get ideas on what you may deploy.
