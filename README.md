@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-    <a href="[https://talos.dev/](https://k3s.io/)"><img alt="k3s" src="https://img.shields.io/badge/k3s-v1.29.5-yellow?logo=kubernetes&logoColor=white&style=flat-square"></a>
+    <a href="[https://talos.dev/](https://talos.dev)"><img alt="talos" src="https://img.shields.io/badge/talos-v1.8.1-orange?logo=talos&logoColor=white&style=flat-square"></a>
     <a href="https://github.com/mrpbennett/home-ops/commits/master"><img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/mrpbennett/home-ops?logo=git&logoColor=white&color=purple&style=flat-square"></a>
     <a href="https://discord.gg/home-operations"><img alt="Home Operations Discord" src="https://img.shields.io/badge/discord-chat-7289DA.svg?logo=discord&logoColor=white&maxAge=60&style=flat-square"></a>
 </p>
@@ -34,10 +34,10 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev) and [Metal
 
 #### System Requirements
 
-| Role          | Memory | Cores | System Disk | 
-| ------------- | ------ | ----- | ----------- | 
-| Control Plane | 4 GiB  | 2     | 100 GiB      | 
-| Node          | 12 Gib  | 4     | 400 GiB      | 
+| Role          | Memory | Cores | System Disk |
+| ------------- | ------ | ----- | ----------- |
+| Control Plane | 4 GiB  | 2     | 100 GiB     |
+| Node          | 12 Gib | 4     | 400 GiB     |
 
 ### GitOps
 
@@ -45,30 +45,23 @@ My Kubernetes cluster is deployed with [Talos](https://www.talos.dev) and [Metal
 
 ### Directories
 
-This Git repository contains the following directories under [kubernetes](./kubernetes). I have the `apps` directory that stores all the application manifests for deployed apps. The registry directory is where I store all my `Application` type manifests for deployed apps. I also have a `cluster` directory for all cluster wide manifests as well as a `workflows` directory for all CronWorkflow via ArgoCD.
+This Git repository contains the following directories under [kubernetes](./kubernetes). I have the `apps` directory that stores all the application manifests for deployed apps. The registry directory is where I store all my `Application` type manifests for deployed apps. I also have a `cluster` directory for all cluster wide manifests.
 
 All Helm deployment `values.yaml` are contained within the Application under the `helm.valuesObject`
 
 ```sh
-📁 kubernetes                          # root folder for all kubernetes manifests
-├── 📁 apps                            # application directory deployed by ArgoCD
-│   └── 📁 application
-│       ├── deployment.yaml
-│       ├── ingress.yaml
-│       ├── namespace.yaml
-│       └── service.yaml
+📁 kubernetes
+├── 📁 apps                                    # application directory
+│   ├── 📁 application                         # application manifests
+│   │   ├── cluster-role-binding.yaml
+│   │   ├── cluster-role.yaml
+│   │   └── service.yaml
 ├── argo-root.yaml
-├── 📁 cluster                          # directory for cluster wide manifests
-│   ├── cj-namespace.yaml
-│   └── cluster-role-binding.yaml
-├── 📁 registry                         # folder to hold all argo applications
-│   ├── 📁 helm                         # folder for all helm deployments
-│   │   └── application-helm.yaml
-│   └── application.yaml
-└── 📁 workflows                        # # directory for all argo cron workflows
-    ├── 📁 jobs
-    │   └── cron-workflow.yaml
-    └── namespace.yaml
+├── 📁 cluster                                 # cluster wide manifests
+└── 📁 registry                                # application directory which stores application deployment manifests
+    ├── cloudnativepg-cluster.yaml
+    └── 📁 helm                                # helm directory which stores helm applications
+        └── trino-helm.yaml
 ```
 
 My `argo-root.yaml` argocd application checks for changes in `./kubernetes/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:
@@ -128,21 +121,6 @@ source:
         <td>Container-orchestration system, the backbone of this project</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://raw.githubusercontent.com/cncf/artwork/master/projects/kubescape/stacked/color/kubescape-stacked-color.svg"></td>
-        <td><a href="https://kubescape.io">Kubescape</a></td>
-        <td>Kubernetes security platform</td>
-    <tr>
-        <td><img width="32" src="https://kube-vip.io/images/kube-vip.png"></td>
-        <td><a href="https://kube-vip.io/">Kube VIP</a></td>
-        <td>Kubernetes virtual IP for clusters and load balancer</td>
-    </tr>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://github.com/grafana/loki/blob/main/docs/sources/logo.png?raw=true"></td>
-        <td><a href="https://grafana.com/oss/loki">Loki</a></td>
-        <td>Log aggregation system</td>
-    </tr>
-    <tr>
         <td><img width="32" src="https://longhorn.io/img/logos/longhorn-icon-white.png"></td>
         <td><a href="https://longhorn.io">Longhorn</a></td>
         <td>Distributed block storage for Kubernetes</td>
@@ -153,9 +131,14 @@ source:
         <td>Kubernetes Ingress Controller</td>
     </tr>
     <tr>
+        <td><img width="32" src="https://metallb.universe.tf/images/logo/metallb-white.png"></td>
+        <td><a href="https://metallb.universe.tf/">MetalLB</a></td>
+        <td>Kubernetes load balancer</td>
+    </tr>
+    <tr>
         <td><img width="32" src="https://www.postgresql.org/media/img/about/press/elephant.png"></td>
         <td><a href="https://www.postgresql.org/">Postgres</a></td>
-        <td>Database of choice</td>
+        <td>Cloudnative PG</td>
     </tr>
     <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/3380462"></td>
@@ -178,9 +161,14 @@ source:
         <td>Infrastructure as code</td>
     </tr>
     <tr>
+        <td><img width="28" src="https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg"></td>
+        <td><a href="https://trino.io/">Trino</a></td>
+        <td>Fast distributed SQL query engine</td>
+    </tr>
+    <tr>
         <td><img width="32" src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo-ubuntu_cof-orange-hex.svg"></td>
         <td><a href="https://getfedora.org/en/server">Ubuntu Server</a></td>
-        <td>Base OS minimized for all VMs</td>
+        <td>Base OS minimized for all Non K8 VMs</td>
     </tr>
 </table>
 
@@ -188,13 +176,12 @@ source:
 
 ## 🔧 Hardware
 
-| Device                        | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose            |
-| ----------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ------------------ |
-| UniFi Cloud Gateway Max 1TB   | 1     | -            | 1TB NVMe       | -    | -                | Gateway / AP / NVR |
-| UniFi Lite 8 PoE              | 2     | -            | -              | -    | -                | PoE switch         |
-| Lenovo ThinkCentre M720q tiny | 3     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor         |
+| Device                        | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose    |
+| ----------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ---------- |
+| Lenovo ThinkCentre M720q tiny | 3     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor |
 
 ---
+
 ## ⭐ Stargazers
 
 <div align="center">
@@ -204,6 +191,7 @@ source:
 </div>
 
 ---
+
 ## 🤝 Gratitude and Thanks
 
 Thanks to all the people who donate their time to the [Home Operations](https://discord.gg/home-operations) Discord community. Be sure to check out [kubesearch.dev](https://kubesearch.dev/) for ideas on how to deploy applications or get ideas on what you may deploy.
