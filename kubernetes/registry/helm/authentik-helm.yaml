@@ -7,7 +7,7 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: *chart-name
-  project: k3s
+  project: default
   source:
     chart: *chart-name
     repoURL: https://charts.goauthentik.io
