@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &chart-name authentik
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: *chart-name
+  project: k3s
+  source:
+    chart: *chart-name
+    repoURL: https://charts.goauthentik.io
+    targetRevision: 2024.8.3
+    helm:
+      valuesObject:
+        authentik:
+          secret_key: "bzRsG4ydak02IYoyUYEiQhCrv1dJfM3mGskEgDaLWzLt3"
+          error_reporting:
+            enabled: true
+          postgresql:
+            password: "password"
+
+          email:
+            # -- SMTP Server emails are sent from, fully optional
+            host: ""
+            port: 587
+            # -- SMTP credentials. When left empty, no authentication will be done.
+            username: ""
+            # -- SMTP credentials. When left empty, no authentication will be done.
+            password: ""
+            # -- Enable either use_tls or use_ssl. They can't be enabled at the same time.
+            use_tls: false
+            # -- Enable either use_tls or use_ssl. They can't be enabled at the same time.
+            use_ssl: false
+            # -- Connection timeout in seconds
+            timeout: 30
+            # -- Email 'from' address can either be in the format "foo@bar.baz" or "authentik <foo@bar.baz>"
+            from: ""
+
+        server:
+          ingress:
+            ingressClassName: nginx
+            enabled: true
+            hosts:
+              - authentik.70ld.home
+
+        postgresql:
+          enabled: true
+          auth:
+            password: "password"
+        redis:
+          enabled: true
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
