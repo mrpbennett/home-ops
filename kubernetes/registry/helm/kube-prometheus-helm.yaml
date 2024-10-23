@@ -306,11 +306,11 @@ spec:
             paths:
               - /
 
-            prometheusSpec:
-              podMonitorSelectorNilUsesHelmValues: false
-              serviceMonitorSelectorNilUsesHelmValues: false
-              ruleSelectorNilUsesHelmValues: false
-              probeSelectorNilUsesHelmValues: false
+          prometheusSpec:
+            podMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            ruleSelectorNilUsesHelmValues: false
+            probeSelectorNilUsesHelmValues: false
 
   syncPolicy:
     automated:
