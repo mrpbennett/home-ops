@@ -72,7 +72,7 @@ machine:
   network:
     hostname: talos-cp-3
     nameservers:
-      - 192.168.4.100
+      - 192.168.4.10
       - 1.1.1.1
     interfaces:
       - deviceSelector:

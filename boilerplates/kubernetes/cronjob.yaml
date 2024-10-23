@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: garmin-data
+  name: &name garmin-data
   namespace: cron-jobs
 spec:
   schedule: "30 1 * * *" # 1:30 AM
@@ -9,16 +9,16 @@ spec:
     spec:
       template:
         spec:
+          restartPolicy: OnFailure
           securityContext:
             runAsNonRoot: true
             runAsUser: 1001
             seccompProfile:
               type: RuntimeDefault
           containers:
-            - name: garmin-data
-              image: 192.168.5.100/garmindata:0.0.3
+            - name: *name
+              image: 192.168.5.100/garmindata:0.0.1
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
                   drop: ["ALL"]
-          restartPolicy: OnFailure
