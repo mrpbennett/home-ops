@@ -284,10 +284,10 @@ spec:
               resources:
                 limits:
                   cpu: 200m
-                  memory: 200Mi
+                  memory: 4Gi
                 requests:
                   cpu: 100m
-                  memory: 100Mi
+                  memory: 2Gi
 
         ## Deploy a Prometheus instance
         prometheus:
