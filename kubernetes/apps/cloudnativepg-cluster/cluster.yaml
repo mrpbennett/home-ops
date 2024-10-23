@@ -3,11 +3,11 @@ kind: Cluster
 metadata:
   name: cnpg-cluster
 spec:
-  imageCatalogRef:
-    apiGroup: postgresql.cnpg.io
-    kind: ImageCatalog
-    name: custom-cnpg
-    major: 17
+  # imageCatalogRef:
+  #   apiGroup: postgresql.cnpg.io
+  #   kind: ImageCatalog
+  #   name: custom-cnpg
+  #   major: 17
 
   description: "Homelab Postgres Cluster"
   instances: 3
@@ -18,18 +18,21 @@ spec:
   postgresql:
     parameters:
       shared_buffers: 256MB
+    #   shared_preload_libraries: "pg_cron"
 
-      # pg_cron
-      shared_preload_libraries: "pg_cron"
-      cron.database_name: "postgres"
-      cron.timezone: "GMT"
+    #   # pg_cron
+    #   cron.database_name: "postgres"
+    #   cron.timezone: "GMT"
+
+    # pg_hba:
+    #   - cron.host = ''
 
   bootstrap:
     initdb:
       database: main
       owner: paul
-      postInitTemplateSQL:
-        - "CREATE EXTENSION pg_cron;"
+      # postInitTemplateSQL:
+      #   - "CREATE EXTENSION pg_cron;"
       secret:
         name: cnpg-cluster-custom-user
 
