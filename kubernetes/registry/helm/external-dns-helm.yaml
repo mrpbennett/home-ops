@@ -1,0 +1,72 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &chart-name external-dns
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: *chart-name
+  project: default
+  source:
+    chart: *chart-name
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 8.3.9
+    helm:
+      valuesObject:
+        sources:
+          - service
+          - ingress
+
+        provider: webhook
+
+        extraArgs:
+          webhook-provider-url: http://localhost:8888
+
+        sidecars:
+          - name: adguard-webhook
+            image: ghcr.io/muhlba91/external-dns-provider-adguard:8.0.0
+            ports:
+              - containerPort: 8888
+                name: http
+              - containerPort: 8080
+                name: healthz
+            livenessProbe:
+              httpGet:
+                path: /healthz
+                port: healthz
+              initialDelaySeconds: 10
+              timeoutSeconds: 5
+            readinessProbe:
+              httpGet:
+                path: /healthz
+                port: healthz
+              initialDelaySeconds: 10
+              timeoutSeconds: 5
+            env:
+              - name: LOG_LEVEL
+                value: debug
+              - name: ADGUARD_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: adguard-configuration
+                    key: url
+              - name: ADGUARD_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: adguard-configuration
+                    key: user
+              - name: ADGUARD_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: adguard-configuration
+                    key: password
+              - name: DRY_RUN
+                value: "false"
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
