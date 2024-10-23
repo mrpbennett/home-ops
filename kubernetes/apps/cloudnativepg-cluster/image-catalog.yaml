@@ -1,0 +1,9 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: ImageCatalog
+metadata:
+  name: custom-cnpg
+  namespace: cnpg-cluster
+spec:
+  images:
+    - major: 10
+      image: 192.168.5.100/custom-cnpg:0.0.1

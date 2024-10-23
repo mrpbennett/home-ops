@@ -3,7 +3,12 @@ kind: Cluster
 metadata:
   name: cnpg-cluster
 spec:
-  # imageName: custom-cnpg:0.0.1
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ImageCatalog
+    name: custom-cnpg
+    major: 10
+
   description: "Homelab Postgres Cluster"
   instances: 3
   startDelay: 300
@@ -13,7 +18,7 @@ spec:
   postgresql:
     parameters:
       shared_buffers: 256MB
-      # shared_preload_libraries: "pg_cron"
+      shared_preload_libraries: "pg_cron"
 
   bootstrap:
     initdb:
