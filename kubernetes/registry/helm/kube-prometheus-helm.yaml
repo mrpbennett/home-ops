@@ -280,15 +280,6 @@ spec:
             deployment:
               enabled: false
 
-              ## Resource limits & requests
-              resources:
-                limits:
-                  cpu: 200m
-                  memory: 4Gi
-                requests:
-                  cpu: 100m
-                  memory: 2Gi
-
         ## Deploy a Prometheus instance
         prometheus:
           enabled: true
