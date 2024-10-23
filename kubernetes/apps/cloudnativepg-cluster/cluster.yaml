@@ -11,19 +11,7 @@ spec:
 
   postgresql:
     parameters:
-      max_connections: "40"
       shared_buffers: 256MB
-      effective_cache_size: 768MB
-      maintenance_work_mem: 128MB
-      checkpoint_completion_target: "0.9"
-      wal_buffers: 7864kB
-      default_statistics_target: "500"
-      random_page_cost: "1.1"
-      effective_io_concurrency: "200"
-      work_mem: 638kB
-      huge_pages: off
-      min_wal_size: 4GB
-      max_wal_size: 16GB
 
   bootstrap:
     initdb:
