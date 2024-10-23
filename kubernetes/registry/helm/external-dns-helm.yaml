@@ -22,8 +22,7 @@ spec:
           name: webhook
           webhook:
             image:
-              name: adguard-webhook
-              image: ghcr.io/muhlba91/external-dns-provider-adguard
+              repository: ghcr.io/muhlba91/external-dns-provider-adguard
               tag: v8.0.0
               pullPolicy: IfNotPresent
 
