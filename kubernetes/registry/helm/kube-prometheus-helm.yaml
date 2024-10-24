@@ -214,7 +214,7 @@ spec:
             annotations: {}
             hosts:
               - grafana.70ld.home
-            path: /
+            path: /dashboards?starred
 
           persistence:
             enabled: true
