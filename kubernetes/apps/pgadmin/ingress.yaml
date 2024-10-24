@@ -3,7 +3,8 @@ kind: Ingress
 metadata:
   name: pgadmin-ingress
   namespace: pgadmin
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
