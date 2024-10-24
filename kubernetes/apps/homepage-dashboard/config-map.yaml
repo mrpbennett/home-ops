@@ -85,10 +85,12 @@ data:
         - Applications:
           # MAIN APPLICATIONS
 
-          - Kubernetes:
+          - Kubernetes Dashboard:
               icon: kubernetes.png
               href: http://kubernetes-dashboard.70ld.home
               description: Container orchestration
+              namespace: kubernetes-dashboard
+              app: kubernetes-dashboard
               target: _blank
 
           - Authentik:
@@ -153,8 +155,6 @@ data:
               icon: tailscale.svg
               href: https://login.tailscale.com/admin/machines
               description: Zero config VPN
-              namespace: tailscale
-              app: tailscale
               target: _blank
 
           # MONITORING
@@ -207,32 +207,24 @@ data:
               icon: ntfy.svg
               href: http://192.168.7.106:90/
               description: Notifcation system
-              server: docker-1
-              container: ntfy
               target: _blank
 
           - PGAdmin:
               icon: postgres.png
               href: http://pgadmin.70ld.home
               description: PGAdmin for Postgres
-              server: docker-1
-              container: pgadmin
               target: _blank
 
           - Redis Insight:
               icon: redis.svg
               href: http://redisinsight.70ld.home
               description: World’s fastest data platform
-              namespace: redis
-              app: redis
               target: _blank
 
-          - IT Tools:
+          - IT Tools-old:
               icon: it-tools.svg
               href: http://192.168.6.10:8083
               description: Handy tools for devs
-              server: docker-1
-              container: it-tools
               target: _blank
 
           - Home Assistant:

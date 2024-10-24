@@ -4,6 +4,15 @@ metadata:
   name: it-tools-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+
+    # homepage annotations
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: Media Server
+    gethomepage.dev/group: Kubernetes
+    gethomepage.dev/icon: emby.png
+    gethomepage.dev/name: Emby
+    gethomepage.dev/widget.url: "http://it-tools.70ld.home"
+    gethomepage.dev/pod-selector: ""
 spec:
   rules:
     - host: it-tools.70ld.home
