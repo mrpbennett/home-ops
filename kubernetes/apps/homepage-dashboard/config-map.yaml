@@ -1,282 +1,261 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: homepage
-  namespace: homepage-dashboard
-  labels:
-    app.kubernetes.io/name: homepage
+    name: homepage
+    namespace: homepage-dashboard
+    labels:
+        app.kubernetes.io/name: homepage
 data:
-  kubernetes.yaml: |
-    mode: cluster
-  settings.yaml: |
-    title: 70LD.dev
+    kubernetes.yaml: |
+        mode: cluster
+    settings.yaml: |
+        title: 70LD.dev
 
-    theme: dark
-    color: slate
+        theme: dark
+        color: slate
 
-    providers:
-      openweathermap: openweathermapapikey
-      weatherapi: weatherapiapikey
+        providers:
+          openweathermap: openweathermapapikey
+          weatherapi: weatherapiapikey
 
-    layout:
-      Google:
-        style: row
-        columns: 4
+        layout:
+          Google:
+            style: row
+            columns: 4
 
-      Servers:
-        style: row
-        columns: 3
+          Servers:
+            style: row
+            columns: 3
 
-      Network:
-        style: row
-        columns: 2
+          Network:
+            style: row
+            columns: 2
 
-      Kubernetes:
-        style: row 
-        columns: 4 
+          Applications:
+            style: row 
+            columns: 4
 
-      Docker:
-        style: row
-        columns: 4
+    custom.css: ""
+    custom.js: ""
+    bookmarks.yaml: ""
+    services.yaml: |
+        - Google:
+          - Gmail:
+              icon: google.svg
+              href: https://mail.google.com/mail/u/0/#inbox
+              target: _blank
 
-  custom.css: ""
-  custom.js: ""
-  bookmarks.yaml: ""
-  services.yaml: |
-    - Google:
-      - Gmail:
-          icon: google.svg
-          href: https://mail.google.com/mail/u/0/#inbox
-          target: _blank
+          - Gcal:
+              icon: google-calendar.svg
+              href: https://calendar.google.com/calendar/u/0
+              target: _blank
 
-      - Gcal:
-          icon: google-calendar.svg
-          href: https://calendar.google.com/calendar/u/0
-          target: _blank
+          - BigQuery:
+              icon: https://cdn.worldvectorlogo.com/logos/google-bigquery-logo-1.svg
+              href: https://console.cloud.google.com/bigquery?authuser=1&project=pulsepoint-datahub
+              target: _blank
 
-      - BigQuery:
-          icon: https://cdn.worldvectorlogo.com/logos/google-bigquery-logo-1.svg
-          href: https://console.cloud.google.com/bigquery?authuser=1&project=pulsepoint-datahub
-          target: _blank
+          - Trello:
+              icon: atlassian-trello.png
+              href: https://trello.com/b/RQanK4bt/homelab
+              target: _blank
 
-      - Trello:
-          icon: atlassian-trello.png
-          href: https://trello.com/b/RQanK4bt/homelab
-          target: _blank
+        - Servers:
+          - Proxmox VE:
+              icon: proxmox.png
+              href: https://192.168.7.1:8006
+              description: HyperVisor
+              ping: 192.168.7.1
+              target: _blank
 
-    - Servers:
-      - Proxmox VE:
-          icon: proxmox.png
-          href: https://192.168.7.1:8006
-          description: HyperVisor
-          ping: 192.168.7.1
-          target: _blank
+          - Proxmox BS:
+              icon: proxmox.png
+              href: https://192.168.7.3:8007
+              description: Backup Solution
+              ping: 192.168.7.1
+              target: _blank
 
-      - Proxmox BS:
-          icon: proxmox.png
-          href: https://192.168.7.3:8007
-          description: Backup Solution
-          ping: 192.168.7.1
-          target: _blank
+          - WesternDigital Cloud:
+              icon: truenas-scale.png
+              href: http://192.168.4.110
+              description: WD Cloud
+              ping: 192.168.4.110
+              target: _blank
 
-      - WesternDigital Cloud:
-          icon: truenas-scale.png
-          href: http://192.168.4.110
-          description: WD Cloud
-          ping: 192.168.4.110
-          target: _blank
+        - Applications:
+          # MAIN APPLICATIONS
 
-    - Kubernetes:
-      # MAIN APPLICATIONS
+          - Kubernetes:
+              icon: kubernetes.png
+              href: http://kubernetes-dashboard.70ld.home
+              description: Container orchestration
+              target: _blank
 
-      - Kubernetes:
-          icon: kubernetes.png
-          href: http://kubernetes-dashboard.70ld.home
-          description: Container orchestration
-          target: _blank
+          - Authentik:
+              icon: authentik.png
+              href: http://authentik.70ld.home
+              description: Open source identity provider
+              target: _blank
 
-      - Authentik:
-          icon: authentik.png
-          href: http://authentik.70ld.home
-          description: Open source identity provider
-          target: _blank
+          - ArgoCD:
+              icon: argocd.png
+              href: https://192.168.5.50
+              description: GitOps for Kubernetes
+              target: _blank
 
-      - ArgoCD:
-          icon: argocd.png
-          href: https://192.168.5.50
-          description: GitOps for Kubernetes
-          target: _blank
+          - Argo Workflows:
+              icon: argocd.png
+              href: https://192.168.5.51:2746
+              description: Container-native workflow engine
+              target: _blank
 
-      - Argo Workflows:
-          icon: argocd.png
-          href: https://192.168.5.51:2746
-          description: Container-native workflow engine
-          target: _blank
+          - Longhorn:
+              icon: longhorn.png
+              href: http://longhorn.70ld.home/
+              description: Easy-to-use distributed block storage
+              target: _blank
 
-      - Longhorn:
-          icon: longhorn.png
-          href: http://longhorn.70ld.home/
-          description: Easy-to-use distributed block storage
-          target: _blank
+          # DATABASES
 
-      # DATABASES
+          - Airflow:
+              icon: apache-airflow.svg
+              href: http://192.168.7.106:8080/ui/
+              description: Workflow management for DE
+              target: _blank
 
-      - Airflow:
-          icon: apache-airflow.svg
-          href: http://192.168.7.106:8080/ui/
-          description: Workflow management for DE
-          target: _blank
+          - Trino:
+              icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
+              href: http://trino.70ld.home/ui
+              description: Fast distributed SQL query engine
+              target: _blank
 
-      - Trino:
-          icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
-          href: http://trino.70ld.home/ui
-          description: Fast distributed SQL query engine
-          target: _blank
+          - Hive Metastore:
+              icon: https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Apache_Hive_logo.svg/1331px-Apache_Hive_logo.svg.png?20151020034510
+              href: http://192.168.6.100:8080/ui/
+              description: Fault-tolerant data warehouse
+              target: _blank
 
-      - Hive Metastore:
-          icon: https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Apache_Hive_logo.svg/1331px-Apache_Hive_logo.svg.png?20151020034510
-          href: http://192.168.6.100:8080/ui/
-          description: Fault-tolerant data warehouse
-          target: _blank
+          # TOOLS
 
-      # TOOLS
+          - Docker Registry:
+              icon: https://cdn.worldvectorlogo.com/logos/docker-4.svg
+              href: http://registry.70ld.home/v2/_catalog
+              description: Self hosted registry
+              target: _blank
 
-      - Docker Registry:
-          icon: https://cdn.worldvectorlogo.com/logos/docker-4.svg
-          href: http://registry.70ld.home/v2/_catalog
-          description: Self hosted registry
-          target: _blank
+          - Cloudflare:
+              icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/cloudflare.svg
+              href: https://dash.cloudflare.com/5a2fb936e1a58d410c2a9ab8cf7e5ec3
+              description: Domain and network tunnel
+              target: _blank
 
-      - Cloudflare:
-          icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/cloudflare.svg
-          href: https://dash.cloudflare.com/5a2fb936e1a58d410c2a9ab8cf7e5ec3
-          description: Domain and network tunnel
-          target: _blank
+          - Tailscale:
+              icon: tailscale.svg
+              href: https://login.tailscale.com/admin/machines
+              description: Zero config VPN
+              namespace: tailscale
+              app: tailscale
+              target: _blank
 
-      - Tailscale:
-          icon: tailscale.svg
-          href: https://login.tailscale.com/admin/machines
-          description: Zero config VPN
-          namespace: tailscale
-          app: tailscale
-          target: _blank
+          # MONITORING
 
-      # MONITORING
+          - Grafana:
+              icon: grafana.png
+              href: http://grafana.70ld.home
+              description: Managed observability platform
+              target: _blank
 
-      - Grafana:
-          icon: grafana.png
-          href: http://grafana.70ld.home
-          description: Managed observability platform
-          target: _blank
+          - Prometheus:
+              icon: prometheus.png
+              href: http://prometheus.70ld.home
+              description: Open-source monitoring system
+              target: _blank
 
-      - Prometheus:
-          icon: prometheus.png
-          href: http://prometheus.70ld.home
-          description: Open-source monitoring system
-          target: _blank
+          - Alert Manager:
+              icon: prometheus.png
+              href: http://alertmanager.70ld.home/
+              description: Open-source monitoring system
+              target: _blank
 
-      - Alert Manager:
-          icon: prometheus.png
-          href: http://alertmanager.70ld.home/
-          description: Open-source monitoring system
-          target: _blank
+          - Elastic:
+              icon: elasticsearch.svg
+              href: http://192.168.5.63:3100/metrics
+              description: Search and analytics engine
+              target: _blank
 
-      - Elastic:
-          icon: elasticsearch.svg
-          href: http://192.168.5.63:3100/metrics
-          description: Search and analytics engine
-          target: _blank
+          - Kibana:
+              icon: elastic-kibana.svg
+              href: http://192.168.5.63:3100/metrics
+              description: Data visualization dashboard
+              target: _blank
 
-      - Kibana:
-          icon: elastic-kibana.svg
-          href: http://192.168.5.63:3100/metrics
-          description: Data visualization dashboard
-          target: _blank
+          - Logstash:
+              icon: elastic-logstash.svg
+              href: http://192.168.5.63:3100/metrics
+              description: Server-side data processing
+              target: _blank
 
-      - Logstash:
-          icon: elastic-logstash.svg
-          href: http://192.168.5.63:3100/metrics
-          description: Server-side data processing
-          target: _blank
+          - Gatus:
+              icon: gatus.svg
+              href: http://192.168.6.10:8080/
+              description: Self hosted monitoring
+              server: docker-1
+              container: gatus_uptime_gatus.1.w04x3kwaiio8o8dsr19kjrpf8
+              target: _blank
 
-      - Gatus:
-          icon: gatus.svg
-          href: http://192.168.6.10:8080/
-          description: Self hosted monitoring
-          server: docker-1
-          container: gatus_uptime_gatus.1.w04x3kwaiio8o8dsr19kjrpf8
-          target: _blank
+          - Ntfy:
+              icon: ntfy.svg
+              href: http://192.168.7.106:90/
+              description: Notifcation system
+              server: docker-1
+              container: ntfy
+              target: _blank
 
-      - Ntfy:
-          icon: ntfy.svg
-          href: http://192.168.7.106:90/
-          description: Notifcation system
-          server: docker-1
-          container: ntfy
-          target: _blank
+          - PGAdmin:
+              icon: postgres.png
+              href: http://pgadmin.70ld.home
+              description: PGAdmin for Postgres
+              server: docker-1
+              container: pgadmin
+              target: _blank
 
-      - PGAdmin:
-          icon: postgres.png
-          href: http://pgadmin.70ld.home
-          description: PGAdmin for Postgres
-          server: docker-1
-          container: pgadmin
-          target: _blank
+          - Redis Insight:
+              icon: redis.svg
+              href: http://redisinsight.70ld.home
+              description: World’s fastest data platform
+              namespace: redis
+              app: redis
+              target: _blank
 
-      - Redis Insight:
-          icon: redis.svg
-          href: http://redisinsight.70ld.home
-          description: World’s fastest data platform
-          namespace: redis
-          app: redis
-          target: _blank
+          - IT Tools:
+              icon: it-tools.svg
+              href: http://192.168.6.10:8083
+              description: Handy tools for devs
+              server: docker-1
+              container: it-tools
+              target: _blank
 
-      - IT Tools:
-          icon: it-tools.svg
-          href: http://192.168.6.10:8083
-          description: Handy tools for devs
-          server: docker-1
-          container: it-tools
-          target: _blank
+          - Home Assistant:
+              icon: home-assistant.svg
+              href: http://192.168.7.109:8123
+              description: Home automation
+              target: _blank
 
-    - Docker:
-      - Portainer:
-          icon: portainer.svg
-          href: https://192.168.6.10:9443
-          description: Docker container mangement
-          server: docker-1
-          container: portainer
-          target: _blank
+        - Network:
+          - TP Link Omada:
+              icon: tp-link.png
+              href: https://192.168.7.3:8043/#dashboardGlobal
+              description: Network Management
+              target: _blank
 
-      - Semaphore:
-          icon: semaphore.svg
-          href: http://192.168.6.10:3003/
-          description: Modern UI for DevOps
-          server: docker-1
-          container: semaphore
-          target: _blank
+          - Adguard home:
+              icon: adguard-home.svg
+              href: http://192.168.4.10
+              description: DNS Server
+              ping: 192.168.4.10
 
-      - Home Assistant:
-          icon: home-assistant.svg
-          href: http://192.168.7.216:8123
-          description: Home automation
-          target: _blank
-
-    - Network:
-      - TP Link Omada:
-          icon: tp-link.png
-          href: https://192.168.7.3:8043/#dashboardGlobal
-          description: Network Management
-          target: _blank
-
-      - Adguard home:
-          icon: adguard-home.svg
-          href: http://192.168.4.10
-          description: DNS Server
-          ping: 192.168.4.10
-
-  widgets.yaml: |
-    - search:
-        provider: duckduckgo
-        target: _blank
-  docker.yaml: ""
+    widgets.yaml: |
+        - search:
+            provider: duckduckgo
+            target: _blank
+    docker.yaml: ""
