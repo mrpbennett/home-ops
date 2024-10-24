@@ -4,10 +4,10 @@ persist: true
 # Provides machine specific configuration options.
 machine:
   type: worker # Defines the role of the machine within the cluster.
-  token: deybjm.9y9yl3sszs911vxc # The `token` is used by a machine to join the PKI of the cluster.
+  token: 7wjf6a.omk3bnv6spfhihm9 # The `token` is used by a machine to join the PKI of the cluster.
   # The root certificate authority of the PKI.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBbEg3YjZZSGJHcjVPbEtaK1FLeDNLekFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXhNREU0TVRRMU5ETXdXaGNOTXpReE1ERTJNVFExTkRNd1dqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUxzTGdyanJZOW1VWndDUUJZTm5nVWNOcHd5ays4Qm9Ma29lCldKWTVGZUs0bzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRlByZit5a2ROTXdHTmowLwo5WTlnR2tKOEx2S0hNQVVHQXl0bGNBTkJBTkl4Sk9SSGFOR0tCTGg5a0lSeTNHZ1VGQjJxbVpzZFhra0x0RG1nCm1WdllhRDdEcVhYdjNOSmliTnNJaGRBSldzSkV3RzRORktHSTJPTkZiVWNMN1FZPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBbDhlaUdqSkJRZUY4aTVFVlVkV2pKakFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXhNREkwTVRVek5EVTFXaGNOTXpReE1ESXlNVFV6TkRVMVdqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUMzeVRjMXU2SzZyaUcxeWRDVWcxS3A4QTVvOHoyMVZQWHA0Cm03SDhqVkY2bzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRlBkZE1XQjN5d2VTYmF6Two1dCtwT3JPbnlIN2dNQVVHQXl0bGNBTkJBTXhKOU5vckllVEE1RHJzMFJVUjMxQkNtV3d5bis0aVJvNG9LZURZCnFEemVQdTFHN2gyV1dPU25FRkxhOTZNcEJNTzB4cVNrOVdTdndBUy8wZ2JNdndzPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Extra certificate subject alternative names for the machine's certificate.
   certSANs: []
@@ -208,7 +208,6 @@ machine:
     # # Allows for supplying additional system extension images to install on top of base Talos image.
     # extensions:
     #     - image: ghcr.io/siderolabs/gvisor:20220117.0-v1.0.0 # System extension image.
-
   # Used to configure the machine's container image registry mirrors.
   registries:
     mirrors:
@@ -222,16 +221,30 @@ machine:
         # The TLS configuration for the registry.
         tls:
           insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
+  # # Specifies mirror configuration for each registry host namespace.
+  # mirrors:
+  #     ghcr.io:
+  #         # List of endpoints (URLs) for registry mirrors to use.
+  #         endpoints:
+  #             - https://registry.insecure
+  #             - https://ghcr.io/v2/
 
-        # # Enable mutual TLS authentication with the registry.
-        # clientIdentity:
-        #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
-        #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
-
-      # # The auth configuration for this registry.
-      # auth:
-      #     username: username # Optional registry authentication.
-      #     password: password # Optional registry authentication.
+  # # Specifies TLS & auth configuration for HTTPS image registries.
+  # config:
+  #     registry.insecure:
+  #         # The TLS configuration for the registry.
+  #         tls:
+  #             insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
+  #
+  #             # # Enable mutual TLS authentication with the registry.
+  #             # clientIdentity:
+  #             #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
+  #             #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
+  #
+  #         # # The auth configuration for this registry.
+  #         # auth:
+  #         #     username: username # Optional registry authentication.
+  #         #     password: password # Optional registry authentication.
 
   # Features describe individual Talos features that can be switched on or off.
   features:
@@ -318,7 +331,7 @@ machine:
 
   # # Used to configure the machine's time settings.
 
-  # Example configuration for cloudflare ntp server.
+  # # Example configuration for cloudflare ntp server.
   time:
     disabled: false # Indicates if the time service is disabled for the machine.
     servers:
@@ -403,8 +416,8 @@ machine:
   #     exampleTaint: exampleTaintValue:NoSchedule
 # Provides cluster specific configuration options.
 cluster:
-  id: f-z9vIaTYE8_5GCLSKxqCr3wZAgcXg_PustB7joOiyc= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-  secret: L4zEldNe+GemVKqpZdw7n6ohQ6+27aaveweuC/n/gR0= # Shared secret of cluster (base64 encoded random 32 bytes).
+  id: E3DZACu24rF_kKxmXHtFsmVJTfcuEUYiaoYqwdDPPIE= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: yDWNKsv4a7c718sKBzGQHaxDXQvtFSk+TrkWrD7Q+j8= # Shared secret of cluster (base64 encoded random 32 bytes).
   # Provides control plane specific configuration options.
   controlPlane:
     endpoint: https://192.168.5.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
@@ -424,10 +437,10 @@ cluster:
     #     # URLs containing manifests to apply for the CNI.
     #     urls:
     #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-  token: 21cnf6.0tavckhkd57in90z # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  token: 3wimpy.qnoo9n7gunhyb3e3 # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
   # The base64 encoded root certificate authority used by Kubernetes.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRTmZzWGRvTE1ReGtRTldqWkFlNjcrREFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEF4T0RFME5UUXpNRm9YRFRNME1UQXhOakUwTlRRegpNRm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCRWQrNzdFUVZEazR1T1U4dU9CbUhRNEVhNGdOTmJVc1RoTzBzU3FlQWdJV1lFWlB3cGFqWDRIRmFBZ2IKSTZCaWhTWGhKYkpBV0ViOU90N0F5eC9FOVdlallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVGM24wOXdxcDNwcitJYlpaaldXbGM0cGgwRDR3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUloQVA3dVc1b24KZVFSaFh6SWZzMzdwRFJZaGhEVnR6ak9iaHBTcCtocFJLalpnQWlBUGdDYWQyaHpaMXpYUHhqdGR4OXBPZ0p5egpxVFdVU0IwbkxFeHVsb0FRRnc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpakNDQVMrZ0F3SUJBZ0lRRFJUc3lpZnB0dXlrTDZZZEFxN1ZEVEFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEF5TkRFMU16UTFOVm9YRFRNME1UQXlNakUxTXpRMQpOVm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCQkNYc2RYdlhsMFF2U3RWVUUveTFZdmFaVmFUc2FjTVZhUUc0d1pONFFYT3BpdTBJYTQvckNZQSs0L2UKVWlHNENSQklUa05tcEdUYVRmTHVvY1ptdTcrallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVSQ0FHcXFmdTVMcmxCdm5GZGRLRTJnMnJSUkl3Q2dZSUtvWkl6ajBFQXdJRFNRQXdSZ0loQUlDWkhFQ24KNTNXNDhmSytwVVNqcEY5Y2IrVEJJZmIxd0J3S0xocVllT21oQWlFQXBpWFUxZTBXOU9sRlZrUCtmSTAwMHZWSwpRVWxvTHJpY1l4Um5PZUY1WG9jPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Configures cluster member discovery.
   discovery:
@@ -465,12 +478,13 @@ cluster:
   # serviceAccount:
   #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
 
-  # API server specific configuration options.
+  # # API server specific configuration options.
   apiServer:
     image: registry.k8s.io/kube-apiserver:v1.29.2 # The container image used in the API server manifest.
     # Extra arguments to supply to the API server.
     extraArgs:
       feature-gates: ServerSideApply=true
+      http2-max-streams-per-connection: "32"
     # Configure the API server admission plugins.
     admissionControl:
       - name: PodSecurity # Name is the name of the admission controller.
