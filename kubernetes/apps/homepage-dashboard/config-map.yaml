@@ -173,31 +173,31 @@ data:
 
           - Alert Manager:
               icon: prometheus.png
-              href: http://alertmanager.70ld.home/
+              href: http://alertmanager.70ld.home
               description: Open-source monitoring system
               target: _blank
 
           - Elastic:
               icon: elasticsearch.svg
-              href: http://192.168.5.63:3100/metrics
+              href: http://elastic.70ld.home
               description: Search and analytics engine
               target: _blank
 
           - Kibana:
               icon: elastic-kibana.svg
-              href: http://192.168.5.63:3100/metrics
+              href: http://kibana.70ld.home
               description: Data visualization dashboard
               target: _blank
 
           - Logstash:
               icon: elastic-logstash.svg
-              href: http://192.168.5.63:3100/metrics
+              href: http://logstash.70ld.home
               description: Server-side data processing
               target: _blank
 
           - Gatus:
               icon: gatus.svg
-              href: http://192.168.6.10:8080/
+              href: http://gatus.70ld.home
               description: Self hosted monitoring
               server: docker-1
               container: gatus_uptime_gatus.1.w04x3kwaiio8o8dsr19kjrpf8
