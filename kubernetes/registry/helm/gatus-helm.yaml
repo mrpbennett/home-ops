@@ -33,7 +33,7 @@ spec:
         config:
           storage:
             type: postgres
-            path: "postgres://gatus_user:gatuspassword@192.168.5.80:5433/gatus?sslmode=disable"
+            path: "postgres://gatus_user:gatuspassword@192.168.5.80:5432/gatus?sslmode=disable"
 
           metrics: true
 

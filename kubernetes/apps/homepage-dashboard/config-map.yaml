@@ -221,7 +221,7 @@ data:
               description: World’s fastest data platform
               target: _blank
 
-          - IT Tools-old:
+          - IT Tools:
               icon: it-tools.svg
               href: http://192.168.6.10:8083
               description: Handy tools for devs
