@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     chart: *chart-name
-    repoURL: https://charts.bitnami.com/bitnami
+    repoURL: https://twin.github.io/helm-charts
     targetRevision: 1.1.0
     helm:
       valuesObject:
