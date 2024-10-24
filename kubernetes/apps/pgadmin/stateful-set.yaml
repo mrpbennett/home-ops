@@ -27,7 +27,7 @@ spec:
               mountPath: /var/lib/pgadmin
       containers:
         - name: pgadmin
-          image: dpage/pgadmin4:5.4
+          image: dpage/pgadmin4:5.7
           imagePullPolicy: IfNotPresent
           env:
             - name: PGADMIN_DEFAULT_EMAIL
