@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  selector:
+    matchLabels:
+      app: pgadmin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin4
+          image: dpage/pgadmin4
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: "pbennett.uk@gmail.com"
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: "password"
+            - name: PGADMIN_PORT
+              value: "80"
+          ports:
+            - containerPort: 80
+              name: pgadminport
+          volumeMounts:
+            - mountPath: /var/lib/pgadmin
+              name: pgadmin-data
+
+            - name: pgadmin-config
+              mountPath: /pgadmin4/servers.json
+              subPath: servers.json
+              readOnly: true
+
+          resources:
+            requests:
+              memory: 500Mi
+              cpu: 100m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+      volumes:
+        - name: pgadmin-data
+          persistentVolumeClaim:
+            claimName: pgadmin-pv-claim
+
+        - name: pgadmin-config
+          configMap:
+            name: pgadmin-config

@@ -1,0 +1,172 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &chart-name gatus
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: *chart-name
+  project: default
+  source:
+    chart: *chart-name
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 1.1.0
+    helm:
+      valuesObject:
+        service:
+          type: ClusterIP
+          port: 80
+          targetPort: 8080
+          annotations: {}
+          labels: {}
+
+        ingress:
+          enabled: true
+          annotations: {}
+          labels: {}
+          path: /
+          hosts:
+            - gatus.70ld.home
+          tls: []
+
+        config:
+          storage:
+            type: postgres
+            path: "postgres://gatus_user:gatuspassword@192.168.6.1:5433/gatus?sslmode=disable"
+
+          metrics: true
+
+          ui:
+            title: Status | Gatus
+            header: Status
+
+          endpoints:
+            # BARE METAL
+            - name: pve-1
+              group: servers
+              url: "icmp://192.168.7.1"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: pve-2
+              group: servers
+              url: "icmp://192.168.7.2"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: pve-3
+              group: servers
+              url: "icmp://192.168.7.3"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: WD Cloud
+              group: servers
+              url: "icmp://192.168.4.110"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            # KUBERNETES
+            - name: talos-cp-1
+              group: kubernetes
+              url: "icmp://192.168.5.1"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: talos-cp-2
+              group: kubernetes
+              url: "icmp://192.168.5.2"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: talos-cp-3
+              group: kubernetes
+              url: "icmp://192.168.5.3"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: talos-wk-1
+              group: kubernetes
+              url: "icmp://192.168.5.4"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: talos-wk-2
+              group: kubernetes
+              url: "icmp://192.168.5.5"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: talos-wk-3
+              group: kubernetes
+              url: "icmp://192.168.5.6"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+                -
+            - name: talos-wk-4
+              group: kubernetes
+              url: "icmp://192.168.5.7"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: talos-wk-5
+              group: kubernetes
+              url: "icmp://192.168.5.8"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: talos-wk-6
+              group: kubernetes
+              url: "icmp://192.168.5.9"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            # DATABASES
+            - name: CNPG Cluster
+              group: databases
+              url: "udp://192.168.5.80:5432"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            - name: Trino
+              group: databases
+              url: "udp://192.168.5.79:8080"
+              interval: 30s
+              conditions:
+                - "[CONNECTED] == true"
+
+            # - name: Redis Master
+            #   group: databases
+            #   url: "icmp://192.168.5.54"
+            #   interval: 30s
+            #   conditions:
+            #     - "[CONNECTED] == true"
+
+            # - name: Redis Replica
+            #   group: databases
+            #   url: "icmp://192.168.5.55"
+            #   interval: 30s
+            #   conditions:
+            #     - "[CONNECTED] == true"
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
