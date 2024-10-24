@@ -29,18 +29,22 @@ spec:
             env:
               - name: LOG_LEVEL
                 value: debug
+
               - name: ADGUARD_URL
-                value: http://192.168.4.10:3000
+                value: http://192.168.4.10:80
+
               - name: ADGUARD_USER
                 valueFrom:
                   secretKeyRef:
                     name: adguard-configuration
                     key: user
+
               - name: ADGUARD_PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: adguard-configuration
                     key: password
+
               - name: DRY_RUN
                 value: "false"
 
