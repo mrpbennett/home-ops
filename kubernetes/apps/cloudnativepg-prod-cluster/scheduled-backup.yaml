@@ -6,4 +6,4 @@ spec:
   schedule: "@weekly"
   backupOwnerReference: self
   cluster:
-    name: cnpg-cluster
+    name: cnpg-prod

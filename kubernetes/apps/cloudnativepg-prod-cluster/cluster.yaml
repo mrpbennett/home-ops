@@ -1,7 +1,8 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cnpg-cluster
+  name: cnpg-prod
+  namespace: cnpg-prod
 spec:
   # imageCatalogRef:
   #   apiGroup: postgresql.cnpg.io
@@ -34,11 +35,11 @@ spec:
       # postInitTemplateSQL:
       #   - "CREATE EXTENSION pg_cron;"
       secret:
-        name: cnpg-cluster-custom-user
+        name: cnpg-prod-cluster-custom-user
 
   enableSuperuserAccess: true
   superuserSecret:
-    name: cnpg-cluster-custom-superuser
+    name: cnpg-prod-cluster-custom-superuser
 
   managed:
     services:

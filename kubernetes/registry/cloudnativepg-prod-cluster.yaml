@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app cloudnativepg-cluster
+  name: &app cloudnativepg-prod
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,12 +9,12 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/cloudnativepg-cluster
+    path: kubernetes/apps/cloudnativepg-prod-cluster
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: cnpg-cluster
+    namespace: cnpg-prod
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

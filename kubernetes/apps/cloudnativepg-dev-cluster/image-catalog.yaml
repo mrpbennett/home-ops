@@ -1,8 +1,8 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ImageCatalog
 metadata:
-  name: custom-cnpg
-  namespace: cnpg-cluster
+  name: custom-dev-cnpg
+  namespace: cnpg-dev
 spec:
   images:
     - major: 17
