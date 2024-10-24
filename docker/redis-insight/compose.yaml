@@ -1,9 +1,0 @@
-version: '3.9'
-services:
-  redisinsight:
-    container_name: redisinsight
-    image: 'redis/redisinsight:latest'
-    restart: unless-stopped
-    command: '-v redisinsight:/data'
-    ports:
-      - '5540:5540'

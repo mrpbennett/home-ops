@@ -3,8 +3,7 @@ kind: Ingress
 metadata:
   name: pgadmin-ingress
   namespace: pgadmin
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations: {}
 spec:
   ingressClassName: nginx
   rules:
@@ -17,4 +16,4 @@ spec:
               service:
                 name: pgadmin-service
                 port:
-                  number: 80
+                  number: 5050

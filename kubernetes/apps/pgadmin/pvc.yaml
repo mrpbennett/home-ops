@@ -1,10 +1,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pgadmin-pv-claim
+  name: pgadmin-pvc
   labels:
     app: pgadmin
 spec:
+  storageClassName: longhorn-static
   accessModes:
     - ReadWriteMany
   resources:

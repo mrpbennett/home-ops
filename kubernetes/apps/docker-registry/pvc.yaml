@@ -5,9 +5,9 @@ metadata:
   labels:
     app: docker-registry
 spec:
+  storageClassName: longhorn-static
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 100Gi
-  storageClassName: longhorn-static

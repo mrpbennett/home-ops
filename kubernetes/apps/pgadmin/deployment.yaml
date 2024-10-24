@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: pgadmin
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -47,7 +47,7 @@ spec:
       volumes:
         - name: pgadmin-data
           persistentVolumeClaim:
-            claimName: pgadmin-pv-claim
+            claimName: pgadmin-pvc
 
         - name: pgadmin-config
           configMap:
