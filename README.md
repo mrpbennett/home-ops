@@ -174,6 +174,12 @@ source:
 
 ---
 
+## 🌐 DNS
+
+In my cluster there are two [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) instances deployed. One is deployed with the [ExternalDNS webhook provider for Adguard Home](https://github.com/muhlba91/external-dns-provider-adguard) which syncs DNS records to my Adgaurd instance.
+
+---
+
 ## 🔧 Hardware
 
 | Device                        | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose    |
