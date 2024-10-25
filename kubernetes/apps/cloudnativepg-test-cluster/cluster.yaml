@@ -49,7 +49,7 @@ spec:
             metadata:
               name: postgres-rw-svc
               annotations:
-                metallb.universe.tf/loadBalancerIPs: 192.168.5.80
+                metallb.universe.tf/loadBalancerIPs: 192.168.5.82
             spec:
               type: LoadBalancer
 
