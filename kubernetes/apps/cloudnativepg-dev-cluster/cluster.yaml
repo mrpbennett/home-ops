@@ -31,7 +31,7 @@ spec:
         - selectorType: rw
           serviceTemplate:
             metadata:
-              name: postgres-rw-svc
+              name: postgres-dev-rw-svc
               annotations:
                 metallb.universe.tf/loadBalancerIPs: 192.168.5.81
             spec:
