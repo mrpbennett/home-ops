@@ -11,10 +11,10 @@ spec:
     major: 16
 
   description: "Homelab Postgres Cluster"
+  primaryUpdateStrategy: unsupervised
   instances: 3
   startDelay: 300
   stopDelay: 300
-  primaryUpdateStrategy: unsupervised
 
   postgresUID: 1000
   postgresGID: 1000
