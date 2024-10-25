@@ -1,29 +1,31 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-selfsigned-prod
+  name: selfsigned-issuer
 spec:
   selfSigned: {}
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: letsencrypt-selfsigned
-  namespace: cert-manager
-spec:
-  ca:
-    secretName: letsencrypt-selfsigned
----
-apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: letsencrypt-selfsigned
+  name: my-selfsigned-ca
   namespace: cert-manager
 spec:
   isCA: true
-  commonName: osm-system
-  secretName: letsencrypt-selfsigned
+  commonName: my-selfsigned-ca
+  secretName: root-secret
+  privateKey:
+    algorithm: ECDSA
+    size: 256
   issuerRef:
-    name: letsencrypt-selfsigned-prod
+    name: selfsigned-issuer
     kind: ClusterIssuer
     group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: 70ld-ss-cert-issuer
+spec:
+  ca:
+    secretName: root-secret
