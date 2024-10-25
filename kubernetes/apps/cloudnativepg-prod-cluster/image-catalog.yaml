@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ClusterImageCatalog
 metadata:
   name: timescaledb-ha
-  namespace: cnpg-test
+  namespace: cnpg-prod
 spec:
   images:
     - major: 15
