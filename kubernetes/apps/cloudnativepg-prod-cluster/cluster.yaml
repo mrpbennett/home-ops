@@ -23,6 +23,10 @@ spec:
     parameters:
       shared_buffers: 256MB
 
+      # pg_cron
+      cron.database_name: "postgres"
+      cron.timezone: "GMT"
+
   bootstrap:
     initdb:
       database: main
