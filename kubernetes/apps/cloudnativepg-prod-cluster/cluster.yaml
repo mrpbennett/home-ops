@@ -16,6 +16,9 @@ spec:
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
 
+  postgresUID: 1000
+  postgresGID: 1000
+
   postgresql:
     parameters:
       shared_buffers: 256MB
