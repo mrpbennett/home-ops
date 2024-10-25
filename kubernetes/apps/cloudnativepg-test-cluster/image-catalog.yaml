@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ImageCatalog
 metadata:
   name: custom-test-cnpg
-  namespace: cnpg-tst
+  namespace: cnpg-test
 spec:
   images:
     - major: 17
