@@ -13,7 +13,7 @@ spec:
     - host: registry.70ld.home
       http:
         paths:
-          - path: /v2/_catalog
+          - path: /
             pathType: Prefix
             backend:
               service:

@@ -214,40 +214,14 @@ machine:
   # Used to configure the machine's container image registry mirrors.
   registries:
     mirrors:
-      192.168.5.100:
+      registry.70ld.home:
         endpoints:
-          - http://192.168.5.100:5000
+          - https://registry.70ld.home
 
-    # Specifies TLS & auth configuration for HTTPS image registries.
     config:
-      192.168.5.100:
-        # The TLS configuration for the registry.
+      registry.70ld.home:
         tls:
-          insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
-  # # Specifies mirror configuration for each registry host namespace.
-  # mirrors:
-  #     ghcr.io:
-  #         # List of endpoints (URLs) for registry mirrors to use.
-  #         endpoints:
-  #             - https://registry.insecure
-  #             - https://ghcr.io/v2/
-
-  # # Specifies TLS & auth configuration for HTTPS image registries.
-  # config:
-  #     registry.insecure:
-  #         # The TLS configuration for the registry.
-  #         tls:
-  #             insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
-  #
-  #             # # Enable mutual TLS authentication with the registry.
-  #             # clientIdentity:
-  #             #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
-  #             #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
-  #
-  #         # # The auth configuration for this registry.
-  #         # auth:
-  #         #     username: username # Optional registry authentication.
-  #         #     password: password # Optional registry authentication.
+          ca: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lSQU8ycHJ5Zi8rOGV6RmFmK09TWGVqTzB3Q2dZSUtvWkl6ajBFQXdJd0d6RVoKTUJjR0ExVUVBeE1RYlhrdGMyVnNabk5wWjI1bFpDMWpZVEFlRncweU5ERXdNalV4TVRVeU5UUmFGdzB5TlRBeApNak14TVRVeU5UUmFNQnN4R1RBWEJnTlZCQU1URUcxNUxYTmxiR1p6YVdkdVpXUXRZMkV3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFTUlZFNGhucm5nVVBvTGhnSU8vTytVM0hjS0FtN00xNGZYUnUva2FOQjMKZzZrQitoTXRTeERoV2ZSVnpGbzZkU1hscXdPZ1ZUWUlXaU5DY0p2Mml3eTRvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVTVnenVMQm93cEFVYUxMeTRTa1dqCjhCdm14ZUF3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUloQUxlSHhJZ1loUUREK0dQR05yOGdmbkM0bllicktjOXoKUDNGWHMvRXFyZWhPQWlCb2ZYanVuVlJGYmZjSTlEblptV2NZbGdmN2NTdWozbVMzdERxMFU1NG95UT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
 
   # Features describe individual Talos features that can be switched on or off.
   features:
