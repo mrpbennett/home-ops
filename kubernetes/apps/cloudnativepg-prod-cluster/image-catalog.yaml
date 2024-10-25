@@ -6,8 +6,8 @@ metadata:
 spec:
   images:
     - major: 15
-      image: timescale/timescaledb-ha:pg15-ts2.17.1
+      image: timescale/timescaledb-ha:pg15-ts2.17
     - major: 16
-      image: timescale/timescaledb-ha:pg16-ts2.17.1
+      image: timescale/timescaledb-ha:pg16-ts2.17
     - major: 17
-      image: timescale/timescaledb-ha:pg17-ts2.17.1
+      image: timescale/timescaledb-ha:pg17-ts2.17
