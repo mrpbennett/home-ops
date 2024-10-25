@@ -16,7 +16,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: hw-test
-              image: registry.70ld.home/hw-test:0.0.1
+              image: registry.70ld.home/hw-test:0.0.2
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:

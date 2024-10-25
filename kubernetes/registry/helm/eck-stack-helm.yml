@@ -1,150 +1,174 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: &chart-name eck-stack
-#   namespace: argocd
-# spec:
-#   destination:
-#     server: "https://kubernetes.default.svc"
-#     namespace: elastic-stack
-#   project: default
-#   source:
-#     chart: *chart-name
-#     repoURL: https://helm.elastic.co
-#     targetRevision: 0.12.1
-#     helm:
-#       valuesObject:
-#         eck-elasticsearch:
-#           auth:
-#             disableElasticUser: true
-#             fileRealm:
-#               - secretName: elasticsearch-basic-auth
-#           http:
-#             service:
-#               spec:
-#                 type: LoadBalancer
-#                 loadBalancerIP: 192.168.5.52
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &chart-name eck-stack
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: elastic-stack
+  project: default
+  source:
+    chart: *chart-name
+    repoURL: https://helm.elastic.co
+    targetRevision: 0.12.1
+    helm:
+      valuesObject:
+        eck-elasticsearch:
+          auth:
+            disableElasticUser: true
+            fileRealm:
+              - secretName: elasticsearch-basic-auth
+          http:
+            service:
+              spec:
+                type: LoadBalancer
+                loadBalancerIP: 192.168.5.52
 
-#           nodeSets:
-#             - name: default
-#               count: 1
-#               config:
-#                 # Comment out when setting the vm.max_map_count via initContainer, as these are mutually exclusive.
-#                 # For production workloads, it is strongly recommended to increase the kernel setting vm.max_map_count to 262144
-#                 # and leave node.store.allow_mmap unset.
-#                 # ref: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-virtual-memory.html
-#                 #
-#                 node.store.allow_mmap: false
-#               podTemplate:
-#                 spec:
-#                   containers:
-#                     - name: elasticsearch
-#                       resources:
-#                         limits:
-#                           memory: 2Gi
-#                         requests:
-#                           memory: 2Gi
-#         eck-kibana:
-#           enabled: true
-#           spec:
-#             count: 1
-#             elasticsearchRef:
-#               name: elasticsearch
-#         eck-beats:
-#           enabled: true
-#           spec:
-#             type: filebeat
-#             daemonSet: null
-#             config:
-#               filebeat.inputs:
-#                 - type: log
-#                   paths:
-#                     - /data/logstash-tutorial.log
-#               processors:
-#                 - add_host_metadata: {}
-#                 - add_cloud_metadata: {}
-#               output.logstash:
-#                 # This needs to be {{logstash-name}}-ls-beats:5044
-#                 hosts: ["logstash-ls-beats-ls-beats:5044"]
-#             deployment:
-#               podTemplate:
-#                 spec:
-#                   automountServiceAccountToken: true
-#                   initContainers:
-#                     - name: download-tutorial
-#                       image: curlimages/curl
-#                       command: ["/bin/sh"]
-#                       args:
-#                         [
-#                           "-c",
-#                           "curl -L https://download.elastic.co/demos/logstash/gettingstarted/logstash-tutorial.log.gz | gunzip -c > /data/logstash-tutorial.log",
-#                         ]
-#                       volumeMounts:
-#                         - name: data
-#                           mountPath: /data
-#                   containers:
-#                     - name: filebeat
-#                       securityContext:
-#                         runAsUser: 1000
-#                       volumeMounts:
-#                         - name: data
-#                           mountPath: /data
-#                         - name: beat-data
-#                           mountPath: /usr/share/filebeat/data
-#                   volumes:
-#                     - name: data
-#                       emptydir: {}
-#                     - name: beat-data
-#                       emptydir: {}
-#         eck-logstash:
-#           enabled: true
-#           # This is required to be able to set the logstash
-#           # output of beats in a consistent manner.
-#           fullnameOverride: "logstash-ls-beats"
-#           elasticsearchRefs:
-#             # This clusterName is required to match the environment variables
-#             # used in the below config.string output section.
-#             - clusterName: eck
-#               name: elasticsearch
-#           pipelines:
-#             - pipeline.id: main
-#               config.string: |
-#                 input {
-#                   beats {
-#                     port => 5044
-#                   }
-#                 }
-#                 filter {
-#                   grok {
-#                     match => { "message" => "%{HTTPD_COMMONLOG}"}
-#                   }
-#                   geoip {
-#                     source => "[source][address]"
-#                     target => "[source]"
-#                   }
-#                 }
-#                 output {
-#                   elasticsearch {
-#                     hosts => [ "https://192.168.5.52:9200" ]
-#                     user => "admin"
-#                     password => "password"
-#                     ssl_certificate_authorities => "${ECK_ES_SSL_CERTIFICATE_AUTHORITY}"
-#                   }
-#                 }
-#           services:
-#             - name: beats
-#               service:
-#                 spec:
-#                   type: ClusterIP
-#                   ports:
-#                     - port: 5044
-#                       name: "filebeat"
-#                       protocol: TCP
-#                       targetPort: 5044
+          nodeSets:
+            - name: default
+              count: 1
+              config:
+                # Comment out when setting the vm.max_map_count via initContainer, as these are mutually exclusive.
+                # For production workloads, it is strongly recommended to increase the kernel setting vm.max_map_count to 262144
+                # and leave node.store.allow_mmap unset.
+                # ref: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-virtual-memory.html
+                #
+                node.store.allow_mmap: false
+              podTemplate:
+                spec:
+                  containers:
+                    - name: elasticsearch
+                      resources:
+                        limits:
+                          memory: 2Gi
+                        requests:
+                          memory: 2Gi
 
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+          ingress:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            pathType: /
+            hosts:
+              - host: elasticsearch.70ld.home
+                path: /
+            tls:
+              enable: true
+
+        eck-kibana:
+          enabled: true
+          spec:
+            count: 1
+            elasticsearchRef:
+              name: elasticsearch
+
+          ingress:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            pathType: /
+            hosts:
+              - host: kibana.70ld.home
+                path: /
+            tls:
+              enable: true
+
+        eck-beats:
+          enabled: true
+          spec:
+            type: filebeat
+            daemonSet: null
+            config:
+              filebeat.inputs:
+                - type: log
+                  paths:
+                    - /data/logstash-tutorial.log
+              processors:
+                - add_host_metadata: {}
+                - add_cloud_metadata: {}
+              output.logstash:
+                # This needs to be {{logstash-name}}-ls-beats:5044
+                hosts: ["logstash-ls-beats-ls-beats:5044"]
+            deployment:
+              podTemplate:
+                spec:
+                  automountServiceAccountToken: true
+                  initContainers:
+                    - name: download-tutorial
+                      image: curlimages/curl
+                      command: ["/bin/sh"]
+                      args:
+                        [
+                          "-c",
+                          "curl -L https://download.elastic.co/demos/logstash/gettingstarted/logstash-tutorial.log.gz | gunzip -c > /data/logstash-tutorial.log",
+                        ]
+                      volumeMounts:
+                        - name: data
+                          mountPath: /data
+                  containers:
+                    - name: filebeat
+                      securityContext:
+                        runAsUser: 1000
+                      volumeMounts:
+                        - name: data
+                          mountPath: /data
+                        - name: beat-data
+                          mountPath: /usr/share/filebeat/data
+                  volumes:
+                    - name: data
+                      emptydir: {}
+                    - name: beat-data
+                      emptydir: {}
+        eck-logstash:
+          enabled: true
+          # This is required to be able to set the logstash
+          # output of beats in a consistent manner.
+          fullnameOverride: "logstash-ls-beats"
+          elasticsearchRefs:
+            # This clusterName is required to match the environment variables
+            # used in the below config.string output section.
+            - clusterName: eck
+              name: elasticsearch
+          pipelines:
+            - pipeline.id: main
+              config.string: |
+                input {
+                  beats {
+                    port => 5044
+                  }
+                }
+                filter {
+                  grok {
+                    match => { "message" => "%{HTTPD_COMMONLOG}"}
+                  }
+                  geoip {
+                    source => "[source][address]"
+                    target => "[source]"
+                  }
+                }
+                output {
+                  elasticsearch {
+                    hosts => [ "https://192.168.5.52:9200" ]
+                    user => "admin"
+                    password => "password"
+                    ssl_certificate_authorities => "${ECK_ES_SSL_CERTIFICATE_AUTHORITY}"
+                  }
+                }
+          services:
+            - name: beats
+              service:
+                spec:
+                  type: ClusterIP
+                  ports:
+                    - port: 5044
+                      name: "filebeat"
+                      protocol: TCP
+                      targetPort: 5044
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
