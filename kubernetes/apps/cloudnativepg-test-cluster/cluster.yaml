@@ -35,11 +35,11 @@ spec:
       # postInitTemplateSQL:
       #   - "CREATE EXTENSION pg_cron;"
       secret:
-        name: cnpg-prod-cluster-custom-user
+        name: cnpg-test-cluster-custom-user
 
   enableSuperuserAccess: true
   superuserSecret:
-    name: cnpg-prod-cluster-custom-superuser
+    name: cnpg-test-cluster-custom-superuser
 
   managed:
     services:
@@ -55,7 +55,7 @@ spec:
 
   storage:
     storageClass: longhorn
-    size: 8Gi
+    size: 1Gi
 
   backup:
     retentionPolicy: "30d"

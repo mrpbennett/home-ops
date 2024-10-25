@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/cloudnativepg-prod-cluster
+    path: kubernetes/apps/cloudnativepg-test-cluster
     targetRevision: HEAD
     directory:
       recurse: true
