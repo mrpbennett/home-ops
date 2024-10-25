@@ -7,7 +7,7 @@ spec:
   imageCatalogRef:
     apiGroup: postgresql.cnpg.io
     kind: ImageCatalog
-    name: custom-cnpg
+    name: timescaledb-ha
     major: 17
 
   description: "Homelab Postgres Cluster"

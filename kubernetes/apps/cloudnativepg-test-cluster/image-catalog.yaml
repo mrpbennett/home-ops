@@ -1,9 +1,13 @@
 apiVersion: postgresql.cnpg.io/v1
-kind: ImageCatalog
+kind: ClusterImageCatalog
 metadata:
-  name: custom-test-cnpg
+  name: timescaledb-ha
   namespace: cnpg-test
 spec:
   images:
+    - major: 15
+      image: timescale/timescaledb-ha:pg15-ts2.17.1
+    - major: 16
+      image: timescale/timescaledb-ha:pg16-ts2.17.1
     - major: 17
-      image: registry.70ld.home/custom-cnpg:0.0.1
+      image: timescale/timescaledb-ha:pg17-ts2.17.1
