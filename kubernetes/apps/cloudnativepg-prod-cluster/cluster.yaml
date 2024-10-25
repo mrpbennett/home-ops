@@ -20,18 +20,30 @@ spec:
   postgresGID: 1000
 
   postgresql:
+    shared_preload_libraries:
+      - pg_cron
+      - timescaledb
+
     parameters:
-      shared_buffers: 256MB
+      shared_buffers: 2GB
+      effective_cache_size: 6GB
+      maintenance_work_mem: 1GB
+      work_mem: 26214kB
 
       # pg_cron
-      shared_preload_libraries: "pg_cron"
       cron.database_name: "postgres"
       cron.timezone: "GMT"
+
+    pg_hba:
+      - cron.host = ''
 
   bootstrap:
     initdb:
       database: main
       owner: paul
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS pg_cron;
+        - CREATE EXTENSION IF NOT EXISTS timescaledb;
       secret:
         name: cnpg-prod-cluster-custom-user
 
