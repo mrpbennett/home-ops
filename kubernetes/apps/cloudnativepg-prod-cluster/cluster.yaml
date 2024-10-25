@@ -24,6 +24,7 @@ spec:
       shared_buffers: 256MB
 
       # pg_cron
+      shared_preload_libraries: "pg_cron"
       cron.database_name: "postgres"
       cron.timezone: "GMT"
 
