@@ -6,4 +6,4 @@ metadata:
 spec:
   images:
     - major: 17
-      image: 192.168.5.100/custom-cnpg:0.0.1
+      image: 192.168.5.100:5000/custom-cnpg:0.0.1
