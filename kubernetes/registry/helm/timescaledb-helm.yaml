@@ -1,63 +1,63 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: cnpg-timescaledb
-  namespace: argocd
-spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: timescaledb-cnpg
-  project: default
-  source:
-    chart: cluster
-    repoURL: https://cloudnative-pg.github.io/charts
-    targetRevision: 0.1.0
-    helm:
-      valuesObject:
-        type: timescaledb
-        version:
-          timescaledb: "2.15"
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: cnpg-timescaledb
+#   namespace: argocd
+# spec:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: timescaledb-cnpg
+#   project: default
+#   source:
+#     chart: cluster
+#     repoURL: https://cloudnative-pg.github.io/charts
+#     targetRevision: 0.1.0
+#     helm:
+#       valuesObject:
+#         type: timescaledb
+#         version:
+#           timescaledb: "2.15"
 
-        mode: standalone
+#         mode: standalone
 
-        recovery:
-          method: backup
+#         recovery:
+#           method: backup
 
-        cluster:
-          instances: 1
+#         cluster:
+#           instances: 1
 
-          storage:
-            size: 1Gi
-            storageClass: longhorn
+#           storage:
+#             size: 1Gi
+#             storageClass: longhorn
 
-          enableSuperuserAccess: true
-          superuserSecret: timescaledb-cnpg-cluster-custom-superuser
+#           enableSuperuserAccess: true
+#           superuserSecret: timescaledb-cnpg-cluster-custom-superuser
 
-          postgresql:
-            parameters:
-              shared_buffers: 2GB
-              effective_cache_size: 6GB
-              maintenance_work_mem: 1GB
-              work_mem: 26214kB
+#           postgresql:
+#             parameters:
+#               shared_buffers: 2GB
+#               effective_cache_size: 6GB
+#               maintenance_work_mem: 1GB
+#               work_mem: 26214kB
 
-              cron.database_name: "postgres"
-              cron.timezone: "GMT"
+#               cron.database_name: "postgres"
+#               cron.timezone: "GMT"
 
-            pg_hba:
-              - cron.host = ''
+#             pg_hba:
+#               - cron.host = ''
 
-            shared_preload_libraries:
-              - timescaledb
-              - pg_cron
+#             shared_preload_libraries:
+#               - timescaledb
+#               - pg_cron
 
-          initdb:
-            postInitSQL:
-              - CREATE EXTENSION IF NOT EXISTS timescaledb;
-              - CREATE EXTENSION IF NOT EXISTS pg_cron;
+#           initdb:
+#             postInitSQL:
+#               - CREATE EXTENSION IF NOT EXISTS timescaledb;
+#               - CREATE EXTENSION IF NOT EXISTS pg_cron;
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
