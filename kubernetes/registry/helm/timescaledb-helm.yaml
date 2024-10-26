@@ -20,6 +20,9 @@ spec:
 
         mode: standalone
 
+        recovery:
+          method: backup
+
         cluster:
           instances: 1
 
@@ -31,10 +34,26 @@ spec:
           superuserSecret: timescaledb-cnpg-cluster-custom-superuser
 
           postgresql:
-            parameters: {}
-            pg_hba: []
+            parameters:
+              shared_buffers: 2GB
+              effective_cache_size: 6GB
+              maintenance_work_mem: 1GB
+              work_mem: 26214kB
+
+              cron.database_name: "postgres"
+              cron.timezone: "GMT"
+
+            pg_hba:
+              - cron.host = ''
+
             shared_preload_libraries:
               - timescaledb
+              - pg_cron
+
+          initdb:
+            postInitSQL:
+              - CREATE EXTENSION IF NOT EXISTS timescaledb;
+              - CREATE EXTENSION IF NOT EXISTS pg_cron;
 
   syncPolicy:
     automated:
