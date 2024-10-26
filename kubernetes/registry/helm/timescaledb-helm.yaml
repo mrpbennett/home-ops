@@ -16,7 +16,7 @@ spec:
       valuesObject:
         type: timescaledb
         version:
-          timescaledb: 2.15
+          timescaledb: "2.15"
 
         mode: standalone
 
