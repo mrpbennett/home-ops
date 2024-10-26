@@ -1,9 +1,13 @@
 apiVersion: postgresql.cnpg.io/v1
-kind: ImageCatalog
+kind: ClusterImageCatalog
 metadata:
-  name: custom-dev-cnpg
-  namespace: cnpg-dev
+  name: timescaledb-ha
+  namespace: cnpg-prod
 spec:
   images:
+    - major: 15
+      image: timescale/timescaledb-ha:pg15-ts2.17
+    - major: 16
+      image: timescale/timescaledb-ha:pg16-ts2.17
     - major: 17
-      image: 192.168.5.100/custom-cnpg:0.0.1
+      image: timescale/timescaledb-ha:pg17-ts2.17

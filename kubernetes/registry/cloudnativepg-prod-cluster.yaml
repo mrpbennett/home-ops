@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app cloudnativepg-prod
+  name: &app cnpg-prod
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io

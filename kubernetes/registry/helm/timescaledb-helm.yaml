@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: timescaledb-cnpg
+  name: cnpg-timescaledb
   namespace: argocd
 spec:
   destination:
