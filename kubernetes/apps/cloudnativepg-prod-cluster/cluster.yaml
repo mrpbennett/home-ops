@@ -4,46 +4,20 @@ metadata:
   name: cnpg-prod
   namespace: cnpg-prod
 spec:
-  imageCatalogRef:
-    apiGroup: postgresql.cnpg.io
-    kind: ClusterImageCatalog
-    name: timescaledb-ha
-    major: 16
-
   description: "Homelab Postgres Cluster"
-  primaryUpdateStrategy: unsupervised
   instances: 3
   startDelay: 300
   stopDelay: 300
-
-  postgresUID: 1000
-  postgresGID: 1000
+  primaryUpdateStrategy: unsupervised
 
   postgresql:
-    shared_preload_libraries:
-      - pg_cron
-      - timescaledb
-
     parameters:
-      shared_buffers: 2GB
-      effective_cache_size: 6GB
-      maintenance_work_mem: 1GB
-      work_mem: 26214kB
-
-      # pg_cron
-      cron.database_name: "postgres"
-      cron.timezone: "GMT"
-
-    pg_hba:
-      - cron.host = ''
+      shared_buffers: 256MB
 
   bootstrap:
     initdb:
       database: main
       owner: paul
-      postInitSQL:
-        - CREATE EXTENSION IF NOT EXISTS pg_cron;
-        - CREATE EXTENSION IF NOT EXISTS timescaledb;
       secret:
         name: cnpg-prod-cluster-custom-user
 
