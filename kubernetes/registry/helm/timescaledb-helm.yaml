@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: timescaledb-cnpg
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: timescaledb-cnpg
+  project: default
+  source:
+    chart: cluster
+    repoURL: https://github.com/cloudnative-pg/charts
+    targetRevision: 0.1.0
+    helm:
+      valuesObject:
+        type: timescaledb
+        version:
+          timescaledb: 2.15
+
+        mode: standalone
+
+        cluster:
+          instances: 1
+
+          storage:
+            size: 1Gi
+            storageClass: longhorn
+
+          enableSuperuserAccess: true
+          superuserSecret: timescaledb-cnpg-cluster-custom-superuser
+
+          postgresql:
+            parameters: {}
+            pg_hba: []
+            shared_preload_libraries:
+              - timescaledb
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
