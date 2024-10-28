@@ -19,8 +19,14 @@ spec:
           password: password
 
         web:
+          image:
+            debug: true
+
+          baseurl: airflow.70ld.home
+
           containerPorts:
-            http: 8081
+            http: 8080
+
           resourcesPreset: micro
 
         worker:
@@ -32,7 +38,7 @@ spec:
         service:
           type: ClusterIP
           ports:
-            http: 8081
+            http: 8080
 
         ingress:
           enabled: true
