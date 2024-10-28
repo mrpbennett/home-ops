@@ -164,7 +164,7 @@ data:
 
           - Elastic:
               icon: elasticsearch.svg
-              href: http://elastic.70ld.home
+              href: http://elasticsearch.70ld.home
               description: Search and analytics engine
               target: _blank
 

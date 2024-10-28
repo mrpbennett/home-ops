@@ -57,8 +57,13 @@ spec:
           enabled: true
           spec:
             count: 1
+
             elasticsearchRef:
               name: elasticsearch
+
+            config:
+              server:
+                publicBaseUrl: http://kibana.70ld.home
 
           ingress:
             enabled: true
@@ -116,6 +121,7 @@ spec:
                       emptydir: {}
                     - name: beat-data
                       emptydir: {}
+
         eck-logstash:
           enabled: true
           # This is required to be able to set the logstash
