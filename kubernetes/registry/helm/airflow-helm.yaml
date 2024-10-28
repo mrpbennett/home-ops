@@ -18,6 +18,12 @@ spec:
           username: admin
           password: password
 
+        web:
+          resourcesPreset: micro
+
+        workers:
+          resourcesPreset: small
+
         service:
           type: ClusterIP
           ports:
@@ -31,6 +37,9 @@ spec:
           annotations:
             cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
           tls: true
+
+        metrics:
+          enabled: false
 
   syncPolicy:
     automated:
