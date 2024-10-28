@@ -65,6 +65,11 @@ spec:
             data: |
               AIRFLOW_VAR_HELLO_MESSAGE: "Hi!"
 
+        cleanup:
+          enabled: false
+          # Run every 15 minutes (templated).
+          schedule: "*/15 * * * *"
+
   syncPolicy:
     automated:
       prune: true

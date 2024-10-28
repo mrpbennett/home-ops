@@ -9,8 +9,8 @@ spec:
 
   redisEnterpriseNodeResources:
     limits:
-      cpu: 1000m
+      cpu: 500m # half a core
       memory: 2Gi
     requests:
-      cpu: 500m
+      cpu: 250m
       memory: 1Gi
