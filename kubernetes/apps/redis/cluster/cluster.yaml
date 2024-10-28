@@ -5,7 +5,7 @@ metadata:
 spec:
   nodes: 3
 
-  username: admin
+  username: pbennett.uk@gmail.com
 
   redisEnterpriseNodeResources:
     limits:
