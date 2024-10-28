@@ -10,143 +10,27 @@ spec:
   project: default
   source:
     chart: *chart-name
-    repoURL: https://airflow.apache.org
-    targetRevision: 1.15.0
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 20.0.0
     helm:
       valuesObject:
-        # User and group of airflow user
-        uid: 50000
-        gid: 0
+        auth:
+          username: admin
+          password: password
 
-        # Airflow home directory
-        # Used for mount paths
-        airflowHome: /opt/airflow
+        service:
+          type: ClusterIP
+          ports:
+            http: 8080
 
-        # Ingress configuration
         ingress:
-          web:
-            enabled: true
-            ingressClassName: nginx
-            path: "/"
-            hosts:
-              - name: airflow.70ld.home
-
-        # Airflow Worker Config
-        workers:
-          replicas: 1
-          persistence:
-            enabled: true
-            size: 50Gi
-            storageClassName: longhorn
-
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
-
-        # Airflow scheduler settings
-        scheduler:
           enabled: true
-          replicas: 1
-
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
-
-        # Airflow database migration job settings
-        migrateDatabaseJob:
-          enabled: true
-
-          jobAnnotations:
-            "argocd.argoproj.io/hook": Sync
-
-          # Disable this if you are using ArgoCD for example
-          useHelmHooks: false
-          applyCustomEnv: false
-
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
-
-        # Airflow webserver settings
-        webserver:
-          enabled: true
-          replicas: 1
-
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
-
-          # Create initial user.
-          defaultUser:
-            enabled: true
-            role: Admin
-            username: admin
-            email: pbennett.uk@gmail.com
-            firstName: Paul
-            lastName: Bennett
-            password: password
-
-          service:
-            type: ClusterIP
-            annotations: {}
-            ports:
-              - name: airflow-ui
-                port: "{{ .Values.ports.airflowUI }}"
-
-        # Airflow Triggerer Config
-        triggerer:
-          persistence:
-            enabled: true
-            size: 50Gi
-            storageClassName: longhorn
-
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
-
-        # Airflow create user job settings
-        createUserJob:
-          # Disable this if you are using ArgoCD for example
-          useHelmHooks: false
-          applyCustomEnv: false
-
-        # All ports used by chart
-        ports:
-          flowerUI: 5555
-          airflowUI: 8080
-          workerLogs: 8793
-          triggererLogs: 8794
-          redisDB: 6379
-          statsdIngest: 9125
-          statsdScrape: 9102
-          pgbouncer: 6543
-          pgbouncerScrape: 9127
-
-        # This runs as a CronJob to cleanup old pods.
-        cleanup:
-          enabled: false
-          # Run every 15 minutes (templated).
-          schedule: "*/15 * * * *"
+          ingressClassName: nginx
+          hostname: airflow.70ld.home
+          path: /
+          annotations:
+            cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
+          tls: true
 
   syncPolicy:
     automated:
