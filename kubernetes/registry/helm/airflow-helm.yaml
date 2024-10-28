@@ -30,7 +30,7 @@ spec:
           persistence:
             enabled: true
             size: 10Gi
-            storageClass: longhorn
+            storageClassName: longhorn
 
         triggerer:
           replicas: 1
@@ -38,7 +38,7 @@ spec:
           persistence:
             enabled: true
             size: 10Gi
-            storageClass: longhorn
+            storageClassName: longhorn
 
         createUserJob:
           useHelmHooks: false
