@@ -145,7 +145,7 @@ spec:
                 }
                 output {
                   elasticsearch {
-                    hosts => [ "https://192.168.5.70:9200" ]
+                    hosts => [ "http://192.168.5.70:9200" ]
                     user => "admin"
                     password => "password"
                     ssl => false
