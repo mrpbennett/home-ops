@@ -38,8 +38,8 @@ spec:
           metrics: true
 
           ui:
-            title: Status | Gatus
-            header: Status
+            title: 70LD Staus | Gatus
+            header: 70LD Homelab status
 
           endpoints:
             # BARE METAL

@@ -88,8 +88,6 @@ data:
               icon: kubernetes.png
               href: http://kubernetes-dashboard.70ld.home
               description: Container orchestration
-              namespace: kubernetes-dashboard
-              app: kubernetes-dashboard
               target: _blank
 
           - Authentik:
