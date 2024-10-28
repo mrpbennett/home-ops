@@ -19,15 +19,20 @@ spec:
           password: password
 
         web:
+          containerPorts:
+            http: 8081
           resourcesPreset: micro
 
         worker:
           resourcesPreset: small
 
+        scheduler:
+          resourcesPreset: micro
+
         service:
           type: ClusterIP
           ports:
-            http: 8080
+            http: 8081
 
         ingress:
           enabled: true
