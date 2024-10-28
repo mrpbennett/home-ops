@@ -184,8 +184,6 @@ data:
               icon: gatus.svg
               href: http://gatus.70ld.home
               description: Self hosted monitoring
-              server: docker-1
-              container: gatus_uptime_gatus.1.w04x3kwaiio8o8dsr19kjrpf8
               target: _blank
 
           - Ntfy:
