@@ -157,19 +157,19 @@ spec:
               conditions:
                 - "[CONNECTED] == true"
 
-            # - name: Redis Master
-            #   group: databases
-            #   url: "icmp://192.168.5.54"
-            #   interval: 1m
-            #   conditions:
-            #     - "[CONNECTED] == true"
+            - name: Redis Master
+              group: databases
+              url: "icmp://192.168.5.54"
+              interval: 1m
+              conditions:
+                - "[CONNECTED] == true"
 
-            # - name: Redis Replica
-            #   group: databases
-            #   url: "icmp://192.168.5.55"
-            #   interval: 1m
-            #   conditions:
-            #     - "[CONNECTED] == true"
+            - name: Redis Replica
+              group: databases
+              url: "icmp://192.168.5.55"
+              interval: 1m
+              conditions:
+                - "[CONNECTED] == true"
 
   syncPolicy:
     automated:

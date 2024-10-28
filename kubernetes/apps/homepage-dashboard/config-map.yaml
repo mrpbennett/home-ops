@@ -83,7 +83,6 @@ data:
               target: _blank
 
         - Applications:
-          # MAIN APPLICATIONS
 
           - Kubernetes Dashboard:
               icon: kubernetes.png
@@ -117,8 +116,6 @@ data:
               description: Easy-to-use distributed block storage
               target: _blank
 
-          # DATABASES
-
           - Airflow:
               icon: apache-airflow.svg
               href: http://192.168.7.106:8080/ui/
@@ -130,14 +127,6 @@ data:
               href: http://trino.70ld.home/ui
               description: Fast distributed SQL query engine
               target: _blank
-
-          - Hive Metastore:
-              icon: https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Apache_Hive_logo.svg/1331px-Apache_Hive_logo.svg.png?20151020034510
-              href: http://192.168.6.100:8080/ui/
-              description: Fault-tolerant data warehouse
-              target: _blank
-
-          # TOOLS
 
           - Docker Registry:
               icon: https://cdn.worldvectorlogo.com/logos/docker-4.svg
@@ -156,8 +145,6 @@ data:
               href: https://login.tailscale.com/admin/machines
               description: Zero config VPN
               target: _blank
-
-          # MONITORING
 
           - Grafana:
               icon: grafana.png

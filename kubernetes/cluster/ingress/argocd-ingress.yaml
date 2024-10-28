@@ -1,12 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-ingress
+  name: argocd-server-ingress
+  namespace: argocd
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
+    nginx.ingress.kubernetes.io/forece-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
   ingressClassName: nginx
   rules:
@@ -19,8 +18,8 @@ spec:
               service:
                 name: argocd-server
                 port:
-                  number: 8080
+                  name: http
   tls:
     - hosts:
         - argocd.70ld.home
-      secretName: argocd-ingress-ss-cert
+      secretName: argocd-ingress-http
