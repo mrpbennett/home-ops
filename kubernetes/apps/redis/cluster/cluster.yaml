@@ -1,0 +1,16 @@
+apiVersion: "app.redislabs.com/v1"
+kind: "RedisEnterpriseCluster"
+metadata:
+  name: redis-cluster
+spec:
+  nodes: 2
+
+  username: admin
+
+  redisEnterpriseNodeResources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi

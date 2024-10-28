@@ -10,47 +10,57 @@ spec:
   project: default
   source:
     chart: *chart-name
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 20.0.0
+    repoURL: https://airflow.apache.org
+    targetRevision: 1.15.0
     helm:
       valuesObject:
-        auth:
-          username: admin
-          password: password
-
-        web:
-          image:
-            debug: true
-
-          baseurl: airflow.70ld.home
-
-          containerPorts:
-            http: 8080
-
-          resourcesPreset: micro
-
-        worker:
-          resourcesPreset: small
-
-        scheduler:
-          resourcesPreset: micro
-
-        service:
-          type: ClusterIP
-          ports:
-            http: 8080
+        useStandardNaming: true
 
         ingress:
-          enabled: true
-          ingressClassName: nginx
-          hostname: airflow.70ld.home
-          path: /
-          annotations:
-            cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
-          tls: true
+          web:
+            enabled: true
+            annotations: {}
+            path: /
+            host: airflow.70ld.home
+            ingressClassName: nginx
 
-        metrics:
-          enabled: false
+        workers:
+          replicas: 1
+
+          persistence:
+            enabled: true
+            size: 10Gi
+            storageClass: longhorn
+
+        triggerer:
+          replicas: 1
+
+          persistence:
+            enabled: true
+            size: 10Gi
+            storageClass: longhorn
+
+        createUserJob:
+          useHelmHooks: false
+          applyCustomEnv: false
+
+        migrateDatabaseJob:
+          useHelmHooks: false
+          applyCustomEnv: false
+          jobAnnotations:
+            "argocd.argoproj.io/hook": Sync
+
+        extraSecrets:
+          "{{ .Release.Name }}-example":
+            useHelmHooks: false
+            data: |
+              AIRFLOW_VAR_HELLO_MESSAGE: "Hi!"
+
+        extraConfigMaps:
+          "{{ .Release.Name }}-example":
+            useHelmHooks: false
+            data: |
+              AIRFLOW_VAR_HELLO_MESSAGE: "Hi!"
 
   syncPolicy:
     automated:
