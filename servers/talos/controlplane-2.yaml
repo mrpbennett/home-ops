@@ -453,6 +453,7 @@ cluster:
               - kube-system
               - longhorn-system
               - monitoring
+              - redis-cluster
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration
