@@ -26,7 +26,11 @@ spec:
     namespace: elastic-stack
 
   config:
+    elasticsearch.hosts:
+      - http://192.168.5.54:9200
     elasticsearch.username: admin
+  secureSettings:
+    - secretName: kibana-elasticsearch-credentials
 
   http:
     service:
