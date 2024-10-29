@@ -80,10 +80,7 @@ spec:
                   enabled: true
 
               elasticsearch:
-                hosts:
-                  [
-                    "http://elasticsearch-es-http.elastic-stack.svc.cluster.local:9200",
-                  ]
+                hosts: ["http://192.168.5.70:9200"]
 
               server:
                 host: 0.0.0.0
@@ -180,7 +177,7 @@ spec:
                 }
                 output {
                   elasticsearch {
-                    hosts => [ "http://elasticsearch-es-http.elastic-stack.svc.cluster.local:9200" ]
+                    hosts => [ "http://192.168.5.70:9200" ]
                     user => "admin"
                     password => "password"
                     ssl => false
