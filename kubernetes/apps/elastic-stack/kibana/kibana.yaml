@@ -28,9 +28,6 @@ spec:
   config:
     elasticsearch.username: admin
 
-  secureSettings:
-    - secretName: kibana-secret-70ld
-
   http:
     service:
       spec:
