@@ -478,6 +478,7 @@ cluster:
               - longhorn-system
               - monitoring
               - redis-cluster
+              - elastic-stack
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration
