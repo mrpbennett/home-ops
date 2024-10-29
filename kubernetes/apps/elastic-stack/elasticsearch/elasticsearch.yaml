@@ -1,7 +1,7 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: quickstart
+  name: es70ld
 spec:
   version: 8.15.3
 
@@ -12,6 +12,16 @@ spec:
   nodeSets:
     - name: default
       count: 1
+      podTemplate:
+        spec:
+          containers:
+            - name: elasticsearch
+              resources:
+                requests:
+                  memory: 1Gi
+                  cpu: 2
+                limits:
+                  memory: 2Gi
       config:
         node.store.allow_mmap: false
 
