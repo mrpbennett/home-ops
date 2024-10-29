@@ -87,7 +87,10 @@ spec:
                 name: kibana-70ld
                 port: 5601
                 publicBaseUrl: http://kibana.70ld.home
-                # http://kibana.70ld.home:5601
+                requestId:
+                  ipAllowlist:
+                    - 192.168.5.69
+                    - 10.244.6.0
 
           ingress:
             enabled: true
