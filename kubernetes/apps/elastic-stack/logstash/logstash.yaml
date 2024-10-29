@@ -1,0 +1,36 @@
+apiVersion: logstash.k8s.elastic.co/v1alpha1
+kind: Logstash
+metadata:
+  name: es70ld
+spec:
+  count: 1
+  elasticsearchRefs:
+    - name: es70ld
+      clusterName: qs
+  version: 8.15.3
+  pipelines:
+    - pipeline.id: main
+      config.string: |
+        input {
+          beats {
+            port => 5044
+          }
+        }
+        output {
+          elasticsearch {
+            hosts => [ "http://es70ld-es-http.elastic-stack.svc.cluster.local:9200" ]
+            user => "admin"
+            password => "password"
+            ssl => false
+          }
+        }
+  services:
+    - name: beats
+      service:
+        spec:
+          type: NodePort
+          ports:
+            - port: 5044
+              name: "filebeat"
+              protocol: TCP
+              targetPort: 5044
