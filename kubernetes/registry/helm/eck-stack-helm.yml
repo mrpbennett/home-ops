@@ -92,6 +92,15 @@ spec:
                     - 192.168.5.69
                     - 10.244.6.0
 
+          http:
+            service:
+              spec:
+                type: LoadBalancer
+                loadBalancerIP: 192.168.5.71
+            tls:
+              selfSignedCertificate:
+                disabled: true
+
           ingress:
             enabled: true
             annotations:
