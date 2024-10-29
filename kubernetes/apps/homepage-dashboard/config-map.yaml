@@ -162,22 +162,10 @@ data:
               description: Open-source monitoring system
               target: _blank
 
-          - Elastic:
-              icon: elasticsearch.svg
-              href: http://elasticsearch.70ld.home
-              description: Search and analytics engine
-              target: _blank
-
           - Kibana:
               icon: elastic-kibana.svg
               href: http://kibana.70ld.home
               description: Data visualization dashboard
-              target: _blank
-
-          - Logstash:
-              icon: elastic-logstash.svg
-              href: http://logstash.70ld.home
-              description: Server-side data processing
               target: _blank
 
           - Gatus:
