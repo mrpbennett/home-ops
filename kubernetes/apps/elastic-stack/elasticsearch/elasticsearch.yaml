@@ -4,6 +4,7 @@ metadata:
   name: es70ld
 spec:
   version: 8.15.3
+  volumeClaimDeletePolicy: DeleteOnScaledownOnly
 
   auth:
     fileRealm:
@@ -22,6 +23,18 @@ spec:
                   cpu: 2
                 limits:
                   memory: 2Gi
+
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 5Gi
+            storageClassName: longhorn
+
       config:
         node.store.allow_mmap: false
 
