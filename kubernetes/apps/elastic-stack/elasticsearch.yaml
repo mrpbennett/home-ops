@@ -4,8 +4,18 @@ metadata:
   name: quickstart
 spec:
   version: 8.15.3
+
+  auth:
+    fileRealm:
+      - secretName: elasticsearch-basic-auth
+
   nodeSets:
     - name: default
       count: 1
       config:
         node.store.allow_mmap: false
+
+  http:
+    service:
+      spec:
+        type: LoadBalancer

@@ -1,9 +1,20 @@
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: quickstart
+  name: quickstart-kibana
 spec:
   version: 8.15.3
   count: 1
+
   elasticsearchRef:
     name: quickstart
+    namespace: elastic-stack
+
+  http:
+    service:
+      spec:
+        type: LoadBalancer
+
+    tls:
+      selfSignedCertificate:
+        disabled: true
