@@ -4,7 +4,6 @@ metadata:
   name: es70ld
 spec:
   version: 8.15.3
-  volumeClaimDeletePolicy: DeleteOnScaledownOnly
 
   auth:
     fileRealm:
@@ -13,32 +12,13 @@ spec:
   nodeSets:
     - name: default
       count: 1
-      podTemplate:
-        spec:
-          containers:
-            - name: elasticsearch
-              resources:
-                requests:
-                  memory: 1Gi
-                  cpu: 2
-                limits:
-                  memory: 2Gi
-
-      volumeClaimTemplates:
-        - metadata:
-            name: elasticsearch-data
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 5Gi
-            storageClassName: longhorn
-
       config:
         node.store.allow_mmap: false
 
   http:
     service:
       spec:
-        type: LoadBalancer
+        type: ClusterIP
+    tls:
+      selfSignedCertificate:
+        disabled: true

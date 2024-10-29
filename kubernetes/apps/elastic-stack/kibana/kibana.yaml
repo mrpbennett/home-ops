@@ -6,39 +6,14 @@ spec:
   version: 8.15.3
   count: 1
 
-  podTemplate:
-    spec:
-      containers:
-        - name: kibana
-          env:
-            - name: NODE_OPTIONS
-              value: "--max-old-space-size=2048"
-          resources:
-            requests:
-              memory: 1Gi
-              cpu: 0.5
-            limits:
-              memory: 2.5Gi
-              cpu: 2
-
   elasticsearchRef:
     name: es70ld
     namespace: elastic-stack
 
-  # config:
-  #   elasticsearch.hosts:
-  #     - http://192.168.5.54:9200
-  #   elasticsearch.username: admin
-  # secureSettings:
-  #   - secretName: kibana-elasticsearch-credentials
+  config:
+    server.publicBaseUrl: https://kibana.70ld.home
 
   http:
     service:
       spec:
-        type: LoadBalancer
-
-    tls:
-      selfSignedCertificate:
-        # disabled: true
-        subjectAltNames:
-          - dns: kibana.70ld.home
+        type: ClusterIP
