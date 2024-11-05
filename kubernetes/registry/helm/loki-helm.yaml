@@ -47,7 +47,8 @@ spec:
           replicas: 1
 
         chunksCache:
-          allocatedMemory: 2048
+          allocatedMemory: 1024
+          maxItemMemory: 2
 
         # Zero out replica counts of other deployment modes
         backend:
