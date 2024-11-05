@@ -50,7 +50,7 @@ spec:
 
         # Enable minio for storage
         minio:
-          enabled: true
+          enabled: false
 
         gateway:
           service:
@@ -63,12 +63,10 @@ spec:
             cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
           hosts:
             - host: loki.70ld.home
-              paths:
-                - path: /
           tls:
-            - secretName: loki-ingress-ss-cert
-              hosts:
+            - hosts:
                 - loki.70ld.home
+              secretName: loki-ingress-ss-cert
 
   syncPolicy:
     automated:
