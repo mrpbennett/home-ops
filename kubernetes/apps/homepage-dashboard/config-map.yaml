@@ -132,17 +132,6 @@ data:
               description: Self hosted registry
               target: _blank
 
-          - Cloudflare:
-              icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/cloudflare.svg
-              href: https://dash.cloudflare.com/5a2fb936e1a58d410c2a9ab8cf7e5ec3
-              description: Domain and network tunnel
-              target: _blank
-
-          - Tailscale:
-              icon: tailscale.svg
-              href: https://login.tailscale.com/admin/machines
-              description: Zero config VPN
-              target: _blank
 
           - Grafana:
               icon: grafana.png
@@ -156,16 +145,28 @@ data:
               description: Open-source monitoring system
               target: _blank
 
+          - Loki:
+              icon: loki.png
+              href: http://loki.70ld.home
+              description: Log aggregation system
+              target: _blank
+
           - Alert Manager:
               icon: prometheus.png
               href: http://alertmanager.70ld.home
               description: Open-source monitoring system
               target: _blank
 
-          - Loki:
-              icon: loki.svg
-              href: http://loki.70ld.home
-              description: Log aggregation system
+          - Cloudflare:
+              icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/cloudflare.svg
+              href: https://dash.cloudflare.com/5a2fb936e1a58d410c2a9ab8cf7e5ec3
+              description: Domain and network tunnel
+              target: _blank
+
+          - Tailscale:
+              icon: tailscale.svg
+              href: https://login.tailscale.com/admin/machines
+              description: Zero config VPN
               target: _blank
 
           - Gatus:
