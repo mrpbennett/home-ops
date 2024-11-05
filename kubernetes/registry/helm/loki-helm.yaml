@@ -61,17 +61,17 @@ spec:
           allocatedMemory: 1024
           maxItemMemory: 2
 
-        ingress:
-          enabled: true
-          ingressClassName: nginx
-          annotations:
-            cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
-          hosts:
-            - loki.70ld.home
-          tls:
-            - hosts:
-                - loki.70ld.home
-              secretName: loki-ingress-ss-cert
+        # ingress:
+        #   enabled: true
+        #   ingressClassName: nginx
+        #   annotations:
+        #     cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
+        #   hosts:
+        #     - loki.70ld.home
+        #   tls:
+        #     - hosts:
+        #         - loki.70ld.home
+        #       secretName: loki-ingress-ss-cert
 
   syncPolicy:
     automated:
