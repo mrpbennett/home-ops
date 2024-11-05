@@ -69,7 +69,7 @@ machine:
     #         - fdc7::/16
   # Provides machine specific network configuration options.
   network:
-    hostname: talos-wk-3
+    hostname: pve2-talos-wk-3
     nameservers:
       - 192.168.4.10
       - 1.1.1.1
@@ -477,8 +477,6 @@ cluster:
               - kube-system
               - longhorn-system
               - monitoring
-              - redis-cluster
-              - elastic-stack
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration
