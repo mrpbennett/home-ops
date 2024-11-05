@@ -162,10 +162,10 @@ data:
               description: Open-source monitoring system
               target: _blank
 
-          - Kibana:
-              icon: elastic-kibana.svg
-              href: http://kibana.70ld.home
-              description: Data visualization dashboard
+          - Loki:
+              icon: loki.svg
+              href: http://loki.70ld.home
+              description: Log aggregation system
               target: _blank
 
           - Gatus:
