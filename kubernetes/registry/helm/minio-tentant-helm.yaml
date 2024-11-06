@@ -32,7 +32,8 @@ spec:
               size: 10Gi
 
           certificate:
-            externalCertSecret: cert-manager
+            externalCertSecret:
+              - cert-manager
             requestAutoCert: true
 
         ingress:
