@@ -1,71 +1,71 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: minio-tentant
-#   namespace: argocd
-# spec:
-#   destination:
-#     server: "https://kubernetes.default.svc"
-#     namespace: minio
-#   project: default
-#   source:
-#     chart: tenant
-#     repoURL: https://operator.min.io
-#     targetRevision: 6.0.4
-#     helm:
-#       valuesObject:
-#         tenant:
-#           name: minio-tenant
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio-tentant
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: minio
+  project: default
+  source:
+    chart: tenant
+    repoURL: https://operator.min.io
+    targetRevision: 6.0.4
+    helm:
+      valuesObject:
+        tenant:
+          name: minio-tenant
 
-#           configuration:
-#             name: myminio-env-configuration
+          configuration:
+            name: myminio-env-configuration
 
-#           configSecret:
-#             name: myminio-env-configuration
-#             accessKey: minio
-#             secretKey: minio123
+          configSecret:
+            name: myminio-env-configuration
+            accessKey: minio
+            secretKey: minio123
 
-#           pools:
-#             - servers: 2
-#               name: pool-0
-#               volumesPerServer: 2
-#               size: 10Gi
+          pools:
+            - servers: 2
+              name: pool-0
+              volumesPerServer: 2
+              size: 10Gi
 
-#           certificate:
-#             externalCertSecret: cert-manager
-#             requestAutoCert: true
+          certificate:
+            externalCertSecret: cert-manager
+            requestAutoCert: true
 
-#         ingress:
-#           api:
-#             enabled: true
-#             ingressClassName: "nginx"
-#             labels: {}
-#             annotations:
-#               cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
-#             host: minio.70ld.home
-#             path: /
-#             tls:
-#               - hosts:
-#                   - minio.70ld.home
-#                 secretName: minio-ingress-ss-cert
-#             pathType: Prefix
-#           console:
-#             enabled: true
-#             ingressClassName: "nginx"
-#             labels: {}
-#             annotations:
-#               cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
-#             host: minio-console.70ld.home
-#             path: /
-#             tls:
-#               - hosts:
-#                   - minio-console.70ld.home
-#                 secretName: minio-console-ingress-ss-cert
-#             pathType: Prefix
+        ingress:
+          api:
+            enabled: true
+            ingressClassName: "nginx"
+            labels: {}
+            annotations:
+              cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
+            host: minio.70ld.home
+            path: /
+            tls:
+              - hosts:
+                  - minio.70ld.home
+                secretName: minio-ingress-ss-cert
+            pathType: Prefix
+          console:
+            enabled: true
+            ingressClassName: "nginx"
+            labels: {}
+            annotations:
+              cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
+            host: minio-console.70ld.home
+            path: /
+            tls:
+              - hosts:
+                  - minio-console.70ld.home
+                secretName: minio-console-ingress-ss-cert
+            pathType: Prefix
 
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
