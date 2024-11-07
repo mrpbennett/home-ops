@@ -116,7 +116,7 @@ data:
               
           - Minio:
               icon: minio.png
-              href: http://locahost:9001
+              href: http://192.168.6.69:9001
               description: High Performance Object Storage
               target: _blank
 
