@@ -42,6 +42,14 @@ spec:
             header: 70LD Homelab status
 
           endpoints:
+            # VIRTUAL MACHINES
+            - name: nginx
+              group: infrastructure
+              url: "udp://192.168.4.11"
+              interval: 1m
+              conditions:
+                - "[CONNECTED] == true"
+
             # BARE METAL
             - name: pve-1
               group: infrastructure
