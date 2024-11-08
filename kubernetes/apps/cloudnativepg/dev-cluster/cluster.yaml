@@ -44,7 +44,7 @@ spec:
   backup:
     retentionPolicy: "30d"
     barmanObjectStore:
-      destinationPath: s3:///cnpg-backups/
+      destinationPath: s3://cnpg-backups/
       endpointURL: http://minio.70ld.home
       s3Credentials:
         accessKeyId:

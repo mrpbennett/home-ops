@@ -37,6 +37,19 @@ spec:
             spec:
               type: LoadBalancer
 
+  backup:
+    retentionPolicy: "30d"
+    barmanObjectStore:
+      destinationPath: s3://cnpg-backups/
+      endpointURL: http://minio.70ld.home
+      s3Credentials:
+        accessKeyId:
+          name: cnpg-prod-minio
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: cnpg-prod-minio
+          key: ACCESS_SECRET_KEY
+
   storage:
     storageClass: longhorn
     size: 8Gi
