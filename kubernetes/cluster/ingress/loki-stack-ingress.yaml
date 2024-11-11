@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: loki-stack-ingress
+  namespace: monitoring
+  annotations:
+    cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: loki-stack.70ld.home
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: loki-stack
+                port:
+                  number: 3100
+  tls:
+    - hosts:
+        - loki-stack.70ld.home
+      secretName: loki-stack-ingress-http
