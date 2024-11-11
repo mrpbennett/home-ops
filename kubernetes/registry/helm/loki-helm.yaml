@@ -91,6 +91,11 @@ spec:
             username: null
             password: null
 
+        chunksCache:
+          batchSize: 1
+          allocatedMemory: 2048
+          maxItemMemory: 2
+
   syncPolicy:
     automated:
       prune: true
