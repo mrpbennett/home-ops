@@ -6,7 +6,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
 spec:
   ingressClassName: nginx
   rules:
@@ -20,7 +19,3 @@ spec:
                 name: postgres-dev-rw-svc
                 port:
                   number: 5432
-  tls:
-    - hosts:
-        - cnpg-dev.70ld.home
-      secretName: cnpg-dev-ingress-ss-cert
