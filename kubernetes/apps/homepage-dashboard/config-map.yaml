@@ -138,7 +138,6 @@ data:
               description: Self hosted registry
               target: _blank
 
-
           - Grafana:
               icon: grafana.png
               href: http://grafana.70ld.home
