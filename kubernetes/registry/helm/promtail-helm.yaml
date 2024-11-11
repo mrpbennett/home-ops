@@ -24,6 +24,7 @@ spec:
           serverPort: 3101
           clients:
             - url: http://loki-gateway.monitoring.svc.cluster.local/loki/api/v1/push
+              tenant_id: 1
           positions:
             filename: /run/promtail/positions.yaml
 

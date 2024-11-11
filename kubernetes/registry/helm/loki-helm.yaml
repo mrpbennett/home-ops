@@ -77,15 +77,6 @@ spec:
           enabled: true
           replicas: 1
 
-          ingress:
-            enabled: true
-            ingressClassName: nginx
-            hosts:
-              - host: loki-gateway.70ld.home
-                paths:
-                  - path: /
-                    pathType: Prefix
-
           basicAuth:
             enabled: false
             username: null
