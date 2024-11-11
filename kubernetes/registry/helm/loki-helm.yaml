@@ -84,6 +84,7 @@ spec:
               - host: loki-gateway.70ld.home
                 paths:
                   - path: /
+                    pathType: Prefix
 
           basicAuth:
             enabled: false
