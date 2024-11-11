@@ -73,6 +73,23 @@ spec:
         bloomGateway:
           replicas: 0
 
+        gateway:
+          enabled: true
+          replicas: 1
+
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - host: loki-gateway.70ld.home
+                paths:
+                  - path: /
+
+          basicAuth:
+            enabled: false
+            username: null
+            password: null
+
   syncPolicy:
     automated:
       prune: true
