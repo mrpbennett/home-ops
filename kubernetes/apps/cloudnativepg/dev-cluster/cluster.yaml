@@ -45,14 +45,14 @@ spec:
     retentionPolicy: "30d"
     barmanObjectStore:
       destinationPath: s3://cnpg-backups/
-      endpointURL: http://minio.70ld.home
+      endpointURL: http://192.168.6.69:9000
       s3Credentials:
         accessKeyId:
-          name: cnpg-dev-minio
-          key: ACCESS_KEY_ID
+          name: cnpg-prod-minio
+          key: MINIO_ACCESS_KEY
         secretAccessKey:
-          name: cnpg-dev-minio
-          key: ACCESS_SECRET_KEY
+          name: cnpg-prod-minio
+          key: MINIO_SECRET_KEY
 
   resources:
     limits:
