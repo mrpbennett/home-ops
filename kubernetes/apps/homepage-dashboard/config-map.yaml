@@ -192,15 +192,9 @@ data:
               description: PGAdmin for Postgres
               target: _blank
 
-        #   - Redis Insight:
-        #       icon: redis.svg
-        #       href: http://redisinsight.70ld.home
-        #       description: World’s fastest data platform
-        #       target: _blank
-
           - IT Tools:
               icon: it-tools.svg
-              href: http://192.168.6.10:8083
+              href: http://it-tools.70ld.home
               description: Handy tools for devs
               target: _blank
 

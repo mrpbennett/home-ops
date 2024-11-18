@@ -1,24 +1,23 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: garmin-data
+  name: faker-etl
   namespace: cron-jobs
 spec:
-  schedule: "30 1 * * *" # 1:30 AM
+  schedule: "*/15 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1001
-            seccompProfile:
-              type: RuntimeDefault
           containers:
-            - name: garmin-data
-              image: 192.168.5.100:5000/garmindata:0.0.3
+            - name: faker-etl
+              image: registry.70ld.home/faker-etl:0.0.1
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
                   drop: ["ALL"]
+                runAsNonRoot: true
+                seccompProfile:
+                  type: RuntimeDefault
+              imagePullPolicy: IfNotPresent
           restartPolicy: OnFailure

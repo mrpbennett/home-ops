@@ -1,8 +1,0 @@
-apiVersion: postgresql.cnpg.io/v1
-kind: Backup
-metadata:
-  name: backup-minio-cnpg-dev
-spec:
-  method: barmanObjectStore
-  cluster:
-    name: cnpg-dev

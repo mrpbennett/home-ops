@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  name: hello
+spec:
+  serviceAccountName: argo # this is the service account that the workflow will run with
+  entrypoint: main # the first template to run in the workflows
+  templates:
+    - name: main
+      container: # this is a container template
+        image: busybox # this is the image to run
+        command: ["echo"]
+        args: ["hello world"]

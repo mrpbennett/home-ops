@@ -38,9 +38,9 @@ spec:
 
         # CATALOGS
         catalogs:
-          cnpg_70ld: |
+          prodmain: |
             connector.name=postgresql
-            connection-url=jdbc:postgresql://192.168.5.80:5432/70ld_db
+            connection-url=jdbc:postgresql://192.168.5.80:5432/main
             connection-user=paul
             connection-password=password
 

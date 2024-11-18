@@ -41,19 +41,6 @@ spec:
     storageClass: longhorn
     size: 1Gi
 
-  backup:
-    retentionPolicy: "7d"
-    barmanObjectStore:
-      destinationPath: s3://cnpg-backups/
-      endpointURL: http://192.168.6.69:9000
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-dev-minio
-          key: MINIO_ACCESS_KEY
-        secretAccessKey:
-          name: cnpg-dev-minio
-          key: MINIO_SECRET_KEY
-
   resources:
     limits:
       memory: "1Gi"
