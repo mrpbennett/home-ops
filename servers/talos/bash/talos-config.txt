@@ -34,23 +34,6 @@ talosctl apply-config \
     --file worker-3.yaml \
     --talosconfig talosconfig
 
-talosctl apply-config \
-    --nodes 192.168.5.7 \
-    --endpoints 192.168.5.7 \
-    --file worker-4.yaml \
-    --talosconfig talosconfig
-
-talosctl apply-config \
-    --nodes 192.168.5.8 \
-    --endpoints 192.168.5.8 \
-    --file worker-5.yaml \
-    --talosconfig talosconfig
-
-talosctl apply-config \
-    --nodes 192.168.5.9 \
-    --endpoints 192.168.5.9 \
-    --file worker-6.yaml \
-    --talosconfig talosconfig
 
 
 -- new machine
