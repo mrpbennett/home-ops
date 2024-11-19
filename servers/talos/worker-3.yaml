@@ -4,10 +4,10 @@ persist: true
 # Provides machine specific configuration options.
 machine:
   type: worker # Defines the role of the machine within the cluster.
-  token: 7wjf6a.omk3bnv6spfhihm9 # The `token` is used by a machine to join the PKI of the cluster.
+  token: bicbvn.rraiiogqwyzgjy3m # The `token` is used by a machine to join the PKI of the cluster.
   # The root certificate authority of the PKI.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBbDhlaUdqSkJRZUY4aTVFVlVkV2pKakFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qUXhNREkwTVRVek5EVTFXaGNOTXpReE1ESXlNVFV6TkRVMVdqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUMzeVRjMXU2SzZyaUcxeWRDVWcxS3A4QTVvOHoyMVZQWHA0Cm03SDhqVkY2bzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRlBkZE1XQjN5d2VTYmF6Two1dCtwT3JPbnlIN2dNQVVHQXl0bGNBTkJBTXhKOU5vckllVEE1RHJzMFJVUjMxQkNtV3d5bis0aVJvNG9LZURZCnFEemVQdTFHN2gyV1dPU25FRkxhOTZNcEJNTzB4cVNrOVdTdndBUy8wZ2JNdndzPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEF5cW9LR0p1Q1haSVF3WkIxMkVUeTRNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5ERXhNVGt3T1RFME16VmFGdzB6TkRFeE1UY3dPVEUwTXpWYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBKys4SStYamRIRUFVcmdjMCs4R0hYQkRnT1lOM2VuMzRJTC9yCjZCNDlORW1qWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVS0JmUHRmZVQwSDVlREJBTgptVlJWRWgxQUVCVXdCUVlESzJWd0EwRUF1cEUvL3Z3MTdLZU0xRnEvNDlmdExYOEFiK21IVlhHWFFuWGdFc1ZPClVlUGYvK09wcDA2dnd2N1l1OTNka1RBZExqMWtmUlk0MHhHcG9jMi9vYmF3QXc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Extra certificate subject alternative names for the machine's certificate.
   certSANs: []
@@ -18,7 +18,7 @@ machine:
 
   # Used to provide additional options to the kubelet.
   kubelet:
-    image: ghcr.io/siderolabs/kubelet:v1.29.2 # The `image` field is an optional reference to an alternative kubelet image.
+    image: ghcr.io/siderolabs/kubelet:v1.31.2 # The `image` field is an optional reference to an alternative kubelet image.
     defaultRuntimeSeccompProfileEnabled: true # Enable container runtime default Seccomp profile.
     disableManifestsDirectory: true # The `disableManifestsDirectory` field configures the kubelet to get static pod manifests from the /etc/kubernetes/manifests directory.
 
@@ -31,7 +31,7 @@ machine:
     extraArgs:
       rotate-server-certificates: true
 
-    # The `extraMounts` field is used to add additional mounts to the kubelet container.
+    # # The `extraMounts` field is used to add additional mounts to the kubelet container.
     extraMounts:
       - destination: /var/lib/longhorn
         type: bind
@@ -227,6 +227,30 @@ machine:
       registry.70ld.home:
         tls:
           ca: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lSQU8ycHJ5Zi8rOGV6RmFmK09TWGVqTzB3Q2dZSUtvWkl6ajBFQXdJd0d6RVoKTUJjR0ExVUVBeE1RYlhrdGMyVnNabk5wWjI1bFpDMWpZVEFlRncweU5ERXdNalV4TVRVeU5UUmFGdzB5TlRBeApNak14TVRVeU5UUmFNQnN4R1RBWEJnTlZCQU1URUcxNUxYTmxiR1p6YVdkdVpXUXRZMkV3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFTUlZFNGhucm5nVVBvTGhnSU8vTytVM0hjS0FtN00xNGZYUnUva2FOQjMKZzZrQitoTXRTeERoV2ZSVnpGbzZkU1hscXdPZ1ZUWUlXaU5DY0p2Mml3eTRvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVTVnenVMQm93cEFVYUxMeTRTa1dqCjhCdm14ZUF3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUloQUxlSHhJZ1loUUREK0dQR05yOGdmbkM0bllicktjOXoKUDNGWHMvRXFyZWhPQWlCb2ZYanVuVlJGYmZjSTlEblptV2NZbGdmN2NTdWozbVMzdERxMFU1NG95UT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  # # Specifies mirror configuration for each registry host namespace.
+  # mirrors:
+  #     ghcr.io:
+  #         # List of endpoints (URLs) for registry mirrors to use.
+  #         endpoints:
+  #             - https://registry.insecure
+  #             - https://ghcr.io/v2/
+
+  # # Specifies TLS & auth configuration for HTTPS image registries.
+  # config:
+  #     registry.insecure:
+  #         # The TLS configuration for the registry.
+  #         tls:
+  #             insecureSkipVerify: true # Skip TLS server certificate verification (not recommended).
+  #
+  #             # # Enable mutual TLS authentication with the registry.
+  #             # clientIdentity:
+  #             #     crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
+  #             #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
+  #
+  #         # # The auth configuration for this registry.
+  #         # auth:
+  #         #     username: username # Optional registry authentication.
+  #         #     password: password # Optional registry authentication.
 
   # Features describe individual Talos features that can be switched on or off.
   features:
@@ -236,8 +260,12 @@ machine:
     diskQuotaSupport: true # Enable XFS project quota support for EPHEMERAL partition and user disks.
     # KubePrism - local proxy/load balancer on defined port that will distribute
     kubePrism:
-      enabled: true # Enable KubePrism support - will start local load balacing proxy.
+      enabled: true # Enable KubePrism support - will start local load balancing proxy.
       port: 7445 # KubePrism port.
+    # Configures host DNS caching resolver.
+    hostDNS:
+      enabled: true # Enable host DNS caching resolver.
+      forwardKubeDNSToHost: true # Use the host DNS resolver as upstream for Kubernetes CoreDNS pods.
 
     # # Configure Talos API access from Kubernetes pods.
     # kubernetesTalosAPIAccess:
@@ -391,6 +419,12 @@ machine:
   # nodeLabels:
   #     exampleLabel: exampleLabelValue
 
+  # # Configures the node annotations for the machine.
+
+  # # node annotations example.
+  # nodeAnnotations:
+  #     customer.io/rack: r13a25
+
   # # Configures the node taints for the machine. Effect is optional.
 
   # # node taints example.
@@ -398,11 +432,12 @@ machine:
   #     exampleTaint: exampleTaintValue:NoSchedule
 # Provides cluster specific configuration options.
 cluster:
-  id: E3DZACu24rF_kKxmXHtFsmVJTfcuEUYiaoYqwdDPPIE= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-  secret: yDWNKsv4a7c718sKBzGQHaxDXQvtFSk+TrkWrD7Q+j8= # Shared secret of cluster (base64 encoded random 32 bytes).
+  id: lMDObWGDd0_7iUDrbOCZ4ZuAVeG9wA5XT_DiI1PkmQQ= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: 5XfK2uSyzwF69s0S9UUmxiyz0eFn1YmnrSLiPKGckdY= # Shared secret of cluster (base64 encoded random 32 bytes).
   # Provides control plane specific configuration options.
   controlPlane:
     endpoint: https://192.168.5.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
+  clusterName: talos # Configures the cluster's name.
   # Provides cluster specific network configuration options.
   network:
     dnsDomain: cluster.local # The domain used by Kubernetes DNS.
@@ -419,10 +454,10 @@ cluster:
     #     # URLs containing manifests to apply for the CNI.
     #     urls:
     #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-  token: 3wimpy.qnoo9n7gunhyb3e3 # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  token: a71bef.m11qhh6zuc8pg9de # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
   # The base64 encoded root certificate authority used by Kubernetes.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpakNDQVMrZ0F3SUJBZ0lRRFJUc3lpZnB0dXlrTDZZZEFxN1ZEVEFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEF5TkRFMU16UTFOVm9YRFRNME1UQXlNakUxTXpRMQpOVm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCQkNYc2RYdlhsMFF2U3RWVUUveTFZdmFaVmFUc2FjTVZhUUc0d1pONFFYT3BpdTBJYTQvckNZQSs0L2UKVWlHNENSQklUa05tcEdUYVRmTHVvY1ptdTcrallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVSQ0FHcXFmdTVMcmxCdm5GZGRLRTJnMnJSUkl3Q2dZSUtvWkl6ajBFQXdJRFNRQXdSZ0loQUlDWkhFQ24KNTNXNDhmSytwVVNqcEY5Y2IrVEJJZmIxd0J3S0xocVllT21oQWlFQXBpWFUxZTBXOU9sRlZrUCtmSTAwMHZWSwpRVWxvTHJpY1l4Um5PZUY1WG9jPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpekNDQVRDZ0F3SUJBZ0lSQU9GdUVMWS9JWU1kMVZxMFA2WjY5NHN3Q2dZSUtvWkl6ajBFQXdJd0ZURVQKTUJFR0ExVUVDaE1LYTNWaVpYSnVaWFJsY3pBZUZ3MHlOREV4TVRrd09URTBNelZhRncwek5ERXhNVGN3T1RFMApNelZhTUJVeEV6QVJCZ05WQkFvVENtdDFZbVZ5Ym1WMFpYTXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVFuVHArV2M3T1dNbGt0dUhCRDR5czFOQzZTckhiV1FjVjNWVStCcklidHhBcld0SGVteFNSTnlVVFQKQ3UxYmp2SytmRFJHUlpNQ1NETjBqNFczdTNORm8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXdIUVlEVlIwbApCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPCkJCWUVGRU13WHVyclY2Nld2N3liZC9MeDN6NEtwbzB2TUFvR0NDcUdTTTQ5QkFNQ0Ewa0FNRVlDSVFEYmplaEsKaFduWVh0TlBYZ0ZwaXJwQXR0bHlId1Jad2JQdGl6S0tzUFhIU2dJaEFKb3gyTHk1WFRCbUozclhDc2RZVmE0NwpmSlNuSGFFa2dNa1V6ODZkYk5WTgotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Configures cluster member discovery.
   discovery:
@@ -485,6 +520,7 @@ cluster:
               - kube-system
               - longhorn-system
               - monitoring
+              - redis-cluster
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration
@@ -497,7 +533,7 @@ cluster:
 
   # # Controller manager server specific configuration options.
   # controllerManager:
-  #     image: registry.k8s.io/kube-controller-manager:v1.29.2 # The container image used in the controller manager manifest.
+  #     image: registry.k8s.io/kube-controller-manager:v1.31.2 # The container image used in the controller manager manifest.
   #     # Extra arguments to supply to the controller manager.
   #     extraArgs:
   #         feature-gates: ServerSideApply=true
@@ -505,7 +541,7 @@ cluster:
   # # Kube-proxy server-specific configuration options
   # proxy:
   #     disabled: false # Disable kube-proxy deployment on cluster bootstrap.
-  #     image: registry.k8s.io/kube-proxy:v1.29.2 # The container image used in the kube-proxy manifest.
+  #     image: registry.k8s.io/kube-proxy:v1.31.2 # The container image used in the kube-proxy manifest.
   #     mode: ipvs # proxy mode of kube-proxy.
   #     # Extra arguments to supply to kube-proxy.
   #     extraArgs:
@@ -513,14 +549,14 @@ cluster:
 
   # # Scheduler server specific configuration options.
   # scheduler:
-  #     image: registry.k8s.io/kube-scheduler:v1.29.2 # The container image used in the scheduler manifest.
+  #     image: registry.k8s.io/kube-scheduler:v1.31.2 # The container image used in the scheduler manifest.
   #     # Extra arguments to supply to the scheduler.
   #     extraArgs:
   #         feature-gates: AllBeta=true
 
   # # Etcd specific configuration options.
   # etcd:
-  #     image: gcr.io/etcd-development/etcd:v3.5.11-arm64 # The container image used to create the etcd service.
+  #     image: gcr.io/etcd-development/etcd:v3.5.16 # The container image used to create the etcd service.
   #     # The `ca` is the root certificate authority of the PKI.
   #     ca:
   #         crt: LS0tIEVYQU1QTEUgQ0VSVElGSUNBVEUgLS0t
@@ -534,7 +570,7 @@ cluster:
 
   # # Core DNS specific configuration options.
   # coreDNS:
-  #     image: registry.k8s.io/coredns/coredns:v1.11.1 # The `image` field is an override to the default coredns image.
+  #     image: registry.k8s.io/coredns/coredns:v1.11.3 # The `image` field is an override to the default coredns image.
 
   # # External cloud provider configuration.
   # externalCloudProvider:

@@ -56,9 +56,15 @@ talosctl apply-config \
 -- new machine
 
 talosctl apply-config \
-    --nodes 192.168.7.180 \
-    --endpoints 192.168.7.180 \
-    --file worker-5.yaml \
+    --nodes 192.168.7.51 \
+    --endpoints 192.168.7.51 \
+    --file controlplane-2.yaml \
+    --insecure
+
+talosctl apply-config \
+    --nodes 192.168.7.43 \
+    --endpoints 192.168.7.43 \
+    --file controlplane-3.yaml \
     --insecure
 
 4655d71
