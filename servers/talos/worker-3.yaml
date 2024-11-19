@@ -4,10 +4,10 @@ persist: true
 # Provides machine specific configuration options.
 machine:
   type: worker # Defines the role of the machine within the cluster.
-  token: bicbvn.rraiiogqwyzgjy3m # The `token` is used by a machine to join the PKI of the cluster.
+  token: brg6yr.txli5ugcsvyj8tei # The `token` is used by a machine to join the PKI of the cluster.
   # The root certificate authority of the PKI.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEF5cW9LR0p1Q1haSVF3WkIxMkVUeTRNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5ERXhNVGt3T1RFME16VmFGdzB6TkRFeE1UY3dPVEUwTXpWYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBKys4SStYamRIRUFVcmdjMCs4R0hYQkRnT1lOM2VuMzRJTC9yCjZCNDlORW1qWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVS0JmUHRmZVQwSDVlREJBTgptVlJWRWgxQUVCVXdCUVlESzJWd0EwRUF1cEUvL3Z3MTdLZU0xRnEvNDlmdExYOEFiK21IVlhHWFFuWGdFc1ZPClVlUGYvK09wcDA2dnd2N1l1OTNka1RBZExqMWtmUlk0MHhHcG9jMi9vYmF3QXc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEJsckwxVWFUK1RyamloU0FKSk8vd29NQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5ERXhNVGt5TURBeU1UWmFGdzB6TkRFeE1UY3lNREF5TVRaYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBZDFWT013UVlZMUFNRTBnNHYvNngvMFdHUDVKUkt4Rmh4VUJkCkc5UFlZL0dqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVQzFsS1NTTkZQZGRnRVo5awo3UVh3cTV4N2ozNHdCUVlESzJWd0EwRUFVZWhNdnV4cFRNMkRCZFFHdGZ1enRuRjVQUUNpN0d5SnRvMjFDd0hyCk84UDlXZmxNN0Y0bU0xUENFYk1oZzZ4RnZEaHNFS2xzNmczT29IdTliV013QXc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Extra certificate subject alternative names for the machine's certificate.
   certSANs: []
@@ -69,7 +69,7 @@ machine:
     #         - fdc7::/16
   # Provides machine specific network configuration options.
   network:
-    hostname: talos-wk-3
+    hostname: k8s-wk-3
     nameservers:
       - 192.168.4.10
       - 1.1.1.1
@@ -191,7 +191,7 @@ machine:
   # Used to provide instructions for installations.
   install:
     disk: /dev/sda # The disk used for installations.
-    image: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b:v1.8.1 # Allows for supplying the image used to perform the installation.
+    image: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b:v1.8.3 # Allows for supplying the image used to perform the installation.
     wipe: false # Indicates if the installation disk should be wiped at installation time.
 
     # # Look up disk using disk attributes like model, size, serial and others.
@@ -432,8 +432,8 @@ machine:
   #     exampleTaint: exampleTaintValue:NoSchedule
 # Provides cluster specific configuration options.
 cluster:
-  id: lMDObWGDd0_7iUDrbOCZ4ZuAVeG9wA5XT_DiI1PkmQQ= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-  secret: 5XfK2uSyzwF69s0S9UUmxiyz0eFn1YmnrSLiPKGckdY= # Shared secret of cluster (base64 encoded random 32 bytes).
+  id: ga-WVb3UZRL9ixFwGkaab2hLIst9LnvmXvR0uFo99-Y= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+  secret: fS12FVpoeMZBgQah5MLOm7VunitncFJBSyKjliFhUzk= # Shared secret of cluster (base64 encoded random 32 bytes).
   # Provides control plane specific configuration options.
   controlPlane:
     endpoint: https://192.168.5.200:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
@@ -454,10 +454,10 @@ cluster:
     #     # URLs containing manifests to apply for the CNI.
     #     urls:
     #         - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-  token: a71bef.m11qhh6zuc8pg9de # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+  token: n9cepf.ovltx2wb5e7vij21 # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
   # The base64 encoded root certificate authority used by Kubernetes.
   ca:
-    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpekNDQVRDZ0F3SUJBZ0lSQU9GdUVMWS9JWU1kMVZxMFA2WjY5NHN3Q2dZSUtvWkl6ajBFQXdJd0ZURVQKTUJFR0ExVUVDaE1LYTNWaVpYSnVaWFJsY3pBZUZ3MHlOREV4TVRrd09URTBNelZhRncwek5ERXhNVGN3T1RFMApNelZhTUJVeEV6QVJCZ05WQkFvVENtdDFZbVZ5Ym1WMFpYTXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVFuVHArV2M3T1dNbGt0dUhCRDR5czFOQzZTckhiV1FjVjNWVStCcklidHhBcld0SGVteFNSTnlVVFQKQ3UxYmp2SytmRFJHUlpNQ1NETjBqNFczdTNORm8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXdIUVlEVlIwbApCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPCkJCWUVGRU13WHVyclY2Nld2N3liZC9MeDN6NEtwbzB2TUFvR0NDcUdTTTQ5QkFNQ0Ewa0FNRVlDSVFEYmplaEsKaFduWVh0TlBYZ0ZwaXJwQXR0bHlId1Jad2JQdGl6S0tzUFhIU2dJaEFKb3gyTHk1WFRCbUozclhDc2RZVmE0NwpmSlNuSGFFa2dNa1V6ODZkYk5WTgotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpakNDQVMrZ0F3SUJBZ0lRYzViaERjb2E3bU41Z3BmVUtZM1pkakFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTBNVEV4T1RJd01ESXhObG9YRFRNME1URXhOekl3TURJeApObG93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCQ284UUUwSEYxK0QxMXoxTUpCU3VGR1JQVG8xOTRDS0hmVTVUU2hNb3loYmFNUWdKa0FzNGg3QkhKMjMKVFpyN2NnTFBEbW5Nay9NcytGZjNWL0dCVHNpallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVNV1JIY29qeUhURW5HVittendPYjZnWjl4akl3Q2dZSUtvWkl6ajBFQXdJRFNRQXdSZ0loQUs5ejF5MUwKaUo1ak9yaDJhaWNQMHI3SlkzY1hkaEdSd05FWmpRMVhSWU5nQWlFQTJ1ZHliTmlWRm1mNk5abEZ2dFBISzlNQgpuYjU0UW5YZ0w2NTl5enJ3UVFZPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
     key: ""
   # Configures cluster member discovery.
   discovery:
@@ -520,7 +520,6 @@ cluster:
               - kube-system
               - longhorn-system
               - monitoring
-              - redis-cluster
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration

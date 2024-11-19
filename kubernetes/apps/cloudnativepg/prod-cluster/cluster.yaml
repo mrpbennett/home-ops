@@ -4,8 +4,8 @@ metadata:
   name: cnpg-prod
   namespace: cnpg-prod
 spec:
-  description: "Homelab Postgres Cluster"
-  instances: 1
+  description: "Homelab Postgres Prod Cluster"
+  instances: 3
   startDelay: 300
   stopDelay: 300
   primaryUpdateStrategy: unsupervised

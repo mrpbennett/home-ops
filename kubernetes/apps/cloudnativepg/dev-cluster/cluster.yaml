@@ -5,7 +5,7 @@ metadata:
   namespace: cnpg-dev
 spec:
   description: "Homelab Postgres Dev Cluster"
-  instances: 1
+  instances: 3
   startDelay: 300
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
