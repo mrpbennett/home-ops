@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  name: &app health-dash-psql
+  name: &app registry-test
   namespace: workflows
 spec:
   schedule: "0 7 * * *"
@@ -16,5 +16,5 @@ spec:
     templates:
       - name: *app
         container:
-          image: 192.168.5.100:5000/faker-etl:0.0.1
+          image: 192.168.5.100:5000/reg-test:0.0.1
           imagePullPolicy: Always
