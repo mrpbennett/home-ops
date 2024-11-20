@@ -9056,7 +9056,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: cert-manager-cainjector
-          image: "quay.io/jetstack/cert-manager-cainjector:v1.16.1"
+          image: "quay.io/jetstack/cert-manager-cainjector:v1.16.2"
           imagePullPolicy: IfNotPresent
           args:
           - --v=2
