@@ -20,7 +20,7 @@ spec:
       - name: *app
         container:
           image: 192.168.5.100:5000/test:0.0.1
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
               memory: "64Mi"
