@@ -1,10 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-project
+  name: nginx-service
 spec:
-  type: LoadBalancer
-  ports:
-    - port: 80
+  type: LoadBalancer # External access (use NodePort if LoadBalancer isn't available)
   selector:
-    app: nginx-project
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80 # Port exposed by the service
+      targetPort: 80 # Port the NGINX container listens on
