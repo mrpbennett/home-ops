@@ -3,7 +3,9 @@ kind: Ingress
 metadata:
   name: nginx-site-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: https
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
   rules:
     - host: &host test.70ld.home
