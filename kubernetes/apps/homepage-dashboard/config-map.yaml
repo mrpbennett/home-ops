@@ -35,7 +35,10 @@ data:
             style: row 
             columns: 4
 
-    custom.css: ""
+    custom.css: |
+        .service-name {
+            font-family: monospaced;
+        }
     custom.js: ""
     bookmarks.yaml: ""
     services.yaml: |
@@ -144,16 +147,16 @@ data:
               description: Managed observability platform
               target: _blank
 
-          - Prometheus:
-              icon: prometheus.png
-              href: http://prometheus.70ld.home
-              description: Open-source monitoring system
-              target: _blank
-
           - Loki:
               icon: loki.png
               href: http://loki.70ld.home
               description: Log aggregation system
+              target: _blank
+
+          - Prometheus:
+              icon: prometheus.png
+              href: http://prometheus.70ld.home
+              description: Open-source monitoring system
               target: _blank
 
           - Alert Manager:

@@ -5,7 +5,7 @@ metadata:
   annotations:
     ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/backend-protocol: https
-    cert-manager.io/cluster-issuer: letsencrypt-issuer
+    cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
 spec:
   rules:
     - host: &host test.70ld.home
@@ -22,4 +22,4 @@ spec:
   tls:
     - hosts:
         - *host
-      secretName: letsencrypt-issuer
+      secretName: nginx-test-ss-cert
