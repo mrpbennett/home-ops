@@ -15,7 +15,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: nginx-project
+                name: nginx-service
                 port:
                   number: 80
 
