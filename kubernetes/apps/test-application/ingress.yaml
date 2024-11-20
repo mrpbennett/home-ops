@@ -13,7 +13,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: nginx-site
+                name: nginx-project
                 port:
                   number: 80
 
