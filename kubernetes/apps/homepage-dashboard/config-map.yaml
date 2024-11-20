@@ -35,10 +35,7 @@ data:
             style: row 
             columns: 4
 
-    custom.css: |
-        .service-name {
-            font-family: monospaced;
-        }
+    custom.css: ""
     custom.js: ""
     bookmarks.yaml: ""
     services.yaml: |
