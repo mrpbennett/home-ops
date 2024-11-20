@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: &app registry-test
+  namespace: cron-jobs
+  annotations:
+    workflows.argoproj.io/description: To test registry from k8s
+    workflows.argoproj.io/tags: test
+spec:
+  schedule: "*/10 * * * *"
+  timezone: "Europe/London"
+  startingDeadlineSeconds: 30
+  concurrencyPolicy: "Replace"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  suspend: false
+  workflowSpec:
+    entrypoint: *app
+    templates:
+      - name: *app
+        container:
+          image: 192.168.5.100:5000/test:0.0.1
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+        retryStrategy:
+          limit: 3
+          backoff:
+            duration: "5s"
+            factor: 2
+            maxDuration: "30s"

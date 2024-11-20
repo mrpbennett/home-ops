@@ -7,3 +7,4 @@ data:
   server.yml: |
     # Template: https://github.com/binwiederhier/ntfy/blob/main/server/server.yml
     base-url: https://ntfy.sh
+    upstream-base-url: "https://ntfy.sh"

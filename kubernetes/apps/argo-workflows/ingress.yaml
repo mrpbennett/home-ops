@@ -4,10 +4,9 @@ metadata:
   name: argoworkflows-ingress
   namespace: argo
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: https
+    cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
 spec:
   ingressClassName: nginx
   rules:
@@ -21,3 +20,7 @@ spec:
                 name: argo-server
                 port:
                   number: 2746
+  tls:
+    - hosts:
+        - argoworkflows.70ld.home
+      secretName: argoworkflows-ingress-ss-cert

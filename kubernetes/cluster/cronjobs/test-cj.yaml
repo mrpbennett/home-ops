@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test
+  namespace: cron-jobs
+spec:
+  schedule: "*/10 * * * *" # 1:30 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: test
+              image: 192.168.5.100/test:0.0.1
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
+          restartPolicy: OnFailure
