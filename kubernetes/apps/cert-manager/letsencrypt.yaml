@@ -1,39 +1,16 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt
+  name: letsencrypt-issuer
   namespace: cert-manager
 spec:
   acme:
-    # You must replace this email address with your own.
-    # Let's Encrypt will use this to contact you about expiring
-    # certificates, and issues related to your account.
     email: pbennett.uk@gmail.com
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      # Secret resource that will be used to store the account's private key.
-      name: example-issuer-account-key
+      name: letsencrypt-issuer-account-key
     # Add a single challenge solver, HTTP01 using nginx
     solvers:
       - http01:
           ingress:
             ingressClassName: nginx
-
-      - dns01:
-          cloudflare:
-            email: pbennett.uk@gmail.com
-            apiKeySecretRef:
-              name: cloudflare-apikey-secret
-              key: apikey
-        selector:
-          dnsNames:
-            - "gatus.70ld.dev"
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cloudflare-apikey-secret
-  namespace: cert-manager
-type: Opaque
-data:
-  apikey: QUZicE1hTEs2R1N2Q2lmdTl4STFmQllUcUItcC1ZZXExM2w2bFM5Yg==

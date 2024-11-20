@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-site
+  labels:
+    app: nginx-site
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-site
+  template:
+    metadata:
+      labels:
+        app: nginx-site
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /usr/share/nginx/html
+              subPath: index.html
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-site
+spec:
+  selector:
+    app: nginx-site
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Welcome to Nginx!</title>
+    </head>
+    <body>
+      <h1>It works!</h1>
+    </body>
+    </html>
