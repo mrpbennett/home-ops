@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: nginx-service
 spec:
-  type: LoadBalancer # External access (use NodePort if LoadBalancer isn't available)
+  type: LoadBalancer
   selector:
     app: nginx
   ports:
     - protocol: TCP
-      port: 80 # Port exposed by the service
-      targetPort: 80 # Port the NGINX container listens on
+      port: 80
+      targetPort: 80
