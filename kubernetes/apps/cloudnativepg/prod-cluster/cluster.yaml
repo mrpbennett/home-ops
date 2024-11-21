@@ -37,18 +37,18 @@ spec:
             spec:
               type: LoadBalancer
 
-  backup:
-    retentionPolicy: "10d"
-    barmanObjectStore:
-      destinationPath: s3://cnpg-backups/
-      endpointURL: http://192.168.6.69:9000
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-prod-minio
-          key: MINIO_ACCESS_KEY
-        secretAccessKey:
-          name: cnpg-prod-minio
-          key: MINIO_SECRET_KEY
+  # backup:
+  #   retentionPolicy: "10d"
+  #   barmanObjectStore:
+  #     destinationPath: s3://cnpg-backups/
+  #     endpointURL: http://192.168.6.69:9000
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: cnpg-prod-minio
+  #         key: MINIO_ACCESS_KEY
+  #       secretAccessKey:
+  #         name: cnpg-prod-minio
+  #         key: MINIO_SECRET_KEY
 
   storage:
     storageClass: longhorn
