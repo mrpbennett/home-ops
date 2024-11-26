@@ -4,7 +4,6 @@ metadata:
   labels:
     name: segment-checker
   name: segment-checker
-  namespace: tam
 spec:
   type: ClusterIP
   selector:
