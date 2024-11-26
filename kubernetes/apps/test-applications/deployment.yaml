@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: segment-checker
-          image: registry.pulsepoint.com/tam/segment-checker:0.1.0
+          image: 192.168.5.100/segment-checker:0.1.0
           ports:
             - containerPort: 80
           resources:
