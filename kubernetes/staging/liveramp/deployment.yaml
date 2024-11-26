@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: segment-checker
+  name: &app liveramp-deployment
   labels:
-    app: segment-checker
+    app: *app
 spec:
   selector:
     matchLabels:
-      app: segment-checker
+      app: *app
   template:
     metadata:
       labels:
-        app: segment-checker
+        app: *app
     spec:
       containers:
-        - name: segment-checker
+        - name: *app
           image: 192.168.5.100/liveramp:0.0.4
           ports:
             - containerPort: 80
