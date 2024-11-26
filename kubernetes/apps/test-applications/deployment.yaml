@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: segment-checker
-          image: 192.168.5.100/segment-checker:0.0.1
+          image: 192.168.5.100/segment-checker:0.0.2
           ports:
             - containerPort: 80
           resources:
