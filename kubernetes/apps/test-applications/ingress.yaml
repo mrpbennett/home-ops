@@ -14,5 +14,5 @@ spec:
                 name: segment-checker
                 port:
                   number: 80
-            path: /static/index.html
+            path: /
             pathType: Prefix
