@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app test-applications
+  name: liveramp-test
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,12 +9,12 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/test-applications
+    path: kubernetes/staging/liveramp
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: *app
+    namespace: staging
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
