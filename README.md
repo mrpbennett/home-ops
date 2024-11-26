@@ -51,17 +51,30 @@ All Helm deployment `values.yaml` are contained within the Application under the
 
 ```sh
 📁 kubernetes
-├── 📁 apps                                    # application directory
-│   ├── 📁 application                         # application manifests
-│   │   ├── cluster-role-binding.yaml
-│   │   ├── cluster-role.yaml
-│   │   └── service.yaml
+├── 📁 apps                           # application directory
+│   └── 📁 app
+│       ├── config-map.yaml
+│       ├── ingress.yaml
+│       └── stateful-set.yaml
 ├── argo-root.yaml
-├── 📁 cluster                                 # cluster wide manifests
-└── 📁 registry                                # application directory which stores application deployment manifests
-    ├── cloudnativepg-cluster.yaml
-    └── 📁 helm                                # helm directory which stores helm applications
-        └── trino-helm.yaml
+├── 📁 cluster                        # cluster wide manifests
+│   ├── 📁 cluster-role-bindings
+│   ├── 📁 cron-workflows
+│   ├── 📁 cronjobs
+│   ├── 📁 ingress
+│   ├── 📁 namespaces
+│   ├── 📁 secrets
+│   ├── 📁 users
+│   └── 📁 workflows
+├── 📁 registry                       # registry for application deployments
+│   ├── argo-workflows.yaml
+│   ├── 📁 helm                       # helm deployments
+│   │   └── trino-helm.yaml
+└── 📁 staging                        # directory for staging apps
+    └── 📁 app
+        ├── deployment.yaml
+        ├── ingress.yaml
+        └── service.yaml
 ```
 
 My `argo-root.yaml` argocd application checks for changes in `./kubernetes/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:

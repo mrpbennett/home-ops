@@ -4,13 +4,19 @@
   "kubernetes": {
     "fileMatch": ["kubernetes/.+\\.yaml$", "kubernetes/charts/.+/Chart\\.yaml$"]
   },
+  "docker": {
+    "enabled": true,
+    "registryUrls": ["http://192.168.5.100"]
+  },
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
     },
     {
-      "managers": ["dockerfile"],
-      "registryUrls": ["http://192.168.7.210:5000"]
+      "managers": ["docker"],
+      "matchPackagePrefixes": ["192.168.5.100:5000/"],
+      "updateTypes": ["major", "minor", "patch"],
+      "groupName": "self-hosted images"
     }
   ],
   "hostRules": [
@@ -20,8 +26,6 @@
       "password": null
     }
   ],
-  "docker": {
-    "enabled": true
-  },
+
   "platformAutomerge": false
 }
