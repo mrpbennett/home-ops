@@ -1,25 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress
+  name: segment-checker
   annotations:
-    ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/backend-protocol: https
-    cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
+    kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - host: &host test.70ld.home
+    - host: liveramp.70ld.home
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
+          - backend:
               service:
-                name: nginx-service
+                name: segment-checker
                 port:
                   number: 80
-
-  tls:
-    - hosts:
-        - *host
-      secretName: nginx-test-ss-cert
+            path: /static/index.html
+            pathType: Prefix

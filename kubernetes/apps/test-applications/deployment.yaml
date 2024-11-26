@@ -1,26 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: segment-checker
+  labels:
+    app: segment-checker
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: segment-checker
   template:
     metadata:
       labels:
-        app: nginx
+        app: segment-checker
     spec:
       containers:
-        - name: nginx
-          image: nginx
+        - name: segment-checker
+          image: registry.pulsepoint.com/tam/segment-checker:0.1.0
           ports:
             - containerPort: 80
           resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
             limits:
-              cpu: "200m"
-              memory: "256Mi"
+              memory: "128Mi"
+              cpu: "500m"
