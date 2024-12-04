@@ -44,9 +44,22 @@ spec:
             connection-user=paul
             connection-password=password
 
-          garmindb: |
+          faker: |
             connector.name=postgresql
-            connection-url=jdbc:postgresql://192.168.5.80:5432/garmin_db
+            connection-url=jdbc:postgresql://192.168.5.80:5432/faker
+            connection-user=paul
+            connection-password=password
+
+          gatus: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://192.168.5.80:5432/gatus
+            connection-user=paul
+            connection-password=password
+
+          # DEV CATALOGS ----
+          devmain: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://192.168.5.81:5432/main
             connection-user=paul
             connection-password=password
 
