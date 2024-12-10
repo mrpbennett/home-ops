@@ -11,13 +11,13 @@ spec:
   primaryUpdateStrategy: unsupervised
 
   postgresql:
-    shared_preload_libraries:
-      - pg_cron
+    # shared_preload_libraries:
+    #   - pg_cron
     parameters:
       shared_buffers: 256MB
-    cron:
-      database_name: "postgres"
-      timezone: "GMT"
+    # cron:
+    #   database_name: "postgres"
+    #   timezone: "GMT"
 
   bootstrap:
     initdb:
@@ -25,8 +25,8 @@ spec:
       owner: paul
       secret:
         name: cnpg-dev-cluster-custom-user
-      postInitTemplateSQL:
-        - CREATE EXTENSION pg_cron;
+      # postInitTemplateSQL:
+      #   - CREATE EXTENSION pg_cron;
 
   enableSuperuserAccess: true
   superuserSecret:
