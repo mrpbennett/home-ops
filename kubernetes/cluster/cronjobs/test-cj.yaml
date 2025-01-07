@@ -4,7 +4,7 @@ metadata:
   name: test
   namespace: cron-jobs
 spec:
-  schedule: "*/10 * * * *" # 1:30 AM
+  schedule: "*/10 * * * *"
   jobTemplate:
     spec:
       template:

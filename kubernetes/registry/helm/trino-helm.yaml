@@ -46,9 +46,9 @@ spec:
 
           faker: |
             connector.name=postgresql
-            connection-url=jdbc:postgresql://192.168.5.80:5432/faker
-            connection-user=paul
-            connection-password=password
+            connection-url=jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres
+            connection-user=postgres
+            connection-password=KO#fyt%R*61PEa
 
           gatus: |
             connector.name=postgresql
