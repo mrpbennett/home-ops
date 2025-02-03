@@ -4,7 +4,7 @@ metadata:
   name: faker-etl
   namespace: cron-jobs
 spec:
-  schedule: "*/30 * * * *" # 1:30 AM
+  schedule: "*/10 * * * *" # every 10 minutes
   jobTemplate:
     spec:
       template:
@@ -16,7 +16,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: faker-etl
-              image: 192.168.5.100/faker-etl:0.0.1
+              image: 192.168.5.100/faker-etl:0.0.2
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:

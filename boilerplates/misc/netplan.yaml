@@ -3,11 +3,11 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    ens18:
+    eno1:
       addresses:
-        - 192.168.5.1/22
+        - 192.168.7.1/22
       routes:
         - to: default
           via: 192.168.4.1 # router ip
       nameservers:
-        addresses: [192.168.4.10, 1.1.1.1] # AdGuard / cloudflare
+        addresses: [192.168.4.100, 1.1.1.1] # AdGuard / cloudflare
