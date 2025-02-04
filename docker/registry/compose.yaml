@@ -1,8 +1,54 @@
-version: '3.9'
+version: '3.8'
+
 services:
   registry:
-    image: 'registry:2.7'
-    container_name: registry
-    restart: unless-stopped
+    image: registry:2
+    container_name: docker-registry
+    restart: always
+    environment:
+      - REGISTRY_STORAGE_DELETE_ENABLED=true # Enable image deletion
+      - REGISTRY_VALIDATION_DISABLED=true # Allow manifest deletion
+      # CORS Configuration
+      - REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin=["http://192.168.7.1:82"]
+      - REGISTRY_HTTP_HEADERS_Access-Control-Allow-Methods=["HEAD", "GET", "OPTIONS", "DELETE"]
+      - REGISTRY_HTTP_HEADERS_Access-Control-Allow-Headers=["Authorization", "Accept", "Cache-Control"]
+      - REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers=["Docker-Content-Digest"]
+      # Add basic auth if needed:
+      # - REGISTRY_AUTH=htpasswd
+      # - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+      # - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+    volumes:
+      - registry-data:/var/lib/registry
+      # Uncomment if using basic auth:
+      # - ./auth:/auth
+    networks:
+      - registry-network
     ports:
       - '5000:5000'
+
+  ui:
+    image: joxit/docker-registry-ui:latest
+    container_name: registry-ui
+    restart: always
+    environment:
+      - REGISTRY_TITLE=Private Docker Registry
+      - REGISTRY_URL=http://registry:5000
+      - SINGLE_REGISTRY=true
+      - DELETE_IMAGES=true
+      # Uncomment if using basic auth:
+      # - REGISTRY_SECURED=true
+      # - REGISTRY_USERNAME=your_username
+      # - REGISTRY_PASSWORD=your_password
+    ports:
+      - '80:80'
+    depends_on:
+      - registry
+    networks:
+      - registry-network
+
+networks:
+  registry-network:
+    driver: bridge
+
+volumes:
+  registry-data:
