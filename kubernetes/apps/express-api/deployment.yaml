@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: express-api
-          image: 192.168.7.2:5000/node-api:0.0.3
+          image: 192.168.7.1:5000/node-api:0.0.3
           ports:
             - containerPort: 3000
           resources:
