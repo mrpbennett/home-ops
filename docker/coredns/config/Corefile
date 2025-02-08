@@ -1,0 +1,26 @@
+# Corefile
+. {
+    errors
+    health
+    ready
+
+    hosts {
+        192.168.7.69 nextjs-docker.ld.lab
+        fallthrough
+    }
+
+    forward . 8.8.8.8 8.8.4.4
+
+    log
+    cache
+}
+
+ld.lab {
+    hosts {
+        192.168.7.69 nextjs-docker.ld.lab
+        fallthrough
+    }
+    errors
+    log
+    cache
+}

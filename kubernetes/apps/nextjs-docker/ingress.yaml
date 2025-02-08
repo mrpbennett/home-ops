@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: nextjs-docker.70ld.home
+    - host: nextjs-docker.ld.lab
       http:
         paths:
           - pathType: Prefix
@@ -22,5 +22,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - nextjs-docker.70ld.home
+        - nextjs-docker.ld.lab
       secretName: nextjs-docker-ingress-ss-cert
