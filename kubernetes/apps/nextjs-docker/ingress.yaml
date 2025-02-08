@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: nextjs-docker-ingress
   namespace: dev
+  annotations:
+    cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
   labels:
     name: nextjs-docker-ingress
 spec:
