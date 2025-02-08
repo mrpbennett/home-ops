@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-    <a href="[https://talos.dev/](https://talos.dev)"><img alt="talos" src="https://img.shields.io/badge/talos-v1.8.1-orange?logo=talos&logoColor=white&style=flat-square"></a>
+    <a href="[https://k3s.io/](https://k3s.io)"><img alt="talos" src="https://img.shields.io/badge/k3s-v1.3.5-yellow?logo=k3s&logoColor=white&style=flat-square"></a>
     <a href="https://github.com/mrpbennett/home-ops/commits/master"><img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/mrpbennett/home-ops?logo=git&logoColor=white&color=purple&style=flat-square"></a>
     <a href="https://discord.gg/home-operations"><img alt="Home Operations Discord" src="https://img.shields.io/badge/discord-chat-7289DA.svg?logo=discord&logoColor=white&maxAge=60&style=flat-square"></a>
 </p>
@@ -22,7 +22,9 @@ _... managed with ArgoCD, Renovate and GitHub Actions_ 🤖
 
 ## 📖 Overview
 
-This is a mono repository for my home infrastructure and Kubernetes cluster. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Ansible](https://www.ansible.com/), [Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
+This is a mono repository for my home infrastructure and Kubernetes node. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
+
+I have a single node running a K3s instance and a single node running soley Docker with portainer. This is now more of a dev enviroment rather than a Kubernetes homelab.
 
 ## The purpose here is to learn Kubernetes, while practising GitOps
 
@@ -30,14 +32,13 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 
 ### Installation
 
-My Kubernetes cluster is deployed with [Talos](https://www.talos.dev) and [MetalLB](https://metallb.universe.tf/). This is a high availability cluster, running inside Proxmox.
+My Kubernetes enviroment is deployed with [k3s](https://k3s.io) and [MetalLB](https://metallb.universe.tf/). This is a single node setup for dev purposes
 
 #### System Requirements
 
 | Role          | Memory | Cores | System Disk |
 | ------------- | ------ | ----- | ----------- |
-| Control Plane | 4 GiB  | 2     | 100 GiB     |
-| Node          | 12 Gib | 4     | 400 GiB     |
+| Control Plane | 32 GiB | 6     | 1 TB        |
 
 ### GitOps
 
@@ -70,11 +71,7 @@ All Helm deployment `values.yaml` are contained within the Application under the
 │   ├── argo-workflows.yaml
 │   ├── 📁 helm                       # helm deployments
 │   │   └── trino-helm.yaml
-└── 📁 staging                        # directory for staging apps
-    └── 📁 app
-        ├── deployment.yaml
-        ├── ingress.yaml
-        └── service.yaml
+
 ```
 
 My `argo-root.yaml` argocd application checks for changes in `./kubernetes/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:
@@ -94,11 +91,6 @@ source:
         <th>Description</th>
     </tr>
     <tr>
-        <td><img width="32" src="https://simpleicons.org/icons/ansible.svg"></td>
-        <td><a href="https://www.ansible.com">Ansible</a></td>
-        <td>Automate provisioning and configuration</td>
-    </tr>
-    <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/30269780"></td>
         <td><a href="https://argoproj.github.io/cd">ArgoCD</a></td>
         <td>GitOps tool built to deploy applications to Kubernetes</td>
@@ -109,12 +101,7 @@ source:
         <td>Cloud native certificate management - TBA</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://github.com/walkxcode/dashboard-icons/blob/main/png/cloudflare.png?raw=true"></td>
-        <td><a href="https://www.cloudflare.com/en-gb/">Cloudflare</a></td>
-        <td>Domain and network tunnel</td>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png"></td>
+        <td><img width="32" src="https://cdn.worldvectorlogo.com/logos/docker-4.svg"></td>
         <td><a href="https://www.docker.com">Docker Registry</a></td>
         <td>Private container registry</td>
     </tr>
@@ -134,11 +121,6 @@ source:
         <td>Container-orchestration system, the backbone of this project</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://longhorn.io/img/logos/longhorn-icon-white.png"></td>
-        <td><a href="https://longhorn.io">Longhorn</a></td>
-        <td>Distributed block storage for Kubernetes</td>
-    </tr>
-    <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/1412239?s=200&v=4"></td>
         <td><a href="https://www.nginx.com">NGINX</a></td>
         <td>Kubernetes Ingress Controller</td>
@@ -149,29 +131,14 @@ source:
         <td>Kubernetes load balancer</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://www.postgresql.org/media/img/about/press/elephant.png"></td>
-        <td><a href="https://www.postgresql.org/">Postgres</a></td>
-        <td>Cloudnative PG</td>
+        <td><img width="32" src="https://cdn.worldvectorlogo.com/logos/portainer.svg"></td>
+        <td><a href="https://docs.portainer.io/start/install-ce">Portainer</a></td>
+        <td>Docker container management</td>
     </tr>
     <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/3380462"></td>
         <td><a href="https://prometheus.io">Prometheus</a></td>
         <td>Systems monitoring and alerting toolkit</td>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/proxmox.svg"></td>
-        <td><a href="https://www.proxmox.com/en/">Proxmox</a></td>
-        <td>Bare Metal hypervisor OS</td>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://store-images.s-microsoft.com/image/apps.1667.62b087ba-b0aa-4d22-aa02-a155bc245ecb.81d32dfa-16ca-4058-982c-03bd0fce135f.4e41e100-e821-4a7d-9a32-47c7ac37db51"></td>
-        <td><a href="https://tailscale.com/">TailScale</a></td>
-        <td>Zero config VPN</td>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://raw.githubusercontent.com/walkxcode/dashboard-icons/a02a5999fe56948671721da8b0830cdd5b609ed7/svg/terraform.svg"></td>
-        <td><a href="https://www.terraform.io/">Terraform</a></td>
-        <td>Infrastructure as code</td>
     </tr>
     <tr>
         <td><img width="28" src="https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg"></td>
@@ -184,12 +151,6 @@ source:
         <td>Base OS minimized for all Non K8 VMs</td>
     </tr>
 </table>
-
----
-
-## 🌐 DNS
-
-In my cluster there are two [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) instances deployed. One is deployed with the [ExternalDNS webhook provider for Adguard Home](https://github.com/muhlba91/external-dns-provider-adguard) which syncs DNS records to my Adgaurd instance.
 
 ---
 
