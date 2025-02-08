@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nextjs-docker
-          image: http://192.168.7.1:5000/nextjs-docker:latest
+          image: 192.168.7.1:5000/nextjs-docker:0.0.1
           resources:
             limits:
               memory: "128Mi"

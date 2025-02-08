@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   registry-server:
     image: registry:2
@@ -29,7 +27,7 @@ services:
     container_name: registry-ui
     restart: always
     environment:
-      - REGISTRY_TITLE=Private Docker Registry
+      - REGISTRY_TITLE=70LD Docker Registry
       - REGISTRY_URL=http://192.168.7.1:5000
       - SINGLE_REGISTRY=true
       - DELETE_IMAGES=true
@@ -41,17 +39,10 @@ services:
       - registry-network
 
   registry-gc:
-    image: bash
-    container_name: registry-gc
-    depends_on:
-      - registry-server
-    networks:
-      - registry-network
+    image: registry:2
     volumes:
       - registry-data:/var/lib/registry
-    command: >
-      bash -c 'while true; do sleep 3600; echo "Running garbage collection..."; 
-      registry garbage-collect /etc/docker/registry/config.yml; echo "Garbage collection completed"; done'
+    entrypoint: registry garbage-collect /etc/docker/registry/config.yml
 
 networks:
   registry-network:
