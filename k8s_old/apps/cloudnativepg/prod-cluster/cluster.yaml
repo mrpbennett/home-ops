@@ -1,0 +1,67 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-prod
+  namespace: cnpg-prod
+spec:
+  description: "Homelab Postgres Prod Cluster"
+  instances: 3
+  startDelay: 300
+  stopDelay: 300
+  primaryUpdateStrategy: unsupervised
+
+  postgresql:
+    parameters:
+      shared_buffers: 256MB
+
+  bootstrap:
+    initdb:
+      database: main
+      owner: paul
+      secret:
+        name: cnpg-prod-cluster-custom-user
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-prod-cluster-custom-superuser
+
+  managed:
+    services:
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: postgres-prod-rw-svc
+              annotations:
+                metallb.universe.tf/loadBalancerIPs: 192.168.5.80
+            spec:
+              type: LoadBalancer
+
+  # backup:
+  #   retentionPolicy: "10d"
+  #   barmanObjectStore:
+  #     destinationPath: s3://cnpg-backups/
+  #     endpointURL: http://192.168.6.69:9000
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: cnpg-prod-minio
+  #         key: MINIO_ACCESS_KEY
+  #       secretAccessKey:
+  #         name: cnpg-prod-minio
+  #         key: MINIO_SECRET_KEY
+
+  storage:
+    storageClass: longhorn
+    size: 8Gi
+
+  resources:
+    limits:
+      memory: "1Gi"
+      cpu: "2"
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: failure-domain.beta.kubernetes.io/zone
+
+  monitoring:
+    enablePodMonitor: true

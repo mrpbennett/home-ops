@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-registry-svc
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.5.100
+spec:
+  type: LoadBalancer
+  selector:
+    app: docker-registry
+  ports:
+    - port: 5000
+      targetPort: 5000

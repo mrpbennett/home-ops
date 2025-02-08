@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docker-registry-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    cert-manager.io/cluster-issuer: 70ld-ss-cert-issuer
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: registry.70ld.home
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: docker-registry-svc
+                port:
+                  number: 5000
+  tls:
+    - hosts:
+        - registry.70ld.home
+      secretName: registry-ingress-ss-cert
