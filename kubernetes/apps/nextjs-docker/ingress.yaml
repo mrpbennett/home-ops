@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextjs-docker-ingress
+  namespace: dev
+  labels:
+    name: nextjs-docker-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: nextjs-docker.70ld.home
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: nextjs-docker-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - nextjs-docker.70ld.home
+      secretName: nextjs-docker-ingress-ss-cert
