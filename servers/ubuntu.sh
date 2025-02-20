@@ -4,7 +4,7 @@
 sudo apt-get update -y && sudo apt-get upgrade -y
 
 # ubuntu minimal
-sudo apt install curl nano jq git ufw net-tools lsof -y
+sudo apt install curl nano jq git ufw net-tools lsof cron -y
 
 # install qemu
 sudo apt-get install qemu-guest-agent -y && sudo systemctl start qemu-guest-agent && sudo systemctl enable qemu-guest-agent
