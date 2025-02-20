@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cloudnativepg
+  name: cnpg-operator
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/cloudnativepg
+    path: kubernetes/apps/cloudnativepg/operator
     targetRevision: HEAD
     directory:
       recurse: true
