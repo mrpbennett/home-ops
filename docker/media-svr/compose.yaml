@@ -1,0 +1,89 @@
+version: '3.8'
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - VPN_SERVICE_PROVIDER=private internet access
+      - OPENVPN_USER=p6842896
+      - OPENVPN_PASSWORD=HHM2acY8t7
+      - SERVER_REGIONS=Netherlands
+    volumes:
+      - /docker/appdata/gluetun:/config
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+    restart: always
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    network_mode: 'service:gluetun'
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - WEBUI_PORT=8080
+    volumes:
+      - /docker/appdata/qbittorrent:/config
+      - /mnt/nas/downloads:/data/torrents
+    depends_on:
+      gluetun:
+        condition: service_healthy
+
+  radarr:
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - /docker/appdata/radarr:/config
+      - /mnt/nas/movies:/data:rw
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - /docker/appdata/sonarr:/config
+      - /mnt/nas/tv:/data:rw
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - /docker/appdata/prowlarr:/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - /docker/appdata/prowlarr:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
