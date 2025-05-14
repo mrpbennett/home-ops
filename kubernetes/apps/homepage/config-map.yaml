@@ -30,7 +30,7 @@ data:
 
         - ArgoCD:
             icon: argo-cd.png
-            href: http://192.168.7.50
+            href: http://argocd.home.local
             description: Homepage is awesome
 
         - Longhorn:
