@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   sources:
-    - chart: minio-tenant
+    - chart: tenant
       repoURL: https://operator.min.io
-      targetRevision: 7.1.0
+      targetRevision: 7.1.1
       helm:
         valuesObject:
           tenant:
