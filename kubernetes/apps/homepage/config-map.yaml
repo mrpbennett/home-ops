@@ -11,7 +11,8 @@ data:
 
   settings.yaml: |
     title: PFB Homelab
-    theme: light
+    theme: dark
+    color: slate
 
     layout:
       Applications:
