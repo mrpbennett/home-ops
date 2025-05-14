@@ -13,11 +13,38 @@ spec:
         valuesObject:
           tenant:
             name: minio-tenant
+
+            configSecret:
+              name: minio-tenant-secret
+              accessKey: admin
+              secretKey: 123qwe!!
+
             pools:
-              servers: 1
-              name: pool-0
-              volumesPerServer: 1
-              size: 50Gi
+              - servers: 1
+                name: pool-0
+                volumesPerServer: 1
+                size: 50Gi
+                storageClassName: longhorn
+
+                securityContext:
+                  runAsUser: 1000
+                  runAsGroup: 1000
+                  fsGroup: 1000
+                  fsGroupChangePolicy: "OnRootMismatch"
+                  runAsNonRoot: true
+                containerSecurityContext:
+                  runAsUser: 1000
+                  runAsGroup: 1000
+                  runAsNonRoot: true
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop:
+                      - ALL
+                  seccompProfile:
+                    type: RuntimeDefault
+
+                mountPath: /export
+                subPath: /data
 
           ingress:
             api:
