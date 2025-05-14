@@ -1,11 +1,10 @@
-# TAILSCALE USER
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: cluster-admin-binding-mrpbennett
+  name: cluster-admin-binding
 subjects:
   - kind: User
-    name: mrpbennett@github # Tailscale user
+    name: kubecon-admin
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole

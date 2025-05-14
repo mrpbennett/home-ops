@@ -1,11 +1,10 @@
-# TALOS USER
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: cluster-admin-binding
+  name: cluster-admin-binding-mrpbennett
 subjects:
   - kind: User
-    name: default
+    name: mrpbennett@github # Tailscale user
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
