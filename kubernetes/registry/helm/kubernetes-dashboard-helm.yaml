@@ -28,7 +28,7 @@ spec:
           ingress:
             enabled: true
             hosts:
-              - kubernetes-dashboard.70ld.home
+              - k8s-dash.home.local
             ingressClassName: nginx
             pathType: ImplementationSpecific
             path: /
