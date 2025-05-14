@@ -12,6 +12,12 @@ spec:
       helm:
         valuesObject:
           operator:
+            replicaCount: 1
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              runAsNonRoot: true
+              fsGroup: 1000
             resources:
               requests:
                 cpu: 200m
