@@ -14,6 +14,14 @@ spec:
           preUpgradeChecker:
             jobEnabled: false
 
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            host: longhorn.home.local
+            path: /
+            annotations:
+              kubernetes.io/ingress.class: nginx
+
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
