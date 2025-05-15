@@ -15,8 +15,8 @@ spec:
     helm:
       valuesObject:
         oauth:
-          clientId: "k2rukJkmdB21CNTRL"
-          clientSecret: "tskey-client-k2rukJkmdB21CNTRL-9K5qGk2Td9MEHPjBjh2J9MTPaJE9zaiS6"
+          clientId: "kLqDJ1DdKj11CNTRL"
+          clientSecret: "tskey-client-kLqDJ1DdKj11CNTRL-b6eQZCivR19vjyoCRcXRz88K2BNyLQ59K"
 
         operatorConfig:
           defaultTags:
