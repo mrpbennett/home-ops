@@ -27,42 +27,47 @@ data:
         - Adguard:
             icon: adguard-home.png
             href: http://192.168.4.2
-            description: Homepage is awesome
+            description: DNS & Adblocker
 
         - ArgoCD:
             icon: argo-cd.png
             href: http://argocd.home.local
-            description: Homepage is awesome
+            description: Continuous Delivery
 
         - Longhorn:
             icon: longhorn.png
             href: http://longhorn.home.local
-            description: Homepage is awesome
+            description: Persistent Block Storage
 
         - Grafana:
             icon: grafana.png
             href: http://grafana.home.local
-            description: Homepage is awesom
+            description: Analytics & Monitoring
 
         - Kubernetes:
             icon: kubernetes.png
             href: http://k8s-dash.home.local
-            description: Homepage is awesome
+            description: Container Orchestration
+
+        - MinIO:
+            icon: minio.png
+            href: http://minio-console.home.local
+            description: Distributed Object Storage
 
         - Portainer:
             icon: portainer.png
             href: https://192.168.7.2:9443
-            description: Homepage is awesome
+            description: Container Management
 
         - Prometheus:
             icon: prometheus.png
             href: http://prometheus.home.local
-            description: Homepage is awesome
+            description: Analytics & Monitoring
 
         - Proxmox:
             icon: proxmox.png
             href: https://192.168.7.3:8006
-            description: Homepage is awesome
+            description: Virtualization Management
 
   widgets.yaml: ""
   docker.yaml: ""
