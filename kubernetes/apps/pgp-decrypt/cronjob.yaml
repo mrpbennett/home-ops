@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pgp-decrypt
+  namespace: pgp-decrypt
+spec:
+  schedule: "0 0 * * *" # Run daily at midnight (adjust as needed)
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: pgp-decrypt-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: pgp-decrypt
+              image: pgp-decrypt:latest
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: K8S_NAMESPACE
+                  value: "dev"
+                - name: K8S_PGP_SECRET_NAME
+                  value: "pgp-keys"
+                - name: PGP_PASSPHRASE
+                  valueFrom:
+                    secretKeyRef:
+                      name: pgp-decrypt-config
+                      key: pgp-passphrase

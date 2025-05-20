@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pgp-decrypt-read-secrets
+  namespace: dev
+subjects:
+  - kind: ServiceAccount
+    name: pgp-decrypt-sa
+    namespace: dev
+roleRef:
+  kind: Role
+  name: secret-reader
+  apiGroup: rbac.authorization.k8s.io
