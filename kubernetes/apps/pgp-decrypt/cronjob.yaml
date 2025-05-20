@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
             - name: pgp-decrypt
-              image: 192.168.7.2:5000/pgp-decrypt:0.0.1
+              image: 192.168.7.2:5000/pgp-decrypt:0.0.2
               env:
                 - name: PGP_PRIVATE_KEY
                   valueFrom:
