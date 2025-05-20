@@ -26,5 +26,5 @@ spec:
                 - name: PGP_PASSPHRASE
                   valueFrom:
                     secretKeyRef:
-                      name: pgp-decrypt-config
+                      name: pgp-keys
                       key: pgp-passphrase
