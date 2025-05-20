@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: pgp-decrypt
+  name: pgp-decrypt-with-keys
   namespace: dev
 spec:
   schedule: "0 0 * * *" # Run daily at midnight (adjust as needed)
@@ -10,17 +10,21 @@ spec:
     spec:
       template:
         spec:
-          serviceAccountName: pgp-decrypt-sa
+          volumes:
+            - name: pgp-keys
+              secret:
+                secretName: pgp-keys
+          serviceAccountName: default # Just use the default service account
           restartPolicy: OnFailure
           containers:
             - name: pgp-decrypt
-              image: 192.168.7.2:5000/pgp-test:0.0.4
+              image: 192.168.7.2:5000/pgp-test:0.0.5
               imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - name: pgp-keys
+                  mountPath: /app/keys
+                  readOnly: true
               env:
-                - name: K8S_NAMESPACE
-                  value: "dev"
-                - name: K8S_PGP_SECRET_NAME
-                  value: "pgp-keys"
                 - name: DEBUG
                   value: "true"
                 - name: PGP_PASSPHRASE
