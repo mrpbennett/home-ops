@@ -14,7 +14,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: pgp-decrypt
-              image: pgp-decrypt:latest
+              image: 192.168.7.2/pgp-test:0.0.1
               imagePullPolicy: IfNotPresent
               env:
                 - name: K8S_NAMESPACE

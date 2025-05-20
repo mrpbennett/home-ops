@@ -39,6 +39,11 @@ data:
                 href: http://argocd.home.local
                 description: Continuous Delivery
 
+            - DockerRegistry:
+                icon: docker.png
+                href: http://192.168.7.2:5000/v2/_catalog
+                description: Image Registry
+
             - Longhorn:
                 icon: longhorn.png
                 href: http://longhorn.home.local
