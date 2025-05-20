@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: pgp-decrypt
-  namespace: pgp-decrypt
+  namespace: dev
 spec:
   schedule: "0 0 * * *" # Run daily at midnight (adjust as needed)
   concurrencyPolicy: Forbid
