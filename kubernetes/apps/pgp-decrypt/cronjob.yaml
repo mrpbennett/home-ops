@@ -4,7 +4,7 @@ metadata:
   name: pgp-decrypt-cronjob
   namespace: dev
 spec:
-  schedule: "* * * * *"
+  schedule: "* * 1 * *"
   jobTemplate:
     spec:
       template:
