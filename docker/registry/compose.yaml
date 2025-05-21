@@ -38,12 +38,6 @@ services:
     networks:
       - registry-network
 
-  registry-gc:
-    image: registry:2
-    volumes:
-      - registry-data:/var/lib/registry
-    entrypoint: registry garbage-collect /etc/docker/registry/config.yml
-
 networks:
   registry-network:
     driver: bridge
