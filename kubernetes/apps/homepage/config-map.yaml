@@ -41,7 +41,7 @@ data:
 
             - DockerRegistry:
                 icon: docker.png
-                href: http://192.168.7.10:5000/v2/_catalog
+                href: http://192.168.7.123:82
                 description: Image Registry
 
             - Longhorn:
