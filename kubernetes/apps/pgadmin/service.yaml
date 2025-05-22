@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: pgadmin-service
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.5.99
+    metallb.universe.tf/loadBalancerIPs: 192.168.7.99
 spec:
   type: LoadBalancer
   selector:
