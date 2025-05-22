@@ -80,9 +80,9 @@ data:
                 description: Virtualization Management
 
             - Trino:
-              icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
-              href: http://trino.home.local/ui
-              description: Fast distributed SQL query engine
+                icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
+                href: http://trino.home.local/ui
+                description: Fast distributed SQL query engine
 
     widgets.yaml: ""
     docker.yaml: ""
