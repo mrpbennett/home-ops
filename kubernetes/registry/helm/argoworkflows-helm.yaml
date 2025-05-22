@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argoworkflows
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argo
+  project: default
+  source:
+    chart: argo-workflows
+    repoURL: https://argoproj.github.io/argo-helm
+    targetRevision: 0.45.15
+    helm:
+      valuesObject:
+        crds:
+          install: true
+          keep: true
+
+        server:
+          ingress:
+            enabled: true
+            annotations:
+              ingress.kubernetes.io/rewrite-target: /
+            ingressClassName: nginx
+            hosts:
+              - argoworkflows.70ld.home
+            paths:
+              - /
+            pathType: Prefix
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
