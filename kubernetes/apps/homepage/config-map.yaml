@@ -40,7 +40,7 @@ data:
                 description: Continuous Delivery
 
             - Argo Workflows:
-                icon: argo-workflows.png
+                icon: argo-cd.png
                 href: http://argo-workflows.home.local
                 description: Workflow Management
 
