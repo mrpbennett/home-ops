@@ -39,6 +39,11 @@ data:
                 href: http://argocd.home.local
                 description: Continuous Delivery
 
+            - Argo Workflows:
+                icon: argo-workflows.png
+                href: http://argo-workflows.home.local
+                description: Workflow Management
+
             - DockerRegistry:
                 icon: docker.png
                 href: http://192.168.7.123:82

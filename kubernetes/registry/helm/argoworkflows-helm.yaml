@@ -19,6 +19,8 @@ spec:
           keep: true
 
         server:
+          authModes:
+            - server
           ingress:
             enabled: true
             annotations:
