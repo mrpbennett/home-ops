@@ -48,7 +48,7 @@ spec:
             connector.name=postgresql
             connection-url=jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres
             connection-user=postgres.kzqeciwvlkrgokcvgjci
-            connection-password=fYjc4g*r2^L%3
+            connection-password=fYjc4g*r2^L%3&
 
         service:
           type: LoadBalancer
