@@ -64,6 +64,11 @@ data:
                 href: http://minio-console.home.local
                 description: Distributed Object Storage
 
+            - PGAdmin:
+                icon: postgres.png
+                href: https://pgadmin.home.local
+                description: Postgres Management
+
             - Portainer:
                 icon: portainer.png
                 href: https://192.168.7.10:9443
