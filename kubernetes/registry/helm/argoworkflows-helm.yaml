@@ -18,6 +18,11 @@ spec:
           install: true
           keep: true
 
+        workflow:
+          serviceAccount:
+            create: true
+            name: argo-workflows
+
         server:
           authModes:
             - server
