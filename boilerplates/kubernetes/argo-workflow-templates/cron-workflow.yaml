@@ -29,7 +29,6 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "500m"
-
         retryStrategy:
           limit: 3
           backoff:
