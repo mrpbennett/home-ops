@@ -41,7 +41,7 @@ data:
 
             - Argo Workflows:
                 icon: argo-cd.png
-                href: http://argo-workflows.home.local
+                href: http://argoworkflows.home.local
                 description: Workflow Management
 
             - DockerRegistry:
