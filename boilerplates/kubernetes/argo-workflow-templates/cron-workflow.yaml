@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
   name: &app registry-test
-  namespace: cron-jobs
+  namespace: argo
   annotations:
     workflows.argoproj.io/description: To test registry from k8s
     workflows.argoproj.io/tags: test
@@ -15,11 +15,12 @@ spec:
   failedJobsHistoryLimit: 3
   suspend: false
   workflowSpec:
+    serviceAccountName: argo-workflows
     entrypoint: *app
     templates:
       - name: *app
         container:
-          image: 192.168.5.100:5000/test:0.0.1
+          image: 192.168.7.123:5000/faker-users:0.0.3
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -28,11 +29,7 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "500m"
-          securityContext:
-            runAsNonRoot: true
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop: ["ALL"]
+
         retryStrategy:
           limit: 3
           backoff:
