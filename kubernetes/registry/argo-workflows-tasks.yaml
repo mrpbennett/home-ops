@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argoworkflows-tasks
+  name: argoworkflow-tasks
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/argoworkflows-tasks
+    path: kubernetes/apps/argoworkflow-tasks
     targetRevision: HEAD
     directory:
       recurse: true
