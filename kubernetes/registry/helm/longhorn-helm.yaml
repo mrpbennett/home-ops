@@ -14,6 +14,9 @@ spec:
           preUpgradeChecker:
             jobEnabled: false
 
+          persistence:
+            defaultClassReplicaCount: 2
+
           ingress:
             enabled: true
             ingressClassName: nginx
