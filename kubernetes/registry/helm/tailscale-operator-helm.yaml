@@ -14,10 +14,6 @@ spec:
     targetRevision: 1.82.5
     helm:
       valuesObject:
-        oauth:
-          clientId: "kakYSrxnvZ11CNTRL"
-          clientSecret: "tskey-client-kakYSrxnvZ11CNTRL-S7JhjSEbYMRm92u4EbobLRZi33zmBjnN"
-
         operatorConfig:
           defaultTags:
             - "tag:k8s-operator"
