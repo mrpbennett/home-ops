@@ -69,6 +69,11 @@ data:
                 href: http://minio-console.home.local
                 description: Distributed Object Storage
 
+            - Nginx Proxy Manager:
+                icon: nginx-proxy-manager.png
+                href: http://nginx-proxy-manager.home.local
+                description: Reverse Proxy & Load Balancer
+
             - PGAdmin:
                 icon: postgres.png
                 href: https://pgadmin.home.local
