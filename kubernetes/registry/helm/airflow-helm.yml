@@ -35,6 +35,9 @@ spec:
           useHelmHooks: false
           applyCustomEnv: false
 
+        # https://airflow.apache.org/docs/helm-chart/stable/production-guide.html#webserver-secret-key
+        webserverSecretKey: 6e480d9e41955d21583fb395cad98fd8
+
   syncPolicy:
     automated:
       prune: true
