@@ -22,7 +22,7 @@ spec:
             path: /
             pathType: ImplementationSpecific
             hosts:
-              - host: airflow.home.local
+              - name: airflow.home.local
                 tls:
                   enabled: false
             ingressClassName: nginx
