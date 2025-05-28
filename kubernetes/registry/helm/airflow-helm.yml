@@ -46,7 +46,6 @@ spec:
         webserverSecretKey: 7e7c86b29cf470c1181c656be339979b0448c336578338b357c00244b0e065df
 
         webserver:
-          expose_config: true
           defaultUser:
             enabled: true
             role: Admin
