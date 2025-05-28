@@ -66,7 +66,7 @@ data:
 
             - MinIO:
                 icon: minio.png
-                href: http://minio-console.home.local
+                href: http://192.168.7.5:9001
                 description: Distributed Object Storage
 
             - Nginx Proxy Manager:
