@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  name: &app registry-test
+  name: &app faker-users-cronworkflow
   namespace: argo
   annotations:
     workflows.argoproj.io/description: To test registry from k8s
@@ -20,15 +20,15 @@ spec:
     templates:
       - name: *app
         container:
-          image: 192.168.7.123:5000/faker-users:0.0.3
+          image: 192.168.7.123:5000/faker-users:0.0.7
           imagePullPolicy: IfNotPresent
           resources:
             requests:
               memory: "64Mi"
               cpu: "250m"
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "900Mi"
+              cpu: "750m"
         retryStrategy:
           limit: 3
           backoff:
