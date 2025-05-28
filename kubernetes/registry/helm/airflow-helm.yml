@@ -27,6 +27,13 @@ spec:
                   enabled: false
             ingressClassName: nginx
 
+        dags:
+          gitSync:
+            enabled: true
+            repo: https://github.com/mrpbennett/airflow-dags.git
+            branch: main
+            subPath: dags
+
         # Settings for ArgoCD
         createUserJob:
           useHelmHooks: false
