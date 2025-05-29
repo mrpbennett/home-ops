@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: faker-express-api.home.local
+    - host: faker-api.home.local
       http:
         paths:
           - path: /api(/|$)(.*)
