@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: user-express-deployment
-          image: 192.168.7.123:5000/faker-express-api:0.0.2
+          image: 192.168.7.123:5000/faker-express-api:0.0.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
