@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-express-deployment
+  namespace: dev
+  labels:
+    app: user-express-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-express-deployment
+  template:
+    metadata:
+      name: user-express-deployment
+      labels:
+        app: user-express-deployment
+    spec:
+      containers:
+        - name: user-express-deployment
+          image: 192.168.7.123:5000/faker-express-api:0.0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+      restartPolicy: Always
