@@ -11,7 +11,7 @@ spec:
     - host: faker-api.home.local
       http:
         paths:
-          - path: /api(/|$)(.*)
+          - path: /
             pathType: Prefix
             backend:
               service:
