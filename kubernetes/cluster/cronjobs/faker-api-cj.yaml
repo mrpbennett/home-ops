@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: faker-api-cj
+  namespace: dev
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  suspend: false
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: faker-fact
+              image: 192.168.7.123:5000/faker-users-fact:0.0.5
