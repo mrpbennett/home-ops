@@ -31,9 +31,6 @@ spec:
                 - /otlp/v1/logs
             hosts:
               - host: loki.home.local
-                paths:
-                  - path: /
-                    pathType: Prefix
 
         promtail:
           enabled: true
