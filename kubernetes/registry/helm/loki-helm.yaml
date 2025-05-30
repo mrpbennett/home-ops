@@ -14,7 +14,6 @@ spec:
     targetRevision: 6.30.1
     helm:
       valuesObject:
-        # LOKI ---
         loki:
           image:
             registry: docker.io
@@ -42,6 +41,34 @@ spec:
                     pathType: Prefix
           basicAuth:
             enabled: false
+
+        minio:
+          enabled: true
+          replicas: 1
+          drivesPerNode: 2
+          rootUser: root-user
+          rootPassword: supersecretpassword
+          users:
+            - accessKey: logs-user
+              secretKey: supersecretpassword
+              policy: readwrite
+          buckets:
+            - name: chunks
+              policy: none
+              purge: false
+            - name: ruler
+              policy: none
+              purge: false
+            - name: admin
+              policy: none
+              purge: false
+          persistence:
+            size: 5Gi
+            annotations: {}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
 
   syncPolicy:
     automated:
