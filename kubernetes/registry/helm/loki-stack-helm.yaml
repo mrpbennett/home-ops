@@ -29,6 +29,21 @@ spec:
             clients:
               - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
 
+          initContainer:
+            # -- Specifies whether the init container for setting inotify max user instances is to be enabled
+            - name: init
+              # -- Docker registry, image and tag for the init container image
+              image: docker.io/busybox:1.33
+              # -- Docker image pull policy for the init container image
+              imagePullPolicy: IfNotPresent
+              # -- The inotify max user instances to configure
+              command:
+                - sh
+                - -c
+                - sysctl -w fs.inotify.max_user_instances=128
+              securityContext:
+                privileged: true
+
         fluent-bit:
           enabled: false
 
