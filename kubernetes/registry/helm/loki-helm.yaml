@@ -22,6 +22,18 @@ spec:
             repository: grafana/loki
             tag: 3.5.0
 
+          storage:
+            bucketNames:
+              chunks: loki-chunks
+              ruler: loki-ruler
+              admin: loki-admin
+
+            object_storage:
+              type: s3
+              endpoint: http://192.168.7.5:9000
+              access_key_id: lZb6Pwci7sJ6AkaDqhPN
+              secret_access_key: jPQXaAomDLJPfvvJQBGpH5gbN95r86rmmTAZv15d
+
           useTestSchema: true
           testSchemaConfig:
             configs:
