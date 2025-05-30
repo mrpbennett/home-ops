@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: logging
+  project: default
+  source:
+    chart: loki
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 6.30.1
+    helm:
+      valuesObject:
+        # LOKI ---
+        loki:
+          image:
+            registry: docker.io
+            repository: grafana/loki
+            tag: 3.5.0
+
+          ui:
+            enabled: true
+            gateway:
+              enabled: true
+
+        gateway:
+          enabled: true
+          replicas: 1
+          service:
+            port: 80
+            type: LoadBalancer
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - host: loki-gateway.home.local
+                paths:
+                  - path: /
+                    pathType: Prefix
+          basicAuth:
+            enabled: false
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

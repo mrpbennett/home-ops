@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: promtail
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: logging
+  project: default
+  source:
+    chart: promtail
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 6.17.0
+    helm:
+      valuesObject:
+        daemonset:
+          enabled: true
+
+        initContainer:
+          - name: init
+            image: docker.io/busybox:1.33
+            imagePullPolicy: IfNotPresent
+            command:
+              - sh
+              - -c
+              - sysctl -w fs.inotify.max_user_instances=512
+            securityContext:
+              privileged: true
+
+        config:
+          enabled: true
+          logLevel: info
+          serverPort: 3101
+          clients:
+            - url: http://loki-gateway.home.local/loki/api/v1/push
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
