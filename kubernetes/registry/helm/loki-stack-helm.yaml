@@ -17,20 +17,9 @@ spec:
         loki:
           enabled: true
           isDefault: true
-          url: http://loki.home.local:{{ .Values.loki.service.port }}
+          url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
           readinessProbe: {}
           livenessProbe: {}
-
-          ingress:
-            enabled: true
-            ingressClassName: nginx
-            paths:
-              distributor:
-                - /api/prom/push
-                - /loki/api/v1/push
-                - /otlp/v1/logs
-            hosts:
-              - host: loki.home.local
 
         promtail:
           enabled: true
@@ -38,7 +27,7 @@ spec:
             logLevel: info
             serverPort: 3101
             clients:
-              - url: http://loki.home.local:3100/loki/api/v1/push
+              - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
 
         fluent-bit:
           enabled: false
