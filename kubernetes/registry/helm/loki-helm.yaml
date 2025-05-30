@@ -21,6 +21,10 @@ spec:
             tag: 3.5.0
 
           storage:
+            bucketNames:
+              chunks: loki-chunks
+              ruler: loki-ruler
+              admin: loki-admin
             filesystem:
               chunks_directory: /var/loki/chunks
               rules_directory: /var/loki/rules
