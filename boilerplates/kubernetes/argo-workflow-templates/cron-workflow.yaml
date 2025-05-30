@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  name: &app faker-users-cronworkflow
+  name: &app faker-fact-cronworkflow
   namespace: argo
   annotations:
-    workflows.argoproj.io/description: To test registry from k8s
-    workflows.argoproj.io/tags: test
+    workflows.argoproj.io/description: Populate faker users in fact
+    workflows.argoproj.io/tags: faker
 spec:
-  schedule: "*/10 * * * *"
+  schedule: "* * * * *"
   timezone: "Europe/London"
   startingDeadlineSeconds: 30
   concurrencyPolicy: "Replace"
@@ -20,15 +20,8 @@ spec:
     templates:
       - name: *app
         container:
-          image: 192.168.7.123:5000/faker-users:0.0.7
+          image: 192.168.7.123:5000/faker-users-fact:0.0.1
           imagePullPolicy: IfNotPresent
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "900Mi"
-              cpu: "750m"
         retryStrategy:
           limit: 3
           backoff:
