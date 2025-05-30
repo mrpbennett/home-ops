@@ -14,13 +14,51 @@ spec:
     targetRevision: 2.10.2
     helm:
       valuesObject:
+        # LOKI ---
         loki:
           enabled: true
           isDefault: true
           url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
-          readinessProbe: {}
-          livenessProbe: {}
+          # readinessProbe: {}
+          # livenessProbe: {}
 
+          configObjectName: '{{ include "loki.name" . }}'
+          generatedConfigObjectName: '{{ include "loki.name" . }}'
+          auth_enabled: false
+
+          ui:
+            enabled: true
+            gateway:
+              enabled: true
+            frontend:
+              scheduler_address: '{{ include "loki.querySchedulerAddress" . }}'
+              tail_proxy_url: '{{ include "loki.querierAddress" . }}'
+            frontend_worker:
+              scheduler_address: '{{ include "loki.querySchedulerAddress" . }}'
+
+          gateway:
+            enabled: true
+            replica: 1
+            containerPort: 8080
+            service:
+              port: 80
+              type: LoadBalancer
+            ingress:
+              enabled: true
+              hosts:
+                - host: gateway-loki.home.local
+                  paths:
+                    - path: /
+            basicAuth:
+              enabled: false
+              username: admin
+              password: admin
+
+            # readinessProbe: {}
+            nginxConfig:
+              schema: http
+
+        # PROMTAIL ---
         promtail:
           enabled: true
           config:
@@ -40,9 +78,11 @@ spec:
               securityContext:
                 privileged: true
 
+        # FLUENT BIT ---
         fluent-bit:
           enabled: false
 
+        # FILEBEAT ---
         filebeat:
           enabled: false
           filebeatConfig:
@@ -61,6 +101,7 @@ spec:
               output.logstash:
                 hosts: ["logstash-loki:5044"]
 
+        # LOGSTASH ---
         logstash:
           enabled: false
           image: grafana/logstash-output-loki
