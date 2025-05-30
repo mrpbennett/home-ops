@@ -18,19 +18,8 @@ spec:
           enabled: true
           isDefault: true
           url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
-          readinessProbe:
-            httpGet:
-              path: /ready
-              port: http-metrics
-            initialDelaySeconds: 120
-          livenessProbe:
-            httpGet:
-              path: /ready
-              port: http-metrics
-            initialDelaySeconds: 120
-          datasource:
-            jsonData: "{}"
-            uid: ""
+          readinessProbe: {}
+          livenessProbe: {}
 
         promtail:
           enabled: true
