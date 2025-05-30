@@ -21,6 +21,17 @@ spec:
           readinessProbe: {}
           livenessProbe: {}
 
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            paths:
+              distributor:
+                - /api/prom/push
+                - /loki/api/v1/push
+                - /otlp/v1/logs
+            hosts:
+              - loki.home.local
+
         promtail:
           enabled: true
           config:
