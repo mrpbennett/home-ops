@@ -32,6 +32,17 @@ spec:
               access_key_id: lZb6Pwci7sJ6AkaDqhPN
               secret_access_key: jPQXaAomDLJPfvvJQBGpH5gbN95r86rmmTAZv15d
 
+            useTestSchema: true
+            testSchemaConfig:
+              configs:
+                - from: 2024-04-01
+                  store: tsdb
+                  object_store: '{{ include "loki.testSchemaObjectStore" . }}'
+                  schema: v13
+                  index:
+                    prefix: index_
+                    period: 24h
+
           ui:
             enabled: true
             gateway:
