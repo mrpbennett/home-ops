@@ -27,32 +27,27 @@ spec:
             enabled: true
             gateway:
               enabled: true
-            frontend:
-              scheduler_address: '{{ include "loki.querySchedulerAddress" . }}'
-              tail_proxy_url: '{{ include "loki.querierAddress" . }}'
-            frontend_worker:
-              scheduler_address: '{{ include "loki.querySchedulerAddress" . }}'
 
-          gateway:
+        gateway:
+          enabled: true
+          replica: 1
+          containerPort: 8080
+          service:
+            port: 80
+            type: LoadBalancer
+          ingress:
             enabled: true
-            replica: 1
-            containerPort: 8080
-            service:
-              port: 80
-              type: LoadBalancer
-            ingress:
-              enabled: true
-              hosts:
-                - host: gateway-loki.home.local
-                  paths:
-                    - path: /
-            basicAuth:
-              enabled: false
-              username: admin
-              password: admin
+            hosts:
+              - host: gateway-loki.home.local
+                paths:
+                  - path: /
+          basicAuth:
+            enabled: false
+            username: admin
+            password: admin
 
-            nginxConfig:
-              schema: http
+          nginxConfig:
+            schema: http
 
         # PROMTAIL ---
         promtail:
