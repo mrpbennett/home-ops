@@ -64,7 +64,7 @@ spec:
             hosts:
               - host: loki-gateway.home.local
                 paths:
-                  - path: /
+                  - path: /ui
                     pathType: Prefix
 
           nginxConfig:
