@@ -14,88 +14,67 @@ spec:
     targetRevision: 6.30.1
     helm:
       valuesObject:
-        global:
-          priorityClassName: null
-          clusterDomain: cluster.local
-          dnsService: "kube-dns"
-          dnsNamespace: kube-system
+        loki:
+          commonConfig:
+            replication_factor: 1
+          schemaConfig:
+            configs:
+              - from: "2024-04-01"
+                store: tsdb
+                object_store: s3
+                schema: v13
+                index:
+                  prefix: loki_index_
+                  period: 24h
+          pattern_ingester:
+            enabled: true
+          limits_config:
+            allow_structured_metadata: true
+            volume_enabled: true
+          ruler:
+            enable_api: true
+
+        minio:
+          enabled: true
 
         deploymentMode: SingleBinary
 
-        loki:
-          image:
-            registry: docker.io
-            repository: grafana/loki
-            tag: 3.5.0
-
-          storage:
-            bucketNames:
-              chunks: loki-chunks
-              ruler: loki-ruler
-              admin: loki-admin
-
-            object_store:
-              type: s3
-              endpoint: http://192.168.7.5:9000
-              access_key_id: lZb6Pwci7sJ6AkaDqhPN
-              secret_access_key: jPQXaAomDLJPfvvJQBGpH5gbN95r86rmmTAZv15d
-
-          useTestSchema: true
-          testSchemaConfig:
-            configs:
-              - from: 2024-04-01
-                store: tsdb
-                object_store: '{{ include "loki.testSchemaObjectStore" . }}'
-                schema: v13
-                index:
-                  prefix: index_
-                  period: 24h
-
-          ui:
-            enabled: true
-            gateway:
-              enabled: true
-
-        gateway:
-          enabled: true
+        singleBinary:
           replicas: 1
-          containerPort: 8080
-          service:
-            port: 80
-            type: LoadBalancer
-          ingress:
-            enabled: true
-            ingressClassName: nginx
-            hosts:
-              - host: loki-gateway.home.local
-                paths:
-                  - path: /
-                    pathType: Prefix
-          basicAuth:
-            enabled: false
 
-          nginxConfig:
-            schema: http
-            enableIPv6: false
-            logFormat: |-
-              main '$remote_addr - $remote_user [$time_local]  $status '
-              '"$request" $body_bytes_sent "$http_referer" '
-              '"$http_user_agent" "$http_x_forwarded_for"';
+        # Zero out replica counts of other deployment modes
+        backend:
+          replicas: 0
+        read:
+          replicas: 0
+        write:
+          replicas: 0
 
-          singleBinary:
-            replicas: 0
-            autoscaling:
-              enabled: true
-              minReplicas: 1
-              maxReplicas: 3
-              targetCPUUtilizationPercentage: 60
+        ingester:
+          replicas: 0
+        querier:
+          replicas: 0
+        queryFrontend:
+          replicas: 0
+        queryScheduler:
+          replicas: 0
+        distributor:
+          replicas: 0
+        compactor:
+          replicas: 0
+        indexGateway:
+          replicas: 0
+        bloomCompactor:
+          replicas: 0
+        bloomGateway:
+          replicas:
+            0
 
-            terminationGracePeriodSeconds: 30
-            persistence:
-              enableStatefulSetAutoDeletePVC: true
-              enabled: true
-              size: 10Gi
-              storageClass: longhorn
+            # object_store:
+            #   type: s3
+            #   endpoint: http://192.168.7.5:9000
+            #   access_key_id: lZb6Pwci7sJ6AkaDqhPN
+            #   secret_access_key: jPQXaAomDLJPfvvJQBGpH5gbN95r86rmmTAZv15d
 
   syncPolicy:
     automated:
