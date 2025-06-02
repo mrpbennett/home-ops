@@ -44,7 +44,7 @@ spec:
           ui:
             enabled: true
             gateway:
-              enabled: false
+              enabled: true
 
         # -- Configuration for running Loki Gateway
         gateway:
