@@ -52,7 +52,7 @@ spec:
 
   storage:
     storageClass: longhorn
-    size: 8Gi
+    size: 20Gi
 
   resources:
     limits:

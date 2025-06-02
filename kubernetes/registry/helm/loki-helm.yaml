@@ -14,6 +14,12 @@ spec:
     targetRevision: 6.30.1
     helm:
       valuesObject:
+        global:
+          priorityClassName: null
+          clusterDomain: cluster.local
+          dnsService: "kube-dns"
+          dnsNamespace: kube-system
+
         deploymentMode: SingleBinary
 
         loki:
@@ -28,7 +34,7 @@ spec:
               ruler: loki-ruler
               admin: loki-admin
 
-            object_storage:
+            object_store:
               type: s3
               endpoint: http://192.168.7.5:9000
               access_key_id: lZb6Pwci7sJ6AkaDqhPN
@@ -53,6 +59,7 @@ spec:
         gateway:
           enabled: true
           replicas: 1
+          containerPort: 8080
           service:
             port: 80
             type: LoadBalancer
@@ -66,6 +73,29 @@ spec:
                     pathType: Prefix
           basicAuth:
             enabled: false
+
+          nginxConfig:
+            schema: http
+            enableIPv6: false
+            logFormat: |-
+              main '$remote_addr - $remote_user [$time_local]  $status '
+              '"$request" $body_bytes_sent "$http_referer" '
+              '"$http_user_agent" "$http_x_forwarded_for"';
+
+          singleBinary:
+            replicas: 0
+            autoscaling:
+              enabled: true
+              minReplicas: 1
+              maxReplicas: 3
+              targetCPUUtilizationPercentage: 60
+
+            terminationGracePeriodSeconds: 30
+            persistence:
+              enableStatefulSetAutoDeletePVC: true
+              enabled: true
+              size: 10Gi
+              storageClass: longhorn
 
   syncPolicy:
     automated:
