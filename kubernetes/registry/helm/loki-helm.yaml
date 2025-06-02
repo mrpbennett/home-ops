@@ -26,13 +26,42 @@ spec:
                 index:
                   prefix: loki_index_
                   period: 24h
+
           pattern_ingester:
             enabled: true
+
           limits_config:
             allow_structured_metadata: true
             volume_enabled: true
           ruler:
             enable_api: true
+
+          ui:
+            enabled: true
+            gateway:
+              enabled: true
+
+        gateway:
+          enabled: true
+          replicas: 1
+          containerPort: 8080
+          autoscaling:
+            enabled: false
+
+          service:
+            port: 80
+            type: LoadBalancer
+
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - host: loki-gateway.home.local
+                paths:
+                  - path: /
+
+          nginxConfig:
+            schema: http
 
         minio:
           enabled: true
@@ -41,6 +70,12 @@ spec:
 
         singleBinary:
           replicas: 1
+          autoscaling:
+            enabled: false
+          persistence:
+            enabled: true
+            size: 10Gi
+            storageClassName: longhorn
 
         # Zero out replica counts of other deployment modes
         backend:
@@ -67,14 +102,7 @@ spec:
         bloomCompactor:
           replicas: 0
         bloomGateway:
-          replicas:
-            0
-
-            # object_store:
-            #   type: s3
-            #   endpoint: http://192.168.7.5:9000
-            #   access_key_id: lZb6Pwci7sJ6AkaDqhPN
-            #   secret_access_key: jPQXaAomDLJPfvvJQBGpH5gbN95r86rmmTAZv15d
+          replicas: 0
 
   syncPolicy:
     automated:
