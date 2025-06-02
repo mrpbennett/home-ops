@@ -14,6 +14,7 @@ spec:
     targetRevision: 6.30.1
     helm:
       valuesObject:
+        # -- Configuration for running Loki
         loki:
           image:
             repository: grafana/loki
@@ -45,6 +46,7 @@ spec:
             gateway:
               enabled: true
 
+        # -- Configuration for running Loki Gateway
         gateway:
           enabled: true
           replicas: 1
@@ -68,11 +70,12 @@ spec:
           nginxConfig:
             schema: http
 
+        # -- Configuration for running Loki Storage
         minio:
           enabled: true
 
+        # -- Configuration for running Loki in Single Binary mode
         deploymentMode: SingleBinary
-
         singleBinary:
           replicas: 1
           autoscaling:
@@ -108,6 +111,13 @@ spec:
           replicas: 0
         bloomGateway:
           replicas: 0
+
+        # -- Section for configuring optional Helm test
+        test:
+          enabled: false
+
+        lokiCanary:
+          enabled: false
 
   syncPolicy:
     automated:
