@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: loki-ingress
+  name: loki-gatewayingress
   namespace: logging
 spec:
   rules:
-    - host: loki.home.local
+    - host: loki-gateway.home.local
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: loki
+                name: loki-gateway
                 port:
-                  number: 3100
+                  number: 8080

@@ -59,7 +59,7 @@ spec:
             type: LoadBalancer
 
           ingress:
-            enabled: true
+            enabled: false
             ingressClassName: nginx
             hosts:
               - host: loki-gateway.home.local
