@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: logging
+    namespace: monitoring
   project: default
   source:
     chart: loki
@@ -19,7 +19,7 @@ spec:
             replication_factor: 1
           schemaConfig:
             configs:
-              - from: "2024-04-01"
+              - from: "2025-05-01"
                 store: tsdb
                 object_store: s3
                 schema: v13
