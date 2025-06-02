@@ -15,6 +15,10 @@ spec:
     helm:
       valuesObject:
         loki:
+          image:
+            repository: grafana/loki
+            tag: 3.5.1
+            pullPolicy: IfNotPresent
           commonConfig:
             replication_factor: 1
           schemaConfig:
