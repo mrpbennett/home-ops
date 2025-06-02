@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: monitoring
+    namespace: logging
   project: default
   source:
     chart: loki
