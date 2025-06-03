@@ -8,19 +8,20 @@ spec:
   volumeClaimDeletePolicy: DeleteOnScaledownOnly
   nodeSets:
     - name: default
-      count: 1
+      count: 3
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
           spec:
-            accessModes: ["ReadWriteOnce"]
+            accessModes:
+              - ReadWriteOnce
             resources:
               requests:
-                storage: 10Gi
+                storage: 5Gi
             storageClassName: longhorn
 
-      config:
-        node.store.allow_mmap: false
+          config:
+            node.store.allow_mmap: false
 
   http:
     service:
