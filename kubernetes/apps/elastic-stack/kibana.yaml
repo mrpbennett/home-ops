@@ -8,7 +8,7 @@
 #   count: 1
 
 #   elasticsearchRef:
-#     name: elasticsearch
+#     name: es
 
 #   config: {}
 
