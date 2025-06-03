@@ -196,6 +196,10 @@ spec:
               value: es
             - name: ELASTICSEARCH_PORT
               value: "9200"
+            - name: ELASTICSEARCH_USERNAME
+              value: elastic
+            - name: ELASTICSEARCH_PASSWORD
+              value: 8Ix75RTEL7LBb51K1pH12Tg3
 
           securityContext:
             runAsUser: 0
