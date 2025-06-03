@@ -9,6 +9,9 @@ spec:
   nodeSets:
     - name: default
       count: 3
+      config:
+        node.store.allow_mmap: false
+
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data
@@ -19,9 +22,6 @@ spec:
               requests:
                 storage: 5Gi
             storageClassName: longhorn
-
-          config:
-            node.store.allow_mmap: false
 
   http:
     service:
