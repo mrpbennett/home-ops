@@ -51,8 +51,13 @@ spec:
           enabled: true
           replicas: 1
           containerPort: 8080
+          verboseLogging: false
           autoscaling:
             enabled: false
+          image:
+            registry: docker.io
+            repository: nginxinc/nginx-unprivileged
+            tag: 1.28-alpine
 
           service:
             port: 80
@@ -65,10 +70,10 @@ spec:
               - host: loki-gateway.home.local
                 paths:
                   - path: /
-                    pathType: PathPrefix
 
           nginxConfig:
             schema: http
+            enableIPv6: false
 
         # -- Configuration for running Loki Storage
         minio:
