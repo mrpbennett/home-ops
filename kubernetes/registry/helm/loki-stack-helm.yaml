@@ -14,10 +14,13 @@ spec:
     targetRevision: 2.10.2
     helm:
       valuesObject:
+        test_pod:
+          enabled: false
+
         loki:
           enabled: true
           isDefault: true
-          url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
+          url: http://loki.logging.svc.cluster.local:3100
           readinessProbe:
             httpGet:
               path: /ready
@@ -38,7 +41,7 @@ spec:
             logLevel: info
             serverPort: 3101
             clients:
-              - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
+              - url: http://loki.logging.svc.cluster.local:3100/loki/api/v1/push
 
   syncPolicy:
     automated:
