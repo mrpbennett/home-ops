@@ -187,7 +187,7 @@ spec:
           args: ["-c", "/etc/filebeat.yml", "-e"]
           env:
             - name: ELASTICSEARCH_HOST
-              value: es
+              value: es-es-http
             - name: ELASTICSEARCH_PORT
               value: "9200"
             - name: ELASTICSEARCH_USERNAME
