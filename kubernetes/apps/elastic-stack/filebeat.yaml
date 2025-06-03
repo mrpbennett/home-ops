@@ -161,7 +161,6 @@ data:
       password: ${ELASTICSEARCH_PASSWORD}
 
     setup.dashboards.enabled: true
-    setup.dashboards.index: "kube-k3s-*"
 
 ---
 apiVersion: apps/v1
@@ -196,7 +195,7 @@ spec:
             - name: ELASTICSEARCH_USERNAME
               value: elastic
             - name: ELASTICSEARCH_PASSWORD
-              value: 8Ix75RTEL7LBb51K1pH12Tg3
+              value: "8Ix75RTEL7LBb51K1pH12Tg3"
             - name: ELASTIC_CLOUD_ID
               value: ""
             - name: ELASTIC_CLOUD_AUTH
