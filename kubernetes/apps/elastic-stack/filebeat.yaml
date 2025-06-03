@@ -111,82 +111,55 @@ metadata:
     k8s-app: filebeat
 data:
   filebeat.yml: |-
-    ##############################
-    # 1) Declare one filestream input
-    ##############################
-
     filebeat.inputs:
     - type: filestream
       id: kubernetes-container-logs
-
-      # where to pick up container logs
       paths:
         - /var/log/containers/*.log
-
-      # if you want Filebeat to parse Kubernetes‐style container JSON
       parsers:
-        - container: {}
-
-      # “scanner” must be directly under the filestream input (no “prospector” anymore)
-      scanner:
-        fingerprint.enabled: true
-        symlinks: true
-
-      # file_identity needs to be a map, not a single dotted key
-      file_identity:
-        fingerprint: {}
-
-      # processors must be at exactly this indent level under each input
+        - container: ~
+      prospector:
+        scanner:
+          fingerprint.enabled: true
+          symlinks: true
+      file_identity.fingerprint: ~
       processors:
         - add_kubernetes_metadata:
-            host: "${NODE_NAME}"
+            host: ${NODE_NAME}
             matchers:
-              - logs_path:
-                  logs_path: "/var/log/containers/"
-
-    ##############################
-    # 2) Autodiscover (Kubernetes hints)
-    ##############################
+            - logs_path:
+                logs_path: "/var/log/containers/"
 
     filebeat.autodiscover:
-      providers:
-        - type: kubernetes
-          node: "${NODE_NAME}"
-          hints.enabled: true
-          hints.default_config:
-            type: filestream
-            id: "kubernetes-container-logs-${data.kubernetes.pod.name}-${data.kubernetes.container.id}"
-            paths:
-              - "/var/log/containers/*-${data.kubernetes.container.id}.log"
-            parsers:
-              - container: {}
-            # again, “scanner” goes directly under the input
+     providers:
+       - type: kubernetes
+         node: ${NODE_NAME}
+         hints.enabled: true
+         hints.default_config:
+           type: filestream
+           id: kubernetes-container-logs-${data.kubernetes.pod.name}-${data.kubernetes.container.id}
+           paths:
+           - /var/log/containers/*-${data.kubernetes.container.id}.log
+           parsers:
+           - container: ~
+           prospector:
             scanner:
               fingerprint.enabled: true
               symlinks: true
-            file_identity:
-              fingerprint: {}
+           file_identity.fingerprint: ~
 
-    ##############################
-    # 3) Global processors (applied to all events)
-    ##############################
     processors:
-      - add_cloud_metadata: {}
-      - add_host_metadata: {}
+      - add_cloud_metadata:
+      - add_host_metadata:
 
-    ##############################
-    # 4) Cloud / Elasticsearch output
-    ##############################
-
-    cloud.id: "${ELASTIC_CLOUD_ID}"
-    cloud.auth: "${ELASTIC_CLOUD_AUTH}"
+    cloud.id: ${ELASTIC_CLOUD_ID}
+    cloud.auth: ${ELASTIC_CLOUD_AUTH}
 
     output.elasticsearch:
-      hosts: ["${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}"]
-      username: "${ELASTICSEARCH_USERNAME}"
-      password: "${ELASTICSEARCH_PASSWORD}"
+      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      username: ${ELASTICSEARCH_USERNAME}
+      password: ${ELASTICSEARCH_PASSWORD}
 
-    # If you want to load dashboards at startup, uncomment:
     # setup.dashboards.enabled: true
 
 ---
