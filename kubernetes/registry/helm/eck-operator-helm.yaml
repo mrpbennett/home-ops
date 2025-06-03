@@ -6,7 +6,7 @@ metadata:
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: argo
+    namespace: elastic-operator
   project: default
   source:
     chart: eck-operator
