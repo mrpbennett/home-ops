@@ -160,7 +160,7 @@ data:
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
 
-    setup.dashboards.enabled: true
+    # setup.dashboards.enabled: true
 
 ---
 apiVersion: apps/v1
