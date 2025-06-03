@@ -61,6 +61,8 @@ spec:
           ingress:
             enabled: true
             ingressClassName: nginx
+            annotations:
+              nginx.ingress.kubernetes.io/rewrite-target: /
             hosts:
               - host: loki-gateway.home.local
                 paths:
