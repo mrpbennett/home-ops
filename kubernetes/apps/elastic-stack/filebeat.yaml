@@ -130,24 +130,23 @@ data:
             - logs_path:
                 logs_path: "/var/log/containers/"
 
-    # To enable hints based autodiscover, remove `filebeat.inputs` configuration and uncomment this:
-    # filebeat.autodiscover:
-    #  providers:
-    #    - type: kubernetes
-    #      node: ${NODE_NAME}
-    #      hints.enabled: true
-    #      hints.default_config:
-    #        type: filestream
-    #        id: kubernetes-container-logs-${data.kubernetes.pod.name}-${data.kubernetes.container.id}
-    #        paths:
-    #        - /var/log/containers/*-${data.kubernetes.container.id}.log
-    #        parsers:
-    #        - container: ~
-    #        prospector:
-    #         scanner:
-    #           fingerprint.enabled: true
-    #           symlinks: true
-    #        file_identity.fingerprint: ~
+    filebeat.autodiscover:
+     providers:
+       - type: kubernetes
+         node: ${NODE_NAME}
+         hints.enabled: true
+         hints.default_config:
+           type: filestream
+           id: kubernetes-container-logs-${data.kubernetes.pod.name}-${data.kubernetes.container.id}
+           paths:
+           - /var/log/containers/*-${data.kubernetes.container.id}.log
+           parsers:
+           - container: ~
+           prospector:
+            scanner:
+              fingerprint.enabled: true
+              symlinks: true
+           file_identity.fingerprint: ~
 
     processors:
       - add_cloud_metadata:
@@ -160,6 +159,10 @@ data:
       hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
+
+    setup.dashboards.enabled: true
+    setup.dashboards.index: "kube-k3s-*"
+
 ---
 apiVersion: apps/v1
 kind: DaemonSet
