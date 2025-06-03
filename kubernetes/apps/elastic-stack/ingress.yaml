@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: es-ingress
   namespace: elastic-stack
+  labels:
+    elasticsearch.k8s.elastic.co/instance: es
 spec:
   rules:
     - host: elasticsearch.home.local
@@ -21,6 +23,8 @@ kind: Ingress
 metadata:
   name: kibana-ingress
   namespace: elastic-stack
+  labels:
+    kibana.k8s.elastic.co/name: kibana
 spec:
   rules:
     - host: kibana.home.local
