@@ -10,6 +10,8 @@ spec:
   elasticsearchRef:
     name: elasticsearch
 
+  config: {}
+
   http:
     service:
       spec:
