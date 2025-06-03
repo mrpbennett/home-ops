@@ -20,7 +20,7 @@ spec:
         loki:
           enabled: true
           isDefault: true
-          url: http://loki.logging.svc.cluster.local:3100
+          url: http://loki:3100
           readinessProbe:
             httpGet:
               path: /ready
@@ -41,7 +41,7 @@ spec:
             logLevel: info
             serverPort: 3101
             clients:
-              - url: http://loki.logging.svc.cluster.local:3100/loki/api/v1/push
+              - url: http://loki:3100/loki/api/v1/push
 
   syncPolicy:
     automated:
