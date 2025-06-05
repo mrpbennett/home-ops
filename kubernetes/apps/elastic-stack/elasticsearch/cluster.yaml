@@ -7,12 +7,13 @@ spec:
   version: 8.16.1
   volumeClaimDeletePolicy: DeleteOnScaledownOnly
   secureSettings:
-    - secretName: elasticsearch-credentials
+    - secretName: es-elastic-user
   nodeSets:
     - name: default
       count: 3
       config:
         node.store.allow_mmap: false
+        xpack.security.enabled: true
 
       volumeClaimTemplates:
         - metadata:

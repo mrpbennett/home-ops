@@ -10,7 +10,9 @@ spec:
   elasticsearchRef:
     name: es
 
-  config: {}
+  config:
+    elasticsearch.username: "elastic"
+    elasticsearch.password: "123qwe!!"
 
   http:
     service:
