@@ -6,6 +6,8 @@ metadata:
 spec:
   version: 8.16.1
   volumeClaimDeletePolicy: DeleteOnScaledownOnly
+  secureSettings:
+    - secretName: elasticsearch-credentials
   nodeSets:
     - name: default
       count: 3

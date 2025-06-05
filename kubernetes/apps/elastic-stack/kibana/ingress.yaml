@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana-ingress
+  namespace: elastic-stack
+  labels:
+    kibana.k8s.elastic.co/name: kibana
+spec:
+  rules:
+    - host: kibana.home.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kibana-kb-http
+                port:
+                  number: 5601
