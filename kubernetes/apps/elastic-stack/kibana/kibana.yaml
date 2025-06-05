@@ -11,7 +11,6 @@ spec:
     name: es
 
   config:
-    elasticsearch.username: "elastic"
     elasticsearch.password: "123qwe!!"
 
   http:
