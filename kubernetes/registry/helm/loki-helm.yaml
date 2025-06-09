@@ -49,15 +49,16 @@ spec:
             working_directory: /data/retention
             compaction_interval: 10m
             retention_enabled: true
+            retention_period: 24h
             retention_delete_delay: 2h
             retention_delete_worker_count: 150
             delete_request_store: s3
 
           limits_config:
+            split_queries_by_interval: 15m
+            query_timeout: 300s
             allow_structured_metadata: true
             volume_enabled: true
-            retention_enabled: true
-            retention_period: 24h
 
           schemaConfig:
             configs:
