@@ -17,6 +17,11 @@ spec:
         loki:
           commonConfig:
             replication_factor: 1
+
+          limits_config:
+            allow_structured_metadata: true
+            volume_enabled: true
+
           schemaConfig:
             configs:
               - from: "2025-05-01"
@@ -26,13 +31,16 @@ spec:
                 index:
                   prefix: loki_index_
                   period: 24h
+
+          compactor:
+            working_directory: /data/retention
+            compaction_interval: 10m
+            retention_enabled: true
+            retention_delete_delay: 2h
+            retention_delete_worker_count: 150
+
           pattern_ingester:
             enabled: true
-          limits_config:
-            allow_structured_metadata: true
-            volume_enabled: true
-          ruler:
-            enable_api: true
 
         minio:
           enabled: true
@@ -68,6 +76,34 @@ spec:
           replicas: 0
         bloomGateway:
           replicas: 0
+
+        sidecar:
+          rules:
+            logLevel: WARN
+
+        # -- Section for configuring optional Helm tests
+        test:
+          enabled: false
+        lokiCanary:
+          enabled: false
+
+        gateway:
+          enabled: true
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            hosts:
+              - host: loki-gateway.homel.local
+                paths:
+                  - /
+
+          basicAuth:
+            enabled: true
+            username: admin
+            password: admin
+
+          nginxConfig:
+            schema: http
 
   syncPolicy:
     automated:
