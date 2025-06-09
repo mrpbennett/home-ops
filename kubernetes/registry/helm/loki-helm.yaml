@@ -25,7 +25,7 @@ spec:
             size: 30Gi
 
         minio:
-          enabled: false
+          enabled: true
 
         loki:
           commonConfig:
@@ -35,24 +35,6 @@ spec:
 
           storage:
             type: s3
-            bucketNames:
-              chunks: loki-chunks
-              ruler: loki-ruler
-              admin: loki-admin
-            s3:
-              s3: http://192.168.7.5:9000
-              endpoint: http://192.168.7.5:9000
-              secretAccessKey: JQpVwOajGwmcsbQuQ149fHS05PpvIbNbXfcVmgP1
-              accessKeyId: qxLLmKKF4f0cbGctiVxt
-
-          # compactor:
-          #   working_directory: /data/retention
-          #   compaction_interval: 10m
-          #   retention_enabled: true
-          #   retention_period: 24h
-          #   retention_delete_delay: 2h
-          #   retention_delete_worker_count: 150
-          #   delete_request_store: s3
 
           limits_config:
             split_queries_by_interval: 15m
