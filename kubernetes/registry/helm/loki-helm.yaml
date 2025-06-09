@@ -97,6 +97,10 @@ spec:
                 paths:
                   - path: /
                     pathType: Prefix
+            tls:
+              - secretName: homelab-ss-cert-issuer
+                hosts:
+                  - loki-gateway.homel.local
 
           basicAuth:
             enabled: true

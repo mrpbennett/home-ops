@@ -26,7 +26,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: 70ld-ss-cert-issuer
+  name: homelab-ss-cert-issuer
 spec:
   ca:
     secretName: root-secret
