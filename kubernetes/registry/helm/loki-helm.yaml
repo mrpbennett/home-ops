@@ -19,12 +19,12 @@ spec:
         singleBinary:
           replicas: 1
 
+        minio:
+          enabled: true
+
         loki:
           commonConfig:
             replication_factor: 1
-
-          storage:
-            type: "filesystem"
 
           auth_enabled: false
 
@@ -36,7 +36,7 @@ spec:
             configs:
               - from: "2025-05-01"
                 store: tsdb
-                object_store: filesystem
+                object_store: s3
                 schema: v13
                 index:
                   prefix: loki_index_
