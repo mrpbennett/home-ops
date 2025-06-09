@@ -36,9 +36,9 @@ spec:
               value: elastic
             - name: ELASTICSEARCH_PASSWORD
               valueFrom:
-              secretKeyRef:
-                name: elastic-credentials
-                key: password
+                secretKeyRef:
+                  name: es-elastic-user
+                  key: elastic
             - name: NODE_NAME
               valueFrom:
                 fieldRef:
