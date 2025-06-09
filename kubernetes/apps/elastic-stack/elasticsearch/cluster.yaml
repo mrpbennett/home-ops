@@ -7,7 +7,7 @@ spec:
   version: 8.16.1
   volumeClaimDeletePolicy: DeleteOnScaledownOnly
   secureSettings:
-    - secretName: es-elastic-user
+    - secretName: custom-es-user
   nodeSets:
     - name: default
       count: 3
