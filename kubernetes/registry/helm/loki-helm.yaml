@@ -17,7 +17,7 @@ spec:
         deploymentMode: SingleBinary
 
         singleBinary:
-          replicas: 3
+          replicas: 2
           persistance:
             storageClass: longhorn
             accessModes:
@@ -29,7 +29,7 @@ spec:
 
         loki:
           commonConfig:
-            replication_factor: 3
+            replication_factor: 2
 
           auth_enabled: false
 
@@ -41,6 +41,7 @@ spec:
             query_timeout: 300s
             allow_structured_metadata: true
             volume_enabled: true
+            retention_period: 24h # The minimum retention period is 24h.
 
           schemaConfig:
             configs:
@@ -51,6 +52,13 @@ spec:
                 index:
                   prefix: loki_index_
                   period: 24h
+
+          compactor:
+            working_directory: /data/retention
+            compaction_interval: 10m
+            retention_enabled: true
+            retention_delete_delay: 2h
+            retention_delete_worker_count: 150
 
           pattern_ingester:
             enabled: true
