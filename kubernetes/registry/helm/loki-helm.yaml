@@ -46,6 +46,7 @@ spec:
               accessKeyId: qxLLmKKF4f0cbGctiVxt
 
           compactor:
+            working_directory: /data/retention
             compaction_interval: 10m
             retention_enabled: true
             retention_delete_delay: 2h
