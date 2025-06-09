@@ -52,9 +52,6 @@ spec:
           pattern_ingester:
             enabled: true
 
-        minio:
-          enabled: true
-
         # Zero out replica counts of other deployment modes
         backend:
           replicas: 0
@@ -81,10 +78,6 @@ spec:
           replicas: 0
         bloomGateway:
           replicas: 0
-
-        sidecar:
-          rules:
-            logLevel: WARN
 
         # -- Section for configuring optional Helm tests
         test:
