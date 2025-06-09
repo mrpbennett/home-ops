@@ -95,7 +95,7 @@ spec:
             hosts:
               - host: loki-gateway.homel.local
                 paths:
-                  - /
+                  - path: /
 
           basicAuth:
             enabled: true
