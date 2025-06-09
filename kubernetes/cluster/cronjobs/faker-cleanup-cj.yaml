@@ -15,4 +15,4 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: faker-fact-cleanup
-              image: 192.168.7.123:5000/faker-fact-cleanup:0.0.2
+              image: 192.168.7.123:5000/faker-fact-cleanup:0.0.3

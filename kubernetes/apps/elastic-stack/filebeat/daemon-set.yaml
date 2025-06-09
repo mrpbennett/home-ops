@@ -35,10 +35,7 @@ spec:
             - name: ELASTICSEARCH_USERNAME
               value: elastic
             - name: ELASTICSEARCH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: custom-es-user
-                  key: elastic
+              value: "123qwe!!"
             - name: NODE_NAME
               valueFrom:
                 fieldRef:

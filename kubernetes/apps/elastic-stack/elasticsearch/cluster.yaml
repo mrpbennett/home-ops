@@ -13,7 +13,7 @@ spec:
       count: 3
       config:
         node.store.allow_mmap: false
-        xpack.security.enabled: true
+        # xpack.security.enabled: true
 
       volumeClaimTemplates:
         - metadata:
