@@ -96,6 +96,7 @@ spec:
               - host: loki-gateway.homel.local
                 paths:
                   - path: /
+                    pathType: Prefix
 
           basicAuth:
             enabled: true
