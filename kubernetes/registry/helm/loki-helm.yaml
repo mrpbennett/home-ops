@@ -99,6 +99,8 @@ spec:
           replicas: 0
 
         # -- Section for configuring optional Helm tests
+        test:
+          enabled: false
         lokiCanary:
           enabled: false
 
