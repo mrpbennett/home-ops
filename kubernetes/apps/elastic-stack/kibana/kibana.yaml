@@ -8,10 +8,10 @@ spec:
   count: 1
 
   elasticsearchRef:
-    name: es
+    name: homelab
 
-  config:
-    elasticsearch.password: "123qwe!!"
+  # config:
+  #   elasticsearch.password: "123qwe!!"
 
   http:
     service:

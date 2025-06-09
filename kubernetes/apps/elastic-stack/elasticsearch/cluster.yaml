@@ -1,19 +1,17 @@
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
-  name: es
+  name: homelab
   namespace: elastic-stack
 spec:
   version: 8.16.1
   volumeClaimDeletePolicy: DeleteOnScaledownOnly
-  secureSettings:
-    - secretName: custom-es-user
+
   nodeSets:
     - name: default
       count: 3
       config:
         node.store.allow_mmap: false
-        # xpack.security.enabled: true
 
       volumeClaimTemplates:
         - metadata:
