@@ -25,7 +25,7 @@ spec:
             password: "password"
             port: 5432
           redis:
-            host: 192.168.7.10:6379
+            host: 192.168.7.10
 
       server:
         name: server
