@@ -38,7 +38,6 @@ spec:
           limits:
             memory: 512Mi
 
-        # authentik server container ports
         containerPorts:
           # -- http container port
           http: 9000
@@ -46,6 +45,7 @@ spec:
           https: 9443
           # -- metrics container port
           metrics: 9300
+
         service:
           type: LoadBalancer
 
