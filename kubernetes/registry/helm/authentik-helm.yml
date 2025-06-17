@@ -30,11 +30,17 @@ spec:
       server:
         name: server
         replicas: 1
+        service:
+          type: LoadBalancer
         ingress:
-          ingressClassName: nginx
           enabled: true
+          ingressClassName: nginx
           hosts:
             - authentik.home.local
+          pathType: Prefix
+          paths:
+            - "{{ .Values.authentik.web.path }}"
+          https: false
 
   syncPolicy:
     automated:
