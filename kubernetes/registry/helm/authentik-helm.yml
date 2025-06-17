@@ -34,6 +34,9 @@ spec:
           hosts:
             - authentik.home.local
 
+      redis:
+        enabled: true
+
   syncPolicy:
     automated:
       prune: true
