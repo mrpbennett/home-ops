@@ -60,7 +60,7 @@ spec:
           terminationGracePeriodSeconds: 30
 
         cleanup:
-          enabled: true
+          enabled: false
           schedule: "*/60 * * * *"
 
   syncPolicy:
