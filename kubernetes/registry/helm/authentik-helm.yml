@@ -1,0 +1,45 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: authentik
+#   namespace: argocd
+# spec:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: authentik
+#   project: default
+#   source:
+#     chart: authentik
+#     repoURL: https://charts.goauthentik.io
+#     targetRevision: 2025.6.2
+#     helm:
+#       valuesObject:
+#         authentik:
+#           secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
+#           # This sends anonymous usage-data, stack traces on errors and
+#           # performance data to sentry.io, and is fully opt-in
+#           error_reporting:
+#             enabled: true
+#           postgresql:
+#             password: "password"
+
+#       server:
+#         ingress:
+#           ingressClassName: nginx
+#           enabled: true
+#           hosts:
+#             - authentik.home.local
+
+#       postgresql:
+#         enabled: true
+#         auth:
+#           password: "password"
+#       redis:
+#         enabled: true
+
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
