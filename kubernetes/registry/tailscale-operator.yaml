@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/pgp-decrypt
+    path: kubernetes/apps/tailscale
     targetRevision: HEAD
     directory:
       recurse: true
