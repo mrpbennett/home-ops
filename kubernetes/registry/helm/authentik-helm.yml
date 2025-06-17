@@ -24,6 +24,8 @@ spec:
             user: "postgres"
             password: "password"
             port: 5432
+          redis:
+            host: 192.168.7.10:6379
 
       server:
         name: server
@@ -33,9 +35,6 @@ spec:
           enabled: true
           hosts:
             - authentik.home.local
-
-      redis:
-        enabled: true
 
   syncPolicy:
     automated:
