@@ -49,6 +49,11 @@ data:
                 href: http://argoworkflows.home.local
                 description: Workflow Management
 
+            - Authentik:
+                icon: authentik.png
+                href: http://authentik.home.local
+                description: Authentication & Authorization
+
             - Docker Registry:
                 icon: docker.png
                 href: http://192.168.7.123:82

@@ -19,9 +19,22 @@ spec:
           error_reporting:
             enabled: true
           postgresql:
-            password: "ThisIsNotASecurePassword"
+            host: "{{ .Release.Name }}-postgresql"
+            # -- postgresql Database name
+            # @default -- `authentik`
+            name: "authentik"
+            # -- postgresql Username
+            # @default -- `authentik`
+            user: "authentik"
+            password: ""
+            port: 5432
+          redis:
+            host: "{{ .Release.Name }}-redis-master"
+            password: ""
 
       server:
+        name: server
+        replicas: 1
         ingress:
           ingressClassName: nginx
           enabled: true
@@ -31,9 +44,15 @@ spec:
       postgresql:
         enabled: true
         auth:
-          password: "ThisIsNotASecurePassword"
+          username: authentik
+          database: authentik
+          password: ""
+
       redis:
         enabled: true
+        architecture: standalone
+        auth:
+          enabled: false
 
   syncPolicy:
     automated:
