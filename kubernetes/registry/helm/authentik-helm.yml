@@ -41,19 +41,6 @@ spec:
           hosts:
             - authentik.home.local
 
-      postgresql:
-        enabled: true
-        auth:
-          username: authentik
-          database: authentik
-          password: ""
-
-      redis:
-        enabled: true
-        architecture: standalone
-        auth:
-          enabled: false
-
   syncPolicy:
     automated:
       prune: true
