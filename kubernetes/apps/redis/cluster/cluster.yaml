@@ -1,7 +1,7 @@
 apiVersion: "app.redislabs.com/v1"
 kind: "RedisEnterpriseCluster"
 metadata:
-  name: homelab-redis-cluster
+  name: homelab-rec
   namespace: redis
 spec:
   nodes: 3
