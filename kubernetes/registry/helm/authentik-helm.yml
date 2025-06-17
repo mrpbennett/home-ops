@@ -19,18 +19,11 @@ spec:
           error_reporting:
             enabled: true
           postgresql:
-            host: "{{ .Release.Name }}-postgresql"
-            # -- postgresql Database name
-            # @default -- `authentik`
+            host: 192.168.7.80
             name: "authentik"
-            # -- postgresql Username
-            # @default -- `authentik`
-            user: "authentik"
-            password: ""
+            user: "postgres"
+            password: "password"
             port: 5432
-          redis:
-            host: "{{ .Release.Name }}-redis-master"
-            password: ""
 
       server:
         name: server
