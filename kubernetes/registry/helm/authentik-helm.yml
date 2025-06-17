@@ -16,12 +16,10 @@ spec:
       valuesObject:
         authentik:
           secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
-          # This sends anonymous usage-data, stack traces on errors and
-          # performance data to sentry.io, and is fully opt-in
           error_reporting:
             enabled: true
           postgresql:
-            password: "password"
+            password: "ThisIsNotASecurePassword"
 
       server:
         ingress:
@@ -33,7 +31,7 @@ spec:
       postgresql:
         enabled: true
         auth:
-          password: "password"
+          password: "ThisIsNotASecurePassword"
       redis:
         enabled: true
 
