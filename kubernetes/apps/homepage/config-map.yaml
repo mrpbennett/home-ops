@@ -109,5 +109,10 @@ data:
                 href: http://trino.home.local/ui
                 description: Fast distributed SQL query engine
 
+            - Vault:
+                icon: vault-light.svg
+                href: http://vault.home.local/ui
+                description: Secrets Management
+
     widgets.yaml: ""
     docker.yaml: ""

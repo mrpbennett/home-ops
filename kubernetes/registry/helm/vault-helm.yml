@@ -15,6 +15,9 @@ spec:
     helm:
       valuesObject:
         server:
+          dev:
+            enabled: true
+
           ingress:
             enabled: true
             ingressClassName: nginx
