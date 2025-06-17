@@ -29,10 +29,10 @@ data:
                 href: http://dns.home.local
                 description: DNS & Adblocker
 
-            # - Airflow:
-            #     icon: apache-airflow.png
-            #     href: http://airflow.home.local
-            #     description: Workflow Orchestration
+            - Airflow:
+                icon: apache-airflow.png
+                href: http://airflow.home.local
+                description: Workflow Orchestration
 
             - AlertManager:
                 icon: prometheus.png
