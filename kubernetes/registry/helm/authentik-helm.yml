@@ -30,8 +30,25 @@ spec:
       server:
         name: server
         replicas: 1
+        # -- Resource limits and requests for the authentik server
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            memory: 512Mi
+
+        # authentik server container ports
+        containerPorts:
+          # -- http container port
+          http: 9000
+          # -- https container port
+          https: 9443
+          # -- metrics container port
+          metrics: 9300
         service:
           type: LoadBalancer
+
         ingress:
           enabled: true
           ingressClassName: nginx
