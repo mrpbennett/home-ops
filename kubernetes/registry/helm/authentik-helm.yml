@@ -27,9 +27,9 @@ spec:
           error_reporting:
             enabled: true
           postgresql:
-            host: 192.168.7.80
+            host: 192.168.7.10
             name: "authentik"
-            user: "postgres"
+            user: "paul"
             password: "password"
             port: 5432
           redis:
