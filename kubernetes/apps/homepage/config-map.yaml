@@ -44,10 +44,10 @@ data:
                 href: http://argocd.home.local
                 description: Continuous Delivery
 
-            - Argo Workflows:
-                icon: argo-cd.png
-                href: http://argoworkflows.home.local
-                description: Workflow Management
+            # - Argo Workflows:
+            #     icon: argo-cd.png
+            #     href: http://argoworkflows.home.local
+            #     description: Workflow Management
 
             - Authentik:
                 icon: authentik.png
@@ -103,6 +103,11 @@ data:
                 icon: proxmox.png
                 href: https://192.168.7.3:8006
                 description: Virtualization Management
+
+            - Redis Insight:
+                icon: redis.svg
+                href: http://redisinsight.home.local
+                description: Redis GUI
 
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
