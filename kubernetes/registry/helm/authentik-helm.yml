@@ -27,12 +27,12 @@ spec:
           redis:
             host: 192.168.7.10
 
-      server:
-        ingress:
-          ingressClassName: nginx
-          enabled: true
-          hosts:
-            - authentik.home.local
+        server:
+          ingress:
+            ingressClassName: nginx
+            enabled: true
+            hosts:
+              - authentik.home.local
 
   syncPolicy:
     automated:
