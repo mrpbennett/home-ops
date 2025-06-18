@@ -1,9 +1,0 @@
-apiVersion: "app.redislabs.com/v1alpha1"
-kind: "RedisEnterpriseDatabase"
-metadata:
-  name: homelab-redb
-spec:
-  redisEnterpriseCluster:
-    name: homelab-rec
-  memorySize: 1GB
-  port: 12000
