@@ -14,9 +14,13 @@ spec:
     targetRevision: 2025.6.2
     helm:
       valuesObject:
+        global:
+          envFrom:
+            - secretRef:
+                name: authentik-secret
+
         authentik:
           secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
-          bootstrap_password: admin
           error_reporting:
             enabled: true
           postgresql:
@@ -27,7 +31,6 @@ spec:
             port: 5432
           redis:
             host: 192.168.7.10
-          env: {}
 
         server:
           ingress:
