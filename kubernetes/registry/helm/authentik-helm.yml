@@ -11,7 +11,7 @@ spec:
   source:
     chart: authentik
     repoURL: https://charts.goauthentik.io
-    targetRevision: 2025.4.1
+    targetRevision: 2025.6.2
     helm:
       valuesObject:
         authentik:
@@ -26,6 +26,8 @@ spec:
             port: 5432
           redis:
             host: 192.168.7.10
+          env:
+            AUTHENTIK_BOOTSTRAP_PASSWORD: "admin"
 
         server:
           ingress:
