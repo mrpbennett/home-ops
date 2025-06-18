@@ -23,6 +23,15 @@ data:
             "Host": "aws-0-us-east-1.pooler.supabase.com",
             "SSLMode": "prefer",
             "MaintenanceDB": "postgres"
+          },
+          "3": {
+            "Name": "docker-psql",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "paul",
+            "Host": "192.168.7.10",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
           }
         }
     }
