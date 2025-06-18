@@ -20,6 +20,9 @@ spec:
                 name: authentik-secret
 
         authentik:
+          bootstrap_password: YWRtaW4=
+          bootstrap_token: 06yBF3p5xpPREc49qhsoYNTMEywCWjvq0AaJVVUyfmfyAfXZuGiVelKb4qt8ULh7BtQL3iRNAuxiDi7L
+          bootstrap_email: cGJlbm5ldHQudWtAZ21haWwuY29t
           secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
           error_reporting:
             enabled: true
