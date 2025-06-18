@@ -10,7 +10,7 @@ data:
         mode: cluster
 
     settings.yaml: |
-        title: Moo Homelab
+        title: 70LD Homelab
         theme: dark
         color: slate
 
@@ -33,11 +33,15 @@ data:
                 icon: apache-airflow.png
                 href: http://airflow.home.local
                 description: Workflow Orchestration
+                namespace: airflow
+                app: apache-airflow
 
             - AlertManager:
                 icon: prometheus.png
                 href: http://alertmanager.home.local
                 description: Alert Management
+                namespace: monitoring
+                app: prometheus
 
             - ArgoCD:
                 icon: argo-cd.png
@@ -53,6 +57,8 @@ data:
                 icon: authentik.png
                 href: http://authentik.home.local
                 description: Authentication & Authorization
+                namespace: authentik
+                app: authentik
 
             - Docker Registry:
                 icon: docker.png
@@ -63,11 +69,15 @@ data:
                 icon: longhorn.png
                 href: http://longhorn.home.local
                 description: Persistent Block Storage
+                namespace: longhorn
+                app: longhorn
 
             - Grafana:
                 icon: grafana.png
                 href: http://grafana.home.local
                 description: Analytics & Monitoring
+                namespace: monitoring
+                app: prometheus
 
             - Kubernetes:
                 icon: kubernetes.png
@@ -88,6 +98,8 @@ data:
                 icon: postgres.png
                 href: https://pgadmin.home.local
                 description: Postgres Management
+                namespace: pgadmin
+                app: pgadmin
 
             - Portainer:
                 icon: portainer.png
@@ -98,6 +110,8 @@ data:
                 icon: prometheus.png
                 href: http://prometheus.home.local
                 description: Analytics & Monitoring
+                namespace: monitoring
+                app: prometheus
 
             - Proxmox:
                 icon: proxmox.png
@@ -113,11 +127,15 @@ data:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
                 href: http://trino.home.local/ui
                 description: Fast distributed SQL query engine
+                namespace: trino
+                app: trino
 
             - Vault:
                 icon: vault-light.svg
                 href: http://vault.home.local/ui
                 description: Secrets Management
+                namespace: vault
+                app: vault
 
     widgets.yaml: ""
     docker.yaml: ""
