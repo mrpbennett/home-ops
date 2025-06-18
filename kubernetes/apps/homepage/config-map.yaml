@@ -69,7 +69,7 @@ data:
                 icon: longhorn.png
                 href: http://longhorn.home.local
                 description: Persistent Block Storage
-                namespace: longhorn
+                namespace: longhorn-system
                 app: longhorn
 
             - Grafana:
