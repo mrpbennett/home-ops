@@ -1,45 +1,45 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: authentik
-  namespace: argocd
-spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: authentik
-  project: default
-  source:
-    chart: authentik
-    repoURL: https://charts.goauthentik.io
-    targetRevision: 2025.6.2
-    helm:
-      valuesObject:
-        authentik:
-          bootstrap_password: YWRtaW4=
-          bootstrap_token: 06yBF3p5xpPREc49qhsoYNTMEywCWjvq0AaJVVUyfmfyAfXZuGiVelKb4qt8ULh7BtQL3iRNAuxiDi7L
-          bootstrap_email: cGJlbm5ldHQudWtAZ21haWwuY29t
-          secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
-          error_reporting:
-            enabled: true
-          postgresql:
-            host: 192.168.7.10
-            name: "authentik"
-            user: "paul"
-            password: "password"
-            port: 5432
-          redis:
-            host: 192.168.7.10
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: authentik
+#   namespace: argocd
+# spec:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: authentik
+#   project: default
+#   source:
+#     chart: authentik
+#     repoURL: https://charts.goauthentik.io
+#     targetRevision: 2025.6.2
+#     helm:
+#       valuesObject:
+#         authentik:
+#           bootstrap_password: YWRtaW4=
+#           bootstrap_token: 06yBF3p5xpPREc49qhsoYNTMEywCWjvq0AaJVVUyfmfyAfXZuGiVelKb4qt8ULh7BtQL3iRNAuxiDi7L
+#           bootstrap_email: cGJlbm5ldHQudWtAZ21haWwuY29t
+#           secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
+#           error_reporting:
+#             enabled: true
+#           postgresql:
+#             host: 192.168.7.10
+#             name: "authentik"
+#             user: "paul"
+#             password: "password"
+#             port: 5432
+#           redis:
+#             host: 192.168.7.10
 
-        server:
-          ingress:
-            ingressClassName: nginx
-            enabled: true
-            hosts:
-              - authentik.home.local
+#         server:
+#           ingress:
+#             ingressClassName: nginx
+#             enabled: true
+#             hosts:
+#               - authentik.home.local
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
