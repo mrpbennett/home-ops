@@ -26,4 +26,4 @@ spec:
               - name: edns0
           containers:
             - name: faker-fact
-              image: 192.168.7.123:5000/faker-users-fact:0.0.9
+              image: 192.168.7.123:5000/faker-users-fact:0.0.10
