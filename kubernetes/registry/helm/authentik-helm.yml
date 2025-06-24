@@ -22,13 +22,13 @@
 #           error_reporting:
 #             enabled: true
 #           postgresql:
-#             host: 192.168.7.10
+#             host: 192.168.7.124
 #             name: "authentik"
 #             user: "paul"
 #             password: "password"
 #             port: 5432
 #           redis:
-#             host: 192.168.7.10
+#             host: 192.168.7.124
 
 #         server:
 #           ingress:

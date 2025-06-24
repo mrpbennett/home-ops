@@ -1,0 +1,73 @@
+# vm-template.yaml – KubeVirt VirtualMachine template
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: <vm-name> # e.g., my-vm
+  namespace: <namespace> # optional; omit to use current namespace
+  labels:
+    kubevirt.io/domain: "<vm-name>"
+spec:
+  running: false # change to true to auto-start on creation
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: "<vm-name>"
+    spec:
+      domain:
+        cpu:
+          sockets: 1 # Number of physical sockets
+          cores: 2 # Cores per socket
+          threads: 1 # Threads per core
+        memory:
+          guest: 4Gi # VM RAM size
+        resources:
+          requests:
+            memory: 4Gi # Kubernetes scheduling request
+            cpu: "2" # in cores
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio # virtio, scsi, sata, etc.
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+          interfaces:
+            - name: default
+              masquerade: {} # Pod network with NAT
+      networks:
+        - name: default
+          pod: {} # Attach to cluster Pod network
+      volumes:
+        # Use dataVolumeTemplates below to auto-create & import this disk
+        - name: rootdisk
+          dataVolume:
+            name: dv-rootdisk
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              password: yourpassword
+              chpasswd:
+                expire: false
+
+  # -------------------------------------------------------------------------
+  # Automate PVC creation & image import via CDI
+  # Requires Containerized Data Importer (CDI) installed in the cluster
+  # -------------------------------------------------------------------------
+  dataVolumeTemplates:
+    - metadata:
+        name: dv-rootdisk # matches the dataVolume name above
+      spec:
+        storage:
+          resources:
+            requests:
+              storage: 30Gi # Disk size
+        source:
+          http:
+            url: https://example.com/path/to/disk-image.qcow2
+# Optional: if you already have a PVC, comment out the dataVolumeTemplates,
+# and instead in volumes use:
+#   - name: rootdisk
+#     persistentVolumeClaim:
+#       claimName: existing-pvc
