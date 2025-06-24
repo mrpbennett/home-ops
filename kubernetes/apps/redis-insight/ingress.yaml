@@ -3,14 +3,15 @@ kind: Ingress
 metadata:
   name: redis-insight-ingress
   labels:
-    name: redis-insight-ingress
+    app: redis-insight-ingress
 spec:
+  ingressClassName: nginx
   rules:
     - host: redisinsight.home.local
       http:
         paths:
           - pathType: Prefix
-            path: "/"
+            path: /
             backend:
               service:
                 name: redisinsight-service
