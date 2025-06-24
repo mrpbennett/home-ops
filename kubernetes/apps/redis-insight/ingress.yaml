@@ -16,4 +16,4 @@ spec:
               service:
                 name: redisinsight-service
                 port:
-                  number: 80
+                  number: 5540
