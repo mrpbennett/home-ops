@@ -27,6 +27,9 @@ spec:
                   enabled: false
             ingressClassName: nginx
 
+        # https://airflow.apache.org/docs/helm-chart/stable/production-guide.html#webserver-secret-key
+        webserverSecretKey: 7e7c86b29cf470c1181c656be339979b0448c336578338b357c00244b0e065df
+
         # Airflow Worker Config
         workers:
           replicas: 1
@@ -78,13 +81,6 @@ spec:
             lastName: Bennett
             email: pbennett.uk@gmail.com
 
-        dags:
-          gitSync:
-            enabled: true
-            repo: https://github.com/mrpbennett/airflow-dags.git
-            branch: main
-            subPath: dags
-
         # Settings for ArgoCD
         createUserJob:
           useHelmHooks: false
@@ -93,16 +89,45 @@ spec:
           useHelmHooks: false
           applyCustomEnv: false
 
-        # https://airflow.apache.org/docs/helm-chart/stable/production-guide.html#webserver-secret-key
-        webserverSecretKey: 7e7c86b29cf470c1181c656be339979b0448c336578338b357c00244b0e065df
-
+        # Configuration for the redis provisioned by the chart
         redis:
           enabled: true
           terminationGracePeriodSeconds: 30
 
+        # This runs as a CronJob to cleanup old pods.
         cleanup:
           enabled: true
           schedule: "*/60 * * * *"
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+        # Git sync
+        dags:
+          persistance:
+            enabled: true
+            size: 1Gi
+            storageClass: longhorn
+            accessMode: ReadWriteOnce
+
+          gitSync:
+            enabled: true
+            repo: https://github.com/mrpbennett/airflow-dags.git
+            branch: main
+            subPath: dags
+            period: 60s
+            wait: 60s
+            resources:
+              limits:
+                cpu: 100m
+                memory: 256Mi
+              requests:
+                cpu: 50m
+                memory: 128Mi
 
   syncPolicy:
     automated:
