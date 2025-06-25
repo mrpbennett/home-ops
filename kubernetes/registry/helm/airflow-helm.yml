@@ -66,6 +66,13 @@ spec:
         webserver:
           replicas: 1
 
+          startupProbe:
+            initialDelaySeconds: 30
+            timeoutSeconds: 20
+            failureThreshold: 6
+            periodSeconds: 10
+            scheme: HTTP
+
           resources:
             limits:
               cpu: 500m
