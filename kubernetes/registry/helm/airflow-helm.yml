@@ -108,12 +108,6 @@ spec:
 
         # Git sync
         dags:
-          persistance:
-            enabled: true
-            size: 1Gi
-            storageClass: longhorn
-            accessMode: ReadWriteOnce
-
           gitSync:
             enabled: true
             repo: https://github.com/mrpbennett/airflow-dags.git
