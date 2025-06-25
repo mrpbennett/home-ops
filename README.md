@@ -24,7 +24,7 @@ _... managed with ArgoCD, Renovate and GitHub Actions_ 🤖
 
 This is a mono repository for my home infrastructure and Kubernetes node. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
-I have a single node running a K3s instance and a single node running soley Docker with portainer. This is now more of a dev enviroment rather than a Kubernetes homelab.
+I have a two nodes running a K3s instance and a single vm running soley Docker with portainer. This is now more of a dev enviroment, or a way to deploy applications that other apps depend on. Saves recreating them when I tear down my Kubernetes cluster.
 
 ## The purpose here is to learn Kubernetes, while practising GitOps
 
@@ -32,7 +32,7 @@ I have a single node running a K3s instance and a single node running soley Dock
 
 ### Installation
 
-My Kubernetes enviroment is deployed with [k3s](https://k3s.io) and [MetalLB](https://metallb.universe.tf/). This is a single node setup for dev purposes
+My Kubernetes enviroment is deployed with [k3s](https://k3s.io) and [MetalLB](https://metallb.universe.tf/). This is a two node setup for learning purposes. Future plan is to upgrade to a 5 node cluster running HA k3s in bare metal.
 
 #### System Requirements
 
@@ -91,9 +91,19 @@ source:
         <th>Description</th>
     </tr>
     <tr>
+        <td><img width="32" src="https://github.com/homarr-labs/dashboard-icons/blob/main/png/apache-airflow.png?raw=true"></td>
+        <td><a href="https://airflow.apache.org/">Apache Airflow</a></td>
+        <td>Workflow Orchestration</td>
+    </tr>
+    <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/30269780"></td>
         <td><a href="https://argoproj.github.io/cd">ArgoCD</a></td>
         <td>GitOps tool built to deploy applications to Kubernetes</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://avatars.githubusercontent.com/u/30269780"></td>
+        <td><a href="https://argoproj.github.io/workflows">Argo Workflows</a></td>
+        <td>Workflow management to help with CronWorkflows</td>
     </tr>
     <tr>
         <td><img width="32" src="https://github.com/jetstack/cert-manager/raw/master/logo/logo.png"></td>
@@ -119,6 +129,11 @@ source:
         <td><img width="32" src="https://avatars.githubusercontent.com/u/13629408"></td>
         <td><a href="https://kubernetes.io">Kubernetes</a></td>
         <td>Container-orchestration system, the backbone of this project</td>
+    </tr>
+    <tr>
+        <td><img width="32" src="https://github.com/homarr-labs/dashboard-icons/blob/main/png/loki.png?raw=true"></td>
+        <td><a href="https://grafana.com/oss/loki/">Loki</a></td>
+        <td>Log aggregation system</td>
     </tr>
     <tr>
         <td><img width="32" src="https://avatars.githubusercontent.com/u/1412239?s=200&v=4"></td>
