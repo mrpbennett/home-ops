@@ -91,7 +91,7 @@ data:
 
             - Nginx Proxy Manager:
                 icon: nginx-proxy-manager.png
-                href: http://nginx-proxy-manager.home.local
+                href: http://nginx-proxy-manager.home.local:81
                 description: Reverse Proxy & Load Balancer
 
             - PGAdmin:
@@ -103,7 +103,7 @@ data:
 
             - Portainer:
                 icon: portainer.png
-                href: https://192.168.7.10:9443
+                href: http://portainer.home.local
                 description: Container Management
 
             - Prometheus:
