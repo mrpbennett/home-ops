@@ -66,6 +66,20 @@ spec:
         webserver:
           replicas: 1
 
+          livenessProbe:
+            initialDelaySeconds: 45
+            timeoutSeconds: 5
+            failureThreshold: 5
+            periodSeconds: 10
+            scheme: HTTP
+
+          readinessProbe:
+            initialDelaySeconds: 45
+            timeoutSeconds: 5
+            failureThreshold: 5
+            periodSeconds: 10
+            scheme: HTTP
+
           startupProbe:
             initialDelaySeconds: 30
             timeoutSeconds: 20
