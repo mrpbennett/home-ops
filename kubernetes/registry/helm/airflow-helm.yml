@@ -120,7 +120,7 @@ spec:
             branch: main
             subPath: dags
             period: 60s
-            wait: 60s
+            wait: 60
             resources:
               limits:
                 cpu: 100m
