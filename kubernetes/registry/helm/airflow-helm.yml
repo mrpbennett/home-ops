@@ -11,7 +11,7 @@ spec:
   source:
     chart: airflow
     repoURL: https://airflow.apache.org
-    targetRevision: 1.16.0
+    targetRevision: 1.17.0
     helm:
       valuesObject:
         ingress:
@@ -70,6 +70,9 @@ spec:
 
         # Airflow webserver settings
         webserver:
+          startupProbe:
+            initialDelaySeconds: 10
+
           resources:
             limits:
               cpu: 500m
