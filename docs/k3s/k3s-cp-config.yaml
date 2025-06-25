@@ -17,6 +17,3 @@ etcd-snapshot-dir: "/var/lib/rancher/k3s/etcd/snapshots" # Directory to store ET
 disable:
   - "traefik"
   - "servicelb"
-
-node-taint:
-  - "node.kubernetes.io/unreachable=true:NoExecute"
