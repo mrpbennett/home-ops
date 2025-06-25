@@ -64,6 +64,11 @@ spec:
 
         # Airflow webserver settings
         webserver:
+          livenessProbe: {}
+          readinessProbe: {}
+          startupProbe: {}
+          replicas: 1
+
           resources:
             limits:
               cpu: 500m
