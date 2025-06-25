@@ -7,7 +7,7 @@ metadata:
     workflows.argoproj.io/description: Populate faker users in fact
     workflows.argoproj.io/tags: faker
 spec:
-  schedule: "* * * * *"
+  schedule: "*/30 * * * *"
   timezone: "Europe/London"
   startingDeadlineSeconds: 30
   concurrencyPolicy: "Replace"
