@@ -38,6 +38,14 @@ spec:
         - name: redisinsight #Container name (DNS_LABEL, unique)
           image: redis/redisinsight:latest #repo/image
           imagePullPolicy: IfNotPresent #Always pull image
+          env:
+            # Docker Redis instance
+            - name: RI_REDIS_HOST1
+              value: "192.168.7.124"
+            - name: RI_REDIS_PORT1
+              value: "6379"
+            - name: RI_REDIS_ALIAS1
+              value: "DockerRedis"
           resources:
             requests:
               memory: "256Mi"

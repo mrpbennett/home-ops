@@ -53,7 +53,6 @@ spec:
 
         # Number of Airflow API servers in the deployment
         apiServer:
-          replicas: 1
           resources:
             limits:
               cpu: 500m
@@ -64,29 +63,6 @@ spec:
 
         # Airflow webserver settings
         webserver:
-          replicas: 1
-
-          # livenessProbe:
-          #   initialDelaySeconds: 45
-          #   timeoutSeconds: 5
-          #   failureThreshold: 5
-          #   periodSeconds: 10
-          #   scheme: HTTP
-
-          # readinessProbe:
-          #   initialDelaySeconds: 45
-          #   timeoutSeconds: 5
-          #   failureThreshold: 5
-          #   periodSeconds: 10
-          #   scheme: HTTP
-
-          # startupProbe:
-          #   initialDelaySeconds: 30
-          #   timeoutSeconds: 20
-          #   failureThreshold: 6
-          #   periodSeconds: 10
-          #   scheme: HTTP
-
           resources:
             limits:
               cpu: 500m
