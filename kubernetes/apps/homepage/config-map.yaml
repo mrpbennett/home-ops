@@ -48,10 +48,10 @@ data:
                 href: http://argocd.home.local
                 description: Continuous Delivery
 
-            # - Argo Workflows:
-            #     icon: argo-cd.png
-            #     href: http://argoworkflows.home.local
-            #     description: Workflow Management
+            - Argo Workflows:
+                icon: argo-cd.png
+                href: http://argoworkflows.home.local
+                description: CronWorkflow Management
 
             - Authentik:
                 icon: authentik.png
