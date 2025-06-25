@@ -136,13 +136,6 @@ spec:
             repo: https://github.com/mrpbennett/airflow-dags.git
             branch: main
             subPath: dags
-            resources:
-              limits:
-                cpu: 100m
-                memory: 256Mi
-              requests:
-                cpu: 50m
-                memory: 128Mi
 
   syncPolicy:
     automated:
