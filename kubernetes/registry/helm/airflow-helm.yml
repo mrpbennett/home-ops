@@ -61,6 +61,13 @@ spec:
               cpu: 250m
               memory: 512Mi
 
+          startupProbe:
+            initialDelaySeconds: 10
+            timeoutSeconds: 20
+            failureThreshold: 6
+            periodSeconds: 10
+            scheme: HTTP
+
         # Airflow webserver settings
         webserver:
           resources:
