@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio-operator
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: minio-operator
+  project: default
+  source:
+    chart: minio-operator
+    repoURL: https://operator.min.io
+    targetRevision: 4.3.7
+    helm:
+      valuesObject:
+        tenants:
+          - name: minio1
+            image:
+              repository: minio/minio
+              tag: RELEASE.2021-10-06T23-36-31Z
+              pullPolicy: IfNotPresent
+            namespace: default
+            imagePullSecret: {}
+            scheduler: {}
+            pools:
+              - servers: 4
+                volumesPerServer: 4
+                size: 10Gi
+                storageClassName: standard
+                tolerations: {}
+                nodeSelector: {}
+                affinity: {}
+                resources: {}
+                securityContext: {}
+                topologySpreadConstraints: []
+            mountPath: /export
+            subPath: /data
+            secrets:
+              enabled: true
+              name: minio1-secret
+              accessKey: minio
+              secretKey: minio123
+            metrics:
+              enabled: false
+              port: 9000
+            certificate:
+              externalCaCertSecret: {}
+              externalCertSecret: {}
+              requestAutoCert: true
+              certConfig: {}
+            s3:
+              bucketDNS: false
+            podManagementPolicy: Parallel
+            serviceMetadata: {}
+            env: {}
+            priorityClassName: ""
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      -
