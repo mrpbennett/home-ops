@@ -15,7 +15,103 @@ spec:
     helm:
       valuesObject:
         tenant:
-          name: myminio
+          name: minio-tentant
+
+          configSecret:
+            name: minio-tentant-env-configuration
+            accessKey: minio
+            secretKey: minio123
+          poolsMetadata:
+            annotations: {}
+            labels: {}
+          pools:
+            - servers: 4
+              name: minio-tentant-pool-0
+              volumesPerServer: 4
+              size: 10Gi
+              storageAnnotations: {}
+              storageLabels: {}
+              annotations: {}
+              labels: {}
+              tolerations: []
+              nodeSelector: {}
+              affinity: {}
+              resources: {}
+              securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                fsGroup: 1000
+                fsGroupChangePolicy: "OnRootMismatch"
+                runAsNonRoot: true
+              containerSecurityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                runAsNonRoot: true
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                seccompProfile:
+                  type: RuntimeDefault
+              topologySpreadConstraints: []
+          mountPath: /export
+          subPath: /data
+          metrics:
+            enabled: true
+            port: 9000
+            protocol: http
+          certificate:
+            externalCaCertSecret: []
+            externalCertSecret: []
+            requestAutoCert: true
+            certConfig: {}
+          features:
+            bucketDNS: false
+            domains: {}
+            enableSFTP: false
+          # Array of objects describing one or more buckets to create during tenant provisioning.
+          # Example:
+          #
+          # .. code-block:: yaml
+          #
+          #    - name: my-minio-bucket
+          #      objectLock: false        # optional
+          #      region: us-east-1        # optional
+          buckets: []
+          users: []
+          podManagementPolicy: Parallel
+          liveness: {}
+          readiness: {}
+          startup: {}
+          lifecycle: {}
+          exposeServices: {}
+          serviceAccountName: ""
+          prometheusOperator: false
+          logging: {}
+          serviceMetadata: {}
+          env: []
+          priorityClassName: ""
+          additionalVolumes: []
+          additionalVolumeMounts: []
+        ingress:
+          api:
+            enabled: true
+            ingressClassName: nginx
+            labels: {}
+            annotations: {}
+            tls: []
+            host: minio-k8s.home.local
+            path: /
+            pathType: Prefix
+          console:
+            enabled: true
+            ingressClassName: nginx
+            labels: {}
+            annotations: {}
+            tls: []
+            host: minio-console-k8s.home.local
+            path: /
+            pathType: Prefix
 
   syncPolicy:
     automated:

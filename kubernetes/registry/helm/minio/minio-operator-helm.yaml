@@ -38,7 +38,7 @@ spec:
               accessKey: minio
               secretKey: minio123
             metrics:
-              enabled: false
+              enabled: true
               port: 9000
             certificate:
               externalCaCertSecret: {}
