@@ -3,6 +3,7 @@ kind: Application
 metadata:
   name: &app minio-operator
   namespace: argocd
+
 spec:
   destination:
     server: "https://kubernetes.default.svc"

@@ -97,7 +97,7 @@
 #             labels: {}
 #             annotations: {}
 #             tls: []
-#             host: minio-k8s.home.local
+#             host: minio.home.local
 #             path: /
 #             pathType: Prefix
 #           console:
@@ -106,7 +106,7 @@
 #             labels: {}
 #             annotations: {}
 #             tls: []
-#             host: minio-console-k8s.home.local
+#             host: minio-console.home.local
 #             path: /
 #             pathType: Prefix
 
