@@ -26,7 +26,7 @@ spec:
             labels: {}
           pools:
             - servers: 4
-              name: minio-tenant-pool-0
+              name: pool
               volumesPerServer: 4
               size: 10Gi
               storageAnnotations: {}
