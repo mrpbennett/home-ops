@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: minio-operator
+  name: &app minio-operator
   namespace: argocd
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: minio-operator
+    namespace: *app
   project: default
   source:
     chart: minio-operator
@@ -20,7 +20,7 @@ spec:
               repository: minio/minio
               tag: RELEASE.2021-10-06T23-36-31Z
               pullPolicy: IfNotPresent
-            namespace: default
+            namespace: *app
             imagePullSecret: {}
             scheduler: {}
             pools:
