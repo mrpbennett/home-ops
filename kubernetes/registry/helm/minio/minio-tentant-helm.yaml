@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio-tentant
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: minio-tentant
+  project: default
+  source:
+    chart: minio-tentant
+    repoURL: https://operator.min.io
+    targetRevision: 7.1.1
+    helm:
+      valuesObject:
+        tenant:
+          name: myminio
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
