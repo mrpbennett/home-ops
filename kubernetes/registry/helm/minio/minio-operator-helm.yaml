@@ -15,11 +15,7 @@ spec:
     helm:
       valuesObject:
         tenants:
-          - name: minio1
-            image:
-              repository: minio/minio
-              tag: RELEASE.2021-10-06T23-36-31Z
-              pullPolicy: IfNotPresent
+          - name: minio-operator-tenant
             namespace: *app
             imagePullSecret: {}
             scheduler: {}
@@ -27,7 +23,7 @@ spec:
               - servers: 4
                 volumesPerServer: 4
                 size: 10Gi
-                storageClassName: standard
+                storageClassName: longhorn
                 tolerations: {}
                 nodeSelector: {}
                 affinity: {}
@@ -38,7 +34,7 @@ spec:
             subPath: /data
             secrets:
               enabled: true
-              name: minio1-secret
+              name: minio-operator-tenant-secret
               accessKey: minio
               secretKey: minio123
             metrics:

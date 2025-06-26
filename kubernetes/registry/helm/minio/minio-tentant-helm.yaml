@@ -9,7 +9,7 @@ spec:
     namespace: minio-tentant
   project: default
   source:
-    chart: minio-tentant
+    chart: tentant
     repoURL: https://operator.min.io
     targetRevision: 7.1.1
     helm:
