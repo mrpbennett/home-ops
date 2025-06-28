@@ -44,11 +44,27 @@ spec:
             connection-user=paul
             connection-password=password
 
+          docker-psql: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://192.168.7.124:5432/postgres
+            connection-user=paul
+            connection-password=password
+
           supabase-pnfb01: |
             connector.name=postgresql
             connection-url=jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres
             connection-user=postgres.kzqeciwvlkrgokcvgjci
             connection-password=fYjc4g*r2^L%3&
+
+          # iceberg-metastore: |
+          #   connector.name=iceberg
+          #   iceberg.catalog.type=hive
+
+          #   fs.native-s3.enabled=true
+          #   s3.endpoint=http://minio.minio-tenant.svc.cluster.local:9000
+          #   s3.path-style-access=true
+          #   s3.aws-access-key=fsLFig9hIjKDvW71XC2r
+          #   s3.aws-secret-key=4XqlkdHiZnYix3zXsLyzKwdEdTYixuEKowtQhsrP
 
         service:
           type: LoadBalancer

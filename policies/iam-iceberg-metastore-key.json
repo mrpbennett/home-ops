@@ -1,0 +1,19 @@
+// This Policy grants read and write access to iceberg-metastore bucket objects
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListObjectsInBucket",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::iceberg-metastore"]
+    },
+    {
+      "Sid": "AllObjectActions",
+      "Effect": "Allow",
+      "Action": "s3:*Object",
+      "Resource": ["arn:aws:s3:::iceberg-metastore/*"]
+    }
+  ]
+}
