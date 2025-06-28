@@ -25,10 +25,13 @@ spec:
           log:
             trino:
               level: INFO
-
-            # -- Trino supports multiple [authentication
-            # types](https://trino.io/docs/current/security/authentication-types.html):
-            # PASSWORD, CERTIFICATE, OAUTH2, JWT, KERBEROS.
+          config:
+            path: /etc/trino
+            https:
+              enabled: false
+              port: 8443
+              keystore:
+                path: ""
             authenticationType: ""
             query:
               maxMemory: "4GB"
@@ -71,6 +74,7 @@ spec:
 
         service:
           type: LoadBalancer
+          port: 8080
           annotations:
             metallb.universe.tf/loadBalancerIPs: 192.168.7.79
 
