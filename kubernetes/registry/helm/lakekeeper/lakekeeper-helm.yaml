@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lakekeeper
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: lakekeeper
+  project: default
+  source:
+    chart: lakekeeper
+    repoURL: https://lakekeeper.github.io/lakekeeper-charts/
+    targetRevision: 0.6.0
+    helm:
+      valuesObject:
+        catalog:
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          autoscaling:
+            enabled: false
+
+          dbMigrations:
+            enabled: true
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "128Mi"
+              limits:
+                cpu: "500m"
+                memory: "512Mi"
+
+          # configs for the (backend) Service of the catalog Pods (REST-API)
+          service:
+            annotations: {}
+            type: ClusterIP
+            externalPort: 8181
+            loadBalancerIP: ""
+
+          ingress:
+            enabled: true
+            annotations:
+              nginx.ingress.kubernetes.io/rewrite-target: /
+            path: "/iceberg-catalog"
+            host: lakekeeper.home.local
+            ingressClassName: nginx
+            tls:
+              enabled: false
+              secretName: ""
+
+        # Disable embedded PostgreSQL
+        postgres:
+          enabled: false
+
+        # Enable external PostgreSQL database
+        externalDatabase:
+          type: postgresql
+          host_read: "192.168.7.124"
+          host_write: "192.168.7.124"
+          port: 5432
+          database: iceberg_catalog
+          username: lakekeeper
+          password: password
+
+        auth:
+          oauth2:
+            providerUri: ""
+
+            ui:
+              clientID: ""
+              scopes: ""
+              resource: ""
+
+          k8s:
+            enabled: false
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
