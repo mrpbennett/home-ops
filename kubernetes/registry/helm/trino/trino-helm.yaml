@@ -38,18 +38,21 @@ spec:
 
         # CATALOGS
         catalogs:
+          # CNPG Cluster [K8s]
           cloudnativepg: |
             connector.name=postgresql
             connection-url=jdbc:postgresql://192.168.7.80:5432/main
             connection-user=paul
             connection-password=password
 
-          docker-psql: |
+          # Lakekeeper Iceberg Catalog [Docker]
+          iceberg_catalog.properties: |
             connector.name=postgresql
-            connection-url=jdbc:postgresql://192.168.7.124:5432/postgres
-            connection-user=paul
+            connection-url=jdbc:postgresql://192.168.7.124:5432/iceberg_catalog
+            connection-user=lakekeeper
             connection-password=password
 
+          # Supabase PostgreSQL Cluster
           supabase-pnfb01: |
             connector.name=postgresql
             connection-url=jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres
