@@ -80,9 +80,7 @@ spec:
           startup: {}
           lifecycle: {}
 
-          exposeServices:
-            minio: true
-            console: true
+          exposeServices: {}
 
           serviceAccountName: ""
           prometheusOperator: false
