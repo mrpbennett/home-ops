@@ -38,8 +38,9 @@ spec:
 
           # configs for the (backend) Service of the catalog Pods (REST-API)
           service:
-            annotations: {}
-            type: ClusterIP
+            annotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.7.81
+            type: LoadBalancer
             externalPort: 8181
             loadBalancerIP: ""
 
@@ -47,7 +48,7 @@ spec:
             enabled: true
             annotations:
               nginx.ingress.kubernetes.io/rewrite-target: /
-            path: "/iceberg-catalog"
+            path: "/catalog"
             host: lakekeeper.home.local
             ingressClassName: nginx
             tls:

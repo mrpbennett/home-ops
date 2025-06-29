@@ -67,7 +67,7 @@ data:
 
             - Lakekeeper:
                 icon: https://avatars.githubusercontent.com/u/183464583?s=200&v=4
-                href: http://lakekeeper.home.local
+                href: http://lakekeeper.home.local/catalog
                 description: Apache Iceberg REST Catalog 
                 namespace: lakekeeper
                 app: lakekeeper
