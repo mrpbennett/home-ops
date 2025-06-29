@@ -47,11 +47,15 @@ data:
                 icon: argo-cd.png
                 href: http://argocd.home.local
                 description: Continuous Delivery
+                namespace: argocd
+                app: argocd
 
             - Argo Workflows:
                 icon: argo-cd.png
                 href: http://argoworkflows.home.local
                 description: CronWorkflow Management
+                namespace: argo
+                app: argoworkflows
 
             - Authentik:
                 icon: authentik.png
@@ -90,11 +94,15 @@ data:
                 icon: kubernetes.png
                 href: http://k8s-dash.home.local
                 description: Container Orchestration
+                namespace: kubernetes-dashboard
+                app: kubernetes-dashboard
 
             - MinIO:
                 icon: minio.png
                 href: https://192.168.7.54:9443
                 description: Distributed Object Storage
+                namespace: minio-tenant
+                app: minio-tenant
 
             - Nginx Proxy Manager:
                 icon: nginx-proxy-manager.png
