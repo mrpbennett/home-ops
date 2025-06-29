@@ -137,6 +137,8 @@ data:
                 icon: redis.svg
                 href: http://redisinsight.home.local
                 description: Redis GUI
+                namespace: redis-insight
+                app: redis-insight
 
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
