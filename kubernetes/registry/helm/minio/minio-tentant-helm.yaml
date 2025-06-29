@@ -24,6 +24,7 @@ spec:
           poolsMetadata:
             annotations: {}
             labels: {}
+
           pools:
             - servers: 4
               name: pool
@@ -54,6 +55,7 @@ spec:
                 seccompProfile:
                   type: RuntimeDefault
               topologySpreadConstraints: []
+
           mountPath: /export
           subPath: /data
 
@@ -62,26 +64,26 @@ spec:
             externalCertSecret: []
             requestAutoCert: true
             certConfig: {}
+
           features:
-            bucketDNS: false
+            bucketDNS: true
             domains: {}
-            enableSFTP: false
-          # Array of objects describing one or more buckets to create during tenant provisioning.
-          # Example:
-          #
-          # .. code-block:: yaml
-          #
-          #    - name: my-minio-bucket
-          #      objectLock: false        # optional
-          #      region: us-east-1        # optional
-          buckets: []
+            enableSFTP: true
+
+          buckets:
+            - name: iceberg-catalog
+
           users: []
           podManagementPolicy: Parallel
           liveness: {}
           readiness: {}
           startup: {}
           lifecycle: {}
-          exposeServices: {}
+
+          exposeServices:
+            - minio: true
+            - console: true
+
           serviceAccountName: ""
           prometheusOperator: false
           logging: {}
@@ -90,6 +92,7 @@ spec:
           priorityClassName: ""
           additionalVolumes: []
           additionalVolumeMounts: []
+
         ingress:
           api:
             enabled: true
