@@ -124,7 +124,12 @@ spec:
             labels: {}
             annotations:
               cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
+              # proxy upstream to MinIO Console over HTTPS
               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+              # tell NGINX to redirect any HTTP client to HTTPS
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              # (optional) ensure SNI is sent upstream
+              nginx.ingress.kubernetes.io/proxy-ssl-server-name: "on"
             tls:
               - hosts:
                   - minio-console.home.local
