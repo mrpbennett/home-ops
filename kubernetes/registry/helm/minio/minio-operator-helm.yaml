@@ -1,72 +1,77 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: &app minio-operator
-#   namespace: argocd
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &app minio-operator
+  namespace: argocd
 
-# spec:
-#   destination:
-#     server: "https://kubernetes.default.svc"
-#     namespace: *app
-#   project: default
-#   source:
-#     chart: operator
-#     repoURL: https://operator.min.io
-#     targetRevision: 7.1.1
-#     helm:
-#       valuesObject:
-#         operator:
-#           env:
-#             - name: OPERATOR_STS_ENABLED
-#               value: "on"
-#           serviceAccountAnnotations: []
-#           additionalLabels: {}
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: *app
+  project: default
+  source:
+    chart: operator
+    repoURL: https://operator.min.io
+    targetRevision: 7.1.1
+    helm:
+      valuesObject:
+        operator:
+          env:
+            - name: OPERATOR_STS_ENABLED
+              value: "on"
+            - name: WATCHED_NAMESPACE
+              value: "minio-tenant"
+            - name: CLUSTER_DOMAIN
+              value: "cluster.local"
 
-#           sidecarImage: {}
-#           imagePullSecrets: []
-#           runtimeClassName: ~
-#           initContainers: []
-#           replicaCount: 2
-#           securityContext:
-#             runAsUser: 1000
-#             runAsGroup: 1000
-#             runAsNonRoot: true
-#             fsGroup: 1000
-#           containerSecurityContext:
-#             runAsUser: 1000
-#             runAsGroup: 1000
-#             runAsNonRoot: true
-#             allowPrivilegeEscalation: false
-#             capabilities:
-#               drop:
-#                 - ALL
-#             seccompProfile:
-#               type: RuntimeDefault
-#           volumes: []
-#           volumeMounts: []
-#           nodeSelector: {}
-#           priorityClassName: ""
-#           affinity:
-#             podAntiAffinity:
-#               requiredDuringSchedulingIgnoredDuringExecution:
-#                 - labelSelector:
-#                     matchExpressions:
-#                       - key: name
-#                         operator: In
-#                         values:
-#                           - minio-operator
-#                   topologyKey: kubernetes.io/hostname
-#           tolerations: []
-#           topologySpreadConstraints: []
-#           resources:
-#             requests:
-#               cpu: 200m
-#               memory: 256Mi
-#               ephemeral-storage: 500Mi
+          serviceAccountAnnotations: []
+          additionalLabels: {}
 
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+          sidecarImage: {}
+          imagePullSecrets: []
+          runtimeClassName: ~
+          initContainers: []
+          replicaCount: 2
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            fsGroup: 1000
+          containerSecurityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          volumes: []
+          volumeMounts: []
+          nodeSelector: {}
+          priorityClassName: ""
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: name
+                        operator: In
+                        values:
+                          - minio-operator
+                  topologyKey: kubernetes.io/hostname
+          tolerations: []
+          topologySpreadConstraints: []
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+              ephemeral-storage: 500Mi
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
