@@ -89,7 +89,7 @@ spec:
           lifecycle: {}
 
           serviceAccountName: ""
-          prometheusOperator: true
+          prometheusOperator: false
           logging:
             json: true
 
