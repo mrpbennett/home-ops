@@ -30,6 +30,7 @@ spec:
               name: pool
               volumesPerServer: 4
               size: 16Gi
+              storageClassName: longhorn
               storageAnnotations: {}
               storageLabels: {}
               annotations: {}
