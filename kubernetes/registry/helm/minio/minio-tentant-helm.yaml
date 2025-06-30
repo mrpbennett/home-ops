@@ -73,7 +73,7 @@ spec:
           buckets:
             - name: iceberg-catalog
             - name: dev
-            - name: cnpg_backup
+            - name: cnpg-backup
 
           users: []
           podManagementPolicy: Parallel
