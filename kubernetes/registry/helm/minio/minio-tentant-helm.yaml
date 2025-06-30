@@ -73,6 +73,7 @@ spec:
           buckets:
             - name: iceberg-catalog
             - name: dev
+            - name: cnpg_backup
 
           users: []
           podManagementPolicy: Parallel
@@ -80,8 +81,6 @@ spec:
           readiness: {}
           startup: {}
           lifecycle: {}
-
-          exposeServices: {}
 
           serviceAccountName: ""
           prometheusOperator: false
@@ -91,6 +90,10 @@ spec:
           priorityClassName: ""
           additionalVolumes: []
           additionalVolumeMounts: []
+
+          exposeServices:
+            minio: true
+            console: true
 
         ingress:
           api:
