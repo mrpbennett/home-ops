@@ -58,7 +58,12 @@ spec:
               topologySpreadConstraints: []
 
           mountPath: /export
-          subPath: /data
+          subPath: ""
+
+          metrics:
+            enabled: true
+            port: 9000
+            protocol: http
 
           certificate:
             externalCaCertSecret: []
