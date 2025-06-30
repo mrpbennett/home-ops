@@ -19,8 +19,8 @@ spec:
 
           configSecret:
             name: minio-tenant-env-configuration
-            accessKey: minio
-            secretKey: minio123
+            accessKey: admin
+            secretKey: admin
           poolsMetadata:
             annotations: {}
             labels: {}
@@ -72,6 +72,7 @@ spec:
 
           buckets:
             - name: iceberg-catalog
+            - name: dev
 
           users: []
           podManagementPolicy: Parallel
@@ -101,6 +102,7 @@ spec:
             host: minio.home.local
             path: /
             pathType: Prefix
+
           console:
             enabled: true
             ingressClassName: nginx
