@@ -70,11 +70,12 @@ spec:
 
             # https://min.io/docs/minio/kubernetes/upstream/reference/operator-crd.html#tenantdomains
             domains:
-              minio:
-                - "http://minio.home.local"
-                - "http://minio-api.home.local"
+              {}
+              # minio:
+              #   - "http://minio.home.local"
+              #   - "http://minio-api.home.local"
 
-              console: "http://minio-console.home.local"
+              # console: "http://minio-console.home.local:9443"
 
             enableSFTP: true
 
@@ -115,8 +116,13 @@ spec:
             enabled: true
             ingressClassName: nginx
             labels: {}
-            annotations: {}
-            tls: []
+            annotations:
+              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            tls:
+              - hosts:
+                  - minio.home.local
+                secretName: minio-api-tls
             host: minio.home.local
             path: /
             pathType: Prefix
@@ -125,11 +131,44 @@ spec:
             enabled: true
             ingressClassName: nginx
             labels: {}
-            annotations: {}
-            tls: []
+            annotations:
+              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            tls:
+              - hosts:
+                  - minio-console.home.local
+                secretName: minio-console-tls
             host: minio-console.home.local
             path: /
             pathType: Prefix
+
+        extraResources:
+          - |
+            apiVersion: cert-manager.io/v1
+            kind: Certificate
+            metadata:
+              name: minio-api-cert
+              namespace: minio-tenant
+            spec:
+              secretName: minio-api-tls
+              dnsNames:
+                - minio.home.local
+              issuerRef:
+                name: homelab-ss-cert-issuer
+                kind: ClusterIssuer
+          - |
+            apiVersion: cert-manager.io/v1
+            kind: Certificate
+            metadata:
+              name: minio-console-cert
+              namespace: minio-tenant
+            spec:
+              secretName: minio-console-tls
+              dnsNames:
+                - minio-console.home.local
+              issuerRef:
+                name: homelab-ss-cert-issuer
+                kind: ClusterIssuer
 
   syncPolicy:
     automated:
