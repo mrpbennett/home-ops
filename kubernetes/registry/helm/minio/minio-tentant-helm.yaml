@@ -19,8 +19,8 @@ spec:
 
           configSecret:
             name: minio-tenant-env-configuration
-            accessKey: admin
-            secretKey: admin123
+            accessKey: minio
+            secretKey: minio123
           poolsMetadata:
             annotations: {}
             labels: {}
@@ -85,7 +85,14 @@ spec:
           serviceAccountName: ""
           prometheusOperator: false
           logging: {}
-          serviceMetadata: {}
+
+          # https://min.io/docs/minio/kubernetes/upstream/reference/operator-crd.html#servicemetadata
+          serviceMetadata:
+            minioServiceAnnotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.7.55
+            consoleServiceAnnotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.7.54
+
           env: []
           priorityClassName: ""
           additionalVolumes: []
