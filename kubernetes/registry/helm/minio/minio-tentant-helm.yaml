@@ -20,7 +20,7 @@ spec:
           configSecret:
             name: minio-tenant-env-configuration
             accessKey: admin
-            secretKey: password
+            secretKey: admin123
           poolsMetadata:
             annotations: {}
             labels: {}
