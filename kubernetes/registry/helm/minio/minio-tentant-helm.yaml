@@ -29,7 +29,7 @@ spec:
             - servers: 4
               name: pool
               volumesPerServer: 4
-              size: 10Gi
+              size: 16Gi
               storageAnnotations: {}
               storageLabels: {}
               annotations: {}
