@@ -13,7 +13,7 @@ spec:
   source:
     chart: kube-prometheus-stack
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 61.7.1
+    targetRevision: 75.6.0
     helm:
       valuesObject:
         namespaceOverride: "monitoring"
@@ -296,10 +296,18 @@ spec:
               - /
 
           prometheusSpec:
-            podMonitorSelectorNilUsesHelmValues: false
             serviceMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelector: {}
+            serviceMonitorNamespaceSelector: {}
+
+            podMonitorSelectorNilUsesHelmValues: false
             ruleSelectorNilUsesHelmValues: false
             probeSelectorNilUsesHelmValues: false
+
+            retention: 10d
+            replicas: 1
+            logLevel: info
+            logFormat: logfmt
 
   syncPolicy:
     automated:
