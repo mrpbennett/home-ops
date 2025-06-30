@@ -72,7 +72,7 @@ spec:
             domains:
               minio:
                 - "http://minio.home.local"
-                - "http://minio.home.local:9443"
+                - "http://minio-api.home.local"
 
               console: "http://minio-console.home.local:9443"
 
