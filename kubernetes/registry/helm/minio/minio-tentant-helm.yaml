@@ -67,7 +67,14 @@ spec:
 
           features:
             bucketDNS: true
-            domains: {}
+
+            # https://min.io/docs/minio/kubernetes/upstream/reference/operator-crd.html#tenantdomains
+            domains:
+              minio:
+                - "http://minio.home.local:9443"
+              console:
+                - "http://minio-console.home.local:9443"
+
             enableSFTP: true
 
           buckets:
