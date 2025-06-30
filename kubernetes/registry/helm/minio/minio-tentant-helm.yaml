@@ -67,16 +67,7 @@ spec:
 
           features:
             bucketDNS: true
-
-            # https://min.io/docs/minio/kubernetes/upstream/reference/operator-crd.html#tenantdomains
-            domains:
-              {}
-              # minio:
-              #   - "http://minio.home.local"
-              #   - "http://minio-api.home.local"
-
-              # console: "http://minio-console.home.local:9443"
-
+            domains: {}
             enableSFTP: true
 
           buckets:
@@ -142,33 +133,7 @@ spec:
             path: /
             pathType: Prefix
 
-        extraResources:
-          - |
-            apiVersion: cert-manager.io/v1
-            kind: Certificate
-            metadata:
-              name: minio-api-cert
-              namespace: minio-tenant
-            spec:
-              secretName: minio-api-tls
-              dnsNames:
-                - minio.home.local
-              issuerRef:
-                name: homelab-ss-cert-issuer
-                kind: ClusterIssuer
-          - |
-            apiVersion: cert-manager.io/v1
-            kind: Certificate
-            metadata:
-              name: minio-console-cert
-              namespace: minio-tenant
-            spec:
-              secretName: minio-console-tls
-              dnsNames:
-                - minio-console.home.local
-              issuerRef:
-                name: homelab-ss-cert-issuer
-                kind: ClusterIssuer
+        extraResources: {}
 
   syncPolicy:
     automated:
