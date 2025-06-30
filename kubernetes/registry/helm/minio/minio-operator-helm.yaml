@@ -19,8 +19,7 @@ spec:
           env:
             - name: OPERATOR_STS_ENABLED
               value: "on"
-            - name: WATCHED_NAMESPACE
-              value: "minio-tenant"
+
             - name: CLUSTER_DOMAIN
               value: "cluster.local"
 
