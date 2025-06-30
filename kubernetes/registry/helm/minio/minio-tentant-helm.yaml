@@ -90,7 +90,8 @@ spec:
 
           serviceAccountName: ""
           prometheusOperator: true
-          logging: json
+          logging:
+            json: true
 
           # https://min.io/docs/minio/kubernetes/upstream/reference/operator-crd.html#servicemetadata
           serviceMetadata:
