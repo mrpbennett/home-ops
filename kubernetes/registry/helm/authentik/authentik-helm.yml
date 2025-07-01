@@ -1,45 +1,65 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: authentik
-#   namespace: argocd
-# spec:
-#   destination:
-#     server: "https://kubernetes.default.svc"
-#     namespace: authentik
-#   project: default
-#   source:
-#     chart: authentik
-#     repoURL: https://charts.goauthentik.io
-#     targetRevision: 2025.6.2
-#     helm:
-#       valuesObject:
-#         authentik:
-#           bootstrap_password: YWRtaW4=
-#           bootstrap_token: 06yBF3p5xpPREc49qhsoYNTMEywCWjvq0AaJVVUyfmfyAfXZuGiVelKb4qt8ULh7BtQL3iRNAuxiDi7L
-#           bootstrap_email: cGJlbm5ldHQudWtAZ21haWwuY29t
-#           secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
-#           error_reporting:
-#             enabled: true
-#           postgresql:
-#             host: 192.168.7.124
-#             name: "authentik"
-#             user: "paul"
-#             password: "password"
-#             port: 5432
-#           redis:
-#             host: 192.168.7.124
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authentik
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: authentik
+  project: default
+  source:
+    chart: authentik
+    repoURL: https://charts.goauthentik.io
+    targetRevision: 2025.6.3
+    helm:
+      valuesObject:
+        authentik:
+          bootstrap_password: MTIzcXdlISE=
+          bootstrap_token: 06yBF3p5xpPREc49qhsoYNTMEywCWjvq0AaJVVUyfmfyAfXZuGiVelKb4qt8ULh7BtQL3iRNAuxiDi7L
+          bootstrap_email: cGJlbm5ldHQudWtAZ21haWwuY29t
+          secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
+          error_reporting:
+            enabled: true
+          postgresql:
+            host: 192.168.7.124
+            name: "authentik"
+            user: "paul"
+            password: "password"
+            port: 5432
+          redis:
+            host: 192.168.7.124
 
-#         server:
-#           ingress:
-#             ingressClassName: nginx
-#             enabled: true
-#             hosts:
-#               - authentik.home.local
+        server:
+          enabled: true
+          name: authentik-server
+          replicas: 1
 
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+          service:
+            annotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.7.120
+            type: LoadBalancer
+
+          ingress:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
+              nginx.ingress.kubernetes.io/rewrite-target: /
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+            ingressClassName: nginx
+            hosts:
+              - authentik.home.local
+            pathType: Prefix
+            tls:
+              - secretName: authentik-tls
+                hosts:
+                  - authentik.home.local
+            https: true
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
