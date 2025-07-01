@@ -83,6 +83,13 @@ data:
                 namespace: longhorn-system
                 app: longhorn
 
+            - Harbor:
+                icon: harbor.svg
+                href: https://harbor.home.local
+                description: Container Registry
+                namespace: harbor
+                app: harbor
+
             - Grafana:
                 icon: grafana.png
                 href: http://grafana.home.local

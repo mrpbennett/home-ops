@@ -17,8 +17,6 @@ spec:
         existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
         harborAdminPassword: "Harbor12345"
 
-        externalURL: https://harbor.home.local
-
         expose:
           type: ingress
           tls:
@@ -32,10 +30,13 @@ spec:
               core: harbor.home.local
             controller: default
             annotations:
+              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
               ingress.kubernetes.io/ssl-redirect: "true"
               ingress.kubernetes.io/proxy-body-size: "0"
               nginx.ingress.kubernetes.io/ssl-redirect: "true"
               nginx.ingress.kubernetes.io/proxy-body-size: "0"
+
+        externalURL: https://harbor.home.local
 
         persistence:
           enabled: true
