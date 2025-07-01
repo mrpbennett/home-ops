@@ -40,7 +40,7 @@ spec:
             enabled: false
 
           dbMigrations:
-            enabled: true
+            enabled: false
             resources:
               requests:
                 cpu: "100m"
