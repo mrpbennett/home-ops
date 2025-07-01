@@ -15,7 +15,7 @@ spec:
     helm:
       valuesObject:
         existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
-        harborAdminPassword: "Harbor12345"
+        harborAdminPassword: "123qwe!!"
         caSecretName: "root-secret"
 
         expose:
