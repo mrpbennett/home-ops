@@ -24,7 +24,7 @@ spec:
               memory: "512Mi"
 
           config:
-            LAKEKEEPER__BASE_URI: "http://lakekeeper.home.local/catalog"
+            LAKEKEEPER__BASE_URI: "http://lakekeeper.home.local"
 
             # LAKEKEEPER__PG_DATABASE_URL_READ: ""
             # LAKEKEEPER__PG_DATABASE_URL_WRITE: ""
