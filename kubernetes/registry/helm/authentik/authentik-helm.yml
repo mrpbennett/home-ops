@@ -15,7 +15,7 @@ spec:
     helm:
       valuesObject:
         authentik:
-          secret_key: "ksK4dK7nxsOgXUJtnp4OJXw2Cy6lAYJO4BtDEENhczpA6ZxebqfVA3r4MPysyBgJ0vlN75Ty/5qoOIov"
+          secret_key: "cMWj9GmSs+PGUDZms9/wGux6+GuepZBE/lbFkb0Swx44YTUx1R5RIqYiyi7T0MIVA16y6znOqj9q+xHD"
           error_reporting:
             enabled: true
           postgresql:
