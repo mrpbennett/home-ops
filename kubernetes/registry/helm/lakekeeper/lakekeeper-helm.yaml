@@ -60,13 +60,16 @@ spec:
           ingress:
             enabled: true
             annotations:
+              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
               nginx.ingress.kubernetes.io/rewrite-target: /
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
             path: "/catalog"
             host: lakekeeper.home.local
             ingressClassName: nginx
             tls:
-              enabled: false
-              secretName: ""
+              enabled: true
+              secretName: lakekeeper-tls
 
         # Disable embedded PostgreSQL
         postgres:
