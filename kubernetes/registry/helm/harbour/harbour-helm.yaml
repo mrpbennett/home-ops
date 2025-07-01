@@ -23,9 +23,9 @@ spec:
           type: ingress
           tls:
             enabled: true
-            certSource: secret
-            secret:
-              secretName: root-secret
+            certSource: auto
+            auto:
+              commonName: harbor-cert-secret
 
           ingress:
             hosts:
