@@ -16,14 +16,15 @@ spec:
       valuesObject:
         existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
         harborAdminPassword: "Harbor12345"
+        caSecretName: "root-secret"
 
         expose:
           type: ingress
           tls:
-            enabled: false
-            certSource: auto
-            auto:
-              commonName: harbor-cert-secret
+            enabled: true
+            certSource: secret
+            secret:
+              name: root-secret
 
           ingress:
             hosts:
