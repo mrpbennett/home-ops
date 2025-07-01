@@ -16,7 +16,6 @@ spec:
       valuesObject:
         existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
         harborAdminPassword: "123qwe!!"
-        caSecretName: "root-secret"
 
         expose:
           type: ingress
