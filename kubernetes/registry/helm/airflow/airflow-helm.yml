@@ -3,6 +3,8 @@
 # metadata:
 #   name: apache-airflow
 #   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "4"
 # spec:
 #   destination:
 #     server: "https://kubernetes.default.svc"
