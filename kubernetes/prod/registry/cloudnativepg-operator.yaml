@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/prod/cloudnativepg/operator
+    path: kubernetes/prod/apps/cloudnativepg/operator
     targetRevision: HEAD
     directory:
       recurse: true

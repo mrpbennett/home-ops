@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/prod/tailscale
+    path: kubernetes/prod/apps/tailscale
     targetRevision: HEAD
     directory:
       recurse: true

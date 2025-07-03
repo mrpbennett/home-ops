@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/prod/homepage
+    path: kubernetes/prod/apps/homepage
     targetRevision: HEAD
     directory:
       recurse: true

@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/cert-manager
+    path: kubernetes/dev/apps/cert-manager
     targetRevision: HEAD
     directory:
       recurse: true
