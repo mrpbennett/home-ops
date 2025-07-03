@@ -1,107 +1,107 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: lakekeeper
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: lakekeeper
-  project: default
-  source:
-    chart: lakekeeper
-    repoURL: https://lakekeeper.github.io/lakekeeper-charts/
-    targetRevision: 0.6.0
-    helm:
-      valuesObject:
-        catalog:
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: lakekeeper
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "3"
+# spec:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: lakekeeper
+#   project: default
+#   source:
+#     chart: lakekeeper
+#     repoURL: https://lakekeeper.github.io/lakekeeper-charts/
+#     targetRevision: 0.6.0
+#     helm:
+#       valuesObject:
+#         catalog:
+#           resources:
+#             requests:
+#               cpu: "100m"
+#               memory: "128Mi"
+#             limits:
+#               cpu: "500m"
+#               memory: "512Mi"
 
-          config:
-            LAKEKEEPER__BASE_URI: "https://lakekeeper.home.local"
+#           config:
+#             LAKEKEEPER__BASE_URI: "https://lakekeeper.home.local"
 
-            # LAKEKEEPER__PG_DATABASE_URL_READ: ""
-            # LAKEKEEPER__PG_DATABASE_URL_WRITE: ""
-            # LAKEKEEPER__PG_HOST_R: "192.168.7.124"
-            # LAKEKEEPER__PG_HOST_W: "192.168.7.124"
-            # LAKEKEEPER__PG_PORT: "5432"
-            # LAKEKEEPER__PG_USER: "lakekeeper"
-            # LAKEKEEPER__PG_PASSWORD: "password"
-            # LAKEKEEPER__PG_DATABASE: "iceberg_catalog"
-            # LAKEKEEPER__PG_SSL_MODE: "disable"
+#             # LAKEKEEPER__PG_DATABASE_URL_READ: ""
+#             # LAKEKEEPER__PG_DATABASE_URL_WRITE: ""
+#             # LAKEKEEPER__PG_HOST_R: "192.168.7.124"
+#             # LAKEKEEPER__PG_HOST_W: "192.168.7.124"
+#             # LAKEKEEPER__PG_PORT: "5432"
+#             # LAKEKEEPER__PG_USER: "lakekeeper"
+#             # LAKEKEEPER__PG_PASSWORD: "password"
+#             # LAKEKEEPER__PG_DATABASE: "iceberg_catalog"
+#             # LAKEKEEPER__PG_SSL_MODE: "disable"
 
-          autoscaling:
-            enabled: false
+#           autoscaling:
+#             enabled: false
 
-          dbMigrations:
-            enabled: true
-            resources:
-              requests:
-                cpu: "100m"
-                memory: "128Mi"
-              limits:
-                cpu: "500m"
-                memory: "512Mi"
+#           dbMigrations:
+#             enabled: true
+#             resources:
+#               requests:
+#                 cpu: "100m"
+#                 memory: "128Mi"
+#               limits:
+#                 cpu: "500m"
+#                 memory: "512Mi"
 
-          # configs for the (backend) Service of the catalog Pods (REST-API)
-          service:
-            annotations:
-              metallb.universe.tf/loadBalancerIPs: 192.168.7.81
-            type: LoadBalancer
-            externalPort: 8181
-            loadBalancerIP: ""
+#           # configs for the (backend) Service of the catalog Pods (REST-API)
+#           service:
+#             annotations:
+#               metallb.universe.tf/loadBalancerIPs: 192.168.7.81
+#             type: LoadBalancer
+#             externalPort: 8181
+#             loadBalancerIP: ""
 
-          ingress:
-            enabled: true
-            annotations:
-              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
-              nginx.ingress.kubernetes.io/rewrite-target: /
-              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-            path: "/catalog"
-            host: lakekeeper.home.local
-            ingressClassName: nginx
-            tls:
-              enabled: true
-              secretName: lakekeeper-tls
+#           ingress:
+#             enabled: true
+#             annotations:
+#               cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
+#               nginx.ingress.kubernetes.io/rewrite-target: /
+#               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+#               nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+#             path: "/catalog"
+#             host: lakekeeper.home.local
+#             ingressClassName: nginx
+#             tls:
+#               enabled: true
+#               secretName: lakekeeper-tls
 
-        # Disable embedded PostgreSQL
-        postgres:
-          enabled: false
+#         # Disable embedded PostgreSQL
+#         postgres:
+#           enabled: false
 
-        # Enable external PostgreSQL database
-        externalDatabase:
-          type: postgresql
-          host_read: "192.168.7.80"
-          host_write: "192.168.7.80"
-          port: 5432
-          database: iceberg_catalog
-          username: lakekeeper
-          password: password
+#         # Enable external PostgreSQL database
+#         externalDatabase:
+#           type: postgresql
+#           host_read: "192.168.7.80"
+#           host_write: "192.168.7.80"
+#           port: 5432
+#           database: iceberg_catalog
+#           username: lakekeeper
+#           password: password
 
-        auth:
-          oauth2:
-            providerUri: ""
+#         auth:
+#           oauth2:
+#             providerUri: ""
 
-            ui:
-              clientID: ""
-              scopes: ""
-              resource: ""
+#             ui:
+#               clientID: ""
+#               scopes: ""
+#               resource: ""
 
-          k8s:
-            enabled: false
+#           k8s:
+#             enabled: false
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
