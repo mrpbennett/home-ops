@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-issuer
+  namespace: cert-manager
+spec:
+  acme:
+    email: pbennett.uk@gmail.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-issuer-account-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx

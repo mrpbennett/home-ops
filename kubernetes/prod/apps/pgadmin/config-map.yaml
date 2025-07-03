@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin-config
+data:
+  servers.json: |
+    {
+        "Servers": {
+          "1": {
+            "Name": "cnpg-cluster",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "postgres",
+            "Host": "192.168.7.80",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+          },
+          "2": {
+            "Name": "supabase-pnfb01",
+            "Group": "Servers",
+            "Port": 6543,
+            "Username": "postgres.kzqeciwvlkrgokcvgjci",
+            "Host": "aws-0-us-east-1.pooler.supabase.com",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+          },
+          "3": {
+            "Name": "docker-psql",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "paul",
+            "Host": "192.168.7.10",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+          }
+        }
+    }

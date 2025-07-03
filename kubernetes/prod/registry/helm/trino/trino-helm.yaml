@@ -1,0 +1,135 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trino
+  namespace: argocd
+  # annotations:
+  #   argocd.argoproj.io/sync-wave: "2"
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: trino
+  project: default
+  source:
+    chart: trino
+    repoURL: https://trinodb.github.io/charts
+    targetRevision: 1.39.1
+    helm:
+      valuesObject:
+        imagePullSecrets: []
+
+        server:
+          workers: 2
+          node:
+            environment: production
+            dataDir: /data/trino
+            pluginDir: /usr/lib/trino/plugin
+          log:
+            trino:
+              level: INFO
+          config:
+            path: /etc/trino
+            https:
+              enabled: false
+              port: 8443
+              keystore:
+                path: ""
+            authenticationType: ""
+            query:
+              maxMemory: "4GB"
+
+        additionalConfigProperties:
+          - http-server.process-forwarded=true
+
+        # CATALOGS
+        catalogs:
+          # CNPG Cluster [K8s]
+          cloudnativepg: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://192.168.7.80:5432/main
+            connection-user=paul
+            connection-password=password
+
+          # Lakekeeper Iceberg Catalog [Docker]
+          iceberg_catalog: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://192.168.7.124:5432/iceberg_catalog
+            connection-user=lakekeeper
+            connection-password=password
+
+          # Supabase PostgreSQL Cluster
+          supabase-pnfb01: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres
+            connection-user=postgres.kzqeciwvlkrgokcvgjci
+            connection-password=fYjc4g*r2^L%3&
+
+          # Lakekeeper Iceberg Catalog [K8s]
+          # iceberg-metastore: |
+          #   connector.name=iceberg
+          #   iceberg.catalog.type=rest
+          #   iceberg.rest-catalog.uri=http://lakekeeper.home.local/catalog
+          #   iceberg.rest-catalog.warehouse=warehouse
+          #   iceberg.rest-catalog.nested-namespace-enabled=true
+          #   iceberg.rest-catalog.vended-credentials-enabled=true
+          #   iceberg.unique-table-location=true
+          #   s3.region=local
+          #   fs.native-s3.enabled=true
+          #   # -- Required for some S3-compatible storages:
+          #   s3.path-style-access=true
+          #   s3.endpoint=http://minio.minio-tenant.svc.cluster.local:9000
+
+        service:
+          type: LoadBalancer
+          port: 8080
+          annotations:
+            metallb.universe.tf/loadBalancerIPs: 192.168.7.79
+
+        auth: {}
+
+        coordinator:
+          jvm:
+            maxHeapSize: "8G"
+            gcMethod:
+              type: "UseG1GC"
+              g1:
+                heapRegionSize: "32M"
+
+        worker:
+          jvm:
+            maxHeapSize: "8G"
+            gcMethod:
+              type: "UseG1GC"
+              g1:
+                heapRegionSize: "32M"
+
+          config:
+            memory:
+              heapHeadroomPerNode: ""
+            query:
+              maxMemoryPerNode: "1GB"
+
+        kafka:
+          mountPath: "/etc/trino/schemas"
+
+        serviceMonitor:
+          enabled: true
+          labels:
+            prometheus: kube-prometheus
+          interval: 30s
+
+        ingress:
+          enabled: true
+          className: nginx
+          hosts:
+            - host: trino.home.local
+              paths:
+                - path: /ui
+                  pathType: ImplementationSpecific
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
