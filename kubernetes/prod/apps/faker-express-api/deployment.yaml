@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faker-express-api-deployment
+  namespace: dev
+  labels:
+    app: faker-express-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: faker-express-api
+  template:
+    metadata:
+      name: faker-express-api
+      labels:
+        app: faker-express-api
+    spec:
+      # Add DNS configuration
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - "192.168.4.2" # Your AdGuard DNS from ip-allocation.md
+        searches:
+          - "home.local"
+        options:
+          - name: ndots
+            value: "2"
+          - name: edns0
+      # ---
+      containers:
+        - name: faker-express-api
+          image: 192.168.7.123:5000/faker-express-api:0.0.3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+      restartPolicy: Always

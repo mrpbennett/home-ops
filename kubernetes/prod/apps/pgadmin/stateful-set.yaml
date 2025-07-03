@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pgadmin
+  namespace: pgadmin
+spec:
+  serviceName: pgadmin-service
+  podManagementPolicy: Parallel
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      terminationGracePeriodSeconds: 10
+      initContainers:
+        - name: init-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 5050:5050 /var/lib/pgadmin"]
+          volumeMounts:
+            - name: pgadmin-data
+              mountPath: /var/lib/pgadmin
+      containers:
+        - name: pgadmin
+          image: dpage/pgadmin4:2024-10-19-2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: paulbennett@pnfb.uk
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: password
+
+            # Authentik OAuth2 configuration
+            - name: PGADMIN_CONFIG_AUTHENTICATION_SOURCES
+              value: "['oauth2', 'internal']"
+            - name: PGADMIN_CONFIG_OAUTH2_AUTO_CREATE_USER
+              value: "False"
+            - name: PGADMIN_CONFIG_OAUTH2_CONFIG
+              value: "[{'OAUTH2_NAME':'authentik','OAUTH2_DISPLAY_NAME':'Login with authentik','OAUTH2_CLIENT_ID':'ows6JSVfYxfzU0x5U7gGdAWVXOBItu5lTrl3Thsb','OAUTH2_CLIENT_SECRET':'MJbdea3nNThsaBIwrgQqIMg2Y7hnCn9PLTHvXiEGia00L4RiCsqcI46nV1XXR1M4JNqfLs8QQvZwQGtcpXAuMBNWgBIJryyrwSjOXlCLaMpx394vGLRpMWWcZ15tJFv4','OAUTH2_TOKEN_URL':'https://authentik.home.local/application/o/token/','OAUTH2_AUTHORIZATION_URL':'https://authentik.home.local/application/o/authorize/','OAUTH2_API_BASE_URL':'https://authentik.home.local/','OAUTH2_USERINFO_ENDPOINT':'https://authentik.home.local/application/o/userinfo/','OAUTH2_SERVER_METADATA_URL':'https://authentik.home.local/application/o/pga/.well-known/openid-configuration','OAUTH2_SCOPE':'openid email profile','OAUTH2_ICON':'fa-key','OAUTH2_BUTTON_COLOR':'#000000', 'OAUTH2_VERIFY_SSL': 'False'}]"
+
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: pgadmin-config
+              mountPath: /pgadmin4/servers.json
+              subPath: servers.json
+              readOnly: true
+            - name: pgadmin-data
+              mountPath: /var/lib/pgadmin
+      volumes:
+        - name: pgadmin-config
+          configMap:
+            name: pgadmin-config
+  volumeClaimTemplates:
+    - metadata:
+        name: pgadmin-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 3Gi

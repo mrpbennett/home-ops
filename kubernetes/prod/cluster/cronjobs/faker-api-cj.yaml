@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: faker-api-cj
+  namespace: dev
+spec:
+  schedule: "*/15 * * * *"
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  suspend: false
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          # Add DNS configuration
+          dnsPolicy: "None"
+          dnsConfig:
+            nameservers:
+              - "192.168.4.2" # Your AdGuard DNS from ip-allocation.md
+            searches:
+              - "home.local"
+            options:
+              - name: ndots
+                value: "2"
+              - name: edns0
+          containers:
+            - name: faker-fact
+              image: 192.168.7.123:5000/faker-users-fact:0.0.10
