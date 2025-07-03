@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb-system
+  name: &app cnpg-operator
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "0"
@@ -11,12 +11,12 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/dev/apps/metallb-system
+    path: kubernetes/k3s-dev/apps/cloudnativepg/operator
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: metallb-system
+    namespace: cnpg-system
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
@@ -24,6 +24,7 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
     retry:
       limit: 5
       backoff:

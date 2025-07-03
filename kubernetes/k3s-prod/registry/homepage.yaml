@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app faker-express-api
+  name: &app homepage
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "4"
@@ -11,12 +11,12 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/prod/apps/faker-express-api
+    path: kubernetes/k3s-prod/apps/homepage
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: dev
+    namespace: *app
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

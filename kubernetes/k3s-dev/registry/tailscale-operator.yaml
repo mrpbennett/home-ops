@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app cnpg-cluster
+  name: &app tailscale
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "0"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/prod/apps/cloudnativepg/cluster
+    path: kubernetes/k3s-dev/apps/tailscale
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: cnpg-cluster
+    namespace: tailscale
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

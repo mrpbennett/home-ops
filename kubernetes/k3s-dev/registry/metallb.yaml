@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pgadmin
+  name: metallb-system
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "0"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/prod/apps/pgadmin
+    path: kubernetes/k3s-dev/apps/metallb-system
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: pgadmin
+    namespace: metallb-system
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

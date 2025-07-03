@@ -1,27 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: registry
+  name: &app cert-manager
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/dev/registry
+    path: kubernetes/k3s-dev/apps/cert-manager
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
+    namespace: *app
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - Validate=true
-      - CreateNamespace=false
+      - CreateNamespace=true
     retry:
       limit: 5
       backoff:

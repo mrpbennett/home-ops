@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app tailscale
+  name: &app redis-insight
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/prod/apps/tailscale
+    path: kubernetes/k3s-dev/apps/redis-insight
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: tailscale
+    namespace: *app
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

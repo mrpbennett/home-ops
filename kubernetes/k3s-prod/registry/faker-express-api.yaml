@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app cnpg-cluster
+  name: &app faker-express-api
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/dev/apps/cloudnativepg/cluster
+    path: kubernetes/k3s-prod/apps/faker-express-api
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: cnpg-cluster
+    namespace: dev
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

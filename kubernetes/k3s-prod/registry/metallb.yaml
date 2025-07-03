@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app redis-insight
+  name: metallb-system
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "0"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/prod/apps/redis-insight
+    path: kubernetes/k3s-prod/apps/metallb-system
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: *app
+    namespace: metallb-system
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

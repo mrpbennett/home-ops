@@ -9,7 +9,7 @@
 #   project: default
 #   source:
 #     repoURL: "https://github.com/mrpbennett/home-ops.git"
-#     path: kubernetes/prod/apps/pgp-decrypt
+#     path: kubernetes/k3s-prod/apps/pgp-decrypt
 #     targetRevision: HEAD
 #     directory:
 #       recurse: true
