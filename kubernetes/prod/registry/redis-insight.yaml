@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/redis-insight
+    path: kubernetes/apps/prod/redis-insight
     targetRevision: HEAD
     directory:
       recurse: true

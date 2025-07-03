@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/kubevirt
+    path: kubernetes/apps/prod/kubevirt
     targetRevision: HEAD
     directory:
       recurse: true
