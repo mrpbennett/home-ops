@@ -4,7 +4,7 @@ metadata:
   name: cluster-admin-binding
 subjects:
   - kind: User
-    name: kube-k3s-admin
+    name: k3s-dev-admin
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
