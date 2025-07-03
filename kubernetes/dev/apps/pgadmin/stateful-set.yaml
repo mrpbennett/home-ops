@@ -62,6 +62,7 @@ spec:
     - metadata:
         name: pgadmin-data
       spec:
+        storageClassName: longhorn
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
