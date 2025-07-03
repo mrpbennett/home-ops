@@ -26,7 +26,7 @@ spec:
               memory: "512Mi"
 
           config:
-            LAKEKEEPER__BASE_URI: "http://lakekeeper.home.local"
+            LAKEKEEPER__BASE_URI: "https://lakekeeper.home.local"
 
             # LAKEKEEPER__PG_DATABASE_URL_READ: ""
             # LAKEKEEPER__PG_DATABASE_URL_WRITE: ""
@@ -80,8 +80,8 @@ spec:
         # Enable external PostgreSQL database
         externalDatabase:
           type: postgresql
-          host_read: "192.168.7.124"
-          host_write: "192.168.7.124"
+          host_read: "192.168.7.80"
+          host_write: "192.168.7.80"
           port: 5432
           database: iceberg_catalog
           username: lakekeeper
