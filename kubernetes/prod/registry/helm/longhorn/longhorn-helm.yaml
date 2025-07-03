@@ -4,8 +4,8 @@ metadata:
   name: longhorn
   namespace: argocd
   metadata:
-  # annotations:
-  #   argocd.argoproj.io/sync-wave: "1"
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   sources:

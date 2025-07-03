@@ -3,8 +3,8 @@ kind: Application
 metadata:
   name: pgadmin
   namespace: argocd
-  # annotations:
-  #   argocd.argoproj.io/sync-wave: "3"
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
