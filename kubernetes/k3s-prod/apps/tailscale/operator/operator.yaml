@@ -1,3 +1,23 @@
+# Copyright (c) Tailscale Inc & AUTHORS
+# SPDX-License-Identifier: BSD-3-Clause
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tailscale
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: operator
+  namespace: tailscale
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: proxies
+  namespace: tailscale
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -2650,6 +2670,51 @@ spec:
                           type: array
                       type: object
                   type: object
+                staticEndpoints:
+                  description: |-
+                    Configuration for 'static endpoints' on proxies in order to facilitate
+                    direct connections from other devices on the tailnet.
+                    See https://tailscale.com/kb/1445/kubernetes-operator-customization#static-endpoints.
+                  properties:
+                    nodePort:
+                      description: The configuration for static endpoints using NodePort Services.
+                      properties:
+                        ports:
+                          description: |-
+                            The port ranges from which the operator will select NodePorts for the Services.
+                            You must ensure that firewall rules allow UDP ingress traffic for these ports
+                            to the node's external IPs.
+                            The ports must be in the range of service node ports for the cluster (default `30000-32767`).
+                            See https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport.
+                          items:
+                            properties:
+                              endPort:
+                                description: |-
+                                  endPort indicates that the range of ports from port to endPort if set, inclusive,
+                                  should be used. This field cannot be defined if the port field is not defined.
+                                  The endPort must be either unset, or equal or greater than port.
+                                type: integer
+                              port:
+                                description: port represents a port selected to be used. This is a required field.
+                                type: integer
+                            required:
+                              - port
+                            type: object
+                          minItems: 1
+                          type: array
+                        selector:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            A selector which will be used to select the node's that will have their `ExternalIP`'s advertised
+                            by the ProxyGroup as Static Endpoints.
+                          type: object
+                      required:
+                        - ports
+                      type: object
+                  required:
+                    - nodePort
+                  type: object
                 tailscale:
                   description: |-
                     TailscaleConfig contains options to configure the tailscale-specific
@@ -2947,6 +3012,11 @@ spec:
                           If MagicDNS is enabled in your tailnet, it is the MagicDNS name of the
                           node.
                         type: string
+                      staticEndpoints:
+                        description: StaticEndpoints are user configured, 'static' endpoints by which tailnet peers can reach this device.
+                        items:
+                          type: string
+                        type: array
                       tailnetIPs:
                         description: |-
                           TailnetIPs is the set of tailnet IP addresses (both IPv4 and IPv6)
@@ -4756,3 +4826,343 @@ spec:
       storage: true
       subresources:
         status: {}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tailscale-operator
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+      - services
+      - services/status
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+      - ingresses/status
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingressclasses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - discovery.k8s.io
+    resources:
+      - endpointslices
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - tailscale.com
+    resources:
+      - connectors
+      - connectors/status
+      - proxyclasses
+      - proxyclasses/status
+      - proxygroups
+      - proxygroups/status
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+  - apiGroups:
+      - tailscale.com
+    resources:
+      - dnsconfigs
+      - dnsconfigs/status
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+  - apiGroups:
+      - tailscale.com
+    resources:
+      - recorders
+      - recorders/status
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+  - apiGroups:
+      - apiextensions.k8s.io
+    resourceNames:
+      - servicemonitors.monitoring.coreos.com
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tailscale-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tailscale-operator
+subjects:
+  - kind: ServiceAccount
+    name: operator
+    namespace: tailscale
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: operator
+  namespace: tailscale
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+      - serviceaccounts
+      - configmaps
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - pods/status
+    verbs:
+      - update
+  - apiGroups:
+      - apps
+    resources:
+      - statefulsets
+      - deployments
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - discovery.k8s.io
+    resources:
+      - endpointslices
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - deletecollection
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+      - rolebindings
+    verbs:
+      - get
+      - create
+      - patch
+      - update
+      - list
+      - watch
+      - deletecollection
+  - apiGroups:
+      - monitoring.coreos.com
+    resources:
+      - servicemonitors
+    verbs:
+      - get
+      - list
+      - update
+      - create
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: proxies
+  namespace: tailscale
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: operator
+  namespace: tailscale
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: operator
+subjects:
+  - kind: ServiceAccount
+    name: operator
+    namespace: tailscale
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: proxies
+  namespace: tailscale
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: proxies
+subjects:
+  - kind: ServiceAccount
+    name: proxies
+    namespace: tailscale
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: operator
+  namespace: tailscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: operator
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: operator
+    spec:
+      containers:
+        - env:
+            - name: OPERATOR_INITIAL_TAGS
+              value: tag:k8s-operator
+            - name: OPERATOR_HOSTNAME
+              value: tailscale-operator
+            - name: OPERATOR_SECRET
+              value: operator
+            - name: OPERATOR_LOGGING
+              value: info
+            - name: OPERATOR_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: OPERATOR_LOGIN_SERVER
+              value: null
+            - name: CLIENT_ID_FILE
+              value: /oauth/client_id
+            - name: CLIENT_SECRET_FILE
+              value: /oauth/client_secret
+            - name: PROXY_IMAGE
+              value: tailscale/tailscale:unstable
+            - name: PROXY_TAGS
+              value: tag:k8s
+            - name: APISERVER_PROXY
+              value: "true"
+            - name: PROXY_FIREWALL_MODE
+              value: auto
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
+          image: tailscale/k8s-operator:unstable
+          imagePullPolicy: Always
+          name: operator
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /oauth
+              name: oauth
+              readOnly: true
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: operator
+      volumes:
+        - name: oauth
+          secret:
+            secretName: operator-oauth
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  annotations: {}
+  name: tailscale
+spec:
+  controller: tailscale.com/ts-ingress
