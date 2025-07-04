@@ -25,6 +25,16 @@
 #               cpu: "500m"
 #               memory: "512Mi"
 
+#           extraVolumeMounts:
+#             - name: selfsigned-cert
+#               mountPath: /etc/ssl/custom
+#               readOnly: true
+
+#           extraVolumes:
+#             - name: selfsigned-cert
+#               secret:
+#                 secretName: root-secret
+
 #           config:
 #             LAKEKEEPER__BASE_URI: "https://lakekeeper.home.local"
 
@@ -37,6 +47,8 @@
 #             # LAKEKEEPER__PG_PASSWORD: "password"
 #             # LAKEKEEPER__PG_DATABASE: "iceberg_catalog"
 #             # LAKEKEEPER__PG_SSL_MODE: "disable"
+
+#             SSL_CERT_DIR: "/etc/ssl/custom"
 
 #           autoscaling:
 #             enabled: false
