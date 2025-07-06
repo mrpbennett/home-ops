@@ -154,6 +154,11 @@ data:
                 namespace: trino
                 app: trino
 
+            - TrueNAS Scale:
+                icon: truenas-scale.svg
+                href: http://nas.home.local/ui
+                description: Actually WD Cloud
+
             - Vault:
                 icon: vault-light.svg
                 href: http://vault.home.local/ui
