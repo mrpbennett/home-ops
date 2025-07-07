@@ -33,36 +33,30 @@ data:
                 icon: apache-airflow.png
                 href: http://airflow.home.local
                 description: Workflow Orchestration
-                namespace: airflow
-                app: apache-airflow
+
 
             - AlertManager:
                 icon: prometheus.png
                 href: http://alertmanager.home.local
                 description: Alert Management
-                namespace: monitoring
-                app: prometheus
+
 
             - ArgoCD:
                 icon: argo-cd.png
                 href: http://argocd.home.local
                 description: Continuous Delivery
-                namespace: argocd
-                app: argocd
+
 
             - Argo Workflows:
                 icon: argo-cd.png
                 href: http://argoworkflows.home.local
                 description: CronWorkflow Management
-                namespace: argo
-                app: argoworkflows
+
 
             - Authentik:
                 icon: authentik.png
                 href: http://authentik.home.local
                 description: Authentication & Authorization
-                namespace: authentik
-                app: authentik
 
             - Docker Registry:
                 icon: docker.png
@@ -73,43 +67,37 @@ data:
                 icon: https://avatars.githubusercontent.com/u/183464583?s=200&v=4
                 href: http://lakekeeper.home.local/catalog
                 description: Apache Iceberg REST Catalog 
-                namespace: lakekeeper
-                app: lakekeeper
+
 
             - Longhorn:
                 icon: longhorn.png
                 href: http://longhorn.home.local
                 description: Persistent Block Storage
-                namespace: longhorn-system
-                app: longhorn
+
 
             - Harbor:
                 icon: harbor.svg
                 href: https://harbor.home.local
                 description: Container Registry
-                namespace: harbor
-                app: harbor
+
 
             - Grafana:
                 icon: grafana.png
                 href: http://grafana.home.local
                 description: Analytics & Monitoring
-                namespace: monitoring
-                app: prometheus
+
 
             - Kubernetes:
                 icon: kubernetes.png
                 href: http://k8s-dash.home.local
                 description: Container Orchestration
-                namespace: kubernetes-dashboard
-                app: kubernetes-dashboard
+
 
             - MinIO:
                 icon: minio.png
                 href: https://minio-console.home.local
                 description: Distributed Object Storage
-                namespace: minio-tenant
-                app: minio-tenant
+
 
             - Nginx Proxy Manager:
                 icon: nginx-proxy-manager.png
@@ -120,8 +108,7 @@ data:
                 icon: postgres.png
                 href: https://pgadmin.home.local
                 description: Postgres Management
-                namespace: pgadmin
-                app: pgadmin
+
 
             - Portainer:
                 icon: portainer.png
@@ -132,8 +119,7 @@ data:
                 icon: prometheus.png
                 href: http://prometheus.home.local
                 description: Analytics & Monitoring
-                namespace: monitoring
-                app: prometheus
+
 
             - Proxmox:
                 icon: proxmox.png
@@ -144,15 +130,13 @@ data:
                 icon: redis.svg
                 href: http://redisinsight.home.local
                 description: Redis GUI
-                namespace: redis-insight
-                app: redis-insight
+
 
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
                 href: http://trino.home.local/ui
                 description: Fast distributed SQL query engine
-                namespace: trino
-                app: trino
+
 
             - TrueNAS Scale:
                 icon: truenas-scale.svg
@@ -163,8 +147,6 @@ data:
                 icon: vault-light.svg
                 href: http://vault.home.local/ui
                 description: Secrets Management
-                namespace: vault
-                app: vault
 
     widgets.yaml: ""
     docker.yaml: ""
