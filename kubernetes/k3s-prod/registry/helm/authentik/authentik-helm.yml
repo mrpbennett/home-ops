@@ -21,7 +21,8 @@ spec:
           error_reporting:
             enabled: true
           postgresql:
-            host: 192.168.7.80
+            host: cnpg-cluster-rw.cnpg-cluster.svc.cluster.local
+            port: 5432
             name: authentik-db
             user: authentik
             password: cGFzc3dvcmQ=

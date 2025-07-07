@@ -101,10 +101,10 @@ spec:
         database:
           type: external
           external:
-            host: "192.168.7.80"
+            host: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
             port: "5432"
             username: harbor
-            password: cGFzc3dvcmQ=
+            password: password
             coreDatabase: harbor
   syncPolicy:
     automated:

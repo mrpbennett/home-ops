@@ -85,8 +85,8 @@
 #         # Enable external PostgreSQL database
 #         externalDatabase:
 #           type: postgresql
-#           host_read: "192.168.7.80"
-#           host_write: "192.168.7.80"
+#           host_read: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
+#           host_write: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
 #           port: 5432
 #           database: iceberg-catalog
 #           username: lakekeeper
