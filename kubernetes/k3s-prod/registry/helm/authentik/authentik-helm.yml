@@ -50,21 +50,10 @@ spec:
                   - authentik.home.local
             https: true
 
+        # Disable internal postgres
         postgres:
-          enabled: true
-          auth:
-            username: authentik
-            database: authentik
-            password: "password"
-          primary:
-            extendedConfiguration: |
-              max_connections = 500
-            resourcesPreset: "none"
-            persistence:
-              enabled: true
-              storageClass: longhorn
-              accessModes:
-                - ReadWriteOnce
+          enabled: false
+
         redis:
           enabled: true
           architecture: "standalone"
