@@ -50,11 +50,10 @@ spec:
             connection-user=paul
             connection-password=password
 
-          # Lakekeeper Iceberg Catalog [Docker]
-          iceberg_catalog: |
+          harbor-registry: |
             connector.name=postgresql
-            connection-url=jdbc:postgresql://192.168.7.124:5432/iceberg_catalog
-            connection-user=lakekeeper
+            connection-url=jdbc:postgresql://192.168.7.80:5432/harbor-registry
+            connection-user=harbor
             connection-password=password
 
           # Supabase PostgreSQL Cluster
