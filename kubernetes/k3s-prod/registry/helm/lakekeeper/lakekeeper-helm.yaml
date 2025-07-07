@@ -54,7 +54,7 @@ spec:
             enabled: false
 
           dbMigrations:
-            enabled: false
+            enabled: true
 
           # configs for the (backend) Service of the catalog Pods (REST-API)
           service:
@@ -88,7 +88,7 @@ spec:
           host_read: "192.168.7.80"
           host_write: "192.168.7.80"
           port: 5432
-          database: iceberg_catalog
+          database: iceberg-catalog
           username: lakekeeper
           password: password
 
