@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/k3s-prod/apps/metallb-system
+    path: kubernetes/k3s-rpi/apps/metallb-system
     targetRevision: HEAD
     directory:
       recurse: true
