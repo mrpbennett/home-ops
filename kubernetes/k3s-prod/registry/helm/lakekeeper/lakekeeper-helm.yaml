@@ -109,7 +109,9 @@ spec:
               resource: ""
 
           k8s:
-            enabled: false
+            enabled: true
+            audience: "https://kubernetes.default.svc"
+            createClusterRoleBinding: true
 
   syncPolicy:
     automated:
