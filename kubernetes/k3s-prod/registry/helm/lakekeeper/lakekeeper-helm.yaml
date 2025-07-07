@@ -54,14 +54,7 @@ spec:
             enabled: false
 
           dbMigrations:
-            enabled: true
-            resources:
-              requests:
-                cpu: "100m"
-                memory: "128Mi"
-              limits:
-                cpu: "500m"
-                memory: "512Mi"
+            enabled: false
 
           # configs for the (backend) Service of the catalog Pods (REST-API)
           service:
