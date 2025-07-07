@@ -25,7 +25,7 @@ spec:
             port: 5432
             name: authentik-db
             user: authentik
-            password: cGFzc3dvcmQ=
+            password: password
 
         server:
           enabled: true
