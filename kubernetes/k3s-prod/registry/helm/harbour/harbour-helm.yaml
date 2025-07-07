@@ -98,6 +98,14 @@
 #               multipartcopymaxconcurrency: 100
 #               multipartcopythresholdsize: "33554432"
 
+#         database:
+#           type: external
+#           external:
+#             host: "192.168.7.80"
+#             port: "5432"
+#             username: harbor
+#             password: cGFzc3dvcmQ=
+#             coreDatabase: harbor
 #   syncPolicy:
 #     automated:
 #       prune: true

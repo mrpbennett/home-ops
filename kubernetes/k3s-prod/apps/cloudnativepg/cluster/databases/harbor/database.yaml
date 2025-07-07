@@ -1,9 +1,9 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: harbor
+  name: harbor-registry
 spec:
-  name: harbor
+  name: harbor-registry
   owner: harbor-user
   cluster:
     name: cnpg-cluster
