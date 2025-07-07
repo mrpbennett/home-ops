@@ -43,6 +43,7 @@ spec:
         login: true
         superuser: false
         createdb: true
+        createrole: true
         passwordSecret:
           name: cnpg-authentik-role
 
@@ -53,6 +54,7 @@ spec:
         login: true
         superuser: false
         createdb: true
+        createrole: true
         passwordSecret:
           name: cnpg-lakekeeper-role
 
