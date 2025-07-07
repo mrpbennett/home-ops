@@ -52,7 +52,7 @@ spec:
           enabled: true
           auth:
             username: authentik
-            password: authentik
+            database: authentik
           primary:
             extendedConfiguration: |
               max_connections = 500
