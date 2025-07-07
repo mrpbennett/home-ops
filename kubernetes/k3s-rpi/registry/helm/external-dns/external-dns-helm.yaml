@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: &chart-name external-dns
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
 spec:
   destination:
     server: "https://kubernetes.default.svc"
