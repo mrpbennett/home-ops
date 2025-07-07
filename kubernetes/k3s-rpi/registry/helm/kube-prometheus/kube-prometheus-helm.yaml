@@ -208,6 +208,11 @@ spec:
         grafana:
           defaultDashboardsEditable: true
           adminPassword: password
+          service:
+            enabled: true
+            type: LoadBalancer
+            annotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.6.148
           ingress:
             enabled: true
             ingressClassName: nginx
