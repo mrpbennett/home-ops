@@ -106,6 +106,7 @@ spec:
             username: harbor
             password: password
             coreDatabase: harbor-registry
+
   syncPolicy:
     automated:
       prune: true
