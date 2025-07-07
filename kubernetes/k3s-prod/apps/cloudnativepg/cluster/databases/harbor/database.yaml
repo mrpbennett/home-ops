@@ -4,6 +4,6 @@ metadata:
   name: harbor-registry
 spec:
   name: harbor-registry
-  owner: harbor-user
+  owner: harbor
   cluster:
     name: cnpg-cluster
