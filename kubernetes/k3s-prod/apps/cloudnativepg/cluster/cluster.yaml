@@ -54,6 +54,15 @@ spec:
         passwordSecret:
           name: cnpg-lakekeeper-role
 
+      # Role: Lakekeeper user
+      - name: harbor
+        ensure: present
+        comment: "Harbor DB for managing registry"
+        login: true
+        superuser: true
+        passwordSecret:
+          name: cnpg-harbor-role
+
     services:
       additional:
         - selectorType: rw
