@@ -41,9 +41,7 @@ spec:
         ensure: present
         comment: "Simple application user for Authentik"
         login: true
-        superuser: false
-        createdb: true
-        createrole: true
+        superuser: true
         passwordSecret:
           name: cnpg-authentik-role
 
@@ -52,9 +50,7 @@ spec:
         ensure: present
         comment: "Lakekeeper DB for managing data lakes"
         login: true
-        superuser: false
-        createdb: true
-        createrole: true
+        superuser: true
         passwordSecret:
           name: cnpg-lakekeeper-role
 
