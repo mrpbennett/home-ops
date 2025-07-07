@@ -31,7 +31,7 @@ spec:
                 value: debug
 
               - name: ADGUARD_URL
-                value: http://192.168.4.2:80
+                value: http://192.168.6.2:80
 
               - name: ADGUARD_USER
                 valueFrom:
