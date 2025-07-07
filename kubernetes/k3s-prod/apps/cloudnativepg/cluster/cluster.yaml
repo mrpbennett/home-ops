@@ -45,6 +45,15 @@ spec:
         passwordSecret:
           name: cnpg-authentik-role
 
+      # Role: Lakekeeper user
+      - name: lakekeeper
+        ensure: present
+        comment: "Lakekeeper DB for managing data lakes"
+        login: true
+        superuser: false
+        passwordSecret:
+          name: cnpg-lakekeeper-role
+
     services:
       additional:
         - selectorType: rw

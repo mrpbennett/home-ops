@@ -1,0 +1,9 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: iceberg_catalog
+spec:
+  name: iceberg_catalog
+  owner: lakekeeper
+  cluster:
+    name: cnpg-cluster
