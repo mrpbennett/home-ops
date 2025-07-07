@@ -103,8 +103,8 @@ spec:
           external:
             host: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
             port: "5432"
-            username: aGFyYm9y
-            password: cGFzc3dvcmQ=
+            username: harbor
+            password: password
             coreDatabase: harbor-registry
   syncPolicy:
     automated:
