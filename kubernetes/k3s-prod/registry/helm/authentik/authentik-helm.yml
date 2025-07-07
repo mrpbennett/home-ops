@@ -20,6 +20,8 @@ spec:
           secret_key: "cMWj9GmSs+PGUDZms9/wGux6+GuepZBE/lbFkb0Swx44YTUx1R5RIqYiyi7T0MIVA16y6znOqj9q+xHD"
           error_reporting:
             enabled: true
+          postgresql:
+            password: "password"
 
         server:
           enabled: true
@@ -53,6 +55,7 @@ spec:
           auth:
             username: authentik
             database: authentik
+            password: "password"
           primary:
             extendedConfiguration: |
               max_connections = 500
