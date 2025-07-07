@@ -21,6 +21,9 @@ spec:
           error_reporting:
             enabled: true
           postgresql:
+            host: 192.168.7.80
+            name: authentik-db
+            user: postgres
             password: "password"
 
         server:

@@ -26,6 +26,25 @@ spec:
     name: cnpg-cluster-superuser
 
   managed:
+    roles:
+      # Role: My personal user
+      - name: paul
+        ensure: present
+        comment: "Paul's CNPG Cluster User"
+        login: true
+        superuser: true
+        passwordSecret:
+          name: cnpg-cluster-user
+
+      # Role: Authentik user
+      - name: authentik
+        ensure: present
+        comment: "Simple application user for Authentik"
+        login: true
+        superuser: false
+        passwordSecret:
+          name: cnpg-authentik-role
+
     services:
       additional:
         - selectorType: rw
