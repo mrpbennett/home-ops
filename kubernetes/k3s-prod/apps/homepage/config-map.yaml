@@ -72,7 +72,7 @@ data:
 
             - Harbor:
                 icon: harbor.svg
-                href: https://harbor.home.local
+                href: http://harbor.home.local
                 description: Container Registry
 
 
