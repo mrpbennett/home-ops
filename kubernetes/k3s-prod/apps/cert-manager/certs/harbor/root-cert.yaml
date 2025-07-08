@@ -1,17 +1,17 @@
-# 2.2 CA root Certificate (isCA: true; signed by selfSigned)
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: harbor-ca
-  namespace: harbor
-spec:
-  isCA: true
-  commonName: harbor.local-ca
-  secretName: harbor-ca-keypair
-  duration: 8760h # 1 year
-  privateKey:
-    algorithm: RSA
-    size: 2048
-  issuerRef:
-    name: harbor-selfsigned-issuer
-    kind: Issuer
+# # 2.2 CA root Certificate (isCA: true; signed by selfSigned)
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: harbor-ca
+#   namespace: harbor
+# spec:
+#   isCA: true
+#   commonName: harbor.local-ca
+#   secretName: harbor-ca-keypair
+#   duration: 8760h # 1 year
+#   privateKey:
+#     algorithm: RSA
+#     size: 2048
+#   issuerRef:
+#     name: harbor-selfsigned-issuer
+#     kind: Issuer

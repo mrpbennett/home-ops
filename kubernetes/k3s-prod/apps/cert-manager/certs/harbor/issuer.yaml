@@ -1,18 +1,18 @@
-# 2.1 SelfSigned Issuer (produces a root CA keypair)
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: harbor-selfsigned-issuer
-  namespace: harbor
-spec:
-  selfSigned: {}
----
-# 2.3 CA Issuer (uses the above root CA to sign leaf certs)
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: harbor-ca-issuer
-  namespace: harbor
-spec:
-  ca:
-    secretName: harbor-ca-keypair
+# # 2.1 SelfSigned Issuer (produces a root CA keypair)
+# apiVersion: cert-manager.io/v1
+# kind: Issuer
+# metadata:
+#   name: harbor-selfsigned-issuer
+#   namespace: harbor
+# spec:
+#   selfSigned: {}
+# ---
+# # 2.3 CA Issuer (uses the above root CA to sign leaf certs)
+# apiVersion: cert-manager.io/v1
+# kind: Issuer
+# metadata:
+#   name: harbor-ca-issuer
+#   namespace: harbor
+# spec:
+#   ca:
+#     secretName: harbor-ca-keypair
