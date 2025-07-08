@@ -30,13 +30,7 @@ spec:
             limits:
               memory: "512Mi"
               cpu: "500m"
-          volumeMounts:
-            - name: lv-storage
-              mountPath: /data
+
           env:
             - name: ALLOW_EMPTY_PASSWORD
               value: "yes"
-      volumes:
-        - name: lv-storage
-          persistentVolumeClaim:
-            claimName: redis-pvc
