@@ -10,5 +10,5 @@ spec:
   dnsNames:
     - harbor-prod.home.local
   issuerRef:
-    name: ca-issuer
+    name: harbor-ca-issuer
     kind: Issuer
