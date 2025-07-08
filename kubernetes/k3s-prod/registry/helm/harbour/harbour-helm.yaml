@@ -28,7 +28,9 @@ spec:
               core: harbor.home.local
             controller: default
             className: nginx
-            annotations: {}
+            annotations:
+              ingress.kubernetes.io/force-ssl-redirect: "false"
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
           clusterIP:
             name: harbor
             ports:
