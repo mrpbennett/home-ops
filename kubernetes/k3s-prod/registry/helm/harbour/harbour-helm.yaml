@@ -30,7 +30,12 @@ spec:
             className: nginx
             annotations:
               ingress.kubernetes.io/force-ssl-redirect: "false"
+              ingress.kubernetes.io/ssl-redirect: "false"
+              ingress.kubernetes.io/proxy-body-size: "0"
+
               nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+              nginx.ingress.kubernetes.io/ssl-redirect: "false"
+              nginx.ingress.kubernetes.io/proxy-body-size: "0"
           clusterIP:
             name: harbor
             ports:
