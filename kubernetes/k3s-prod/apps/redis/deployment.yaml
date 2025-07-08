@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: redis
   namespace: redis
+  labels:
+    app: redis
 spec:
   replicas: 1
   selector:
@@ -12,25 +14,40 @@ spec:
     metadata:
       labels:
         app: redis
-        name: redis
     spec:
-      nodeSelector:
-        node-type: worker
       containers:
         - name: redis
-          image: redis
-          args: ["--appendonly", "yes"]
+          image: redis:7-alpine
           ports:
-            - name: redis
-              containerPort: 6379
+            - containerPort: 6379
+              name: redis
+          args:
+            - redis-server
+            - --appendonly
+            - "yes"
+            - --save
+            - "60 1"
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "250m"
+              memory: "64Mi"
+              cpu: "50m"
             limits:
-              memory: "512Mi"
-              cpu: "500m"
-
-          env:
-            - name: ALLOW_EMPTY_PASSWORD
-              value: "yes"
+              memory: "128Mi"
+              cpu: "100m"
+          livenessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: redis-pvc
