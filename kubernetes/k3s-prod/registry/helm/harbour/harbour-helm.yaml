@@ -21,19 +21,25 @@ spec:
 
         expose:
           type: ingress
-          # Note: if the "expose.type" is "ingress" and TLS is disabled,
-          # the port must be included in the command when pulling/pushing images.
-          # Refer to https://github.com/goharbor/harbor/issues/5291 for details.
           tls:
-            enabled: false
+            enabled: true
+            certSource: auto
+            auto:
+              commonName: harbor-tls-crt
           ingress:
             hosts:
               core: harbor.home.local
             controller: default
             annotations:
-              ingress.kubernetes.io/ssl-redirect: ""
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          clusterIP:
+            name: harbor
+            ports:
+              httpPort: 80
+              httpsPort: 443
 
-        externalURL: http://harbor.home.local
+        externalURL: https://harbor.home.local
 
         persistence:
           enabled: true
