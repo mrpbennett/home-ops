@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: redis-pvc
-  namespace: redis-server
+  namespace: redis
 spec:
   accessModes:
     - ReadWriteOnce
