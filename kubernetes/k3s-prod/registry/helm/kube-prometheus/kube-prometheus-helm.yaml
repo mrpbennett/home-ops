@@ -185,7 +185,7 @@ spec:
             ingressClassName: nginx
             annotations: {}
             hosts:
-              - alertmanager.home.local
+              - alertmanager-prod.home.local
             paths:
               - /
 
@@ -214,7 +214,7 @@ spec:
             ingressClassName: nginx
             annotations: {}
             hosts:
-              - grafana.home.local
+              - grafana-prod.home.local
             path: /
           persistence:
             enabled: true
@@ -292,7 +292,7 @@ spec:
             enabled: true
             ingressClassName: nginx
             hosts:
-              - prometheus.home.local
+              - prometheus-prod.home.local
             paths:
               - /
 

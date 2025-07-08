@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: pgadmin.home.local
+    - host: pgadmin-prod.home.local
       http:
         paths:
           - path: /

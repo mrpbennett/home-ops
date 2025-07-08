@@ -36,7 +36,7 @@
 #                 secretName: root-secret
 
 #           config:
-#             LAKEKEEPER__BASE_URI: "https://lakekeeper.home.local"
+#             LAKEKEEPER__BASE_URI: "https://lakekeeper-prod.home.local"
 
 #             # LAKEKEEPER__PG_DATABASE_URL_READ: ""
 #             # LAKEKEEPER__PG_DATABASE_URL_WRITE: ""
@@ -72,7 +72,7 @@
 #               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 #               nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 #             path: "/catalog"
-#             host: lakekeeper.home.local
+#             host: lakekeeper-prod.home.local
 #             ingressClassName: nginx
 #             tls:
 #               enabled: true

@@ -121,9 +121,9 @@ spec:
               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
             tls:
               - hosts:
-                  - minio.home.local
+                  - minio-prod.home.local
                 secretName: minio-api-tls
-            host: minio.home.local
+            host: minio-prod.home.local
             path: /
             pathType: Prefix
 
@@ -141,9 +141,9 @@ spec:
               nginx.ingress.kubernetes.io/proxy-ssl-server-name: "on"
             tls:
               - hosts:
-                  - minio-console.home.local
+                  - minio-console-prod.home.local
                 secretName: minio-console-tls
-            host: minio-console.home.local
+            host: minio-console-prod.home.local
             path: /
             pathType: Prefix
 

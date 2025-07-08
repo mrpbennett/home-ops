@@ -49,12 +49,12 @@ spec:
               nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
             ingressClassName: nginx
             hosts:
-              - authentik.home.local
+              - authentik-prod.home.local
             pathType: Prefix
             tls:
               - secretName: authentik-tls
                 hosts:
-                  - authentik.home.local
+                  - authentik-prod.home.local
             https: true
 
         # Disable internal postgres

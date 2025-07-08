@@ -25,7 +25,7 @@ spec:
             ingressClassName: nginx
             pathType: Prefix
             hosts:
-              - host: vault.home.local
+              - host: vault-prod.home.local
                 paths: []
 
   syncPolicy:

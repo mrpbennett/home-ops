@@ -30,7 +30,7 @@ spec:
           ingress:
             enabled: true
             hosts:
-              - k8s-dash.home.local
+              - k8s-dash-prod.home.local
             ingressClassName: nginx
             pathType: ImplementationSpecific
             path: /

@@ -34,7 +34,7 @@ spec:
               ingress.kubernetes.io/rewrite-target: /
             ingressClassName: nginx
             hosts:
-              - argoworkflows.home.local
+              - argoworkflows-prod.home.local
             paths:
               - /
             pathType: Prefix

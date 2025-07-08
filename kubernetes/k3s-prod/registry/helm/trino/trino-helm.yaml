@@ -121,7 +121,7 @@ spec:
           enabled: true
           className: nginx
           hosts:
-            - host: trino.home.local
+            - host: trino-prod.home.local
               paths:
                 - path: /ui
                   pathType: ImplementationSpecific

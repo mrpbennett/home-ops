@@ -23,7 +23,7 @@ spec:
           ingress:
             enabled: true
             ingressClassName: nginx
-            host: longhorn.home.local
+            host: longhorn-prod.home.local
             path: /
             annotations:
               kubernetes.io/ingress.class: nginx

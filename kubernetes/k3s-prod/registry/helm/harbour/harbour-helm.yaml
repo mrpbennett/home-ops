@@ -25,7 +25,7 @@ spec:
             enabled: false
           ingress:
             hosts:
-              core: harbor.home.local
+              core: harbor-prod.home.local
             controller: default
             className: nginx
             annotations:
@@ -39,7 +39,7 @@ spec:
               nginx.ingress.kubernetes.io/ssl-redirect: "false"
               ingress.kubernetes.io/ssl-redirect: "false"
 
-        externalURL: http://harbor.home.local
+        externalURL: http://harbor-prod.home.local
 
         persistence:
           enabled: true
@@ -87,7 +87,7 @@ spec:
               bucket: harbor-registry
               accesskey: ZLrMYXFvhtwaxnPVGyBp
               secretkey: cUeSYSCyoRxGs8HavS22ZCQSInv5Rc9snOdoZ8f5
-              regionendpoint: https://minio.home.local
+              regionendpoint: https://minio-prod.home.local
               # encrypt: false
               # keyid: mykeyid
               # secure: true

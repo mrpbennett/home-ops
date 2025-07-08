@@ -15,15 +15,19 @@ data:
         color: slate
 
         layout:
-          Applications:
-            style: row
-            columns: 3
+            K8s Prod:
+                style: row
+                columns: 3
+
+            K8s Dev:
+                style: row
+                columns: 3
 
     custom.css: ""
     custom.js: ""
     bookmarks.yaml: ""
     services.yaml: |
-        - Applications:
+        - K8s Prod:
             - Adguard:
                 icon: adguard-home.png
                 href: http://dns.home.local
@@ -31,76 +35,76 @@ data:
 
             - Airflow:
                 icon: apache-airflow.png
-                href: http://airflow.home.local
+                href: http://airflow-prod.home.local
                 description: Workflow Orchestration
 
 
             - AlertManager:
                 icon: prometheus.png
-                href: http://alertmanager.home.local
+                href: http://alertmanager-prod.home.local
                 description: Alert Management
 
 
             - ArgoCD:
                 icon: argo-cd.png
-                href: http://argocd.home.local
+                href: http://argocd-prod.home.local
                 description: Continuous Delivery
 
 
             - Argo Workflows:
                 icon: argo-cd.png
-                href: http://argoworkflows.home.local
+                href: http://argoworkflows-prod.home.local
                 description: CronWorkflow Management
 
 
             - Authentik:
                 icon: authentik.png
-                href: http://authentik.home.local
+                href: http://authentik-prod.home.local
                 description: Authentication & Authorization
 
             - Lakekeeper:
                 icon: https://avatars.githubusercontent.com/u/183464583?s=200&v=4
-                href: http://lakekeeper.home.local/catalog
+                href: http://lakekeeper-prod.home.local/catalog
                 description: Apache Iceberg REST Catalog 
 
 
             - Longhorn:
                 icon: longhorn.png
-                href: http://longhorn.home.local
+                href: http://longhorn-prod.home.local
                 description: Persistent Block Storage
 
 
             - Harbor:
                 icon: harbor.svg
-                href: http://harbor.home.local
+                href: http://harbor-prod.home.local
                 description: Container Registry
 
 
             - Grafana:
                 icon: grafana.png
-                href: http://grafana.home.local
+                href: http://grafana-prod.home.local
                 description: Analytics & Monitoring
 
 
             - Kubernetes:
                 icon: kubernetes.png
-                href: http://k8s-dash.home.local
+                href: http://k8s-dash-prod.home.local
                 description: Container Orchestration
 
 
             - MinIO:
                 icon: minio.png
-                href: https://minio-console.home.local
+                href: https://minio-console-prod.home.local
                 description: Distributed Object Storage
 
             - PGAdmin:
                 icon: postgres.png
-                href: https://pgadmin.home.local
-                description: Postgres Management     
+                href: https://pgadmin-prod.home.local
+                description: Postgres Management
 
             - Prometheus:
                 icon: prometheus.png
-                href: http://prometheus.home.local
+                href: http://prometheus-prod.home.local
                 description: Analytics & Monitoring
 
 
@@ -111,7 +115,7 @@ data:
 
             - Redis Insight:
                 icon: redis.svg
-                href: http://redisinsight.home.local
+                href: http://redisinsight-prod.home.local
                 description: Redis GUI
 
 
@@ -130,6 +134,27 @@ data:
                 icon: vault-light.svg
                 href: http://vault.home.local/ui
                 description: Secrets Management
+
+        - K8s Dev:
+            - ArgoCD:
+                icon: argo-cd.png
+                href: http://argocd-dev.home.local
+                description: Continuous Delivery
+
+            - Grafana:
+                icon: grafana.png
+                href: http://grafana-dev.home.local
+                description: Analytics & Monitoring
+
+            - Kubernetes:
+                icon: kubernetes.png
+                href: http://k8s-dash-dev.home.local
+                description: Container Orchestration
+
+            - Prometheus:
+                icon: prometheus.png
+                href: http://prometheus-dev.home.local
+                description: Analytics & Monitoring
 
     widgets.yaml: ""
     docker.yaml: ""
