@@ -27,6 +27,7 @@ spec:
             hosts:
               core: harbor.home.local
             controller: default
+            className: nginx
             annotations:
               nginx.ingress.kubernetes.io/ssl-redirect: "false"
               nginx.ingress.kubernetes.io/proxy-body-size: "0"
