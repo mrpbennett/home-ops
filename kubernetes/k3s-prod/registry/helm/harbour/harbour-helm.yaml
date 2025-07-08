@@ -35,6 +35,9 @@ spec:
               nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
               nginx.ingress.kubernetes.io/proxy-buffering: "off"
               nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+              # Explicitly disable SSL redirects
+              nginx.ingress.kubernetes.io/ssl-redirect: "false"
+              ingress.kubernetes.io/ssl-redirect: "false"
 
         externalURL: http://harbor.home.local
 
