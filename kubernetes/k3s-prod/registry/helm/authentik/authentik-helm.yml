@@ -26,6 +26,9 @@ spec:
             name: authentik-db
             user: authentik
             password: password
+          redis:
+            host: redis-svc.redis.svc.cluster.local
+            password: ""
 
         server:
           enabled: true
@@ -59,10 +62,7 @@ spec:
           enabled: false
 
         redis:
-          enabled: true
-          architecture: "standalone"
-          auth:
-            enabled: false
+          enabled: false
 
   syncPolicy:
     automated:
