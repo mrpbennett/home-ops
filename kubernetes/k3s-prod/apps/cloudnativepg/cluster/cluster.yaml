@@ -81,10 +81,10 @@ spec:
       endpointURL: minio.minio-tenant.svc.cluster.local
       s3Credentials:
         accessKeyId:
-          name: cnpg-prod-minio
+          name: cnpg-cluster-minio
           key: MINIO_ACCESS_KEY
         secretAccessKey:
-          name: cnpg-prod-minio
+          name: cnpg-cluster-minio
           key: MINIO_SECRET_KEY
 
   storage:
