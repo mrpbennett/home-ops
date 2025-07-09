@@ -111,8 +111,8 @@ source:
         <td>Cloud native certificate management - TBA</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://cdn.worldvectorlogo.com/logos/docker-4.svg"></td>
-        <td><a href="https://www.docker.com">Docker Registry</a></td>
+        <td><img width="32" src="https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main/png/harbor.png"></td>
+        <td><a href="https://goharbor.io/">Harbor</a></td>
         <td>Private container registry</td>
     </tr>
     <tr>
@@ -171,9 +171,11 @@ source:
 
 ## 🔧 Hardware
 
-| Device                        | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose    |
-| ----------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ---------- |
-| Lenovo ThinkCentre M720q tiny | 3     | 120GB SSD    | 1TB NVMe       | 32GB | Proxmox VE       | Hypervisor |
+| Device                        | Count | OS Disk Size             | Ram  | Operating System  | Purpose           |
+| ----------------------------- | ----- | ------------------------ | ---- | ----------------- | ----------------- |
+| Raspberry Pi5                 | 3     | 250GB NVMe               | 8GB  | Ubuntu Svr ARM64  | K8s Control Plane |
+| Lenovo ThinkCentre M720q tiny | 3     | 1TB NVMe                 | 32GB | Ubuntu Svr x86_64 | K8s Worker        |
+| Hypervisor / NAS              | 1     | 250GB NVMe + 4TB storage | 16GB | Proxmox           | Hypervisor        |
 
 ---
 
