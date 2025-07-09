@@ -32,16 +32,15 @@ spec:
             controller: default
             className: nginx
             annotations:
-              # cert-manager.io/issuer: "harbor-ca-issuer"
               kubernetes.io/ingress.class: "nginx"
+              ingress.kubernetes.io/ssl-redirect: "true"
+
               nginx.ingress.kubernetes.io/proxy-body-size: "0"
               nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
               nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
               nginx.ingress.kubernetes.io/proxy-buffering: "off"
               nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
-              # Explicitly disable SSL redirects
               nginx.ingress.kubernetes.io/ssl-redirect: "true"
-              ingress.kubernetes.io/ssl-redirect: "true"
 
         externalURL: https://harbor-prod.home.local
 

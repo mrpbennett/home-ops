@@ -2,30 +2,16 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":dependencyDashboard"],
   "kubernetes": {
-    "fileMatch": ["kubernetes/.+\\.yaml$", "kubernetes/charts/.+/Chart\\.yaml$"]
-  },
-  "docker": {
-    "enabled": true,
-    "registryUrls": ["http://192.168.5.100"]
+    "fileMatch": [
+      "kubernetes/k3s-prod/registry/helm/.+\\.ya?ml$",
+      "kubernetes/k3s-prod/registry/helm/.+/Chart\\.ya?ml$",
+      "kubernetes/k3s-prod/apps/.+\\.ya?ml$"
+    ]
   },
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"]
-    },
-    {
-      "managers": ["docker"],
-      "matchPackagePrefixes": ["192.168.5.100:5000/"],
-      "updateTypes": ["major", "minor", "patch"],
-      "groupName": "self-hosted images"
     }
   ],
-  "hostRules": [
-    {
-      "hostType": "docker",
-      "username": null,
-      "password": null
-    }
-  ],
-
   "platformAutomerge": false
 }

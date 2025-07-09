@@ -41,7 +41,7 @@ spec:
           env:
             # Docker Redis instance
             - name: RI_REDIS_HOST1
-              value: "redis-svc.redis.svc.cluster.local" #DNS name of the Redis service
+              value: "redis-svc.redis.svc.cluster.local"
             - name: RI_REDIS_PORT1
               value: "6379"
             - name: RI_REDIS_ALIAS1

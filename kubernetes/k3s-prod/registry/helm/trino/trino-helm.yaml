@@ -43,17 +43,25 @@ spec:
 
         # CATALOGS
         catalogs:
-          # CNPG Cluster [K8s]
+          # CNPG Cluster main db [K8s]
           cloudnativepg: |
             connector.name=postgresql
             connection-url=jdbc:postgresql://192.168.7.80:5432/main
             connection-user=paul
             connection-password=password
 
+          # Harbor registry db
           harbor-registry: |
             connector.name=postgresql
             connection-url=jdbc:postgresql://192.168.7.80:5432/harbor-registry
             connection-user=harbor
+            connection-password=password
+
+          # Authentik db
+          authentik-db: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://192.168.7.80:5432/authentik-db
+            connection-user=authentink
             connection-password=password
 
           # Supabase PostgreSQL Cluster
@@ -63,11 +71,18 @@ spec:
             connection-user=postgres.kzqeciwvlkrgokcvgjci
             connection-password=fYjc4g*r2^L%3&
 
+          # Iceberg catalog for storing metadata
+          iceberg-catalog: |
+            connector.name=postgresql
+            connection-url=jdbc:postgresql://192.168.7.80:5432/iceberg-catalog
+            connection-user=lakekeeper
+            connection-password=password
+
           # Lakekeeper Iceberg Catalog [K8s]
           # iceberg-metastore: |
           #   connector.name=iceberg
           #   iceberg.catalog.type=rest
-          #   iceberg.rest-catalog.uri=http://lakekeeper.home.local/catalog
+          #   iceberg.rest-catalog.uri=http://lakekeeper-prod.home.local/catalog
           #   iceberg.rest-catalog.warehouse=warehouse
           #   iceberg.rest-catalog.nested-namespace-enabled=true
           #   iceberg.rest-catalog.vended-credentials-enabled=true
