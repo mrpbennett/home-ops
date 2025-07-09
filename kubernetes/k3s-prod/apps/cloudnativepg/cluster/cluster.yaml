@@ -78,7 +78,7 @@ spec:
     retentionPolicy: "7d"
     barmanObjectStore:
       destinationPath: s3://cnpg-cluster
-      endpointURL: http://minio.home.local
+      endpointURL: minio.minio-tenant.svc.cluster.local
       s3Credentials:
         accessKeyId:
           name: cnpg-prod-minio

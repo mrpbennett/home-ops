@@ -1,15 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: homepage-ts-ingress
-  namespace: homepage
+  name: agrocd-ts-ingress
+  namespace: argocd
 spec:
   ingressClassName: tailscale
   defaultBackend:
     service:
-      name: homepage
+      name: argocd-server
       port:
         number: 80
   tls:
     - hosts:
-        - homepage
+        - argocd
