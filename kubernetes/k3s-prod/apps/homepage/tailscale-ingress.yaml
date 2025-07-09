@@ -7,9 +7,17 @@ spec:
   ingressClassName: tailscale
   defaultBackend:
     service:
-      name: homepage
+      name: homepage-tailscale-svc
       port:
-        number: 80
-  tls:
-    - hosts:
-        - homepage
+        name: https
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homepage-tailscale-svc
+spec:
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 443
+      targetPort: 443

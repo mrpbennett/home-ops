@@ -1,15 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: agrocd-ts-ingress
+  name: argocd-ts-ingress
   namespace: argocd
 spec:
   ingressClassName: tailscale
   defaultBackend:
     service:
-      name: argocd-server
+      name: argocd-tailscale-svc
       port:
-        number: 80
-  tls:
-    - hosts:
-        - argocd
+        name: https
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-tailscale-svc
+spec:
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 443
+      targetPort: 443
