@@ -1,6 +1,6 @@
 services:
   registry-server:
-    image: registry:2
+    image: registry:3
     container_name: docker-registry
     restart: always
 
