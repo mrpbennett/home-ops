@@ -171,11 +171,11 @@ source:
 
 ## 🔧 Hardware
 
-| Device                        | Count | OS Disk Size             | Ram  | Operating System  | Purpose           |
+| Device                        | Count | Disk Sizes               | Ram  | Operating System  | Purpose           |
 | ----------------------------- | ----- | ------------------------ | ---- | ----------------- | ----------------- |
 | Raspberry Pi5                 | 3     | 250GB NVMe               | 8GB  | Ubuntu Svr ARM64  | K8s Control Plane |
 | Lenovo ThinkCentre M720q tiny | 3     | 1TB NVMe                 | 32GB | Ubuntu Svr x86_64 | K8s Worker        |
-| Hypervisor / NAS              | 1     | 250GB NVMe + 4TB storage | 16GB | Proxmox           | Hypervisor        |
+| Hypervisor / NAS              | 1     | 250GB NVMe + 4TB storage | 16GB | Proxmox           | Hypervisor / NAS  |
 
 ---
 
