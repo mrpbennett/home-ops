@@ -13,7 +13,7 @@ spec:
   projectedVolumeTemplate:
     sources:
       - secret:
-          # Mount ClusterIssuer TLS certificate and key
+          # Mount homelab-ss-cert-issuer
           name: root-secret
           items:
             - key: tls.crt
@@ -85,18 +85,18 @@ spec:
             spec:
               type: LoadBalancer
 
-  backup:
-    retentionPolicy: "7d"
-    barmanObjectStore:
-      destinationPath: s3://cnpg-cluster
-      endpointURL: http://minio-tenant-hl.minio-tenant.svc.cluster.local:9000
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-cluster-minio
-          key: MINIO_ACCESS_KEY
-        secretAccessKey:
-          name: cnpg-cluster-minio
-          key: MINIO_SECRET_KEY
+  # backup:
+  #   retentionPolicy: "7d"
+  #   barmanObjectStore:
+  #     destinationPath: s3://cnpg-cluster
+  #     endpointURL: http://minio-tenant-hl.minio-tenant.svc.cluster.local:9000
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: cnpg-cluster-minio
+  #         key: MINIO_ACCESS_KEY
+  #       secretAccessKey:
+  #         name: cnpg-cluster-minio
+  #         key: MINIO_SECRET_KEY
 
   storage:
     storageClass: longhorn

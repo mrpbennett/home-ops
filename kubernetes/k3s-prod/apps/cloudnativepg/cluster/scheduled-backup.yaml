@@ -6,6 +6,6 @@ metadata:
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: cluster
-  suspend: false
+  suspend: true
   cluster:
     name: cnpg-cluster
