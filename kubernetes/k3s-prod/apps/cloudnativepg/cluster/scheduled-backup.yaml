@@ -5,7 +5,7 @@ metadata:
   namespace: cnpg-cluster
 spec:
   schedule: "0 0 0 * * *"
-  backupOwnerReference: self
+  backupOwnerReference: cluster
   suspend: false
   cluster:
     name: cnpg-cluster

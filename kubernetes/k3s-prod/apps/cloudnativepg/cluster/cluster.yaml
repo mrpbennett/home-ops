@@ -10,6 +10,17 @@ spec:
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
 
+  projectedVolumeTemplate:
+    sources:
+      - secret:
+          # Mount ClusterIssuer TLS certificate and key
+          name: root-secret
+          items:
+            - key: tls.crt
+              path: certificate/tls.crt
+            - key: tls.key
+              path: certificate/tls.key
+
   postgresql:
     parameters:
       shared_buffers: 256MB
@@ -78,7 +89,7 @@ spec:
     retentionPolicy: "7d"
     barmanObjectStore:
       destinationPath: s3://cnpg-cluster
-      endpointURL: https://minio-prod.home.local
+      endpointURL: http://minio-tenant-hl.minio-tenant.svc.cluster.local:9000
       s3Credentials:
         accessKeyId:
           name: cnpg-cluster-minio
