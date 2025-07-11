@@ -23,7 +23,10 @@ spec:
           type: clusterIP
           tls:
             enabled: true
-          #   certSource: auto
+            certSource: auto
+            auto:
+              commonName: harbor-prod-tls
+
           # ingress:
           #   hosts:
           #     core: harbor-prod.70ld.dev
