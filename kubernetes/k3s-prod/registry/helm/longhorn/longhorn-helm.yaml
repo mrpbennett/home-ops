@@ -23,10 +23,12 @@ spec:
           ingress:
             enabled: true
             ingressClassName: nginx
-            host: longhorn-prod.home.local
-            path: /
             annotations:
-              kubernetes.io/ingress.class: nginx
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+            host: longhorn-prod.70ld.dev
+            tls: true
+            tlsSecret: longhorn-prod-tls
+            path: /
 
           metrics:
             serviceMonitor:
