@@ -44,18 +44,15 @@ data:
                 href: http://alertmanager-prod.70ld.dev
                 description: Alert Management
 
-
             - ArgoCD:
                 icon: argo-cd.png
-                href: http://argocd-prod.70ld.dev
+                href: http://argocd-prod.home.local
                 description: Continuous Delivery
-
 
             - Argo Workflows:
                 icon: argo-cd.png
                 href: http://argoworkflows-prod.70ld.dev
                 description: CronWorkflow Management
-
 
             - Authentik:
                 icon: authentik.png
@@ -67,30 +64,25 @@ data:
                 href: http://lakekeeper-prod.70ld.dev/catalog
                 description: Apache Iceberg REST Catalog 
 
-
             - Longhorn:
                 icon: longhorn.png
                 href: http://longhorn-prod.70ld.dev
                 description: Persistent Block Storage
-
 
             - Harbor:
                 icon: harbor.svg
                 href: http://harbor-prod.70ld.dev
                 description: Container Registry
 
-
             - Grafana:
                 icon: grafana.png
                 href: http://grafana-prod.70ld.dev
                 description: Analytics & Monitoring
 
-
             - Kubernetes:
                 icon: kubernetes.png
                 href: http://k8s-dash-prod.70ld.dev
                 description: Container Orchestration
-
 
             - MinIO:
                 icon: minio.png
@@ -107,7 +99,6 @@ data:
                 href: http://prometheus-prod.70ld.dev
                 description: Analytics & Monitoring
 
-
             - Proxmox:
                 icon: proxmox.png
                 href: https://192.168.7.3:8006
@@ -118,12 +109,10 @@ data:
                 href: http://redisinsight-prod.70ld.dev
                 description: Redis GUI
 
-
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
                 href: http://trino-prod.70ld.dev/ui
                 description: Fast distributed SQL query engine
-
 
             - TrueNAS Scale:
                 icon: truenas-scale.svg
