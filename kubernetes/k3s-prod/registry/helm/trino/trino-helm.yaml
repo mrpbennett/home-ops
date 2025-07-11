@@ -143,9 +143,9 @@ spec:
                 - path: /ui
                   pathType: ImplementationSpecific
           tls:
-            - secretName: trino-prod-tls
-              hosts:
+            - hosts:
                 - trino-prod.70ld.dev
+              secretName: trino-prod-tls
 
   syncPolicy:
     automated:

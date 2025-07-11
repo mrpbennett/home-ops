@@ -121,7 +121,7 @@ data:
 
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
-                href: http://trino.70ld.dev/ui
+                href: http://trino-prod.70ld.dev/ui
                 description: Fast distributed SQL query engine
 
 
