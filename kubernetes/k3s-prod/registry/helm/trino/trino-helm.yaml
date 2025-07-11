@@ -135,11 +135,17 @@ spec:
         ingress:
           enabled: true
           className: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
           hosts:
-            - host: trino-prod.home.local
+            - host: trino-prod.70ld.dev
               paths:
                 - path: /ui
                   pathType: ImplementationSpecific
+          tls:
+            - secretName: trino-prod-tls
+              hosts:
+                - trino-prod.70ld.dev
 
   syncPolicy:
     automated:

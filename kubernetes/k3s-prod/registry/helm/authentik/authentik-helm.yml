@@ -43,18 +43,18 @@ spec:
           ingress:
             enabled: true
             annotations:
-              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               nginx.ingress.kubernetes.io/rewrite-target: /
               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
               nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
             ingressClassName: nginx
             hosts:
-              - authentik-prod.home.local
+              - authentik-prod.70ld.dev
             pathType: Prefix
             tls:
               - secretName: authentik-tls
                 hosts:
-                  - authentik-prod.home.local
+                  - authentik-prod.70ld.dev
             https: true
 
         # Disable internal postgres

@@ -11,15 +11,7 @@ spec:
   primaryUpdateStrategy: unsupervised
 
   projectedVolumeTemplate:
-    sources:
-      - secret:
-          # Mount homelab-ss-cert-issuer
-          name: root-secret
-          items:
-            - key: tls.crt
-              path: certificate/tls.crt
-            - key: tls.key
-              path: certificate/tls.key
+    sources: []
 
   postgresql:
     parameters:
@@ -89,7 +81,7 @@ spec:
   #   retentionPolicy: "7d"
   #   barmanObjectStore:
   #     destinationPath: s3://cnpg-cluster
-  #     endpointURL: http://minio-tenant-hl.minio-tenant.svc.cluster.local:9000
+  #     endpointURL: https://minio-tenant-hl.minio-tenant.svc.cluster.local:9000
   #     s3Credentials:
   #       accessKeyId:
   #         name: cnpg-cluster-minio

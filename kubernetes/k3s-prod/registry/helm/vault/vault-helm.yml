@@ -23,11 +23,18 @@ spec:
           ingress:
             enabled: true
             ingressClassName: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+
             pathType: Prefix
             hosts:
-              - host: vault-prod.home.local
+              - host: vault-prod.70ld.dev
                 paths: []
 
+            tls:
+              - secretName: vault-prod-tls
+                hosts:
+                  - vault-prod.70ld.dev
   syncPolicy:
     automated:
       prune: true

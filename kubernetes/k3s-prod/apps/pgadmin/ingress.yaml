@@ -5,10 +5,11 @@ metadata:
   namespace: pgadmin
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
 spec:
   ingressClassName: nginx
   rules:
-    - host: pgadmin-prod.home.local
+    - host: pgadmin-prod.70ld.dev
       http:
         paths:
           - path: /
@@ -20,5 +21,5 @@ spec:
                   number: 5050
   tls:
     - hosts:
-        - pgadmin.home.local
+        - pgadmin-prod.70ld.dev
       secretName: pgadmin-tls

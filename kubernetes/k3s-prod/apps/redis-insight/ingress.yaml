@@ -4,10 +4,16 @@ metadata:
   name: redis-insight-ingress
   labels:
     app: redis-insight-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - redisinsight-prod.70ld.dev
+      secretName: redisinsight-prod-tls
   rules:
-    - host: redisinsight-prod.home.local
+    - host: redisinsight-prod.70ld.dev
       http:
         paths:
           - pathType: Prefix

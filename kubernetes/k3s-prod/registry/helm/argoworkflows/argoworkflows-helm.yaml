@@ -32,12 +32,17 @@ spec:
             enabled: true
             annotations:
               ingress.kubernetes.io/rewrite-target: /
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             ingressClassName: nginx
             hosts:
-              - argoworkflows-prod.home.local
+              - argoworkflows-prod.70ld.dev
             paths:
               - /
             pathType: Prefix
+            tls:
+              - secretName: argoworkflows-prod-tls
+                hosts:
+                  - argoworkflows-prod.70ld.dev
 
   syncPolicy:
     automated:

@@ -117,13 +117,13 @@ spec:
             ingressClassName: nginx
             labels: {}
             annotations:
-              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
             tls:
               - hosts:
-                  - minio-prod.home.local
+                  - minio-prod.70ld.dev
                 secretName: minio-api-tls
-            host: minio-prod.home.local
+            host: minio-prod.70ld.dev
             path: /
             pathType: Prefix
 
@@ -132,18 +132,15 @@ spec:
             ingressClassName: nginx
             labels: {}
             annotations:
-              cert-manager.io/cluster-issuer: homelab-ss-cert-issuer
-              # proxy upstream to MinIO Console over HTTPS
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-              # tell NGINX to redirect any HTTP client to HTTPS
               nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-              # (optional) ensure SNI is sent upstream
               nginx.ingress.kubernetes.io/proxy-ssl-server-name: "on"
             tls:
               - hosts:
-                  - minio-console-prod.home.local
+                  - minio-console-prod.70ld.dev
                 secretName: minio-console-tls
-            host: minio-console-prod.home.local
+            host: minio-console-prod.70ld.dev
             path: /
             pathType: Prefix
 
