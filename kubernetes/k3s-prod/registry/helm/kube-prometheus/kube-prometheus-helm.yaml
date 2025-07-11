@@ -183,11 +183,16 @@ spec:
           ingress:
             enabled: true
             ingressClassName: nginx
-            annotations: {}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
-              - alertmanager-prod.home.local
+              - alertmanager-prod.70ld.dev
             paths:
               - /
+            tls:
+              - hosts:
+                  - alertmanager-prod.70ld.dev
+                secretName: alertmanager-prod-tls
 
           ## Configuration for Alertmanager service
           service:
@@ -212,10 +217,15 @@ spec:
           ingress:
             enabled: true
             ingressClassName: nginx
-            annotations: {}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
-              - grafana-prod.home.local
+              - grafana-prod.70ld.dev
             path: /
+            tls:
+              - hosts:
+                  - grafana-prod.70ld.dev
+                secretName: grafana-prod-tls
           persistence:
             enabled: true
             type: sts
@@ -291,10 +301,16 @@ spec:
           ingress:
             enabled: true
             ingressClassName: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
-              - prometheus-prod.home.local
+              - prometheus-prod.70ld.dev
             paths:
               - /
+            tls:
+              - hosts:
+                  - prometheus-prod.70ld.dev
+                secretName: prometheus-prod-tls
 
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false
