@@ -35,76 +35,76 @@ data:
 
             - Airflow:
                 icon: apache-airflow.png
-                href: http://airflow-prod.home.local
+                href: http://airflow-prod.70ld.dev
                 description: Workflow Orchestration
 
 
             - AlertManager:
                 icon: prometheus.png
-                href: http://alertmanager-prod.home.local
+                href: http://alertmanager-prod.70ld.dev
                 description: Alert Management
 
 
             - ArgoCD:
                 icon: argo-cd.png
-                href: http://argocd-prod.home.local
+                href: http://argocd-prod.70ld.dev
                 description: Continuous Delivery
 
 
             - Argo Workflows:
                 icon: argo-cd.png
-                href: http://argoworkflows-prod.home.local
+                href: http://argoworkflows-prod.70ld.dev
                 description: CronWorkflow Management
 
 
             - Authentik:
                 icon: authentik.png
-                href: http://authentik-prod.home.local
+                href: http://authentik-prod.70ld.dev
                 description: Authentication & Authorization
 
             - Lakekeeper:
                 icon: https://avatars.githubusercontent.com/u/183464583?s=200&v=4
-                href: http://lakekeeper-prod.home.local/catalog
+                href: http://lakekeeper-prod.70ld.dev/catalog
                 description: Apache Iceberg REST Catalog 
 
 
             - Longhorn:
                 icon: longhorn.png
-                href: http://longhorn-prod.home.local
+                href: http://longhorn-prod.70ld.dev
                 description: Persistent Block Storage
 
 
             - Harbor:
                 icon: harbor.svg
-                href: http://harbor-prod.home.local
+                href: http://harbor-prod.70ld.dev
                 description: Container Registry
 
 
             - Grafana:
                 icon: grafana.png
-                href: http://grafana-prod.home.local
+                href: http://grafana-prod.70ld.dev
                 description: Analytics & Monitoring
 
 
             - Kubernetes:
                 icon: kubernetes.png
-                href: http://k8s-dash-prod.home.local
+                href: http://k8s-dash-prod.70ld.dev
                 description: Container Orchestration
 
 
             - MinIO:
                 icon: minio.png
-                href: https://minio-console-prod.home.local
+                href: https://minio-console-prod.70ld.dev
                 description: Distributed Object Storage
 
             - PGAdmin:
                 icon: postgres.png
-                href: https://pgadmin-prod.home.local
+                href: https://pgadmin-prod.70ld.dev
                 description: Postgres Management
 
             - Prometheus:
                 icon: prometheus.png
-                href: http://prometheus-prod.home.local
+                href: http://prometheus-prod.70ld.dev
                 description: Analytics & Monitoring
 
 
@@ -115,13 +115,13 @@ data:
 
             - Redis Insight:
                 icon: redis.svg
-                href: http://redisinsight-prod.home.local
+                href: http://redisinsight-prod.70ld.dev
                 description: Redis GUI
 
 
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
-                href: http://trino.home.local/ui
+                href: http://trino.70ld.dev/ui
                 description: Fast distributed SQL query engine
 
 
@@ -132,28 +132,28 @@ data:
 
             - Vault:
                 icon: vault-light.svg
-                href: http://vault.home.local/ui
+                href: http://vault.70ld.dev/ui
                 description: Secrets Management
 
         - K8s Dev:
             - ArgoCD:
                 icon: argo-cd.png
-                href: http://argocd-dev.home.local
+                href: http://argocd-dev.70ld.dev
                 description: Continuous Delivery
 
             - Grafana:
                 icon: grafana.png
-                href: http://grafana-dev.home.local
+                href: http://grafana-dev.70ld.dev
                 description: Analytics & Monitoring
 
             - Kubernetes:
                 icon: kubernetes.png
-                href: http://k8s-dash-dev.home.local
+                href: http://k8s-dash-dev.70ld.dev
                 description: Container Orchestration
 
             - Prometheus:
                 icon: prometheus.png
-                href: http://prometheus-dev.home.local
+                href: http://prometheus-dev.70ld.dev
                 description: Analytics & Monitoring
 
     widgets.yaml: ""
