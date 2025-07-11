@@ -20,3 +20,25 @@ sudo apt install network-manager
 ```
 
 Then I followed this [Set a static IP address with nmtui on Raspberry Pi OS 12](https://www.jeffgeerling.com/blog/2024/set-static-ip-address-nmtui-on-raspberry-pi-os-12-bookworm)
+
+## Silence Power warning when running via PoE
+
+No—if you’re headless and not plugging in any USB or PCIe peripherals, you’ll never actually hit the 4.5 A ceiling and the warning has no practical effect on CPU, network, or system stability.
+
+If you really want to silence the warning (or raise the Pi’s assumed USB current limit), you can:
+
+1. Edit the EEPROM to tell the Pi it can draw 5 A:
+
+```bash
+sudo rpi-eeprom-config --edit
+# add or modify:
+PSU_MAX_CURRENT=5000
+```
+
+2. Enable full USB current in `/boot/firmware/config.txt:`
+
+```bash
+usb_max_current_enable=1
+```
+
+3. Reboot

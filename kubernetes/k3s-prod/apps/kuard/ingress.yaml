@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kuard
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - kuard.70ld.dev
+      secretName: quickstart-kuard-tls
+  rules:
+    - host: kuard.70ld.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kuard
+                port:
+                  number: 80
