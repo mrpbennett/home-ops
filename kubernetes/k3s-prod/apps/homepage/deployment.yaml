@@ -35,7 +35,7 @@ spec:
               memory: 128Mi
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "homepage.home.local, homepage.home.local:3000"
+              value: "homepage.home.local, homepage.home.local:3000, homepage.70ld.dev"
           ports:
             - name: http
               containerPort: 3000
