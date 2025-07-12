@@ -15,6 +15,10 @@ data:
         color: slate
 
         layout:
+            Network:
+                style: row
+                columns: 3
+
             K8s Prod:
                 style: row
                 columns: 3
@@ -27,12 +31,41 @@ data:
     custom.js: ""
     bookmarks.yaml: ""
     services.yaml: |
-        - K8s Prod:
-            - Adguard:
+        - Network:
+              - Omada:
+                icon: omada.png
+                href: http://omada.home.local
+                description: Omada Controller
+                # widget:
+                #     type: omada
+                #     url: http://omada.host.or.ip:port
+                #     username: username
+                #     password: password
+                #     site: sitename
+              
+              - Adguard Primary:
                 icon: adguard-home.png
-                href: http://dns.home.local
-                description: DNS & Adblocker
+                href: http://dns-primary.home.local
+                description: Primary DNS
+                widget:
+                    type: adguard
+                    url: http://192.168.4.2
+                    username: admin
+                    password: 123qwe!!
+                    fields: ["queries", "blocked", "latency"]
 
+              - Adguard Secondary:
+                icon: adguard-home.png
+                href: http://dns-secondary.home.local
+                description: Secondary DNS
+                widget:
+                  type: adguard
+                  url: http://192.168.4.3
+                  username: admin
+                  password: 123qwe!!
+                  fields: ["queries", "blocked", "latency"]
+
+        - K8s Prod:
             - Airflow:
                 icon: apache-airflow.png
                 href: http://airflow-prod.70ld.dev

@@ -24,7 +24,6 @@ spec:
           tls:
             enabled: true
             certSource: auto
-
           ingress:
             hosts:
               core: harbor-prod.70ld.dev
@@ -32,7 +31,6 @@ spec:
             className: nginx
             annotations:
               ingress.kubernetes.io/ssl-redirect: "true"
-
               cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
 
               nginx.ingress.kubernetes.io/proxy-body-size: "0"
