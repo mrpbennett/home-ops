@@ -27,7 +27,7 @@ spec:
             user: authentik
             password: password
           redis:
-            host: redis-svc.redis.svc.cluster.local
+            host: 192.168.7.158
             password: ""
 
         server:
