@@ -60,7 +60,7 @@ data:
                 description: Secondary DNS
                 widget:
                     type: adguard
-                    url: http://192.168.7.51
+                    url: http://192.168.4.3
                     username: admin
                     password: 123qwe!!
                     fields: ["queries", "blocked", "latency"]
