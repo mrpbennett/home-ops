@@ -104,7 +104,7 @@ spec:
         database:
           type: external
           external:
-            host: "192.168.7.80"
+            host: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
             port: "5432"
             username: harbor
             password: password
