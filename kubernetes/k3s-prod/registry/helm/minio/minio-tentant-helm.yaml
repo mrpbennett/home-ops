@@ -82,6 +82,7 @@ spec:
             - name: iceberg-catalog
             - name: dev
             - name: cnpg-backup
+            - name: harbor-registry
 
           users: []
           podManagementPolicy: Parallel

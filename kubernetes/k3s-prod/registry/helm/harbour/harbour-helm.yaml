@@ -86,9 +86,9 @@ spec:
               #existingSecret: ""
               region: uk-south
               bucket: harbor-registry
-              accesskey: ZLrMYXFvhtwaxnPVGyBp
-              secretkey: cUeSYSCyoRxGs8HavS22ZCQSInv5Rc9snOdoZ8f5
-              regionendpoint: https://minio-prod.home.local
+              accesskey: RafjmLf7yn5WN7BAEmWi
+              secretkey: 1F41WZnzzTZLj2UQlOxS6ARAzvvoRs5MMf0S1GIe
+              regionendpoint: https://minio-prod.70ld.dev
               # encrypt: false
               # keyid: mykeyid
               # secure: true
@@ -104,7 +104,7 @@ spec:
         database:
           type: external
           external:
-            host: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
+            host: "192.168.7.80"
             port: "5432"
             username: harbor
             password: password
