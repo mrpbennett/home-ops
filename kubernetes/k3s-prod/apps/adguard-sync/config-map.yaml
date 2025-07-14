@@ -1,0 +1,52 @@
+# 1) Your adguardhome-sync.yaml (edit hostnames/IPs to match your AdGuard Home pods)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: adguardhome-sync-config
+  namespace: adguard
+data:
+  adguardhome-sync.yaml: |
+    # cron expression to run in daemon mode. (default; "" = runs only once)
+    cron: "0 */2 * * *"
+
+    # runs the synchronisation on startup
+    runOnStart: true
+
+    # If enabled, the synchronisation task will not fail on single errors, but will log the errors and continue
+    continueOnError: false
+
+    origin:
+      url: https://192.168.4.2:3000
+      # apiPath: define an api path if other than "/control"
+      insecureSkipVerify: true # disable tls check
+      username: admin
+      password: 123qwe!!
+
+
+    # replicas instances
+    replicas:
+      - url: http://192.168.4.3
+        username: admin
+        password: 123qwe!!
+     
+
+    # Configure the sync API server, disabled if api port is 0
+    api:
+      port: 0
+
+
+    # Configure sync features; by default all features are enabled.
+    features:
+      generalSettings: true
+      queryLogConfig: true
+      statsConfig: true
+      clientSettings: true
+      services: true
+      filters: true
+      dhcp:
+        serverConfig: true
+        staticLeases: true
+      dns:
+        serverConfig: true
+        accessLists: true
+        rewrites: true

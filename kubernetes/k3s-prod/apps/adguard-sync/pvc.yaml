@@ -1,0 +1,11 @@
+# 2) PVC for persistent state (logs, history, etc.)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: adguardhome-sync-pvc
+  namespace: adguard
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 100Mi
