@@ -4,9 +4,9 @@ metadata:
   name: cnpg-cluster
   namespace: cnpg-cluster
 spec:
-  description: "PNFB PostgreSQL Cluster"
+  description: "70LD PostgreSQL Cluster"
   instances: 3
-  startDelay: 600 # allow up to 10 minutes for pg_isready to succeed
+  startDelay: 3600
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
 
