@@ -1,5 +1,5 @@
 # /etc/rancher/k3s/registries.yaml
 mirrors:
-  "192.168.7.123:5000":
+  "https://harbor-prod.70ld.dev":
     endpoint:
-      - "http://192.168.7.123:5000"
+      - "https://harbor-prod.70ld.dev"

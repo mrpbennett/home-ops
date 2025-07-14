@@ -19,19 +19,19 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s 
     --cluster-init \
     --disable traefik --disable servicelb \
     --node-taint node-role.kubernetes.io/master=true:NoSchedule \
-    --tls-san=<YOUR_IP_OR_DNS>
+    --tls-san=192.168.7.200
 
 # On node2 and node3 (join the cluster)
 curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s - server \
-    --server https://<node1_IP>:6443 \
+    --server https://192.168.7.1:6443 \
     --disable traefik --disable servicelb \
     --node-taint node-role.kubernetes.io/master=true:NoSchedule \
-    --tls-san=<YOUR_IP_OR_DNS>
+    --tls-san=192.168.7.200
 
 ```
 
 # Worker nodes
 
 ```bash
-curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s - agent --server https://192.168.7.10:6443
+curl -sfL https://get.k3s.io | K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -s - agent --server https://192.168.7.1:6443
 ```

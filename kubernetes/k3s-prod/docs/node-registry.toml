@@ -1,0 +1,11 @@
+# Node Registry
+
+[control-planes]
+k3s-cp-prod-1 = 192.168.7.1
+k3s-cp-prod-2 = 192.168.7.2
+k3s-cp-prod-3 = 192.168.7.3
+
+[worker-nodes]
+k3s-wk-prod-1 = 192.168.7.4
+k3s-wk-prod-2 = 192.168.7.5
+k3s-wk-prod-3 = 192.168.7.6

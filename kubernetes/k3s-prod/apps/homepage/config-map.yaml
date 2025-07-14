@@ -60,7 +60,7 @@ data:
                 description: Secondary DNS
                 widget:
                   type: adguard
-                  url: http://192.168.4.3
+                  url: http://192.168.7.51
                   username: admin
                   password: 123qwe!!
                   fields: ["queries", "blocked", "latency"]
@@ -134,7 +134,7 @@ data:
 
             - Proxmox:
                 icon: proxmox.png
-                href: https://192.168.7.3:8006
+                href: https://192.168.6.1:8006
                 description: Virtualization Management
 
             - Redis Insight:

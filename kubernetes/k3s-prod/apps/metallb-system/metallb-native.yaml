@@ -1900,6 +1900,13 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -1999,6 +2006,13 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
