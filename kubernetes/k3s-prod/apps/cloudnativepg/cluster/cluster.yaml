@@ -12,13 +12,7 @@ spec:
 
   probes:
     startup:
-      httpGet:
-        path: /healthz
-        port: 8000
-        scheme: HTTPS
-      initialDelaySeconds: 60
       periodSeconds: 10
-      failureThreshold: 36
       timeoutSeconds: 5
 
   projectedVolumeTemplate:
