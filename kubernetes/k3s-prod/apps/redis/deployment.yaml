@@ -25,6 +25,9 @@ spec:
           ports:
             - containerPort: 6379
               name: redis
+          env:
+            - name: SKIP_FIX_PERMS
+              value: "1"
           args:
             - redis-server
             - --appendonly
