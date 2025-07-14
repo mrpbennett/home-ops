@@ -49,7 +49,7 @@ spec:
           # configs for the (backend) Service of the catalog Pods (REST-API)
           service:
             annotations:
-              metallb.universe.tf/loadBalancerIPs: 192.168.7.81
+              metallb.universe.tf/loadBalancerIPs: 192.168.7.82
             type: LoadBalancer
             externalPort: 8181
             loadBalancerIP: ""
