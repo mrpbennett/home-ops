@@ -97,7 +97,7 @@ spec:
           type: LoadBalancer
           port: 8080
           annotations:
-            metallb.universe.tf/loadBalancerIPs: 192.168.7.79
+            metallb.universe.tf/loadBalancerIPs: 192.168.7.81
 
         auth: {}
 
