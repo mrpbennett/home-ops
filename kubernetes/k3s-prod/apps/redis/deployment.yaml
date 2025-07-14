@@ -16,18 +16,15 @@ spec:
         app: redis
     spec:
       securityContext:
-        runAsUser: 0
-        runAsGroup: 0
-        fsGroup: 0
+        runAsUser: 1000 # redis user
+        runAsGroup: 1000 # redis group
+        fsGroup: 1000 # ensure writable group
       containers:
         - name: redis
           image: redis:8-alpine
           ports:
             - containerPort: 6379
               name: redis
-          env:
-            - name: SKIP_FIX_PERMS
-              value: "1"
           args:
             - redis-server
             - --appendonly
