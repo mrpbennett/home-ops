@@ -6,7 +6,7 @@ metadata:
 spec:
   description: "PNFB PostgreSQL Cluster"
   instances: 3
-  startDelay: 300
+  startDelay: 600 # allow up to 10 minutes for pg_isready to succeed
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
 
