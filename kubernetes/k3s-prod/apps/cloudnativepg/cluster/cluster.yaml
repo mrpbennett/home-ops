@@ -13,6 +13,7 @@ spec:
   probes:
     startup:
       type: query
+      initialDelaySeconds: 30
       periodSeconds: 10
       timeoutSeconds: 5
 
