@@ -1,4 +1,3 @@
-# 1) Your adguardhome-sync.yaml (edit hostnames/IPs to match your AdGuard Home pods)
 apiVersion: v1
 kind: ConfigMap
 metadata:

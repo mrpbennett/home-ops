@@ -1,4 +1,3 @@
-# 3) Deployment with initContainer to copy in your config, then run the sync agent
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,7 +23,6 @@ spec:
               value: "1000"
             - name: TZ
               value: "Europe/London"
-            # CONFIGFILE is optional if you use the default /config/adguardhome-sync.yaml
             - name: CONFIGFILE
               value: "/config/adguardhome-sync.yaml"
           resources:
@@ -55,11 +53,9 @@ spec:
             - name: config-src
               mountPath: /src
       volumes:
-        # PVC where sync will store its state (and receive the config file)
         - name: config
           persistentVolumeClaim:
             claimName: adguardhome-sync-pvc
-        # ConfigMap containing only your YAML
         - name: config-src
           configMap:
             name: adguardhome-sync-config
