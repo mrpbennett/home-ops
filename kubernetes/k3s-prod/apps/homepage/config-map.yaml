@@ -71,7 +71,6 @@ data:
                 href: https://airflow-prod.70ld.dev
                 description: Workflow Orchestration
 
-
             - AlertManager:
                 icon: prometheus.png
                 href: https://alertmanager-prod.70ld.dev
