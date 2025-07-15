@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adguardhome-sync
-  namespace: adguard
+  namespace: adguard-sync
 spec:
   replicas: 1
   selector:

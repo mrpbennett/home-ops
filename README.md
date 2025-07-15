@@ -24,7 +24,7 @@ _... managed with ArgoCD, Renovate and GitHub Actions_ 🤖
 
 This is a mono repository for my home infrastructure and Kubernetes node. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
-I have a two nodes running a K3s instance and a single vm running soley Docker with portainer. This is now more of a dev enviroment, or a way to deploy applications that other apps depend on. Saves recreating them when I tear down my Kubernetes cluster.
+I have a HA setup running 3 Raspberry Pi5 8GB as control planes with a further 2x Lenovo M720q as worker nodes running K3s.
 
 ## The purpose here is to learn Kubernetes, while practising GitOps
 
@@ -32,13 +32,14 @@ I have a two nodes running a K3s instance and a single vm running soley Docker w
 
 ### Installation
 
-My Kubernetes enviroment is deployed with [k3s](https://k3s.io) and [MetalLB](https://metallb.universe.tf/). This is a two node setup for learning purposes. Future plan is to upgrade to a 5 node cluster running HA k3s in bare metal.
+My Kubernetes enviroment is deployed with [k3s](https://k3s.io). With [KubeVIP](https://kube-vip.io/) providing a VIP and load balancing between my control planes while [MetalLB](https://metallb.universe.tf/) provides `LoadBalancer` support.
 
 #### System Requirements
 
 | Role          | Memory | Cores | System Disk |
 | ------------- | ------ | ----- | ----------- |
-| Control Plane | 32 GiB | 6     | 1 TB        |
+| Control Plane | 8 GiB  | 2     | 250 Gb      |
+| Worker Nodes  | 32 GiB | 6     | 1 TB        |
 
 ### GitOps
 
@@ -74,7 +75,7 @@ All Helm deployment `values.yaml` are contained within the Application under the
 
 ```
 
-My `argo-root.yaml` argocd application checks for changes in `./kubernetes/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:
+My `argo-root.yaml` argocd application checks for changes in `./kubernetes/<cluster>/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:
 
 ```yml
 source:

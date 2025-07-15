@@ -9,3 +9,40 @@ k3s-cp-prod-3 = 192.168.7.3
 k3s-wk-prod-1 = 192.168.7.4
 k3s-wk-prod-2 = 192.168.7.5
 k3s-wk-prod-3 = 192.168.7.6
+
+:: switch 1 ::
+
+- 1 [ x ]: gateway 
+- 2 [ ⚡️ ]: oc200 hardware controllor 
+- 3 [ ⚡️ ]: k3s-cp-prod-1 -> PoE :: RaspberryPi5 8GB
+- 4 [ ⚡️ ]: k3s-cp-prod-2 -> PoE :: RaspberryPi5 8GB
+
+- 5 [ ⚡️ ]: k3s-cp-prod-3 -> PoE :: RaspberryPi5 8GB
+- 6 [ ⚡️ ]: k3s-wk-prod-1 -> PoE :: RaspberryPi5 16GB
+- 7 [ ⚡️ ]: k3s-wk-prod-2 -> PoE :: RaspberryPi5 16GB
+- 8 [ ⚡️ ]: k3s-wk-prod-3 -> PoE :: RaspberryPi5 16GB
+
+
+:: switch 2 ::
+
+- 1[ x ]: gateway 
+- 2[ ⚡️ ]: k3s-wk-prod-4 -> PoE :: RaspberryPi5 16GB
+- 3[ ⚡️ ]: dns-primary -> PoE :: RaspberryPi5 2GB
+- 4[ ⚡️ ]: Wifi AP
+
+- 5[ ⚡️ ]: Camera
+- 6[ ⚡️ ]: Camera
+- 7[ ⚡️ ]: Camera
+- 8[ ]
+
+:: switch 3 ::
+
+- 1[ x ]: gateway
+- 2[ x ]: NAS
+- 3[ x ]: Gaming PC
+- 4[ x ]: Phillips Hue
+
+- 5[ x ]: Hive Heating
+- 6[ ]
+- 7[ ]
+- 8[ ]

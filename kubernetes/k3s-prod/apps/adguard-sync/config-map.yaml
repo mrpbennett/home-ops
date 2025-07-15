@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: adguardhome-sync-config
-  namespace: adguard
+  namespace: adguard-sync
 data:
   adguardhome-sync.yaml: |
     # cron expression to run in daemon mode. (default; "" = runs only once)
