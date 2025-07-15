@@ -68,13 +68,13 @@ data:
         - K8s Prod:
             - Airflow:
                 icon: apache-airflow.png
-                href: http://airflow-prod.70ld.dev
+                href: https://airflow-prod.70ld.dev
                 description: Workflow Orchestration
 
 
             - AlertManager:
                 icon: prometheus.png
-                href: http://alertmanager-prod.70ld.dev
+                href: https://alertmanager-prod.70ld.dev
                 description: Alert Management
 
             - ArgoCD:
@@ -84,32 +84,32 @@ data:
 
             - Argo Workflows:
                 icon: argo-cd.png
-                href: http://argoworkflows-prod.70ld.dev
+                href: https://argoworkflows-prod.70ld.dev
                 description: CronWorkflow Management
 
             - Authentik:
                 icon: authentik.png
-                href: http://authentik-prod.70ld.dev
+                href: https://authentik-prod.70ld.dev
                 description: Authentication & Authorization
 
             - Lakekeeper:
                 icon: https://avatars.githubusercontent.com/u/183464583?s=200&v=4
-                href: http://lakekeeper-prod.70ld.dev/catalog
+                href: https://lakekeeper-prod.70ld.dev/catalog
                 description: Apache Iceberg REST Catalog 
 
             - Longhorn:
                 icon: longhorn.png
-                href: http://longhorn-prod.70ld.dev
+                href: https://longhorn-prod.70ld.dev
                 description: Persistent Block Storage
 
             - Harbor:
                 icon: harbor.svg
-                href: http://harbor-prod.70ld.dev
+                href: https://harbor-prod.70ld.dev
                 description: Container Registry
 
             - Grafana:
                 icon: grafana.png
-                href: http://grafana-prod.70ld.dev
+                href: https://grafana-prod.70ld.dev/dashboards?starred
                 description: Analytics & Monitoring
 
             - Kubernetes:
@@ -139,12 +139,12 @@ data:
 
             - Redis Insight:
                 icon: redis.svg
-                href: http://redisinsight-prod.70ld.dev
+                href: https://redisinsight-prod.70ld.dev
                 description: Redis GUI
 
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
-                href: http://trino-prod.70ld.dev/ui
+                href: https://trino-prod.70ld.dev/ui
                 description: Fast distributed SQL query engine
 
             - TrueNAS Scale:
@@ -154,7 +154,7 @@ data:
 
             - Vault:
                 icon: vault-light.svg
-                href: http://vault.70ld.dev/ui
+                href: https://vault.70ld.dev/ui
                 description: Secrets Management
 
         - K8s Dev:
