@@ -16,7 +16,7 @@ data:
     continueOnError: false
 
     origin:
-      url: https://192.168.4.2:3000
+      url: https://192.168.4.2
       # apiPath: define an api path if other than "/control"
       insecureSkipVerify: true # disable tls check
       username: admin
