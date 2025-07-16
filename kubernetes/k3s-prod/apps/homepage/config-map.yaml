@@ -34,14 +34,14 @@ data:
         - Network:
             - Omada:
                 icon: omada.png
-                href: http://omada.home.local
+                href: omada.70ld.dev
                 description: Omada Controller
-                # widget:
-                #     type: omada
-                #     url: http://omada.host.or.ip:port
-                #     username: username
-                #     password: password
-                #     site: sitename
+                widget:
+                    type: omada
+                    url: http://192.168.7.100:8088
+                    username: admin
+                    password: 123qwe!!
+
             
             - Adguard Primary:
                 icon: adguard-home.png
