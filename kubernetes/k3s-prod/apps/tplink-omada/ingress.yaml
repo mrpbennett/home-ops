@@ -14,7 +14,7 @@ spec:
       secretName: omada-tls
   rules:
     - host: omada.70ld.dev
-      http:
+      https:
         paths:
           - pathType: Prefix
             path: "/"
