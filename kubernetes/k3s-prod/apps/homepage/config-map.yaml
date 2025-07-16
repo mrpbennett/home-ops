@@ -91,6 +91,26 @@ data:
                 href: https://authentik-prod.70ld.dev
                 description: Authentication & Authorization
 
+            - Grafana:
+                icon: grafana.png
+                href: https://grafana-prod.70ld.dev/dashboards?starred
+                description: Analytics & Monitoring
+
+            - Harbor:
+                icon: harbor.svg
+                href: https://harbor-prod.70ld.dev
+                description: Container Registry
+
+            - Jenkins:
+                icon: jenkins.svg
+                href: https://jenkins-prod.70ld.dev
+                description: Continuous Integration & Delivery
+
+            - Kubernetes:
+                icon: kubernetes.png
+                href: http://k8s-dash-prod.70ld.dev
+                description: Container Orchestration
+
             - Lakekeeper:
                 icon: https://avatars.githubusercontent.com/u/183464583?s=200&v=4
                 href: https://lakekeeper-prod.70ld.dev/catalog
@@ -100,21 +120,6 @@ data:
                 icon: longhorn.png
                 href: https://longhorn-prod.70ld.dev
                 description: Persistent Block Storage
-
-            - Harbor:
-                icon: harbor.svg
-                href: https://harbor-prod.70ld.dev
-                description: Container Registry
-
-            - Grafana:
-                icon: grafana.png
-                href: https://grafana-prod.70ld.dev/dashboards?starred
-                description: Analytics & Monitoring
-
-            - Kubernetes:
-                icon: kubernetes.png
-                href: http://k8s-dash-prod.70ld.dev
-                description: Container Orchestration
 
             - MinIO:
                 icon: minio.png
