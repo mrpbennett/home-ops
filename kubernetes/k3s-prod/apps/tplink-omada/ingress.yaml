@@ -4,6 +4,8 @@ metadata:
   name: omada-ingress
   labels:
     app.kubernetes.io/name: omada-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
 spec:
   ingressClassName: nginx
   tls:

@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: omada-data-pvc
 spec:
-  stroageClassName: longhorn
   accessModes:
     - ReadWriteOnce
+  stroageClassName: longhorn
   resources:
     requests:
       storage: 1Gi
@@ -15,9 +15,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: omada-logs-pvc
 spec:
-  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
+  storageClassName: longhorn
   resources:
     requests:
       storage: 1Gi
