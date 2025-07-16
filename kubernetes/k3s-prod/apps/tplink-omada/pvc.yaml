@@ -2,11 +2,10 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: omada-data-pvc
-  namespace: tplink-omada
 spec:
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn
   resources:
     requests:
       storage: 1Gi
@@ -15,11 +14,10 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: omada-logs-pvc
-  namespace: tplink-omada
 spec:
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn
   resources:
     requests:
       storage: 1Gi

@@ -4,7 +4,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: omada-controller
-  namespace: tplink-omada
 spec:
   replicas: 1
   strategy:
@@ -34,13 +33,6 @@ spec:
             capabilities:
               drop:
                 - ALL
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "256Mi"
-            limits:
-              cpu: "500m"
-              memory: "1024Mi"
           env:
             - name: ROOTLESS
               value: "true"
