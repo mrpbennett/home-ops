@@ -31,37 +31,37 @@ spec:
                 cpu: "2000m"
                 memory: "4096Mi"
 
-            ingress:
+          ingress:
+            enabled: true
+            paths: []
+            apiVersion: "networking.k8s.io/v1"
+            labels: {}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+            ingressClassName: "nginx"
+            hostName: jenkins.70ld.dev
+            tls:
+              - secretName: jenkins-tls
+                hosts:
+                  - jenkins.70ld.dev
+
+          secondaryingress:
+            enabled: false
+            paths: []
+            apiVersion: "networking.k8s.io/v1"
+            labels: {}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+            ingressClassName: "nginx"
+            hostName: jenkins-secondary.70ld.dev
+            tls:
+              - secretName: jenkins-secondary.tls
+                hosts:
+                  - jenkins-secondary.70ld.dev
+
+            prometheus:
               enabled: true
-              paths: []
-              apiVersion: "networking.k8s.io/v1"
-              labels: {}
-              annotations:
-                cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-              ingressClassName: "nginx"
-              hostName: jenkins.70ld.dev
-              tls:
-                - secretName: jenkins-tls
-                  hosts:
-                    - jenkins.70ld.dev
-
-            secondaryingress:
-              enabled: false
-              paths: []
-              apiVersion: "networking.k8s.io/v1"
-              labels: {}
-              annotations:
-                cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-              ingressClassName: "nginx"
-              hostName: jenkins-secondary.70ld.dev
-              tls:
-                - secretName: jenkins-secondary.tls
-                  hosts:
-                    - jenkins-secondary.70ld.dev
-
-              prometheus:
-                enabled: true
-                scrapeInterval: "60s"
+              scrapeInterval: "60s"
 
         agent:
           enabled: true
