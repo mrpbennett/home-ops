@@ -1,20 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: omada-ingress
+  name: tplink-omada-ingress
+  namespace: tplink-omada
   annotations:
-    # use cert-manager to drive Let’s Encrypt
-    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-    # force all http → https
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - omada.70ld.dev
-      secretName: omada-tls
   rules:
-    - host: omada.70ld.dev
+    - host: omada.home.local
       http:
         paths:
           - path: /
@@ -22,6 +15,5 @@ spec:
             backend:
               service:
                 name: omada-svc
-                # point at the HTTP port so ingress does TLS → HTTP
                 port:
                   name: manage-http
