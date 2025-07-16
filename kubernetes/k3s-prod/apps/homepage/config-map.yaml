@@ -34,13 +34,15 @@ data:
         - Network:
             - Omada:
                 icon: omada.png
-                href: omada.70ld.dev
+                href: https://omada.70ld.dev
                 description: Omada Controller
                 widget:
                     type: omada
                     url: http://192.168.7.100:8088
                     username: admin
                     password: 123qwe!!
+                    site: 70ld
+                    fields: ["connectedAp", "activeUser", "alerts", "connectedGateways", "connectedSwitches"]
 
             
             - Adguard Primary:
