@@ -1,25 +1,25 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: omada-ingress
-  labels:
-    app.kubernetes.io/name: omada-ingress
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - omada.70ld.dev
-      secretName: omada-tls
-  rules:
-    - host: omada.70ld.dev
-      https:
-        paths:
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: omada-svc
-                port:
-                  number: 8043
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: omada-ingress
+#   labels:
+#     app.kubernetes.io/name: omada-ingress
+#   annotations:
+#     cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+# spec:
+#   ingressClassName: nginx
+#   tls:
+#     - hosts:
+#         - omada.70ld.dev
+#       secretName: omada-tls
+#   rules:
+#     - host: omada.70ld.dev
+#       https:
+#         paths:
+#           - pathType: Prefix
+#             path: "/"
+#             backend:
+#               service:
+#                 name: omada-svc
+#                 port:
+#                   number: 8043
