@@ -17,7 +17,7 @@ data:
       password: 123qwe!!
 
     replicas:
-      - url: http://192.168.4.3
+      - url: http://192.168.7.77
         username: admin
         password: 123qwe!!
      
