@@ -1,11 +1,10 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: adguardhome
   namespace: adguard-home
 spec:
-  serviceName: adguard-home-svc
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: adguardhome
@@ -26,6 +25,11 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
+          volumeMounts:
+            - name: conf
+              mountPath: /opt/adguardhome/conf
+            - name: work
+              mountPath: /opt/adguardhome/work
           ports:
             - name: dns-tcp
               containerPort: 53
@@ -42,27 +46,10 @@ spec:
             - name: admin-ui
               containerPort: 3000
               protocol: TCP
-          volumeMounts:
-            - name: conf
-              mountPath: /opt/adguardhome/conf
-            - name: work
-              mountPath: /opt/adguardhome/work
-
-  volumeClaimTemplates:
-    - metadata:
-        name: conf
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn # change to your SC if different
-        resources:
-          requests:
-            storage: 1Gi # adjust as needed
-
-    - metadata:
-        name: work
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
-        resources:
-          requests:
-            storage: 1Gi # adjust as needed
+      volumes:
+        - name: conf
+          persistentVolumeClaim:
+            claimName: adguard-conf
+        - name: work
+          persistentVolumeClaim:
+            claimName: adguard-work
