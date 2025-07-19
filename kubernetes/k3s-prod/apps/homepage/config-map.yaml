@@ -47,22 +47,11 @@ data:
             
             - Adguard Primary:
                 icon: adguard-home.png
-                href: http://dns-primary.home.local
+                href: http://dns.home.local
                 description: Primary DNS
                 widget:
                     type: adguard
-                    url: http://192.168.4.2
-                    username: admin
-                    password: 123qwe!!
-                    fields: ["queries", "blocked", "latency"]
-
-            - Adguard Secondary:
-                icon: adguard-home.png
-                href: http://dns-secondary.home.local
-                description: Secondary DNS
-                widget:
-                    type: adguard
-                    url: http://192.168.7.77
+                    url: http://192.168.4.7.77
                     username: admin
                     password: 123qwe!!
                     fields: ["queries", "blocked", "latency"]
