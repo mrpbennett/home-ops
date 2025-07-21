@@ -93,6 +93,11 @@ data:
                 href: https://jenkins-prod.70ld.dev
                 description: Continuous Integration & Delivery
 
+            - Kestra:
+                icon: kestra.png
+                href: http://kestra-prod.70ld.dev
+                description: Powerful orchestration
+
             - Kubernetes:
                 icon: kubernetes.png
                 href: http://k8s-dash-prod.70ld.dev
