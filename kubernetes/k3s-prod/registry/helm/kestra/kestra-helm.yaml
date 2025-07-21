@@ -47,12 +47,11 @@ spec:
           ingressClassName: nginx
           annotations:
             cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-          pathType: Prefix
           hosts:
             - host: kestra-prod.70ld.dev
               paths:
-                - /
-              pathType: ImplementationSpecific
+                - path: /
+                  pathType: ImplementationSpecific
           tls:
             - secretName: kestra-prod-tls
               hosts:
