@@ -1,64 +1,64 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: kestra
-  namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: kestra
-  project: default
-  source:
-    chart: kestra
-    repoURL: https://helm.kestra.io/
-    targetRevision: 0.23.5
-    helm:
-      valuesObject:
-        deployments:
-          webserver:
-            enabled: true
-          executor:
-            enabled: true
-          indexer:
-            enabled: true
-          scheduler:
-            enabled: true
-          worker:
-            enabled: true
-          standalone:
-            enabled: false
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: kestra
+#   namespace: argocd
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "3"
+# spec:
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: kestra
+#   project: default
+#   source:
+#     chart: kestra
+#     repoURL: https://helm.kestra.io/
+#     targetRevision: 0.23.5
+#     helm:
+#       valuesObject:
+#         deployments:
+#           webserver:
+#             enabled: true
+#           executor:
+#             enabled: true
+#           indexer:
+#             enabled: true
+#           scheduler:
+#             enabled: true
+#           worker:
+#             enabled: true
+#           standalone:
+#             enabled: false
 
-        postgresql:
-          enabled: true
-          auth:
-            database: kestra
-            username: kestra
-            password: kestra
+#         postgresql:
+#           enabled: true
+#           auth:
+#             database: kestra
+#             username: kestra
+#             password: kestra
 
-          primary:
-            persistence:
-              enabled: true
-              size: 8Gi
+#           primary:
+#             persistence:
+#               enabled: true
+#               size: 8Gi
 
-        ingress:
-          enabled: true
-          ingressClassName: nginx
-          annotations:
-            cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-          hosts:
-            - host: kestra-prod.70ld.dev
-              paths:
-                - path: /
-                  pathType: ImplementationSpecific
-          tls:
-            - secretName: kestra-prod-tls
-              hosts:
-                - kestra-prod.70ld.dev
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#         ingress:
+#           enabled: true
+#           ingressClassName: nginx
+#           annotations:
+#             cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+#           hosts:
+#             - host: kestra-prod.70ld.dev
+#               paths:
+#                 - path: /
+#                   pathType: ImplementationSpecific
+#           tls:
+#             - secretName: kestra-prod-tls
+#               hosts:
+#                 - kestra-prod.70ld.dev
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
