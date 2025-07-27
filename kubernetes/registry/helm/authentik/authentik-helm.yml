@@ -1,0 +1,72 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authentik
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: authentik
+  project: default
+  source:
+    chart: authentik
+    repoURL: https://charts.goauthentik.io
+    targetRevision: 2025.6.3
+    helm:
+      valuesObject:
+        authentik:
+          secret_key: "cMWj9GmSs+PGUDZms9/wGux6+GuepZBE/lbFkb0Swx44YTUx1R5RIqYiyi7T0MIVA16y6znOqj9q+xHD"
+          error_reporting:
+            enabled: true
+          postgresql:
+            host: cnpg-cluster-rw.cnpg-cluster.svc.cluster.local
+            port: 5432
+            name: authentik-db
+            user: authentik
+            password: password
+          redis:
+            host: redis-svc.redis.svc.cluster.local
+            password: ""
+
+        server:
+          enabled: true
+          name: authentik-server
+          replicas: 1
+
+          service:
+            annotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.7.120
+            type: LoadBalancer
+
+          ingress:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+              nginx.ingress.kubernetes.io/rewrite-target: /
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+            ingressClassName: nginx
+            hosts:
+              - authentik-prod.70ld.dev
+            pathType: Prefix
+            tls:
+              - secretName: authentik-tls
+                hosts:
+                  - authentik-prod.70ld.dev
+            https: true
+
+        # Disable internal postgres
+        postgres:
+          enabled: false
+
+        redis:
+          enabled: false
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,155 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio-tenant
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: minio-tenant
+  project: default
+  source:
+    chart: tenant
+    repoURL: https://operator.min.io
+    targetRevision: 7.1.1
+    helm:
+      valuesObject:
+        tenant:
+          name: minio-tenant
+
+          configSecret:
+            name: minio-tenant-env-configuration
+            accessKey: minio
+            secretKey: minio123
+          poolsMetadata:
+            annotations: {}
+            labels: {}
+
+          pools:
+            - servers: 4
+              name: pool
+              volumesPerServer: 4
+              size: 16Gi
+              storageClassName: longhorn
+              storageAnnotations: {}
+              storageLabels: {}
+              annotations: {}
+              labels: {}
+              tolerations: []
+              nodeSelector: {}
+              affinity: {}
+              resources: {}
+              securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                fsGroup: 1000
+                fsGroupChangePolicy: "OnRootMismatch"
+                runAsNonRoot: true
+              containerSecurityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                runAsNonRoot: true
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                seccompProfile:
+                  type: RuntimeDefault
+              topologySpreadConstraints: []
+
+          mountPath: /export
+          subPath: /data
+
+          metrics:
+            enabled: true
+            port: 9000
+            protocol: http
+
+          certificate:
+            externalCaCertSecret: []
+            externalCertSecret: []
+            requestAutoCert: true
+            certConfig: {}
+
+          features:
+            bucketDNS: true
+            domains: {}
+            enableSFTP: true
+
+          buckets:
+            - name: iceberg-catalog
+            - name: dev
+            - name: cnpg-backup
+            - name: harbor-registry
+
+          users: []
+          podManagementPolicy: Parallel
+          liveness: {}
+          readiness: {}
+          startup: {}
+          lifecycle: {}
+
+          serviceAccountName: ""
+          prometheusOperator: false
+          logging:
+            json: true
+
+          # https://min.io/docs/minio/kubernetes/upstream/reference/operator-crd.html#servicemetadata
+          serviceMetadata:
+            minioServiceAnnotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.7.55
+            consoleServiceAnnotations:
+              metallb.universe.tf/loadBalancerIPs: 192.168.7.54
+
+          env: []
+          priorityClassName: ""
+          additionalVolumes: []
+          additionalVolumeMounts: []
+
+          exposeServices:
+            minio: true
+            console: true
+
+        ingress:
+          api:
+            enabled: true
+            ingressClassName: nginx
+            labels: {}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            tls:
+              - hosts:
+                  - minio-prod.70ld.dev
+                secretName: minio-api-tls
+            host: minio-prod.70ld.dev
+            path: /
+            pathType: Prefix
+
+          console:
+            enabled: true
+            ingressClassName: nginx
+            labels: {}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/proxy-ssl-server-name: "on"
+            tls:
+              - hosts:
+                  - minio-console-prod.70ld.dev
+                secretName: minio-console-tls
+            host: minio-console-prod.70ld.dev
+            path: /
+            pathType: Prefix
+
+        extraResources: {}
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

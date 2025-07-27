@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguardhome-sync
+  namespace: adguard-sync
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguardhome-sync
+  template:
+    metadata:
+      labels:
+        app: adguardhome-sync
+    spec:
+      containers:
+        - name: adguardhome-sync
+          image: lscr.io/linuxserver/adguardhome-sync:latest
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/London"
+            - name: CONFIGFILE
+              value: "/config/adguardhome-sync.yaml"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+      initContainers:
+        - name: init-sync-config
+          image: busybox:stable
+          command:
+            - sh
+            - -c
+            - |
+              cp /src/adguardhome-sync.yaml /dst/adguardhome-sync.yaml
+          volumeMounts:
+            - name: config
+              mountPath: /dst
+            - name: config-src
+              mountPath: /src
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: adguardhome-sync-pvc
+        - name: config-src
+          configMap:
+            name: adguardhome-sync-config
+            items:
+              - key: adguardhome-sync.yaml
+                path: adguardhome-sync.yaml

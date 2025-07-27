@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: adguardhome-sync-config
+  namespace: adguard-sync
+data:
+  adguardhome-sync.yaml: |
+    cron: "0 */2 * * *"
+    runOnStart: true
+    continueOnError: false
+
+    origin:
+      url: http://192.168.4.2
+      # apiPath: define an api path if other than "/control"
+      insecureSkipVerify: true 
+      username: admin
+      password: 123qwe!!
+
+    replicas:
+      - url: http://192.168.7.77
+        username: admin
+        password: 123qwe!!
+     
+    # Configure the sync API server, disabled if api port is 0
+    api:
+      port: 0
+
+
+    features:
+      generalSettings: true
+      queryLogConfig: true
+      statsConfig: true
+      clientSettings: true
+      services: true
+      filters: true
+      dhcp:
+        serverConfig: true
+        staticLeases: true
+      dns:
+        serverConfig: true
+        accessLists: true
+        rewrites: true

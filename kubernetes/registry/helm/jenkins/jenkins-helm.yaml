@@ -1,0 +1,80 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &app jenkins
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "7"
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: *app
+  project: default
+  source:
+    chart: *app
+    repoURL: https://charts.jenkins.io
+    targetRevision: 5.8.68
+    helm:
+      valuesObject:
+        controller:
+          componentName: "jenkins-controller"
+
+          admin:
+            username: "admin"
+            password: "123qwe!!"
+
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "256Mi"
+              limits:
+                cpu: "2000m"
+                memory: "4096Mi"
+
+          ingress:
+            enabled: true
+            paths: []
+            apiVersion: "networking.k8s.io/v1"
+            labels: {}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+            ingressClassName: "nginx"
+            hostName: jenkins.70ld.dev
+            tls:
+              - secretName: jenkins-tls
+                hosts:
+                  - jenkins.70ld.dev
+
+          secondaryingress:
+            enabled: false
+            paths: []
+            apiVersion: "networking.k8s.io/v1"
+            labels: {}
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+            ingressClassName: "nginx"
+            hostName: jenkins-secondary.70ld.dev
+            tls:
+              - secretName: jenkins-secondary.tls
+                hosts:
+                  - jenkins-secondary.70ld.dev
+
+            prometheus:
+              enabled: true
+              scrapeInterval: "60s"
+
+        agent:
+          enabled: true
+
+        persistence:
+          enabled: true
+          storageClass: longhorn
+          accessModes: ReadWriteOnce
+          size: 8Gi
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
