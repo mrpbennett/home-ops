@@ -19,7 +19,7 @@ data:
                 style: row
                 columns: 2
 
-            K8s Prod:
+            Kubernetes:
                 style: row
                 columns: 3
 
@@ -52,7 +52,7 @@ data:
                     password: 123qwe!!
                     fields: ["queries", "blocked", "latency"]
 
-        - K8s Prod:
+        - Kubernetes:
             - Airflow:
                 icon: apache-airflow.png
                 href: https://airflow-prod.70ld.dev
@@ -78,25 +78,20 @@ data:
                 href: https://authentik-prod.70ld.dev
                 description: Authentication & Authorization
 
+            - Docker Registry:
+                icon: docker.svg
+                href: https://registry.70ld.dev
+                description: Container Registry
+
             - Grafana:
                 icon: grafana.png
                 href: https://grafana-prod.70ld.dev/dashboards?starred
                 description: Analytics & Monitoring
 
-            - Harbor:
-                icon: harbor.svg
-                href: https://harbor-prod.70ld.dev
-                description: Container Registry
-
             - Jenkins:
                 icon: jenkins.svg
                 href: https://jenkins-prod.70ld.dev
                 description: Continuous Integration & Delivery
-
-            - Kestra:
-                icon: kestra.png
-                href: http://kestra-prod.70ld.dev
-                description: Powerful orchestration
 
             - Kubernetes:
                 icon: kubernetes.png
