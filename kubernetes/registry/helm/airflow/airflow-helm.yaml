@@ -21,7 +21,7 @@ spec:
           web:
             enabled: true
             annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
+              cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
             path: /
             pathType: ImplementationSpecific
             hosts:
