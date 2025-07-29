@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb-system
+  name: &app metallb-system
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "0"
@@ -16,7 +16,7 @@ spec:
     directory:
       recurse: true
   destination:
-    namespace: metallb-system
+    namespace: *app
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

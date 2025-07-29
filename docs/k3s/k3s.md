@@ -3,7 +3,7 @@
 # Single Control Plane
 
 ```bash
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --disable traefik --disable servicelb" K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --disable traefik --disable servicelb --node-taint node-role.kubernetes.io/master=true:NoSchedule" K3S_TOKEN=95e2850a0e0b505b8b677661885509a2 sh -
 ```
 
 ```bash
