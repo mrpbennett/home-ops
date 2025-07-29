@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
   metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: '1'
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   sources:
@@ -24,7 +24,7 @@ spec:
             enabled: true
             ingressClassName: nginx
             annotations:
-              cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             host: longhorn-prod.70ld.dev
             tls: true
             tlsSecret: longhorn-prod-tls
@@ -43,31 +43,31 @@ spec:
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: engineimages.longhorn.io
-      jsonPointers: ['/spec/preserveUnknownFields']
+      jsonPointers: ["/spec/preserveUnknownFields"]
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: engines.longhorn.io
-      jsonPointers: ['/spec/preserveUnknownFields']
+      jsonPointers: ["/spec/preserveUnknownFields"]
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: instancemanagers.longhorn.io
-      jsonPointers: ['/spec/preserveUnknownFields']
+      jsonPointers: ["/spec/preserveUnknownFields"]
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: nodes.longhorn.io
-      jsonPointers: ['/spec/preserveUnknownFields']
+      jsonPointers: ["/spec/preserveUnknownFields"]
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: replicas.longhorn.io
-      jsonPointers: ['/spec/preserveUnknownFields']
+      jsonPointers: ["/spec/preserveUnknownFields"]
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: settings.longhorn.io
-      jsonPointers: ['/spec/preserveUnknownFields']
+      jsonPointers: ["/spec/preserveUnknownFields"]
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: volumes.longhorn.io
-      jsonPointers: ['/spec/preserveUnknownFields']
+      jsonPointers: ["/spec/preserveUnknownFields"]
 
   syncPolicy:
     automated:
