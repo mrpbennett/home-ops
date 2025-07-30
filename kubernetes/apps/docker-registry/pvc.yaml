@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: registry-pvc
 spec:
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 200Gi
-  storageClassName: longhorn
