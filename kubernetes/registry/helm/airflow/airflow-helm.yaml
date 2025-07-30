@@ -39,10 +39,10 @@ spec:
           replicas: 2
           resources:
             limits:
-              cpu: 3000m
+              cpu: 2000m
               memory: 8Gi
             requests:
-              cpu: 2000m
+              cpu: 1000m
               memory: 6Gi
 
         # Airflow scheduler settings
