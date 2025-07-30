@@ -36,10 +36,10 @@ spec:
 
         # Airflow Worker Config
         workers:
-          replicas: 2
+          replicas: 1
           resources:
             limits:
-              cpu: 1000m
+              cpu: 2000m
               memory: 8Gi
             requests:
               cpu: 500m
