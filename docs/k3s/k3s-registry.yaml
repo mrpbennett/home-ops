@@ -1,5 +1,5 @@
 # /etc/rancher/k3s/registries.yaml
 mirrors:
-  "https://harbor-prod.70ld.dev":
+  "https://registry.70ld.dev":
     endpoint:
-      - "https://harbor-prod.70ld.dev"
+      - "https://registry.70ld.dev"
