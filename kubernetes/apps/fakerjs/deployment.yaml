@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: faker-express-api-deployment
-  namespace: dev
+  namespace: fakerjs
   labels:
     app: faker-express-api
 spec:
@@ -29,7 +29,7 @@ spec:
           - name: edns0
       # ---
       containers:
-        - name: faker-express-api
+        - name: fakerjs
           image: registry.70ld.dev/fakerjs:0.0.1
           imagePullPolicy: IfNotPresent
           ports:

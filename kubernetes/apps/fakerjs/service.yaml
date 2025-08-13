@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: faker-express-api-service
-  namespace: dev
+  namespace: fakerjs
 spec:
   selector:
     app: faker-express-api
