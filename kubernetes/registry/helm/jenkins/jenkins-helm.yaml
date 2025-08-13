@@ -4,7 +4,7 @@ metadata:
   name: &app jenkins
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "7"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   destination:
     server: "https://kubernetes.default.svc"
