@@ -4,7 +4,7 @@
 sudo apt-get update -y && sudo apt-get upgrade -y
 
 # ubuntu minimal
-sudo apt install curl nano jq git ufw net-tools lsof cron -y
+sudo apt install curl vim jq git ufw net-tools lsof cron -y
 
 # Longhorn
 sudo apt-get install dmsetup cryptsetup nfs-common open-iscsi -y
