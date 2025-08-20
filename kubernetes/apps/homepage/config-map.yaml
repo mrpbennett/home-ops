@@ -80,7 +80,7 @@ data:
 
             - Docker Registry:
                 icon: docker.svg
-                href: https://registry.70ld.dev
+                href: https://registry.70ld.dev/v2/_catalog
                 description: Container Registry
 
             - Grafana:
