@@ -39,11 +39,11 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             ingressClassName: "nginx"
-            hostName: jenkins.70ld.dev
+            hostName: jenkins-prod.70ld.dev
             tls:
               - secretName: jenkins-tls
                 hosts:
-                  - jenkins.70ld.dev
+                  - jenkins-prod.70ld.dev
 
           secondaryingress:
             enabled: false
