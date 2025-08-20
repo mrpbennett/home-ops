@@ -110,7 +110,7 @@ spec:
         # This runs as a CronJob to cleanup old pods.
         cleanup:
           enabled: true
-          schedule: "*/60 * * * *"
+          schedule: "0 01 * * *" # At 1am
           resources:
             limits:
               cpu: 100m
