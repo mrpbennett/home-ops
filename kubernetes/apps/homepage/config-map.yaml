@@ -123,10 +123,10 @@ data:
                 href: http://prometheus-prod.70ld.dev
                 description: Analytics & Monitoring
 
-            - Proxmox:
-                icon: proxmox.png
-                href: https://192.168.6.1:8006
-                description: Virtualization Management
+            # - Proxmox:
+            #     icon: proxmox.png
+            #     href: https://192.168.6.1:8006
+            #     description: Virtualization Management
 
             - Redis Insight:
                 icon: redis.svg
