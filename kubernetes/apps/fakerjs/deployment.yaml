@@ -30,7 +30,7 @@ spec:
       # ---
       containers:
         - name: fakerjs
-          image: registry.70ld.dev/fakerjs:0.0.2
+          image: registry.70ld.dev/fakerjs:0.0.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
