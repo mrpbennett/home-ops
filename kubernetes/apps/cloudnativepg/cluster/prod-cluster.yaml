@@ -1,10 +1,10 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cnpg-cluster
+  name: cnpg-cluster-prod
   namespace: cnpg-cluster
 spec:
-  description: "70LD PostgreSQL Cluster"
+  description: "70LD PostgreSQL PROD Cluster"
   instances: 3
   startDelay: 3600
   stopDelay: 300

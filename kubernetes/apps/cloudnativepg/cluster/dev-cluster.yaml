@@ -1,0 +1,62 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-cluster-dev
+  namespace: cnpg-cluster
+spec:
+  description: "70LD PostgreSQL DEV Cluster"
+  instances: 1
+  startDelay: 3600
+  stopDelay: 300
+  primaryUpdateStrategy: unsupervised
+
+  probes:
+    startup:
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+
+  projectedVolumeTemplate:
+    sources: []
+
+  postgresql:
+    parameters:
+      shared_buffers: 256MB
+
+  bootstrap:
+    initdb:
+      database: main
+      owner: paul
+      secret:
+        name: cnpg-cluster-user
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-cluster-superuser
+
+    services:
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: postgres-dev-rw-svc
+              annotations:
+                metallb.universe.tf/loadBalancerIPs: 192.168.7.85
+            spec:
+              type: LoadBalancer
+
+  storage:
+    storageClass: longhorn
+    size: 8Gi
+
+  resources:
+    limits:
+      memory: "1Gi"
+      cpu: "2"
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: failure-domain.beta.kubernetes.io/zone
+
+  monitoring:
+    enablePodMonitor: true
