@@ -28,11 +28,22 @@ spec:
       database: main
       owner: paul
       secret:
-        name: cnpg-cluster-user
+        name: cnpg-cluster-dev-user
 
   enableSuperuserAccess: true
   superuserSecret:
-    name: cnpg-cluster-superuser
+    name: cnpg-cluster-dev-superuser
+
+  managed:
+    roles:
+      # Role: My personal user
+      - name: paul
+        ensure: present
+        comment: "Paul's CNPG Cluster User"
+        login: true
+        superuser: true
+        passwordSecret:
+          name: cnpg-cluster-user
 
     services:
       additional:
