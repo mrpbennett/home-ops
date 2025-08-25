@@ -28,10 +28,10 @@ spec:
           config:
             LAKEKEEPER__BASE_URI: "https://lakekeeper-prod.70ld.dev"
 
-            LAKEKEEPER__PG_DATABASE_URL_READ: "postgresql://lakekeeper:password@cnpg-cluster-rw.cnpg-cluster.svc.cluster.local:5432/iceberg_catalog"
-            LAKEKEEPER__PG_DATABASE_URL_WRITE: "postgresql://lakekeeper:password@cnpg-cluster-rw.cnpg-cluster.svc.cluster.local:5432/iceberg_catalog"
-            LAKEKEEPER__PG_HOST_R: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
-            LAKEKEEPER__PG_HOST_W: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
+            LAKEKEEPER__PG_DATABASE_URL_READ: "postgresql://lakekeeper:password@cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432/iceberg_catalog"
+            LAKEKEEPER__PG_DATABASE_URL_WRITE: "postgresql://lakekeeper:password@cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432/iceberg_catalog"
+            LAKEKEEPER__PG_HOST_R: "cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local"
+            LAKEKEEPER__PG_HOST_W: "cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local"
             LAKEKEEPER__PG_PORT: "5432"
             LAKEKEEPER__PG_USER: "lakekeeper"
             LAKEKEEPER__PG_PASSWORD: "password"
@@ -73,8 +73,8 @@ spec:
         # Enable external PostgreSQL database
         externalDatabase:
           type: postgresql
-          host_read: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
-          host_write: "cnpg-cluster-rw.cnpg-cluster.svc.cluster.local"
+          host_read: "cnpg-cluster-prod-rw.cnpg-cluster.svc.cluster.local"
+          host_write: "cnpg-cluster-prod-rw.cnpg-cluster.svc.cluster.local"
           port: 5432
           database: iceberg-catalog
           username: lakekeeper
