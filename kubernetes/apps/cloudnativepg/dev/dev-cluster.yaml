@@ -21,7 +21,7 @@ spec:
 
   postgresql:
     parameters:
-      shared_buffers: 256MB
+      shared_buffers: 32MB
 
   bootstrap:
     initdb:
