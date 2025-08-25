@@ -36,8 +36,6 @@ spec:
             LAKEKEEPER__PG_USER: "lakekeeper"
             LAKEKEEPER__PG_PASSWORD: "password"
             LAKEKEEPER__PG_DATABASE: "iceberg_catalog"
-            LAKEKEEPER__PG_SSL_MODE: "disable"
-
             SSL_CERT_DIR: "/etc/ssl/custom"
 
           autoscaling:
