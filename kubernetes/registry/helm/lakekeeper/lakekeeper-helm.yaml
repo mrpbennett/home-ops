@@ -28,14 +28,15 @@ spec:
           config:
             LAKEKEEPER__BASE_URI: "https://lakekeeper-prod.70ld.dev"
 
-            LAKEKEEPER__PG_DATABASE_URL_READ: "postgresql://lakekeeper:password@cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432/iceberg_catalog"
-            LAKEKEEPER__PG_DATABASE_URL_WRITE: "postgresql://lakekeeper:password@cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432/iceberg_catalog"
+            LAKEKEEPER__PG_DATABASE_URL_READ: "postgresql://lakekeeper:password@cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432/iceberg-catalog"
+            LAKEKEEPER__PG_DATABASE_URL_WRITE: "postgresql://lakekeeper:password@cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432/iceberg-catalog"
             LAKEKEEPER__PG_HOST_R: "cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local"
             LAKEKEEPER__PG_HOST_W: "cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local"
             LAKEKEEPER__PG_PORT: "5432"
             LAKEKEEPER__PG_USER: "lakekeeper"
             LAKEKEEPER__PG_PASSWORD: "password"
-            LAKEKEEPER__PG_DATABASE: "iceberg_catalog"
+            LAKEKEEPER__PG_DATABASE: "iceberg-catalog"
+            LAKEKEEPER__PG_SSL_MODE: "disabled"
             SSL_CERT_DIR: "/etc/ssl/custom"
 
           autoscaling:
