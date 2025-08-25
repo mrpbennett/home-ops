@@ -1,9 +1,0 @@
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: authentik-db
-spec:
-  name: authentik-db
-  owner: authentik
-  cluster:
-    name: cnpg-cluster

@@ -6,4 +6,4 @@ spec:
   name: iceberg-catalog
   owner: lakekeeper
   cluster:
-    name: cnpg-cluster
+    name: cnpg-cluster-prod
