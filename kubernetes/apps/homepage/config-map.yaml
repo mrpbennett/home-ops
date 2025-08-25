@@ -17,7 +17,7 @@ data:
         layout:
             Network:
                 style: row
-                columns: 2
+                columns: 1
 
             Kubernetes:
                 style: row
@@ -28,17 +28,17 @@ data:
     bookmarks.yaml: ""
     services.yaml: |
         - Network:
-            - Omada:
-                icon: omada.png
-                href: https://omada.70ld.dev
-                description: Omada Controller
-                widget:
-                    type: omada
-                    url: http://192.168.7.100:8088
-                    username: admin
-                    password: 123qwe!!
-                    site: 70ld
-                    fields: ["connectedAp", "activeUser", "alerts", "connectedGateways", "connectedSwitches"]
+            # - Omada:
+            #     icon: omada.png
+            #     href: https://omada.70ld.dev
+            #     description: Omada Controller
+            #     widget:
+            #         type: omada
+            #         url: http://192.168.7.100:8088
+            #         username: admin
+            #         password: 123qwe!!
+            #         site: 70ld
+            #         fields: ["connectedAp", "activeUser", "alerts", "connectedGateways", "connectedSwitches"]
 
             
             - Adguard Primary:
@@ -128,10 +128,10 @@ data:
             #     href: https://192.168.6.1:8006
             #     description: Virtualization Management
 
-            - Redis Insight:
-                icon: redis.svg
-                href: https://redisinsight-prod.70ld.dev
-                description: Redis GUI
+            # - Redis Insight:
+            #     icon: redis.svg
+            #     href: https://redisinsight-prod.70ld.dev
+            #     description: Redis GUI
 
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
@@ -142,11 +142,6 @@ data:
                 icon: truenas-scale.svg
                 href: http://nas.home.local
                 description: Actually WD Cloud
-
-            - Vault:
-                icon: vault-light.svg
-                href: https://vault.70ld.dev/ui
-                description: Secrets Management
 
     widgets.yaml: ""
     docker.yaml: ""
