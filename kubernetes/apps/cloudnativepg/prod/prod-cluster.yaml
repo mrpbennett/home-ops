@@ -21,7 +21,19 @@ spec:
 
   postgresql:
     parameters:
-      shared_buffers: 256MB
+      shared_buffers: "256MB"
+
+  resources:
+    requests:
+      memory: "1024Mi"
+      cpu: 1
+    limits:
+      memory: "1024Mi"
+      cpu: 1
+
+  storage:
+    storageClass: longhorn
+    size: 10Gi
 
   bootstrap:
     initdb:
@@ -95,18 +107,6 @@ spec:
   #       secretAccessKey:
   #         name: cnpg-cluster-minio
   #         key: MINIO_SECRET_KEY
-
-  storage:
-    storageClass: longhorn
-    size: 20Gi
-
-  resources:
-    requests:
-      memory: "32Mi"
-      cpu: "50m"
-    limits:
-      memory: "128Mi"
-      cpu: "100m"
 
   affinity:
     enablePodAntiAffinity: true
