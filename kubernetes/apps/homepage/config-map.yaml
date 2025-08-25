@@ -73,11 +73,6 @@ data:
                 href: https://argoworkflows-prod.70ld.dev
                 description: CronWorkflow Management
 
-            - Authentik:
-                icon: authentik.png
-                href: https://authentik-prod.70ld.dev
-                description: Authentication & Authorization
-
             - Docker Registry:
                 icon: docker.svg
                 href: https://registry.70ld.dev/v2/_catalog
@@ -92,11 +87,6 @@ data:
                 icon: jenkins.svg
                 href: https://jenkins-prod.70ld.dev
                 description: Continuous Integration & Delivery
-
-            - Kubernetes:
-                icon: kubernetes.png
-                href: http://k8s-dash-prod.70ld.dev
-                description: Container Orchestration
 
             - Lakekeeper:
                 icon: https://avatars.githubusercontent.com/u/183464583?s=200&v=4
@@ -122,16 +112,6 @@ data:
                 icon: prometheus.png
                 href: http://prometheus-prod.70ld.dev
                 description: Analytics & Monitoring
-
-            # - Proxmox:
-            #     icon: proxmox.png
-            #     href: https://192.168.6.1:8006
-            #     description: Virtualization Management
-
-            # - Redis Insight:
-            #     icon: redis.svg
-            #     href: https://redisinsight-prod.70ld.dev
-            #     description: Redis GUI
 
             - Trino:
                 icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
