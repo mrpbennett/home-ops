@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cnpg-cluster-prod
-  namespace: cnpg-cluster
+  namespace: cnpg-cluster-prod
 spec:
   description: "70LD PostgreSQL PROD Cluster"
   instances: 3

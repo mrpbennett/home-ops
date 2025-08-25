@@ -2,7 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cnpg-cluster-dev
-  namespace: cnpg-cluster
+  namespace: cnpg-cluster-dev
 spec:
   description: "70LD PostgreSQL DEV Cluster"
   instances: 1
