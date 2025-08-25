@@ -8,4 +8,4 @@ spec:
   backupOwnerReference: cluster
   suspend: true
   cluster:
-    name: cnpg-cluster
+    name: cnpg-cluster-prod
