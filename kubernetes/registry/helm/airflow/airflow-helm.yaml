@@ -39,21 +39,21 @@ spec:
           replicas: 1
           resources:
             limits:
-              cpu: 2000m
-              memory: 8Gi
+              cpu: 1500m
+              memory: 4Gi
             requests:
               cpu: 500m
-              memory: 6Gi
+              memory: 3Gi
 
         # Airflow scheduler settings
         scheduler:
           resources:
             limits:
               cpu: 1000m
-              memory: 4Gi
+              memory: 2Gi
             requests:
               cpu: 500m
-              memory: 2Gi
+              memory: 1Gi
 
         # Number of Airflow API servers in the deployment
         apiServer:
