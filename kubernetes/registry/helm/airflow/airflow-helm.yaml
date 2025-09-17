@@ -43,7 +43,7 @@ spec:
               memory: 4Gi
             requests:
               cpu: 500m
-              memory: 3Gi
+              memory: 2Gi
 
         # Airflow scheduler settings
         scheduler:
@@ -92,7 +92,7 @@ spec:
             password: admin
             firstName: Paul
             lastName: Bennett
-            email: pbennett.uk@gmail.com
+            email: p@mrpbennett.dev
 
         # Settings for ArgoCD
         createUserJob:
