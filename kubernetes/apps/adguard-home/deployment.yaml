@@ -1,40 +1,55 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adguard-deployment
+  name: adguardhome
   namespace: adguard-home
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adguard
+      app: adguardhome
   template:
     metadata:
       labels:
-        app: adguard
+        app: adguardhome
     spec:
+      securityContext:
+        runAsUser: 0
       containers:
-        - name: adguard-home
+        - name: adguardhome
           image: adguard/adguardhome:latest
-          env:
-            - name: AGH_CONFIG
-              valueFrom:
-                configMapKeyRef:
-                  name: adguard-config
-                  key: AdGuardHome.yaml
-          ports:
-            - containerPort: 53 #dns
-              name: dns
-              protocol: UDP
-            - containerPort: 3000 #initial setup
-              name: http-initial
-            - containerPort: 80 #web gui
-              name: http
-              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
           volumeMounts:
-            - name: adguard-data
+            - name: conf
+              mountPath: /opt/adguardhome/conf
+            - name: work
               mountPath: /opt/adguardhome/work
+          ports:
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+            - name: admin-ui
+              containerPort: 3000
+              protocol: TCP
       volumes:
-        - name: adguard-data
+        - name: conf
           persistentVolumeClaim:
-            claimName: adguard-pvc
+            claimName: adguard-conf
+        - name: work
+          persistentVolumeClaim:
+            claimName: adguard-work
