@@ -4,6 +4,7 @@ metadata:
   name: adguard-pv
   namespace: adguard-home
 spec:
+  storageClassName: longhorn
   capacity:
     storage: 1Gi
   accessModes:
