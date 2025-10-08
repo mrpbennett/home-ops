@@ -18,7 +18,7 @@ spec:
             jobEnabled: false
 
           persistence:
-            defaultClassReplicaCount: 3
+            defaultClassReplicaCount: 1
 
           ingress:
             enabled: true

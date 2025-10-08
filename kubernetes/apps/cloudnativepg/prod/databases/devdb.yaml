@@ -1,9 +1,0 @@
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: devdb
-spec:
-  name: devdb
-  owner: devdb
-  cluster:
-    name: cnpg-cluster-prod

@@ -1,11 +1,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cnpg-cluster-dev
-  namespace: cnpg-cluster-dev
+  name: cnpg-cluster-prod
+  namespace: cnpg-cluster-prod
 spec:
-  description: "70LD PostgreSQL DEV Cluster"
-  instances: 1
+  description: "70LD PostgreSQL PROD Cluster"
+  instances: 3
   startDelay: 3600
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
@@ -21,18 +21,30 @@ spec:
 
   postgresql:
     parameters:
-      shared_buffers: 32MB
+      shared_buffers: "256MB"
+
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "1"
+    limits:
+      memory: "1Gi"
+      cpu: "1"
+
+  storage:
+    storageClass: longhorn
+    size: 10Gi
 
   bootstrap:
     initdb:
       database: main
       owner: paul
       secret:
-        name: cnpg-cluster-dev-user
+        name: cnpg-cluster-prod-user
 
   enableSuperuserAccess: true
   superuserSecret:
-    name: cnpg-cluster-dev-superuser
+    name: cnpg-cluster-prod-superuser
 
   managed:
     roles:
@@ -50,23 +62,24 @@ spec:
         - selectorType: rw
           serviceTemplate:
             metadata:
-              name: postgres-dev-rw-svc
+              name: postgres-prod-rw-svc
               annotations:
-                metallb.universe.tf/loadBalancerIPs: 192.168.7.85
+                metallb.universe.tf/loadBalancerIPs: 192.168.7.80
             spec:
               type: LoadBalancer
 
-  storage:
-    storageClass: longhorn
-    size: 6Gi
-
-  resources:
-    requests:
-      memory: "32Mi"
-      cpu: "50m"
-    limits:
-      memory: "128Mi"
-      cpu: "100m"
+  # backup:
+  #   retentionPolicy: "7d"
+  #   barmanObjectStore:
+  #     destinationPath: s3://cnpg-cluster
+  #     endpointURL: https://minio-tenant-hl.minio-tenant.svc.cluster.local:9000
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: cnpg-cluster-minio
+  #         key: MINIO_ACCESS_KEY
+  #       secretAccessKey:
+  #         name: cnpg-cluster-minio
+  #         key: MINIO_SECRET_KEY
 
   affinity:
     enablePodAntiAffinity: true
