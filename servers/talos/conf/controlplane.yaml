@@ -429,6 +429,7 @@ cluster:
           exemptions:
             namespaces:
               - kube-system
+              - monitoring
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration
