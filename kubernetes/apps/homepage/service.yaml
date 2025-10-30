@@ -5,8 +5,10 @@ metadata:
   namespace: homepage
   labels:
     app.kubernetes.io/name: homepage
+  annotations:
+    tailscale.com/expose: "true"
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 3000
       targetPort: http

@@ -38,7 +38,7 @@ data:
                 username: admin
                 password: 123qwe!!
                 fields: ["queries", "blocked", "latency"]
-      
+
       - Proxmox:
           icon: proxmox.png
           href: http://192.168.7.1:8006
