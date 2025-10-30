@@ -28,35 +28,19 @@ data:
   bookmarks.yaml: ""
   services.yaml: |
     - Network:
-        # - Omada:
-        #     icon: omada.png
-        #     href: https://omada.70ld.dev
-        #     description: Omada Controller
-        #     widget:
-        #         type: omada
-        #         url: http://192.168.7.100:8088
-        #         username: admin
-        #         password: 123qwe!!
-        #         site: 70ld
-        #         fields: ["connectedAp", "activeUser", "alerts", "connectedGateways", "connectedSwitches"]
 
-        
-        - Adguard Primary:
+      - Adguard:
             icon: adguard-home.png
-            href: http://dns.home.local
+            href: http://192.168.4.2
             description: Primary DNS
             widget:
                 type: adguard
-                url: http://192.168.7.100
+                url: http://192.168.4.2
                 username: admin
                 password: 123qwe!!
                 fields: ["queries", "blocked", "latency"]
 
-    - Kubernetes:
-        - Airflow:
-            icon: apache-airflow.png
-            href: https://airflow-prod.70ld.dev
-            description: Workflow Orchestration
+      - Kubernetes:
 
         - AlertManager:
             icon: prometheus.png
@@ -70,18 +54,13 @@ data:
 
         - Docker Registry:
             icon: docker.svg
-            href: https://registry.70ld.dev/v2/_catalog
+            href: https://192.168.7.2:5000/v2/_catalog
             description: Container Registry
 
         - Grafana:
             icon: grafana.png
             href: https://grafana-prod.70ld.dev/dashboards?starred
             description: Analytics & Monitoring
-
-        - Jenkins:
-            icon: jenkins.svg
-            href: https://jenkins-prod.70ld.dev
-            description: Continuous Integration & Delivery
 
         - Longhorn:
             icon: longhorn.png
