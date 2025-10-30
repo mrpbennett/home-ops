@@ -17,7 +17,7 @@ data:
     layout:
         Network:
             style: row
-            columns: 1
+            columns: 2
 
         Kubernetes:
             style: row
