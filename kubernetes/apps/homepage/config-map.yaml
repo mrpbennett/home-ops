@@ -28,7 +28,6 @@ data:
   bookmarks.yaml: ""
   services.yaml: |
     - Network:
-
       - Adguard:
             icon: adguard-home.png
             href: http://192.168.4.2
@@ -40,8 +39,7 @@ data:
                 password: 123qwe!!
                 fields: ["queries", "blocked", "latency"]
 
-      - Kubernetes:
-
+    - Kubernetes:
         - AlertManager:
             icon: prometheus.png
             href: https://alertmanager-prod.70ld.dev
