@@ -430,6 +430,7 @@ cluster:
             namespaces:
               - kube-system
               - monitoring
+              - longhorn-system
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration

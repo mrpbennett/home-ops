@@ -448,35 +448,37 @@ cluster:
   #     key: LS0tIEVYQU1QTEUgS0VZIC0tLQ==
 
   # # API server specific configuration options.
-  # apiServer:
-  #     image: registry.k8s.io/kube-apiserver:v1.34.1 # The container image used in the API server manifest.
-  #     # Extra arguments to supply to the API server.
-  #     extraArgs:
-  #         feature-gates: ServerSideApply=true
-  #         http2-max-streams-per-connection: "32"
-  #     # Extra certificate subject alternative names for the API server's certificate.
-  #     certSANs:
-  #         - 1.2.3.4
-  #         - 4.5.6.7
-  #     # Configure the API server admission plugins.
-  #     admissionControl:
-  #         - name: PodSecurity # Name is the name of the admission controller.
-  #           # Configuration is an embedded configuration object to be used as the plugin's
-  #           configuration:
-  #             apiVersion: pod-security.admission.config.k8s.io/v1alpha1
-  #             defaults:
-  #                 audit: restricted
-  #                 audit-version: latest
-  #                 enforce: baseline
-  #                 enforce-version: latest
-  #                 warn: restricted
-  #                 warn-version: latest
-  #             exemptions:
-  #                 namespaces:
-  #                     - kube-system
-  #                 runtimeClasses: []
-  #                 usernames: []
-  #             kind: PodSecurityConfiguration
+  apiServer:
+      # image: registry.k8s.io/kube-apiserver:v1.34.1 # The container image used in the API server manifest.
+      # # Extra arguments to supply to the API server.
+      # extraArgs:
+      #     feature-gates: ServerSideApply=true
+      #     http2-max-streams-per-connection: "32"
+      # # Extra certificate subject alternative names for the API server's certificate.
+      # certSANs:
+      #     - 1.2.3.4
+      #     - 4.5.6.7
+      # Configure the API server admission plugins.
+      admissionControl:
+          - name: PodSecurity # Name is the name of the admission controller.
+            # Configuration is an embedded configuration object to be used as the plugin's
+            configuration:
+              apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+              defaults:
+                  audit: restricted
+                  audit-version: latest
+                  enforce: baseline
+                  enforce-version: latest
+                  warn: restricted
+                  warn-version: latest
+              exemptions:
+                  namespaces:
+                      - kube-system
+                      - monitoring
+                      - longhorn-system
+                  runtimeClasses: []
+                  usernames: []
+              kind: PodSecurityConfiguration
   #     # Configure the API server audit policy.
   #     auditPolicy:
   #         apiVersion: audit.k8s.io/v1
