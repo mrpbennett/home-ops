@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-    <a href="[https://k3s.io/](https://k3s.io)"><img alt="talos" src="https://img.shields.io/badge/k3s-v1.3.5-yellow?logo=k3s&logoColor=white&style=flat-square"></a>
+    <a href="[https://talos.dev/](https://talos.dev)"><img alt="talos" src="https://img.shields.io/badge/talos-v1.34.1-orange?logo=talos&logoColor=white&style=flat-square"></a>
     <a href="https://github.com/mrpbennett/home-ops/commits/master"><img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/mrpbennett/home-ops?logo=git&logoColor=white&color=purple&style=flat-square"></a>
     <a href="https://discord.gg/home-operations"><img alt="Home Operations Discord" src="https://img.shields.io/badge/discord-chat-7289DA.svg?logo=discord&logoColor=white&maxAge=60&style=flat-square"></a>
 </p>
@@ -32,13 +32,13 @@ I have a HA setup running 3 Raspberry Pi5 8GB as control planes with a further 2
 
 ### Installation
 
-My Kubernetes enviroment is deployed with [k3s](https://k3s.io). With [KubeVIP](https://kube-vip.io/) providing a VIP and load balancing between my control planes while [MetalLB](https://metallb.universe.tf/) provides `LoadBalancer` support.
+My Kubernetes enviroment is deployed with [Talos](https://talos.dev). With [MetalLB](https://metallb.universe.tf/) providing `LoadBalancer` support.
 
 #### System Requirements
 
 | Role          | Memory | Cores | System Disk |
 | ------------- | ------ | ----- | ----------- |
-| Control Plane | 8 GiB  | 2     | 250 Gb      |
+| Control Plane | 6 GiB  | 4     | 250 Gb      |
 | Worker Nodes  | 32 GiB | 6     | 1 TB        |
 
 ### GitOps
@@ -79,7 +79,7 @@ My `argo-root.yaml` argocd application checks for changes in `./kubernetes/<clus
 
 ```yml
 source:
-  repoURL: 'https://github.com/mrpbennett/home-ops.git'
+  repoURL: "https://github.com/mrpbennett/home-ops.git"
   path: kubernetes/apps/nginx
 ```
 
@@ -172,11 +172,11 @@ source:
 
 ## 🔧 Hardware
 
-| Device                        | Count | Disk Sizes               | Ram  | Operating System  | Purpose           |
-| ----------------------------- | ----- | ------------------------ | ---- | ----------------- | ----------------- |
-| Raspberry Pi5                 | 3     | 250GB NVMe               | 8GB  | Ubuntu Svr ARM64  | K8s Control Plane |
-| Lenovo ThinkCentre M720q tiny | 3     | 1TB NVMe                 | 32GB | Ubuntu Svr x86_64 | K8s Worker        |
-| Hypervisor / NAS              | 1     | 250GB NVMe + 4TB storage | 16GB | Proxmox           | Hypervisor / NAS  |
+| Device                        | Count | Disk Sizes               | Ram  | Operating System  | Purpose          |
+| ----------------------------- | ----- | ------------------------ | ---- | ----------------- | ---------------- |
+| Raspberry Pi5                 | 3     | 250GB NVMe               | 8GB  | Ubuntu Svr ARM64  | Microservices    |
+| Lenovo ThinkCentre M720q tiny | 3     | 1TB NVMe                 | 32GB | Ubuntu Svr x86_64 | K8s Worker       |
+| Hypervisor / NAS              | 1     | 250GB NVMe + 4TB storage | 16GB | Proxmox           | Hypervisor / NAS |
 
 ---
 
