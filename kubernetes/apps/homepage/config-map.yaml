@@ -91,10 +91,10 @@ data:
             href: http://prometheus-prod.70ld.dev
             description: Analytics & Monitoring
 
-        - Trino:
-            icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
-            href: https://trino-prod.70ld.dev/ui
-            description: Fast distributed SQL query engine
+        # - Trino:
+        #     icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
+        #     href: https://trino-prod.70ld.dev/ui
+        #     description: Fast distributed SQL query engine
 
         - TrueNAS Scale:
             icon: truenas-scale.svg
