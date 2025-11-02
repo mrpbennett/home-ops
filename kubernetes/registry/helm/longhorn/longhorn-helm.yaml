@@ -53,6 +53,31 @@ spec:
               data:
                 username: cGF1bA==
                 password: MTIzcXdlISE=
+
+            # back up jobs
+            - apiVersion: longhorn.io/v1beta2
+              kind: RecurringJob
+              metadata:
+                name: weekly-system-backup 
+                namespace: longhorn-system
+              spec:
+                task: system-backup
+                cron: '0 1 * * SUN'
+                retain: 1
+                parameters:
+                  volume-backup-policy: if-not-present
+                  
+            - apiVersion: longhorn.io/v1beta2
+              kind: RecurringJob
+              metadata:
+                name: weekly-system-backup 
+                namespace: longhorn-system
+              spec:
+                task: system-backup
+                cron: '0 1 * * SUN'
+                retain: 1
+                parameters:
+                  volume-backup-policy: if-not-present
             
 
   destination:
