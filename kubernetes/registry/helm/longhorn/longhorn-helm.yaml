@@ -25,7 +25,7 @@ spec:
             volumeBindngMode: "Immediate"
 
           defaultBackupStore:
-            backupTarget: "nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3"
+            backupTarget: "nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3,nolock,soft,timeo=300"
             backupTargetCredentialSecret: longhorn-nfs-backup-secret
 
           ingress:
