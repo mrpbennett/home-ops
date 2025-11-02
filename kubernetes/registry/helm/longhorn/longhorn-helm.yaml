@@ -43,16 +43,16 @@ spec:
               enabled: true
               interval: 30s
 
-          extraObjects: |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: longhorn-nfs-backup-secret
-              namespace: longhorn-system
-            type: Opaque
-            data:
-              username: admin
-              password: 123qwe!!
+          extraObjects:
+            - apiVersion: v1
+              kind: Secret
+              metadata:
+                name: longhorn-nfs-backup-secret
+                namespace: longhorn-system
+              type: Opaque
+              data:
+                username: YWRtaW4=
+                password: MTIzcXdlISE=
             
 
   destination:
