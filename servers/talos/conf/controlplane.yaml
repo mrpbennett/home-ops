@@ -31,16 +31,16 @@ machine:
     extraArgs:
       rotate-server-certificates: true
 
-    # # The `extraMounts` field is used to add additional mounts to the kubelet container.
-    # extraMounts:
-    #     - destination: /var/lib/example # Destination is the absolute path where the mount will be placed in the container.
-    #       type: bind # Type specifies the mount kind.
-    #       source: /var/lib/example # Source specifies the source path of the mount.
-    #       # Options are fstab style mount options.
-    #       options:
-    #         - bind
-    #         - rshared
-    #         - rw
+    # The `extraMounts` field is used to add additional mounts to the kubelet container.
+    extraMounts:
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
+        # Options are fstab style mount options.
+        options:
+          - bind
+          - rshared
+          - rw
 
     # # The `extraConfig` field is used to provide kubelet configuration overrides.
     # extraConfig:
