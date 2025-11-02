@@ -26,7 +26,7 @@ spec:
 
           defaultBackupStore:
             backupTarget: "nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3"
-            backupTargetCredentialSecret: longhorn--nfs-backup-secret
+            backupTargetCredentialSecret: longhorn-nfs-backup-secret
 
           ingress:
             enabled: true
