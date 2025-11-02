@@ -54,31 +54,28 @@ spec:
                 username: cGF1bA==
                 password: MTIzcXdlISE=
 
-            # back up jobs
             - apiVersion: longhorn.io/v1beta2
               kind: RecurringJob
               metadata:
-                name: weekly-system-backup 
+                name: weekly-system-backup
                 namespace: longhorn-system
               spec:
                 task: system-backup
-                cron: '0 1 * * SUN'
+                cron: "0 1 * * SUN"
                 retain: 1
                 parameters:
                   volume-backup-policy: if-not-present
-                  
+
             - apiVersion: longhorn.io/v1beta2
               kind: RecurringJob
               metadata:
-                name: weekly-system-backup 
+                name: daily-snapshot-backup
                 namespace: longhorn-system
               spec:
-                task: system-backup
-                cron: '0 1 * * SUN'
+                task: snapshot
+                cron: "0 1 * * *"
                 retain: 1
-                parameters:
-                  volume-backup-policy: if-not-present
-            
+                concurrency: 2
 
   destination:
     server: https://kubernetes.default.svc
