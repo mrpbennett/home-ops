@@ -431,6 +431,7 @@ cluster:
               - kube-system
               - monitoring
               - longhorn-system
+              - tailscale
             runtimeClasses: []
             usernames: []
           kind: PodSecurityConfiguration
