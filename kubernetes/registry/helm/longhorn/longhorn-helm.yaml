@@ -18,7 +18,11 @@ spec:
             jobEnabled: false
 
           persistence:
+            defaultClass: true
+            defaultFsType: ext4
             defaultClassReplicaCount: 1
+            reclaimPolicy: Delete
+            volumeBindngMode: "Immediate"
 
           defaultBackupStore:
             backupTarget: "nfs://192.168.4.110/mnt/HD/HD_a2/longhorn-backups"
