@@ -9,8 +9,8 @@ spec:
     namespace: kube-system
   project: default
   source:
-    chart: operator
-    repoURL: https://operator.min.io
+    chart: headlamp
+    repoURL: https://kubernetes-sigs.github.io/headlamp
     targetRevision: 7.1.1
     helm:
       valuesObject:
