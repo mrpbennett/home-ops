@@ -1,0 +1,66 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: headlamp
+  namespace: argocd
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: kube-system
+  project: default
+  source:
+    chart: operator
+    repoURL: https://operator.min.io
+    targetRevision: 7.1.1
+    helm:
+      valuesObject:
+        replicaCount: 1
+
+        config:
+          inCluster: true
+          baseURL: headlamp.70ld.dev
+          oidc:
+            secret: true
+            name: oidc
+        
+        serviceAccount:
+          create: true
+        
+        clusterRoleBinding:
+          create: true
+          clusterRoleName: cluster-admin
+
+        service:
+          annotations: {}
+          type: ClusterIP
+          port: 80
+
+        ingress:
+          enable: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
+          ingressClassName: nginx
+          hosts:
+            - host: headlamp.70ld.dev
+              paths:
+                - path: /
+                  type: ImplementationSpecific
+          tls:
+            - secretName: headlamp-tls
+              hosts:
+                -  headlamp.70ld.dev
+
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
