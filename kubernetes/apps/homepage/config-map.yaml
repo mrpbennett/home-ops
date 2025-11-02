@@ -66,6 +66,11 @@ data:
             href: https://192.168.7.2:5000/v2/_catalog
             description: Container Registry
 
+        - Headlamp 
+            icon: headlamp.svg
+            href: https://headlamp.70ld.dev
+            description: Kubernetes UI
+
         - Grafana:
             icon: grafana.png
             href: https://grafana-prod.70ld.dev/dashboards?starred
