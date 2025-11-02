@@ -51,7 +51,7 @@ spec:
                 namespace: longhorn-system
               type: Opaque
               data:
-                username: YWRtaW4=
+                username: cGF1bA==
                 password: MTIzcXdlISE=
             
 
