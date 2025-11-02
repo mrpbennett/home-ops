@@ -186,12 +186,12 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
-              - alertmanager-prod.70ld.dev
+              - alertmanager.70ld.dev
             paths:
               - /
             tls:
               - hosts:
-                  - alertmanager-prod.70ld.dev
+                  - alertmanager.70ld.dev
                 secretName: alertmanager-prod-tls
 
           ## Configuration for Alertmanager service
@@ -220,11 +220,11 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
-              - grafana-prod.70ld.dev
+              - grafana.70ld.dev
             path: /
             tls:
               - hosts:
-                  - grafana-prod.70ld.dev
+                  - grafana.70ld.dev
                 secretName: grafana-prod-tls
           persistence:
             enabled: true
@@ -305,12 +305,12 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
-              - prometheus-prod.70ld.dev
+              - prometheus.70ld.dev
             paths:
               - /
             tls:
               - hosts:
-                  - prometheus-prod.70ld.dev
+                  - prometheus.70ld.dev
                 secretName: prometheus-prod-tls
 
           prometheusSpec:
