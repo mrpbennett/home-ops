@@ -28,10 +28,10 @@ spec:
             labels: {}
 
           pools:
-            - servers: 4
+            - servers: 1
               name: pool
-              volumesPerServer: 4
-              size: 16Gi
+              volumesPerServer: 2
+              size: 100Gi
               storageClassName: longhorn
               storageAnnotations: {}
               storageLabels: {}
@@ -79,10 +79,7 @@ spec:
             enableSFTP: true
 
           buckets:
-            - name: iceberg-catalog
-            - name: dev
             - name: cnpg-backup
-            - name: harbor-registry
 
           users: []
           podManagementPolicy: Parallel

@@ -139,6 +139,7 @@ spec:
         ## ref: https://prometheus.io/docs/alerting/alertmanager/
         alertmanager:
           enabled: true
+
           config:
             global:
               resolve_timeout: 5m
@@ -169,7 +170,7 @@ spec:
               group_by: ["alertname", "cluster", "service"]
               group_wait: 30s
               group_interval: 10m
-              repeat_interval: 24h
+              repeat_interval: 12h
               receiver: discord-warning
               routes:
                 - receiver: "null"
@@ -224,6 +225,13 @@ spec:
           ## Configuration for creating a ServiceMonitor for AlertManager
           serviceMonitor:
             selfMonitor: true
+
+          alertmanagerSpec:
+            resources:
+              requests:
+                memory: 64Mi
+              limits:
+                memory: 128Mi
 
         ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
         grafana:
@@ -329,6 +337,10 @@ spec:
                 secretName: prometheus-prod-tls
 
           prometheusSpec:
+            resources:
+              requests:
+                memory: 400Mi
+
             serviceMonitorSelectorNilUsesHelmValues: false
             serviceMonitorSelector: {}
             serviceMonitorNamespaceSelector: {}
