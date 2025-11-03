@@ -315,14 +315,6 @@ spec:
                 secretName: prometheus-prod-tls
 
           prometheusSpec:
-            additionalAlertManagerConfigs:
-              - path_prefix: /alertmanager
-                scheme: http
-                static_configs:
-                  - labels:
-                      cluster: cluster-local
-                    targets:
-                      - alertmanager.70ld.dev
 
             serviceMonitorSelectorNilUsesHelmValues: false
             serviceMonitorSelector: {}
