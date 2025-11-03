@@ -53,12 +53,12 @@ data:
     - Kubernetes:
         - AlertManager:
             icon: prometheus.png
-            href: https://alertmanager-prod.70ld.dev
+            href: https://alertmanager.70ld.dev
             description: Alert Management
 
         - ArgoCD:
             icon: argo-cd.png
-            href: https://argocd-prod.70ld.dev
+            href: https://argocd.70ld.dev
             description: Continuous Delivery
 
         - Docker Registry:
@@ -66,35 +66,35 @@ data:
             href: https://192.168.7.2:5000/v2/_catalog
             description: Container Registry
 
+        - Gatus
+            icon: gatus.png
+            href: https://gatus.70ld.dev
+            description: Monitoring
+
         - Grafana:
             icon: grafana.png
-            href: https://grafana-prod.70ld.dev/dashboards?starred
+            href: https://grafana.70ld.dev/dashboards?starred
             description: Analytics & Monitoring
 
         - Longhorn:
             icon: longhorn.png
-            href: https://longhorn-prod.70ld.dev
+            href: https://longhorn.70ld.dev
             description: Persistent Block Storage
 
         - MinIO:
             icon: minio.png
-            href: https://minio-console-prod.70ld.dev
+            href: https://minio-console.70ld.dev
             description: Distributed Object Storage
 
         - PGAdmin:
             icon: postgres.png
-            href: https://pgadmin-prod.70ld.dev
+            href: https://pgadmin.70ld.dev
             description: Postgres Management
 
         - Prometheus:
             icon: prometheus.png
-            href: http://prometheus-prod.70ld.dev
+            href: http://prometheus.70ld.dev
             description: Analytics & Monitoring
-
-        # - Trino:
-        #     icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
-        #     href: https://trino-prod.70ld.dev/ui
-        #     description: Fast distributed SQL query engine
 
         - TrueNAS Scale:
             icon: truenas-scale.svg

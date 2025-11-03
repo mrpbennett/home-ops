@@ -1,0 +1,18 @@
+apiVersion: v2
+appVersion: v5.27.2
+description: Automated service health dashboard
+home: https://github.com/TwiN/gatus
+icon: https://raw.githubusercontent.com/TwiN/gatus/a1c8422c2ff2b9d0a6f184c99e4dc728d3f2cd75/web/static/logo-192x192.png
+keywords:
+- gatus
+- healthcheck
+- uptime
+- monitoring
+maintainers:
+- name: TwiN
+name: gatus
+sources:
+- https://github.com/TwiN/helm-charts
+- https://github.com/TwiN/gatus
+type: application
+version: 1.4.4

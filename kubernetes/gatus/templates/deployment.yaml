@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "names.fullname" . }}
+  namespace: {{ include "names.namespace" . }}
+  labels:
+    {{- include "labels.baseLabels" . | nindent 4 }}
+{{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+{{- end }}
+{{- with .Values.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ .Values.deployment.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      {{- include "labels.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: {{ .Values.deployment.strategy }}
+  template:
+    metadata:
+      labels:
+        {{- include "labels.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        {{- if .Values.deployment.annotateConfigChecksum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- include "gatus.pod" . | nindent 6 }}

@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: argocd-prod.70ld.dev
+    - host: argocd.70ld.dev
       http:
         paths:
           - path: /
@@ -22,5 +22,5 @@ spec:
                   name: https
   tls:
     - hosts:
-        - argocd-prod.70ld.dev
+        - argocd.70ld.dev
       secretName: argocd-server-tls

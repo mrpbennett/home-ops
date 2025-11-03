@@ -1,0 +1,68 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gatus
+  namespace: argocd
+  metadata:
+spec:
+  project: default
+  sources:
+    - chart: gatus
+      repoURL: https://twin.github.io/helm-charts
+      targetRevision: 1.4.4
+      helm:
+        valuesObject:
+          ingress:
+            enabled: true
+            annotations: {}
+            path: /
+            pathType: Prefix
+            hosts:
+              - gatus.70ld.dev
+            tls:
+              - secretName: gatus-tls
+                hosts:
+                  - gatus.70ld.dev
+
+
+          resources:
+            limits:
+              cpu: 100m
+              memory: 32Mi
+            requests:
+              cpu: 50m
+              memory: 16Mi
+          
+          persistence:
+            enabled: true
+            size: 200Mi
+            mountPath: /data
+            accessModes:
+              - ReadWriteOnce
+            finalizers:
+              - kubernetes.io/pvc-protection
+            storageClassName: longhorn
+
+          # ref: https://github.com/TwiN/gatus#configuration
+          config:
+            endpoints:
+              - name: example
+                url: https://example.org
+                interval: 60s
+                conditions:
+                  - "[STATUS] == 200"
+                  - "[BODY] == pat(*<h1>Example Domain</h1>*)"
+
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gatus
+
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
