@@ -71,7 +71,7 @@ spec:
 
               - name: NAS Storage
                 group: bare-metal
-                url: imcp://192.168.4.110
+                url: icmp://192.168.4.110
                 interval: 60s
                 conditions:
                   - "[CONNECTED] == true"
