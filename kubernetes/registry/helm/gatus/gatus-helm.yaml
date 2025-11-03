@@ -1,4 +1,3 @@
-
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -27,7 +26,6 @@ spec:
                 hosts:
                   - gatus.70ld.dev
 
-
           resources:
             limits:
               cpu: 100m
@@ -35,7 +33,7 @@ spec:
             requests:
               cpu: 50m
               memory: 16Mi
-          
+
           persistence:
             enabled: true
             size: 200Mi
@@ -61,7 +59,7 @@ spec:
             endpoints:
               - name: Proxmox
                 group: bare-metal
-                url: "tcp://192.168.7.1:8006"
+                url: tcp://192.168.7.1:8006
                 interval: 60s
                 conditions:
                   - "[CONNECTED] == true"
@@ -73,18 +71,41 @@ spec:
 
               - name: NAS Storage
                 group: bare-metal
-                url: "tcp://192.168.4.110"
+                url: imcp://192.168.4.110
                 interval: 60s
                 conditions:
                   - "[CONNECTED] == true"
-                  - "[STATUS] == 0"
                 alerts:
                   - type: discord
                     description: "NAS storage is unreachable"
 
-              - name: CNPG Cluster RW
+                # KUBERNETES SERVICES ---
+              - name: External DNS
                 group: services
-                url: "tcp://cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432"
+                url: tcp://external-dns.external-dns.svc.cluster.local:7979
+                interval: 60s
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "External DNS service is down"
+                    failure-threshold: 3
+
+              - name: Longhorn Backend
+                group: services
+                url: tcp://longhorn-backend.longhorn-system.svc.cluster.local:9500
+                interval: 60s
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "Longhorn backend service is down"
+                    failure-threshold: 3
+
+              # K8s DATABASE
+              - name: CNPG Cluster RW
+                group: databases
+                url: tcp://cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432
                 interval: 60s
                 conditions:
                   - "[CONNECTED] == true"
@@ -97,8 +118,8 @@ spec:
                     success-threshold: 2
 
               - name: CNPG Cluster RO
-                group: services
-                url: "tcp://cnpg-cluster-prod-ro.cnpg-cluster-prod.svc.cluster.local:5432"
+                group: databases
+                url: tcp://cnpg-cluster-prod-ro.cnpg-cluster-prod.svc.cluster.local:5432
                 interval: 60s
                 conditions:
                   - "[CONNECTED] == true"
@@ -109,11 +130,9 @@ spec:
                     description: "CloudnativePG RO is unreachable"
                     failure-threshold: 5
 
-
   destination:
     server: https://kubernetes.default.svc
     namespace: gatus
-
 
   syncPolicy:
     automated:
