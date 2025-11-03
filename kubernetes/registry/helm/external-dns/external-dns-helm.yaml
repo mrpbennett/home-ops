@@ -13,7 +13,7 @@ spec:
   source:
     chart: *chart-name
     repoURL: https://kubernetes-sigs.github.io/external-dns/
-    targetRevision: 1.15.2
+    targetRevision: 1.19.0
     helm:
       valuesObject:
         sources:
@@ -72,7 +72,7 @@ spec:
 
         policy: sync
         serviceMonitor:
-          enabled: true
+          enabled: false
 
   syncPolicy:
     automated:
