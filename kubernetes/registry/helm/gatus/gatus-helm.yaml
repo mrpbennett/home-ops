@@ -93,42 +93,30 @@ spec:
 
               - name: Longhorn Backend
                 group: services
-                url: tcp://longhorn-backend.longhorn-system.svc.cluster.local:9500
+                url: https://longhorn-backend.longhorn-system.svc.cluster.local:9502/v1/healthz
                 interval: 60s
                 conditions:
-                  - "[CONNECTED] == true"
+                  - "[STATUS] == 200"
+                client:
+                  insecure: true
                 alerts:
                   - type: discord
                     description: "Longhorn backend service is down"
                     failure-threshold: 3
 
-              # K8s DATABASE
-              - name: CNPG Cluster RW
-                group: databases
-                url: tcp://cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432
+              - name: CNPG Cluster
+                group: services
+                url: https://cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:8000/v1/healthz
                 interval: 60s
                 conditions:
-                  - "[CONNECTED] == true"
-                  - "[STATUS] == 0"
-                  - "[RESPONSE_TIME] < 100"
-                alerts:
-                  - type: discord
-                    description: "CloudnativePG RW service is unreachable"
-                    failure-threshold: 3
-                    success-threshold: 2
-
-              - name: CNPG Cluster RO
-                group: databases
-                url: tcp://cnpg-cluster-prod-ro.cnpg-cluster-prod.svc.cluster.local:5432
-                interval: 60s
-                conditions:
-                  - "[CONNECTED] == true"
-                  - "[STATUS] == 0"
-                  - "[RESPONSE_TIME] < 100"
+                  - "[STATUS] == 200"
+                client:
+                  insecure: true
                 alerts:
                   - type: discord
                     description: "CloudnativePG RO is unreachable"
-                    failure-threshold: 5
+                    failure-threshold: 3
+                    success-threshold: 1
 
   destination:
     server: https://kubernetes.default.svc
