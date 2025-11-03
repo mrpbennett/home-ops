@@ -52,6 +52,7 @@ spec:
               title: "70LD Infra Health"
               header: "70LD Homelab"
               link: "https://github.com/mrpbennett"
+              default-sort-by: group
 
             alerting:
               discord:
@@ -95,7 +96,7 @@ spec:
                     failure-threshold: 3
                     success-threshold: 2
 
-              - name: CNPG Cluster RW
+              - name: CNPG Cluster RO
                 group: services
                 url: "tcp://cnpg-cluster-prod-ro.cnpg-cluster-prod.svc.cluster.local:5432"
                 interval: 60s
