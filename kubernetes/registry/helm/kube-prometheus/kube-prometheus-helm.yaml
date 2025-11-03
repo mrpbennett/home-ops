@@ -168,18 +168,28 @@ spec:
             route:
               group_by: ["alertname", "cluster", "service"]
               group_wait: 30s
-              group_interval: 5m
-              repeat_interval: 12h
-              receiver: discord
+              group_interval: 10m
+              repeat_interval: 24h
+              receiver: discord-warning
               routes:
                 - receiver: "null"
                   matchers:
                     - alertname = "Watchdog"
+
+                - receiver: discord-critical
+                  matchers:
+                    - severity = "critical"
             receivers:
               - name: "null"
-              - name: discord
+
+              - name: discord-critical
                 discord_configs:
-                  - webhook_url: https://discord.com/api/webhooks/1434854791900692661/9UWUhw3Hocq33ccJaqnzC__kCS9hpEIzetobHmL7PZ859PB4jRbPZSE854kKWc_kwdHp
+                  - webhook_url: https://discord.com/api/webhooks/1435002409062629446/q9I3DMmVt1WBCMKFC1Y0swU8kuMBmtzqAD0avc1ZEJ9-avvIQEupJBOXp3ldYzMP4c8t
+                    send_resolved: true
+
+              - name: discord-warning
+                discord_configs:
+                  - webhook_url: https://discord.com/api/webhooks/1435002806858809485/2YRHDIh5jLTw1h3VSC4n_r7-vHV6AKxO3L8Hak2P8aP4p_JDaZVn--u9ckZET1gd6pky
                     send_resolved: true
 
             templates:
