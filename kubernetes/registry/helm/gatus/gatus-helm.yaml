@@ -82,7 +82,7 @@ spec:
                 # KUBERNETES SERVICES ---
               - name: External DNS
                 group: services
-                url: http://external-dns.external-dns.svc.cluster.local:7979
+                url: http://external-dns.external-dns.svc.cluster.local:8080
                 interval: 60s
                 conditions:
                   - "[STATUS] == 200"
@@ -108,7 +108,7 @@ spec:
 
               - name: CNPG Cluster
                 group: services
-                url: http://cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432
+                url: http://cnpg-cluster-rw.cnpg-cluster.svc.cluster.local:5432
                 interval: 60s
                 conditions:
                   - "[STATUS] == 200"

@@ -1,11 +1,11 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: cnpg-cluster-prod-backup
-  namespace: cnpg-cluster-prod
+  name: cnpg-cluster-backup
+  namespace: cnpg-cluster
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: cluster
   suspend: true
   cluster:
-    name: cnpg-cluster-prod
+    name: cnpg-cluster
