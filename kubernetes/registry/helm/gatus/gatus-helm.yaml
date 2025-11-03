@@ -69,6 +69,26 @@ spec:
                   - type: discord
                     description: "PVE1 is unreachable"
 
+              - name: Talos CP 1
+                group: virtual-machines
+                url: icmp://192.168.7.10
+                interval: 60s
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "Talos CP is unreachable"
+
+              - name: Talos WK 1
+                group: virtual-machines
+                url: icmp://192.168.7.13
+                interval: 60s
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "Talos WK is unreachable"
+
               - name: NAS Storage
                 group: bare-metal
                 url: icmp://192.168.4.110
@@ -84,6 +104,8 @@ spec:
                 group: services
                 url: http://external-dns.external-dns.svc.cluster.local:8080
                 interval: 60s
+                ui:
+                  hide-hostname: true
                 conditions:
                   - "[STATUS] == 200"
                 client:
@@ -97,6 +119,8 @@ spec:
                 group: services
                 url: http://longhorn-backend.longhorn-system.svc.cluster.local:9500
                 interval: 60s
+                ui:
+                  hide-hostname: true
                 conditions:
                   - "[STATUS] == 200"
                 client:
@@ -110,6 +134,8 @@ spec:
                 group: services
                 url: http://cnpg-cluster-rw.cnpg-cluster.svc.cluster.local:5432
                 interval: 60s
+                ui:
+                  hide-hostname: true
                 conditions:
                   - "[STATUS] == 200"
                 client:
