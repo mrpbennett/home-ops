@@ -82,10 +82,12 @@ spec:
                 # KUBERNETES SERVICES ---
               - name: External DNS
                 group: services
-                url: tcp://external-dns.external-dns.svc.cluster.local:7979
+                url: http://external-dns.external-dns.svc.cluster.local:7979
                 interval: 60s
                 conditions:
-                  - "[CONNECTED] == true"
+                  - "[STATUS] == 200"
+                client:
+                  insecure: true
                 alerts:
                   - type: discord
                     description: "External DNS service is down"
@@ -93,7 +95,7 @@ spec:
 
               - name: Longhorn Backend
                 group: services
-                url: https://longhorn-backend.longhorn-system.svc.cluster.local:9502/v1/healthz
+                url: http://longhorn-backend.longhorn-system.svc.cluster.local:9500
                 interval: 60s
                 conditions:
                   - "[STATUS] == 200"
@@ -106,7 +108,7 @@ spec:
 
               - name: CNPG Cluster
                 group: services
-                url: https://cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:8000/v1/healthz
+                url: http://cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432
                 interval: 60s
                 conditions:
                   - "[STATUS] == 200"
@@ -114,7 +116,7 @@ spec:
                   insecure: true
                 alerts:
                   - type: discord
-                    description: "CloudnativePG RO is unreachable"
+                    description: "CloudnativePG RW is unreachable"
                     failure-threshold: 3
                     success-threshold: 1
 
