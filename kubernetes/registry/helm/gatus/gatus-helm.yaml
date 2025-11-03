@@ -71,88 +71,19 @@ spec:
                   - type: discord
                     description: "PVE1 is unreachable"
 
-              - name: Talos CP 1
-                group: virtual-machines
-                url: icmp://192.168.7.10
-                interval: 60s
-                ui:
-                  hide-hostname: true
-                conditions:
-                  - "[CONNECTED] == true"
-                alerts:
-                  - type: discord
-                    description: "Talos CP is unreachable"
-
-              - name: Talos WK 1
-                group: virtual-machines
-                url: icmp://192.168.7.13
-                interval: 60s
-                ui:
-                  hide-hostname: true
-                conditions:
-                  - "[CONNECTED] == true"
-                alerts:
-                  - type: discord
-                    description: "Talos WK is unreachable"
-
               - name: NAS Storage
                 group: bare-metal
-                url: icmp://192.168.4.110
+                url: ssh://192.168.4.110:22
                 interval: 60s
                 ui:
                   hide-hostname: true
                 conditions:
                   - "[CONNECTED] == true"
+                  - "[STATUS] == 0"
+                  - "[RESPONSE_TIME] < 100"
                 alerts:
                   - type: discord
                     description: "NAS storage is unreachable"
-
-                # KUBERNETES SERVICES ---
-              - name: External DNS
-                group: services
-                url: tcp://10.244.1.230:7979
-                interval: 60s
-                ui:
-                  hide-hostname: true
-                conditions:
-                  - "[STATUS] == 200"
-                client:
-                  insecure: true
-                alerts:
-                  - type: discord
-                    description: "External DNS service is down"
-                    failure-threshold: 3
-
-              - name: Longhorn Backend
-                group: services
-                url: tcp://longhorn-backend.longhorn-system.svc.cluster.local:9500
-                interval: 60s
-                ui:
-                  hide-hostname: true
-                conditions:
-                  - "[STATUS] == 200"
-                client:
-                  insecure: true
-                alerts:
-                  - type: discord
-                    description: "Longhorn backend service is down"
-                    failure-threshold: 3
-
-              - name: CNPG Cluster
-                group: services
-                url: tcp://10.244.1.5:5342
-                interval: 60s
-                ui:
-                  hide-hostname: true
-                conditions:
-                  - "[STATUS] == 200"
-                client:
-                  insecure: true
-                alerts:
-                  - type: discord
-                    description: "CloudnativePG RW is unreachable"
-                    failure-threshold: 3
-                    success-threshold: 1
 
   destination:
     server: https://kubernetes.default.svc
