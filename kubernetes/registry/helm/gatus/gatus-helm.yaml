@@ -48,13 +48,25 @@ spec:
 
           # ref: https://github.com/TwiN/gatus#configuration
           config:
+            ui:
+              title: "70LD Infra Health"
+              header: "70LD Homelab"
+              link: "https://github.com/mrpbennett"
+
+            alerting:
+              discord:
+                webhook-url: "https://discord.com/api/webhooks/1434854791900692661/9UWUhw3Hocq33ccJaqnzC__kCS9hpEIzetobHmL7PZ859PB4jRbPZSE854kKWc_kwdHp"
+
             endpoints:
-              - name: example
-                url: https://example.org
+              - name: NAS Storage
+                url: icmp://192.168.4.110
                 interval: 60s
                 conditions:
-                  - "[STATUS] == 200"
-                  - "[BODY] == pat(*<h1>Example Domain</h1>*)"
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "NAS storage is unreachable"
+                    send-on-resolve: true
 
 
   destination:
