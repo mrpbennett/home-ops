@@ -110,7 +110,7 @@ spec:
                 # KUBERNETES SERVICES ---
               - name: External DNS
                 group: services
-                url: http://10.244.1.230:7979
+                url: tcp://10.244.1.230:7979
                 interval: 60s
                 ui:
                   hide-hostname: true
@@ -125,7 +125,7 @@ spec:
 
               - name: Longhorn Backend
                 group: services
-                url: http://longhorn-backend.longhorn-system.svc.cluster.local:9500
+                url: tcp://longhorn-backend.longhorn-system.svc.cluster.local:9500
                 interval: 60s
                 ui:
                   hide-hostname: true
@@ -140,7 +140,7 @@ spec:
 
               - name: CNPG Cluster
                 group: services
-                url: http://10.244.1.5:5342
+                url: tcp://10.244.1.5:5342
                 interval: 60s
                 ui:
                   hide-hostname: true
