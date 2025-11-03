@@ -176,6 +176,7 @@ spec:
                   matchers:
                     - alertname = "Watchdog"
             receivers:
+              - name: "null"
               - name: discord
                 discord_configs:
                   - webhook_url: https://discord.com/api/webhooks/1434854791900692661/9UWUhw3Hocq33ccJaqnzC__kCS9hpEIzetobHmL7PZ859PB4jRbPZSE854kKWc_kwdHp
