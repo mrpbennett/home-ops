@@ -5,7 +5,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: paulbennett@pnfb.uk
+    email: p@mrpbennett.dev 
     privateKeySecretRef:
       name: letsencrypt-cloudflare-dns-issuer-secret
     solvers:

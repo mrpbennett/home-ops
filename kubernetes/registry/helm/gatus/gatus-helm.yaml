@@ -58,11 +58,25 @@ spec:
                 webhook-url: "https://discord.com/api/webhooks/1434854791900692661/9UWUhw3Hocq33ccJaqnzC__kCS9hpEIzetobHmL7PZ859PB4jRbPZSE854kKWc_kwdHp"
 
             endpoints:
-              - name: NAS Storage
-                url: icmp://192.168.4.110
+              - name: Proxmox
+                group: bare-metal
+                url: "icmp://192.168.7.1"
                 interval: 60s
                 conditions:
                   - "[CONNECTED] == true"
+                  - "[RESPONSE_TIME] < 100"
+                alerts:
+                  - type: discord
+                    description: "PVE1 is unreachable"
+                    send-on-resolve: true
+
+              - name: NAS Storage
+                group: bare-metal
+                url: "icmp://192.168.4.110"
+                interval: 60s
+                conditions:
+                  - "[CONNECTED] == true"
+                  - "[RESPONSE_TIME] < 100"
                 alerts:
                   - type: discord
                     description: "NAS storage is unreachable"
