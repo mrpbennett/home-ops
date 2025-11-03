@@ -170,13 +170,15 @@ spec:
               group_wait: 30s
               group_interval: 5m
               repeat_interval: 12h
-              receiver: "null"
+              receiver: discord
               routes:
                 - receiver: "null"
                   matchers:
                     - alertname = "Watchdog"
             receivers:
-              - name: "null"
+              - name: discord
+                discord_configs:
+                  - webhook_url: https://discord.com/api/webhooks/1434854791900692661/9UWUhw3Hocq33ccJaqnzC__kCS9hpEIzetobHmL7PZ859PB4jRbPZSE854kKWc_kwdHp
             templates:
               - "/etc/alertmanager/config/*.tmpl"
 
@@ -288,7 +290,7 @@ spec:
               annotations: {}
 
             deployment:
-              enabled: false
+              enabled: true
 
         ## Deploy a Prometheus instance
         prometheus:
@@ -314,6 +316,15 @@ spec:
                 secretName: prometheus-prod-tls
 
           prometheusSpec:
+            additionalAlertManagerConfigs:
+              - path_prefix: /alertmanager
+                scheme: http
+                static_configs:
+                  - labels:
+                      cluster: cluster-local
+                    targets:
+                      - alertmanager.70ld.dev
+
             serviceMonitorSelectorNilUsesHelmValues: false
             serviceMonitorSelector: {}
             serviceMonitorNamespaceSelector: {}
@@ -322,7 +333,7 @@ spec:
             ruleSelectorNilUsesHelmValues: false
             probeSelectorNilUsesHelmValues: false
 
-            retention: 10d
+            retention: 7d
             replicas: 1
             logLevel: info
             logFormat: logfmt
