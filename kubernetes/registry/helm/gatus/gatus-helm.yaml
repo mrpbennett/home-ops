@@ -65,7 +65,7 @@ spec:
                 conditions:
                   - "[CONNECTED] == true"
                   - "[STATUS] == 0"
-                  - "[RESPONSE] < 100"
+                  - "[RESPONSE_TIME] < 100"
                 alerts:
                   - type: discord
                     description: "PVE1 is unreachable"
@@ -81,17 +81,32 @@ spec:
                   - type: discord
                     description: "NAS storage is unreachable"
 
-              - name: CNPG Cluster
+              - name: CNPG Cluster RW
                 group: services
-                url: "tcp://cnpg-cluster-prod-rw.svc.cluster.local:5432"
+                url: "tcp://cnpg-cluster-prod-rw.cnpg-cluster-prod.svc.cluster.local:5432"
                 interval: 60s
                 conditions:
                   - "[CONNECTED] == true"
                   - "[STATUS] == 0"
-                  - "[RESPONSE] < 100"
+                  - "[RESPONSE_TIME] < 100"
                 alerts:
                   - type: discord
-                    description: "CloudnativePG is unreachable"
+                    description: "CloudnativePG RW service is unreachable"
+                    failure-threshold: 3
+                    success-threshold: 2
+
+              - name: CNPG Cluster RW
+                group: services
+                url: "tcp://cnpg-cluster-prod-ro.cnpg-cluster-prod.svc.cluster.local:5432"
+                interval: 60s
+                conditions:
+                  - "[CONNECTED] == true"
+                  - "[STATUS] == 0"
+                  - "[RESPONSE_TIME] < 100"
+                alerts:
+                  - type: discord
+                    description: "CloudnativePG RO is unreachable"
+                    failure-threshold: 5
 
 
   destination:
