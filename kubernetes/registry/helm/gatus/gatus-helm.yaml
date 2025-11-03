@@ -61,6 +61,8 @@ spec:
                 group: bare-metal
                 url: tcp://192.168.7.1:8006
                 interval: 60s
+                ui:
+                  hide-hostname: true
                 conditions:
                   - "[CONNECTED] == true"
                   - "[STATUS] == 0"
@@ -73,6 +75,8 @@ spec:
                 group: virtual-machines
                 url: icmp://192.168.7.10
                 interval: 60s
+                ui:
+                  hide-hostname: true
                 conditions:
                   - "[CONNECTED] == true"
                 alerts:
@@ -83,6 +87,8 @@ spec:
                 group: virtual-machines
                 url: icmp://192.168.7.13
                 interval: 60s
+                ui:
+                  hide-hostname: true
                 conditions:
                   - "[CONNECTED] == true"
                 alerts:
@@ -93,6 +99,8 @@ spec:
                 group: bare-metal
                 url: icmp://192.168.4.110
                 interval: 60s
+                ui:
+                  hide-hostname: true
                 conditions:
                   - "[CONNECTED] == true"
                 alerts:
@@ -102,7 +110,7 @@ spec:
                 # KUBERNETES SERVICES ---
               - name: External DNS
                 group: services
-                url: http://external-dns.external-dns.svc.cluster.local:8080
+                url: http://10.244.1.230:7979
                 interval: 60s
                 ui:
                   hide-hostname: true
@@ -132,7 +140,7 @@ spec:
 
               - name: CNPG Cluster
                 group: services
-                url: http://cnpg-cluster-rw.cnpg-cluster.svc.cluster.local:5432
+                url: http://10.244.1.5:5342
                 interval: 60s
                 ui:
                   hide-hostname: true
