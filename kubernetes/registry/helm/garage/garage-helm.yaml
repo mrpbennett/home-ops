@@ -24,7 +24,8 @@ spec:
             api:
               enabled: true
               className: nginx
-              annotations: {}
+              annotations:
+                cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               hosts:
                 - host: "s3.garage.70ld.dev"
                   paths:
@@ -43,7 +44,8 @@ spec:
             web:
               enabled: true
               className: nginx
-              annotations: {}
+              annotations:
+                cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               hosts:
                 - host: "*.web.garage.70ld.dev"
                   paths:
