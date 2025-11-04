@@ -63,7 +63,7 @@ data:
 
         - Docker Registry:
             icon: docker.svg
-            href: https://192.168.7.2:5000/v2/_catalog
+            href: https://registry.70ld.dev/v2/_catalog
             description: Container Registry
 
         - Gatus:
