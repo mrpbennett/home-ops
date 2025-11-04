@@ -1,0 +1,78 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: garage
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://git.deuxfleurs.fr/Deuxfleurs/garage.git
+    targetRevision: main
+    path: scripts/helm/garage
+    helm:
+      releaseName: garage
+      valuesObject:
+        garage:
+          s3:
+            api:
+              region: "garage"
+
+        ingress:
+          s3:
+            api:
+              enabled: true
+              className: nginx
+              annotations: {}
+              hosts:
+                - host: "s3.garage.70ld.dev"
+                  paths:
+                    - path: /
+                      pathType: Prefix
+
+                - host: "*.s3.garage.70ld.dev"
+                  paths:
+                    - path: /
+                      pathType: Prefix
+              tls:
+                - secretName: s3-garage-tls
+                  hosts:
+                    - s3.garage.70ld.dev
+
+            web:
+              enabled: true
+              className: nginx
+              annotations: {}
+              hosts:
+                - host: "*.web.garage.70ld.dev"
+                  paths:
+                    - path: /
+                      pathType: Prefix
+
+                - host: "garage.70ld.dev"
+                  paths:
+                    - path: /
+                      pathType: Prefix
+              tls:
+                - secretName: garage-tls
+                  hosts:
+                    - garage.70ld.dev
+
+        resources:
+          limits:
+            cpu: 100m
+            memory: 1024Mi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+              
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: garage
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
