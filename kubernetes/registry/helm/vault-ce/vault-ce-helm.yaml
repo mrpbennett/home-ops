@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vault
+  name: &app vault
   namespace: argocd
   metadata:
 spec:
@@ -40,11 +40,10 @@ spec:
                 - secretName: vault-tls
                   hosts:
                     - vault.70ld.dev
-          
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: vault
+    namespace: *app
 
   syncPolicy:
     automated:
