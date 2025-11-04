@@ -339,7 +339,7 @@ spec:
           prometheusSpec:
             resources:
               requests:
-                memory: 400Mi
+                memory: 200Mi
 
             serviceMonitorSelectorNilUsesHelmValues: false
             serviceMonitorSelector: {}
