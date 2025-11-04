@@ -15,9 +15,31 @@ spec:
       releaseName: garage
       valuesObject:
         garage:
+          dbEngine: "lmdb"
+          blockSize: "1048576"
+          replicationMode: "3"
+          compressionLevel: "1"
           s3:
             api:
               region: "garage"
+              rootDomain: ".s3.garage.70ld.dev"
+            web:
+              rootDomain: "garage.70ld.dev"
+              index: "index.html"
+
+        persistence:
+          enabled: true
+          meta:
+            size: 100Mi
+            hostPath: /var/lib/garage/meta
+          data:
+            size: 100Mi
+            hostPath: /var/lib/garage/data
+
+        deployment:
+          kind: StatefulSet
+          repliaCount: 1
+          podManagementPolicy: OrderedReady
 
         ingress:
           s3:
@@ -52,28 +74,19 @@ spec:
                     - path: /
                       pathType: Prefix
 
-                - host: "garage.70ld.dev"
+                - host: "web.garage.70ld.dev"
                   paths:
                     - path: /
                       pathType: Prefix
               tls:
                 - secretName: garage-tls
                   hosts:
-                    - garage.70ld.dev
-
-        # Enable persistent storage
-        persistence:
-          meta:
-            enabled: true
-            size: 1Gi
-          data:
-            enabled: true
-            size: 10Gi
+                    - web.garage.70ld.dev
 
         resources:
           limits:
             cpu: 100m
-            memory: 256Mi
+            memory: 1024Mi
           requests:
             cpu: 100m
             memory: 128Mi
