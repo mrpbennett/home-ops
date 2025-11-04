@@ -22,9 +22,9 @@ spec:
           s3:
             api:
               region: "garage"
-              rootDomain: ".s3.garage.70ld.dev"
+              rootDomain: ".garage-s3.70ld.dev"
             web:
-              rootDomain: ".web.garage.70ld.dev"
+              rootDomain: ".garage-web.70ld.dev"
               index: "index.html"
 
         persistence:
@@ -49,19 +49,19 @@ spec:
               annotations:
                 cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               hosts:
-                - host: "s3.garage.70ld.dev"
+                - host: "garage-s3.70ld.dev"
                   paths:
                     - path: /
                       pathType: Prefix
 
-                - host: "*.s3.garage.70ld.dev"
+                - host: "*.garage-s3.70ld.dev"
                   paths:
                     - path: /
                       pathType: Prefix
               tls:
-                - secretName: s3-garage-tls
+                - secretName: garage-s3-tls
                   hosts:
-                    - s3.garage.70ld.dev
+                    - garage-s3.70ld.dev
 
             web:
               enabled: true
@@ -69,19 +69,19 @@ spec:
               annotations:
                 cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               hosts:
-                - host: "*.web.garage.70ld.dev"
+                - host: "*.garage-web.70ld.dev"
                   paths:
                     - path: /
                       pathType: Prefix
 
-                - host: "web.garage.70ld.dev"
+                - host: "garage-web.70ld.dev"
                   paths:
                     - path: /
                       pathType: Prefix
               tls:
-                - secretName: garage-tls
+                - secretName: garage-web-tls
                   hosts:
-                    - web.garage.70ld.dev
+                    - garage-web.70ld.dev
 
         resources:
           limits:
