@@ -26,10 +26,10 @@ spec:
   resources:
     requests:
       memory: "1Gi"
-      cpu: "1"
+      cpu: 250m
     limits:
       memory: "1Gi"
-      cpu: "1"
+      cpu: 500m
 
   storage:
     storageClass: longhorn
