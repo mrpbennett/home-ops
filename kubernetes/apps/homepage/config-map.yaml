@@ -30,7 +30,7 @@ data:
     - Network:
       - PiHole:
             icon: pi-hole.png
-            href: http://192.168.4.2
+            href: http://192.168.4.2/admin
             description: Primary DNS
             widget:
                 type: pihole
