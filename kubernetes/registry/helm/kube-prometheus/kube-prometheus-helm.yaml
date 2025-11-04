@@ -170,7 +170,7 @@ spec:
               group_by: ["alertname", "cluster", "service"]
               group_wait: 30s
               group_interval: 10m
-              repeat_interval: 12h
+              repeat_interval: 8h
               receiver: discord-warning
               routes:
                 - receiver: "null"
