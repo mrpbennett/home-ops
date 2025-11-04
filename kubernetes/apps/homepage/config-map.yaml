@@ -15,7 +15,7 @@ data:
     color: slate
 
     layout:
-        Network:
+        Bare-Metal:
             style: row
             columns: 2
 
@@ -27,7 +27,7 @@ data:
   custom.js: ""
   bookmarks.yaml: ""
   services.yaml: |
-    - Network:
+    - Bare-Metal:
       - PiHole:
             icon: pi-hole.png
             href: http://192.168.4.2/admin
