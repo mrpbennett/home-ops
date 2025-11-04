@@ -61,7 +61,7 @@ spec:
               tls:
                 - secretName: s3-garage-tls
                   hosts:
-                    - garage-s3.70ld.dev
+                    - s3.garage.70ld.dev
 
             web:
               enabled: true
@@ -81,7 +81,7 @@ spec:
               tls:
                 - secretName: garage-tls
                   hosts:
-                    - garage-web.70ld.dev
+                    - web.garage.70ld.dev
 
         resources:
           limits:
