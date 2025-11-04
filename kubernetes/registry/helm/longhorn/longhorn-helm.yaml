@@ -33,9 +33,9 @@ spec:
             ingressClassName: nginx
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-            host: longhorn-prod.70ld.dev
+            host: longhorn.70ld.dev
             tls: true
-            tlsSecret: longhorn-prod-tls
+            tlsSecret: longhorn-tls
             path: /
 
           metrics:
