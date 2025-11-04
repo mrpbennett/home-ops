@@ -24,7 +24,7 @@ spec:
               region: "garage"
               rootDomain: ".s3.garage.70ld.dev"
             web:
-              rootDomain: "garage.70ld.dev"
+              rootDomain: ".web.garage.70ld.dev"
               index: "index.html"
 
         persistence:
@@ -61,7 +61,7 @@ spec:
               tls:
                 - secretName: s3-garage-tls
                   hosts:
-                    - s3.garage.70ld.dev
+                    - garage-s3.70ld.dev
 
             web:
               enabled: true
@@ -81,7 +81,7 @@ spec:
               tls:
                 - secretName: garage-tls
                   hosts:
-                    - web.garage.70ld.dev
+                    - garage-web.70ld.dev
 
         resources:
           limits:
