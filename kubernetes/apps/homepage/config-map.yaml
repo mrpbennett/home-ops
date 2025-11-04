@@ -29,7 +29,7 @@ data:
   services.yaml: |
     - Network:
       - PiHole:
-            icon: pihole.png
+            icon: pi-hole.png
             href: http://192.168.4.2
             description: Primary DNS
             widget:
