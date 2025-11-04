@@ -81,11 +81,6 @@ data:
             href: https://longhorn.70ld.dev
             description: Persistent Block Storage
 
-        - MinIO:
-            icon: minio.png
-            href: https://minio-console.70ld.dev
-            description: Distributed Object Storage
-
         - PGAdmin:
             icon: postgres.png
             href: https://pgadmin.70ld.dev
@@ -100,6 +95,11 @@ data:
             icon: truenas-scale.svg
             href: http://nas.home.local
             description: Actually WD Cloud
+
+        - Vault:
+            icon: vault-light.png 
+            href: https://vault.70ld.dev/ui/
+            description: Secrets Vault
 
   widgets.yaml: ""
   docker.yaml: ""
