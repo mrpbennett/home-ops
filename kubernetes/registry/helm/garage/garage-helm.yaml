@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: garage
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
@@ -57,6 +59,15 @@ spec:
                   hosts:
                     - garage.70ld.dev
 
+        # Enable persistent storage
+        persistence:
+          meta:
+            enabled: true
+            size: 1Gi
+          data:
+            enabled: true
+            size: 10Gi
+
         resources:
           limits:
             cpu: 100m
@@ -64,7 +75,7 @@ spec:
           requests:
             cpu: 100m
             memory: 512Mi
-              
+
   destination:
     server: https://kubernetes.default.svc
     namespace: garage
@@ -75,4 +86,10 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-
+      - Validate=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 5m0s
+        factor: 2
