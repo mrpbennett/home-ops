@@ -28,7 +28,7 @@ spec:
             labels: {}
 
           pools:
-            - servers: 1
+            - servers: 2
               name: pool
               volumesPerServer: 2
               size: 100Gi
