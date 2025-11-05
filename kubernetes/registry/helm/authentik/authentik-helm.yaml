@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: authentik
+  name: &app authentik
   namespace: argocd
   metadata:
 spec:
@@ -58,7 +58,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: gatus
+    namespace: *app
 
   syncPolicy:
     automated:
