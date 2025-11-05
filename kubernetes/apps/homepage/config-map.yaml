@@ -63,7 +63,7 @@ data:
         
         - Authentik:
             icon: authentik.png
-            href: https://authentik.70ld.dev
+            href: https://authentik.70ld.dev/if/admin/#/administration/overview
             description: Authentication Provider
 
         - Docker Registry:
