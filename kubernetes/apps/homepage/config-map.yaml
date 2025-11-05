@@ -60,6 +60,11 @@ data:
             icon: argo-cd.png
             href: https://argocd.70ld.dev
             description: Continuous Delivery
+        
+        - Authentik:
+            icon: authentik.png
+            href: https://authentik.70ld.dev
+            description: Authentication Provider
 
         - Docker Registry:
             icon: docker.svg
