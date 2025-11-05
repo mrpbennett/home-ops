@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://git.deuxfleurs.fr/Deuxfleurs/garage.git
-    targetRevision: main-v1
+    targetRevision: main-v2
     path: script/helm/garage
     helm:
       releaseName: garage
@@ -22,9 +22,9 @@ spec:
           s3:
             api:
               region: "garage"
-              rootDomain: ".s3.garage.tld"
+              rootDomain: ".garage-s3.70ld.dev"
             web:
-              rootDomain: ".web.garage.tld"
+              rootDomain: ".garage-web.70ld.dev"
               index: "index.html"
 
         persistence:
@@ -49,19 +49,19 @@ spec:
               annotations:
                 cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               hosts:
-                - host: "s3.garage.tld"
+                - host: "garage-s3.70ld.dev"
                   paths:
                     - path: /
                       pathType: Prefix
 
-                - host: "*.s3.garage.tld"
+                - host: "*.garage-s3.70ld.dev"
                   paths:
                     - path: /
                       pathType: Prefix
               tls:
-                - secretName: s3.garage-tls
+                - secretName: garage-s3-tls
                   hosts:
-                    - s3.garage.tld
+                    - garage-s3.70ld.dev
 
             web:
               enabled: true
@@ -69,7 +69,7 @@ spec:
               annotations:
                 cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
               hosts:
-                - host: "*.web.garage.tld"
+                - host: "*.garage-web.70ld.dev"
                   paths:
                     - path: /
                       pathType: Prefix
