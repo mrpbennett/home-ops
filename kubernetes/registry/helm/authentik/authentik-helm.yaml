@@ -1,0 +1,68 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authentik
+  namespace: argocd
+  metadata:
+spec:
+  project: default
+  sources:
+    - chart: authentik
+      repoURL: https://charts.goauthentik.io
+      targetRevision: 2025.10.1
+      helm:
+        valuesObject:
+          authentik:
+            enabled: true
+            log_level: info
+            secret_key: O+9nm3otMhLN+yhWrUWMrzgJmOnofBCA2igay0DnMB3WNKiaCfSCdL4ampBAvk6S8C5gz5fR5hLx/0CM
+            error_reporting:
+              enabled: false
+
+            postgresql:
+              hosts: cnpg-cluster-rw.cnpg-cluster.svc.cluster.local:5432
+              name: authentik
+              user: YXV0aGVudGlr
+              password: YXV0aGVudGlrcGFzc3dvcmQ=
+              port: 5432
+
+            redis:
+              host: "{{ .Release.Name }}-redis-master"
+              password: ""
+
+          server:
+            name: authentik-server
+            replicas: 1
+
+            ingress:
+              enabled: true
+              annotations:
+                cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+              ingressClassName: nginx
+              hosts:
+                - authentik.70ld.dev
+              paths:
+                - "{{ .Values.authentik.web.path }}"
+              pathType: Prefix
+              tls:
+                - secretName: authentik-tls
+                  hosts:
+                    - authentik.70ld.dev
+              https: true
+
+            postgresql:
+              enabled: false
+
+            redis:
+              enabled: true
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gatus
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
