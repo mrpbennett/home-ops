@@ -27,11 +27,11 @@ spec:
               mountPath: /var/lib/pgadmin
       containers:
         - name: pgadmin
-          image: dpage/pgadmin4:2024-10-19-2
+          image: dpage/pgadmin4:9.9.0
           imagePullPolicy: IfNotPresent
           env:
             - name: PGADMIN_DEFAULT_EMAIL
-              value: paulbennett@pnfb.uk
+              value: p@mrpbennett.dev
             - name: PGADMIN_DEFAULT_PASSWORD
               value: password
 

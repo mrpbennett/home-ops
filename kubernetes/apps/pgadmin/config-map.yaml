@@ -7,7 +7,7 @@ data:
     {
         "Servers": {
           "1": {
-            "Name": "cnpg-cluster-prod",
+            "Name": "cnpg-cluster",
             "Group": "Servers",
             "Port": 5432,
             "Username": "postgres",
@@ -24,14 +24,5 @@ data:
             "SSLMode": "prefer",
             "MaintenanceDB": "postgres"
           },
-          "3": {
-            "Name": "cnpg-cluster-dev",
-            "Group": "Servers",
-            "Port": 5432,
-            "Username": "postgres",
-            "Host": "192.168.7.85",
-            "SSLMode": "prefer",
-            "MaintenanceDB": "postgres"
-          }
         }
     }
