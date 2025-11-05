@@ -25,7 +25,7 @@ spec:
 
   resources:
     requests:
-      memory: "1Gi"
+      memory: "750Mi"
       cpu: 250m
     limits:
       memory: "1Gi"
@@ -75,19 +75,6 @@ spec:
                 metallb.universe.tf/loadBalancerIPs: 192.168.7.80
             spec:
               type: LoadBalancer
-
-  # backup:
-  #   retentionPolicy: "7d"
-  #   barmanObjectStore:
-  #     destinationPath: s3://cnpg-cluster
-  #     endpointURL: https://minio-tenant-hl.minio-tenant.svc.cluster.local:9000
-  #     s3Credentials:
-  #       accessKeyId:
-  #         name: cnpg-cluster-minio
-  #         key: MINIO_ACCESS_KEY
-  #       secretAccessKey:
-  #         name: cnpg-cluster-minio
-  #         key: MINIO_SECRET_KEY
 
   affinity:
     enablePodAntiAffinity: true
