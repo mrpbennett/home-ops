@@ -3,7 +3,7 @@ kind: Database
 metadata:
   name: authentik-db
 spec:
-  name: authentik-db # Database name
-  owner: authentik-user # Database owner
+  name: authentik # Database name
+  owner: authentik # Database owner
   cluster:
     name: cnpg-cluster

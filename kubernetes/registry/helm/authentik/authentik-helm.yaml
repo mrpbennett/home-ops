@@ -22,8 +22,8 @@ spec:
             postgresql:
               hosts: cnpg-cluster-rw.cnpg-cluster.svc.cluster.local
               port: 5432
-              name: authentik-db
-              user: authentik-user
+              name: authentik
+              user: authentik
               password: authentikpassword
 
             redis:

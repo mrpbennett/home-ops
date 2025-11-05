@@ -57,7 +57,7 @@ spec:
         passwordSecret:
           name: cnpg-cluster-user
 
-      - name: authentik-user
+      - name: authentik
         ensure: present
         comment: "Simple application user for Authentik"
         login: true
