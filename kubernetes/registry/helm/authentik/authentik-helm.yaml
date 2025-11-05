@@ -20,7 +20,7 @@ spec:
               enabled: false
 
             postgresql:
-              hosts: cnpg-cluster-rw.cnpg-cluster.svc.cluster.local
+              host: 192.168.7.80
               port: 5432
               name: authentik
               user: authentik
