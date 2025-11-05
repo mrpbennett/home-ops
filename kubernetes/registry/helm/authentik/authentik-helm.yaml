@@ -48,7 +48,7 @@ spec:
                 - secretName: authentik-tls
                   hosts:
                     - authentik.70ld.dev
-              https: true
+              https: false
 
             postgresql:
               enabled: false
