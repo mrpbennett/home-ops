@@ -173,17 +173,20 @@ spec:
               repeat_interval: 6h
               receiver: discord-warning
               routes:
+                # use the null receiver to silence Discord alerting
+                # these will still appear in alertmanager.
                 - receiver: "null"
                   matchers:
                     - alertname = "Watchdog"
-                    # warning alerts
-                    - alertname = KubeMemoryOvercommit
-                    # critical alerts
-                    - alertname = KubeSchedulerDown
+                    # -- warning alerts
+                    - alertname = "KubeMemoryOvercommit"
+                    # -- critical alerts
+                    - alertname = "KubeSchedulerDown"
 
                 - receiver: discord-critical
                   matchers:
                     - severity = "critical"
+
             receivers:
               - name: "null"
 
