@@ -23,8 +23,8 @@ spec:
               hosts: cnpg-cluster-rw.cnpg-cluster.svc.cluster.local
               port: 5432
               name: authentik-db
-              user: YXV0aGVudGlr
-              password: YXV0aGVudGlrcGFzc3dvcmQ=
+              user: authentik
+              password: authentikpassword
 
             redis:
               host: "{{ .Release.Name }}-redis-master"
