@@ -20,24 +20,23 @@ spec:
           persistence:
             defaultClass: true
             defaultFsType: ext4
-            defaultClassReplicaCount: 1
+            defaultClassReplicaCount: 2
             reclaimPolicy: Delete
             volumeBindngMode: "Immediate"
             dataEngine: v1
-          
+
           defaultSetting:
             # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
             storageMinimalAvailablePercentage: 10
             # -- Log levels that indicate the type and severity of logs in Longhorn Manager.
             # -- The default value is "Info". (Options: "Panic", "Fatal", "Error", "Warn", "Info", "Debug", "Trace")
             logLevel: "Warn"
-  
 
           # -- Setting that allows you to update the default backupstore.
           defaultBackupStore:
             backupTarget: "nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3,nolock,soft,timeo=300"
             backupTargetCredentialSecret: longhorn-nfs-backup-secret
-          
+
           longhornUI:
             replicas: 1
 

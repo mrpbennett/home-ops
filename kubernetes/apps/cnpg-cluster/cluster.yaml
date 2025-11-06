@@ -33,7 +33,7 @@ spec:
 
   storage:
     storageClass: longhorn
-    size: 10Gi
+    size: 8Gi
 
   bootstrap:
     initdb:
