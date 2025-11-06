@@ -15,7 +15,7 @@ data:
     color: slate
 
     layout:
-        Bare-Metal:
+        Network:
             style: row
             columns: 1
 
