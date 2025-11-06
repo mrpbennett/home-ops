@@ -17,7 +17,7 @@ data:
     layout:
         Bare-Metal:
             style: row
-            columns: 2
+            columns: 1
 
         Kubernetes:
             style: row
@@ -27,10 +27,10 @@ data:
   custom.js: ""
   bookmarks.yaml: ""
   services.yaml: |
-    - Bare-Metal:
+    - Network:
       - PiHole:
             icon: pi-hole.png
-            href: http://192.168.4.2/admin
+            href: https://192.168.4.2/admin
             description: Primary DNS
             widget:
                 type: pihole
@@ -38,18 +38,6 @@ data:
                 version: 6
                 key: 123qwe!!
                 fields: ["queries", "blocked", "blocked_percent", "gravity"]
-
-      - Proxmox:
-          icon: proxmox.png
-          href: http://192.168.7.1:8006
-          description: PVE
-          widget:
-            type: proxmox
-            url: https://192.168.7.1:8006
-            username: root@pam!homepage
-            password: 20a8e387-efb8-41e9-addc-4d25fd907339
-            fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
-
     - Kubernetes:
         - AlertManager:
             icon: prometheus.png
@@ -60,7 +48,7 @@ data:
             icon: argo-cd.png
             href: https://argocd.70ld.dev
             description: Continuous Delivery
-        
+
         - Authentik:
             icon: authentik.png
             href: https://authentik.70ld.dev/if/admin/#/administration/overview
@@ -102,7 +90,7 @@ data:
             description: Actually WD Cloud
 
         - Vault:
-            icon: vault-light.png 
+            icon: vault-light.png
             href: https://vault.70ld.dev/ui/
             description: Secrets Vault
 
