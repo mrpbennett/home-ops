@@ -187,11 +187,7 @@ spec:
                   # -- critical alerts
                 - receiver: "null"
                   matchers:
-                    - alertname = "KubeSchedulerDown"
-
-                - receiver: "null"
-                  matchers:
-                    - alertname = "KubeProxyDown"
+                    - alertname =~ "KubeSchedulerDown|KubeProxyDown|KubeControllerManagerDown"
 
                   # DISCORD alerting ---
                 - receiver: discord-critical
