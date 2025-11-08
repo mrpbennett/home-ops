@@ -169,8 +169,8 @@ spec:
             route:
               group_by: ["alertname", "cluster", "service"]
               group_wait: 30s
-              group_interval: 10m
-              repeat_interval: 6h
+              group_interval: 5m
+              repeat_interval: 3h
               receiver: discord-warning
               routes:
                 # use the null receiver to silence Discord alerting
@@ -178,11 +178,22 @@ spec:
                 - receiver: "null"
                   matchers:
                     - alertname = "Watchdog"
-                    # -- warning alerts
+
+                  # -- warning alerts
+                - receiver: "null"
+                  matchers:
                     - alertname = "KubeMemoryOvercommit"
-                    # -- critical alerts
+
+                  # -- critical alerts
+                - receiver: "null"
+                  matchers:
                     - alertname = "KubeSchedulerDown"
 
+                - receiver: "null"
+                  matchers:
+                    - alertname = "KubeProxyDown"
+
+                  # DISCORD alerting ---
                 - receiver: discord-critical
                   matchers:
                     - severity = "critical"
