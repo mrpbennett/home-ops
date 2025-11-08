@@ -182,11 +182,13 @@ spec:
                   # -- warning alerts
                 - receiver: "null"
                   matchers:
+                    - severity = "warning"
                     - alertname = "KubeMemoryOvercommit"
 
                   # -- critical alerts
                 - receiver: "null"
                   matchers:
+                    - severity = "critical"
                     - alertname =~ "KubeSchedulerDown|KubeProxyDown|KubeControllerManagerDown"
 
                   # DISCORD alerting ---
