@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &app headlamp
+  namespace: argocd
+  metadata:
+  annotations: {}
+spec:
+  project: default
+  sources:
+    - chart: *app
+      repoURL: https://kubernetes-sigs.github.io
+      targetRevision: 0.37.0
+      helm:
+        valuesObject:
+          replicaCount: 1
+          config:
+            inCluster: true
+            baseURL: headlamp.70ld.dev
+            oidc:
+              clientID: gMLS3rzaNrULMPGEMGFRpthZRJy82L85pwq6iPoR
+              clientSecret: bONbYCm19z1r6JIF0WtmFwcaY8sJyrxC6ZEJcwvRZi4x2Mxst8WH7hRIxzJWQcyI5XuVGMXKs0dSvCYhU6xfnOYZRrAgnjGxcTbetYlLm5jBFzI1xLHmFf74Kc5hUDz1
+              issuerURL: https://authentik.70ld.dev/application/o/headlamp/
+              callbackURL: https://headlamp.70ld.dev/oidc-callback
+              validatorClientID: gMLS3rzaNrULMPGEMGFRpthZRJy82L85pwq6iPoR
+              validatorIssuerURL: https://authentik.70ld.dev/application/o/headlamp/
+              useAccessToken: false
+              usePKCE: false
+
+          persistentVolumeClaim:
+            enabled: true
+            accessModes:
+              - ReadWriteOnce
+            size: 10Gi
+            storageClassName: longhorn
+          
+          ingress:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
+              nginx.ingress.kubernetes.io/configuration-snippet: |
+                proxy_set_header X-Forwarded-Proto $scheme;
+            ingressClassName: nginx
+            hosts:
+              - headlamp.70ld.dev
+            tls:
+              - secretName: headlamp-tls
+                hosts:
+                  - headlamp.70ld.dev
+          
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+          extraManifests: []
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: *app
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
