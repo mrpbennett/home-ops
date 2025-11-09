@@ -57,9 +57,9 @@ spec:
                 webhook-url: "https://discord.com/api/webhooks/1434854791900692661/9UWUhw3Hocq33ccJaqnzC__kCS9hpEIzetobHmL7PZ859PB4jRbPZSE854kKWc_kwdHp"
 
             endpoints:
-              - name: Proxmox
+              - name: Pi-Hole
                 group: bare-metal
-                url: tcp://192.168.7.1:8006
+                url: ssh://192.168.4.2:22
                 interval: 60s
                 ui:
                   hide-hostname: true
@@ -69,7 +69,35 @@ spec:
                   - "[RESPONSE_TIME] < 100"
                 alerts:
                   - type: discord
-                    description: "PVE1 is unreachable"
+                    description: "DNS IS DOWN!!!!"
+
+              - name: K3s Control Plane
+                group: bare-metal
+                url: ssh://192.168.7.1:22
+                interval: 60s
+                ui:
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                  - "[STATUS] == 0"
+                  - "[RESPONSE_TIME] < 100"
+                alerts:
+                  - type: discord
+                    description: "K3s Control Plane is unreachable"
+
+              - name: K3s Worker
+                group: bare-metal
+                url: ssh://192.168.7.1:22
+                interval: 60s
+                ui:
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                  - "[STATUS] == 0"
+                  - "[RESPONSE_TIME] < 100"
+                alerts:
+                  - type: discord
+                    description: "K3s Worker is unreachable"
 
               - name: NAS Storage
                 group: bare-metal
