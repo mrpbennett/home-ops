@@ -15,7 +15,7 @@ data:
     color: slate
 
     layout:
-        Network:
+        Bare-Metal:
             style: row
             columns: 1
 
@@ -38,6 +38,7 @@ data:
                 version: 6
                 key: 123qwe!!
                 fields: ["queries", "blocked", "blocked_percent", "gravity"]
+
     - Kubernetes:
         - AlertManager:
             icon: prometheus.png
