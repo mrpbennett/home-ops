@@ -38,8 +38,7 @@ spec:
             enabled: true
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
-              nginx.ingress.kubernetes.io/configuration-snippet: |
-                proxy_set_header X-Forwarded-Proto $scheme;
+              nginx.ingress.kubernetes.io/proxy-set-headers: "X-Forwarded-Proto"
             ingressClassName: nginx
             hosts:
               - host:
