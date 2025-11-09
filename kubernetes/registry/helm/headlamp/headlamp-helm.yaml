@@ -42,7 +42,12 @@ spec:
                 proxy_set_header X-Forwarded-Proto $scheme;
             ingressClassName: nginx
             hosts:
-              - headlamp.70ld.dev
+              - host:
+                  headlamp.70ld.dev
+                paths:
+                - path: /
+                  type: ImplementationSpecific
+
             tls:
               - secretName: headlamp-tls
                 hosts:
