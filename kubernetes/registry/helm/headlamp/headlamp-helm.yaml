@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
     - chart: *app
-      repoURL: https://kubernetes-sigs.github.io
+      repoURL: https://kubernetes-sigs.github.io/headlamp/
       targetRevision: 0.37.0
       helm:
         valuesObject:
