@@ -16,7 +16,7 @@ spec:
           replicaCount: 1
           config:
             inCluster: true
-            baseURL: headlamp.70ld.dev
+            baseURL: ""
             oidc:
               clientID: gMLS3rzaNrULMPGEMGFRpthZRJy82L85pwq6iPoR
               clientSecret: bONbYCm19z1r6JIF0WtmFwcaY8sJyrxC6ZEJcwvRZi4x2Mxst8WH7hRIxzJWQcyI5XuVGMXKs0dSvCYhU6xfnOYZRrAgnjGxcTbetYlLm5jBFzI1xLHmFf74Kc5hUDz1
