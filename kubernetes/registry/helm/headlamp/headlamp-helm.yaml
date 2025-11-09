@@ -20,7 +20,7 @@ spec:
             oidc:
               clientID: gMLS3rzaNrULMPGEMGFRpthZRJy82L85pwq6iPoR
               issuerURL: https://authentik.70ld.dev/application/o/headlamp/
-              scopes: "openid profile email"
+              scopes: "profile email"
               callbackURL: https://headlamp.70ld.dev/oidc-callback
               validatorClientID: gMLS3rzaNrULMPGEMGFRpthZRJy82L85pwq6iPoR
               validatorIssuerURL: https://authentik.70ld.dev/application/o/headlamp/
