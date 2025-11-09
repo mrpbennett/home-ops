@@ -70,6 +70,11 @@ data:
             href: https://grafana.70ld.dev/dashboards?starred
             description: Analytics & Monitoring
 
+        - Headlamp:
+            icon: headlamp.png
+            href: https://headlamp.70ld.dev
+            description: Kubernetes Dashboard
+
         - Longhorn:
             icon: longhorn.png
             href: https://longhorn.70ld.dev
