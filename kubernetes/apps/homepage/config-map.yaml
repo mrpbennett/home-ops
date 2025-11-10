@@ -36,7 +36,6 @@ data:
                 type: pihole
                 url: http://192.168.4.2
                 version: 6
-                key: 123qwe!!
                 fields: ["queries", "blocked", "blocked_percent", "gravity"]
 
     - Kubernetes:
