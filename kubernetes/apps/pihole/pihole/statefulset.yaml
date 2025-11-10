@@ -20,6 +20,7 @@ spec:
           securityContext:
             capabilities:
               add:
+                - NET_ADMIN
                 - SYS_TIME
                 - SYS_NICE
           envFrom:
@@ -39,11 +40,13 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
+              path: /admin
               port: svc-80-tcp-web
             initialDelaySeconds: 10
             periodSeconds: 5
           readinessProbe:
             httpGet:
+              path: /admin
               port: svc-80-tcp-web
             initialDelaySeconds: 10
             periodSeconds: 10
