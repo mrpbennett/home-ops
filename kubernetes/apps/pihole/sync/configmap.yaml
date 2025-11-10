@@ -4,8 +4,8 @@ metadata:
   name: nebula-sync-config
   namespace: pihole
 data:
-  PRIMARY: "http://pihole-0.pihole.pihole.svc.cluster.local"
-  REPLICAS: "http://pihole-1.pihole.pihole.svc.cluster.local,http://pihole-2.pihole.pihole.svc.cluster.local"
+  PRIMARY: "http://192.168.4.2"
+  REPLICAS: "http://pihole-0.pihole.pihole.svc.cluster.local"
   FULL_SYNC: "false"
   RUN_GRAVITY: "false"
   CRON: "*/15 * * * *"
