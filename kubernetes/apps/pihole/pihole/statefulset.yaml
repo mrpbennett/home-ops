@@ -17,6 +17,11 @@ spec:
       containers:
         - name: pihole
           image: pihole/pihole:2025.11.0
+          securityContext:
+            capabilities:
+              add:
+                - SYS_TIME
+                - SYS_NICE
           envFrom:
             - configMapRef:
                 name: pihole-configmap

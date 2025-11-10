@@ -14,6 +14,9 @@ spec:
       containers:
       - name: *app
         image: ghcr.io/lovelaze/nebula-sync:latest
+        envFrom:
+        - configMapRef:
+            name: nebula-sync-config
         resources:
           requests:
             memory: "128Mi"

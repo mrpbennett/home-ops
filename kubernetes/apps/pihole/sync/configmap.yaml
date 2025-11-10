@@ -9,11 +9,8 @@ data:
   FULL_SYNC: "false"
   RUN_GRAVITY: "false"
   CRON: "*/15 * * * *"
-
   CLIENT_SKIP_TLS_VERIFICATION: "true"
-
   TZ: "Europe/London"
-
   SYNC_CONFIG_DNS: "true"
   SYNC_CONFIG_DHCP: "false"
   SYNC_CONFIG_NTP: "false"
@@ -21,7 +18,6 @@ data:
   SYNC_CONFIG_DATABASE: "false"
   SYNC_CONFIG_MISC: "false"
   SYNC_CONFIG_DEBUG: "false"
-
   SYNC_GRAVITY_DHCP_LEASES: "false"
   SYNC_GRAVITY_GROUP: "false"
   SYNC_GRAVITY_AD_LIST: "true"
