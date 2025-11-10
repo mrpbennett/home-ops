@@ -1,15 +1,8 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  something: fhslH
-
-metadata:
   name: faker-api-cj
-        namespace: dev
-
-
-
-
+  namespace: dev
 spec:
   schedule: "*/15 * * * *"
   successfulJobsHistoryLimit: 5

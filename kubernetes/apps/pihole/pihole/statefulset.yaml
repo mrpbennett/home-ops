@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pihole
+  namespace: pihole
+spec:
+  selector:
+    matchLabels:
+      app: pihole
+  serviceName: pihole
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: pihole
+    spec:
+      containers:
+        - name: pihole
+          image: pihole/pihole:2025.11.0
+          envFrom:
+            - configMapRef:
+                name: pihole-configmap
+            - secretRef:
+                name: pihole-password
+          ports:
+            - name: svc-80-tcp-web
+              containerPort: 80
+              protocol: TCP
+            - name: svc-53-udp-dns
+              containerPort: 53
+              protocol: UDP
+            - name: svc-53-tcp-dns
+              containerPort: 53
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              port: svc-80-tcp-web
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: svc-80-tcp-web
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 10
+          volumeMounts:
+            - name: pihole-etc-pihole
+              mountPath: /etc/pihole
+            - name: pihole-etc-dnsmasq
+              mountPath: /etc/dnsmasq.d
+  volumeClaimTemplates:
+    - metadata:
+        name: pihole-etc-pihole
+        namespace: pihole
+      spec:
+        storageClassName: longhorn
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 3Gi
+    - metadata:
+        name: pihole-etc-dnsmasq
+        namespace: pihole
+      spec:
+        storageClassName: longhorn
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 3Gi

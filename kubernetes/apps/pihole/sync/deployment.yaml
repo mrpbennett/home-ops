@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: &app nebula-sync
+spec:
+  selector:
+    matchLabels:
+      app: *app
+  template:
+    metadata:
+      labels:
+        app: *app
+    spec:
+      containers:
+      - name: *app
+        image: ghcr.io/lovelaze/nebula-sync:latest
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
