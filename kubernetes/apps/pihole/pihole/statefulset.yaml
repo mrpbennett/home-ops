@@ -26,8 +26,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: pihole-configmap
-            - secretRef:
-                name: pihole-password
           ports:
             - name: svc-80-tcp-web
               containerPort: 80
