@@ -55,6 +55,10 @@ spec:
                 cpu: 500m
                 memory: 512Mi
 
+            persistance:
+              size: 10Gi
+              storageClass: longhorn
+
           # Zero out replica counts of other deployment modes
           backend:
             replicas: 0
