@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app logging
+  name: &app loki-helm
   namespace: argocd
   metadata:
 spec:
@@ -32,8 +32,14 @@ spec:
             ruler:
               enable_api: true
 
+            storage:
+              type: filsystem
+              filesystem:
+                chunks_directory: /var/loki/chunks
+                rules_directory: /var/loki/rules
+
           minio:
-            enabled: true
+            enabled: false
 
           deploymentMode: SingleBinary
 
