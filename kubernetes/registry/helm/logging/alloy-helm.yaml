@@ -1,0 +1,66 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &app alloy
+  namespace: argocd
+  metadata:
+spec:
+  project: default
+  sources:
+    - chart: alloy
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: 1.4.0
+      helm:
+        valuesObject:
+          alloy:
+            configMap:
+              content: |
+                logging {
+                  level = "info"
+                  format = "logfmt"
+                }
+
+                loki.write "grafana_loki" {
+                  endpoint {
+                    url = "http://loki.logging.svc.cluster.local:3100/loki/api/v1/push"
+                  }
+                }
+
+                discovery.kubernetes "pods" {
+                  role = "pod"
+                }
+
+                discovery.relabel "pods" {
+                  targets = discovery.kubernetes.pods.targets
+
+                  rule {
+                    source_labels = ["__meta_kubernetes_namespace"]
+                    target_label  = "namespace"
+                  }
+
+                  rule {
+                    source_labels = ["__meta_kubernetes_pod_name"]
+                    target_label  = "pod"
+                  }
+
+                  rule {
+                    source_labels = ["__meta_kubernetes_pod_container_name"]
+                    target_label  = "container"
+                  }
+                }
+
+                loki.source.kubernetes "pods" {
+                  targets    = discovery.relabel.pods.output
+                  forward_to = [loki.write.grafana_loki.receiver]
+                }
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: logging
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

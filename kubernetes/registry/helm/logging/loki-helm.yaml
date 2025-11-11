@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app loki-helm
+  name: &app loki
   namespace: argocd
   metadata:
 spec:
@@ -86,7 +86,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: *app
+    namespace: logging
 
   syncPolicy:
     automated:
