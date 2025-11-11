@@ -81,6 +81,9 @@ spec:
           bloomGateway:
             replicas: 0
 
+          memcached:
+            enabled: false
+
   destination:
     server: https://kubernetes.default.svc
     namespace: *app
