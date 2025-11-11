@@ -28,6 +28,10 @@ spec:
 
                 discovery.kubernetes "pods" {
                   role = "pod"
+                  selectors {
+                    role  = "pod"
+                    field = "spec.nodeName=" + coalesce(env("HOSTNAME"), constants.hostname)
+                  }
                 }
 
                 discovery.relabel "pods" {
@@ -54,8 +58,8 @@ spec:
                   forward_to = [loki.write.grafana_loki.receiver]
                 }
 
-            extraArgs:
-              - "--max-fsnotify-files=65536"
+            extraArgs: []
+
 
 
   destination:
