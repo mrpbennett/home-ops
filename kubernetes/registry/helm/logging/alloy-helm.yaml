@@ -16,7 +16,7 @@ spec:
             configMap:
               content: |
                 logging {
-                  level = "info"
+                  level = "warn"
                   format = "logfmt"
                 }
 
@@ -59,8 +59,6 @@ spec:
                 }
 
             extraArgs: []
-
-
 
   destination:
     server: https://kubernetes.default.svc
