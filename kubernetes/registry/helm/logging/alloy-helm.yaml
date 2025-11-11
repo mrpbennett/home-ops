@@ -54,6 +54,10 @@ spec:
                   forward_to = [loki.write.grafana_loki.receiver]
                 }
 
+            extraArgs:
+              - "--max-fsnotify-files=65536"
+
+
   destination:
     server: https://kubernetes.default.svc
     namespace: logging
