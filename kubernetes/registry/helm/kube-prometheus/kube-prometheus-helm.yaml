@@ -251,8 +251,22 @@ spec:
 
         ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
         grafana:
-          defaultDashboardsEditable: true
           adminPassword: password
+
+          defaultDashboardsTimezone: Europe/London
+          defaultDashboardsEditable: true
+
+          dashboards:
+            default:
+              cloudnative-pg:
+                gnetId: 20417
+                datasource: prometheus
+
+              loki-logs:
+                gnetId: 13186
+                datasource: loki
+
+
           ingress:
             enabled: true
             ingressClassName: nginx
@@ -265,6 +279,7 @@ spec:
               - hosts:
                   - grafana.70ld.dev
                 secretName: grafana-prod-tls
+
           persistence:
             enabled: true
             type: sts
