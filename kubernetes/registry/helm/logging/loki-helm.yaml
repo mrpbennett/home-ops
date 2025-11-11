@@ -24,6 +24,7 @@ spec:
                   index:
                     prefix: loki_index_
                     period: 24h
+            auth_enabled: false
             pattern_ingester:
               enabled: true
             limits_config:
