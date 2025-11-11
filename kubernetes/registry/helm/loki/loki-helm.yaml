@@ -33,13 +33,14 @@ spec:
               enable_api: true
 
             storage:
-              type: filsystem
-              filesystem:
-                chunks_directory: /var/loki/chunks
-                rules_directory: /var/loki/rules
+              bucketNames:
+                chunks: loki-chunks
+                ruler: loki-ruler
+                admin: loki-admin
+              type: s3
 
           minio:
-            enabled: false
+            enabled: true
 
           deploymentMode: SingleBinary
 
