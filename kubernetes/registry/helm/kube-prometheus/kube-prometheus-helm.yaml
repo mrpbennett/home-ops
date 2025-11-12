@@ -5,10 +5,10 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/compare-options: ServerSideDiff=true
-    argocd.argoproj.io/sync-wave: '0'
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: monitoring
   project: default
   source:
@@ -17,7 +17,7 @@ spec:
     targetRevision: 79.4.1
     helm:
       valuesObject:
-        namespaceOverride: 'monitoring'
+        namespaceOverride: "monitoring"
 
         crds:
           enabled: true
@@ -133,8 +133,100 @@ spec:
 
         ## Additional PrometheusRules to be created
         additionalPrometheusRulesMap:
-          pod-memory-alerts: |
-            {{ .Files.Get "rules/pod-memory-alerts.yaml" | nindent 8 }}
+          pod-memory-alerts:
+            groups:
+              - name: pod-memory
+                interval: 30s
+                rules:
+                  - alert: PodMemoryRequestsExceeded
+                    expr: |
+                      (
+                        container_memory_working_set_bytes{container!="",container!="POD"}
+                        / 
+                        (kube_pod_container_resource_requests{resource="memory"} > 0)
+                      ) > 0.8
+                    for: 5m
+                    labels:
+                      severity: warning
+                    annotations:
+                      summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding memory requests"
+                      description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory request (container: {{ $labels.container }})"
+
+                  - alert: PodMemoryRequestsCritical
+                    expr: |
+                      (
+                        container_memory_working_set_bytes{container!="",container!="POD"}
+                        / 
+                        (kube_pod_container_resource_requests{resource="memory"} > 0)
+                      ) > 0.95
+                    for: 2m
+                    labels:
+                      severity: critical
+                    annotations:
+                      summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} critically exceeding memory requests"
+                      description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory request (container: {{ $labels.container }}). Potential OOM risk!"
+
+                  - alert: PodMemoryLimitsExceeded
+                    expr: |
+                      (
+                        container_memory_working_set_bytes{container!="",container!="POD"}
+                        / 
+                        (kube_pod_container_resource_limits{resource="memory"} > 0)
+                      ) > 0.9
+                    for: 2m
+                    labels:
+                      severity: critical
+                    annotations:
+                      summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} approaching memory limits"
+                      description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory limit (container: {{ $labels.container }}). OOMKill imminent!"
+
+                  # CPU alerts too - since you asked about both
+                  - alert: PodCPURequestsExceeded
+                    expr: |
+                      (
+                        rate(container_cpu_usage_seconds_total{container!="",container!="POD"}[5m])
+                        /
+                        (kube_pod_container_resource_requests{resource="cpu"} > 0)
+                      ) > 0.8
+                    for: 5m
+                    labels:
+                      severity: warning
+                    annotations:
+                      summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding CPU requests"
+                      description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage }} of its CPU request (container: {{ $labels.container }})"
+
+                  # Pods with no requests set - important for your situation!
+                  - alert: PodWithoutMemoryRequests
+                    expr: |
+                      kube_pod_container_resource_requests{resource="memory"} == 0
+                    for: 10m
+                    labels:
+                      severity: info
+                    annotations:
+                      summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has no memory requests"
+                      description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has no memory requests set. This can lead to scheduling issues and resource contention."
+
+                  # Pods that have been OOMKilled
+                  - alert: PodOOMKilled
+                    expr: |
+                      (kube_pod_container_status_last_terminated_reason{reason="OOMKilled"} == 1)
+                    for: 1m
+                    labels:
+                      severity: critical
+                    annotations:
+                      summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} was OOMKilled"
+                      description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} was terminated due to OOM. Memory limits need to be increased."
+
+                  # Pods restarting frequently (often due to OOM)
+                  - alert: PodFrequentRestarts
+                    expr: |
+                      rate(kube_pod_container_status_restarts_total[1h]) > 0.016  # More than 1 restart per hour
+                    for: 15m
+                    labels:
+                      severity: warning
+                    annotations:
+                      summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} restarting frequently"
+                      description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has restarted {{ $value | humanize }} times in the last hour. Check for OOM or crashloops."
 
         global:
           rbac:
@@ -150,29 +242,29 @@ spec:
               resolve_timeout: 5m
             inhibit_rules:
               - source_matchers:
-                  - 'severity = critical'
+                  - "severity = critical"
                 target_matchers:
-                  - 'severity =~ warning|info'
+                  - "severity =~ warning|info"
                 equal:
-                  - 'namespace'
-                  - 'alertname'
+                  - "namespace"
+                  - "alertname"
               - source_matchers:
-                  - 'severity = warning'
+                  - "severity = warning"
                 target_matchers:
-                  - 'severity = info'
+                  - "severity = info"
                 equal:
-                  - 'namespace'
-                  - 'alertname'
+                  - "namespace"
+                  - "alertname"
               - source_matchers:
-                  - 'alertname = InfoInhibitor'
+                  - "alertname = InfoInhibitor"
                 target_matchers:
-                  - 'severity = info'
+                  - "severity = info"
                 equal:
-                  - 'namespace'
+                  - "namespace"
               - target_matchers:
-                  - 'alertname = InfoInhibitor'
+                  - "alertname = InfoInhibitor"
             route:
-              group_by: ['alertname', 'cluster', 'service']
+              group_by: ["alertname", "cluster", "service"]
               group_wait: 30s
               group_interval: 5m
               repeat_interval: 3h
@@ -180,18 +272,18 @@ spec:
               routes:
                 # use the null receiver to silence Discord alerting
                 # these will still appear in alertmanager.
-                - receiver: 'null'
+                - receiver: "null"
                   matchers:
                     - alertname = "Watchdog"
 
                   # -- warning alerts
-                - receiver: 'null'
+                - receiver: "null"
                   matchers:
                     - severity = "warning"
                     - alertname = "KubeMemoryOvercommit"
 
                   # -- critical alerts
-                - receiver: 'null'
+                - receiver: "null"
                   matchers:
                     - severity = "critical"
                     - alertname =~ "KubeSchedulerDown|KubeProxyDown|KubeControllerManagerDown"
@@ -202,7 +294,7 @@ spec:
                     - severity = "critical"
 
             receivers:
-              - name: 'null'
+              - name: "null"
 
               - name: discord-critical
                 discord_configs:
@@ -215,13 +307,13 @@ spec:
                     send_resolved: true
 
             templates:
-              - '/etc/alertmanager/config/*.tmpl'
+              - "/etc/alertmanager/config/*.tmpl"
 
           ingress:
             enabled: true
             ingressClassName: nginx
             annotations:
-              cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
               - alertmanager.70ld.dev
             paths:
@@ -237,8 +329,8 @@ spec:
             labels: {}
             ipDualStack:
               enabled: false
-              ipFamilies: ['IPv6', 'IPv4']
-              ipFamilyPolicy: 'PreferDualStack'
+              ipFamilies: ["IPv6", "IPv4"]
+              ipFamilyPolicy: "PreferDualStack"
             port: 9093
             targetPort: 9093
             type: ClusterIP
@@ -275,7 +367,7 @@ spec:
             enabled: true
             ingressClassName: nginx
             annotations:
-              cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
               - grafana.70ld.dev
             path: /
@@ -361,7 +453,7 @@ spec:
             enabled: true
             ingressClassName: nginx
             annotations:
-              cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
               - prometheus.70ld.dev
             paths:
