@@ -5,24 +5,15 @@ metadata:
 data:
   servers.json: |
     {
-        "Servers": {
-          "1": {
-            "Name": "cnpg-cluster",
-            "Group": "Servers",
-            "Port": 5432,
-            "Username": "postgres",
-            "Host": "192.168.7.80",
-            "SSLMode": "prefer",
-            "MaintenanceDB": "postgres"
-          },
-          "2": {
-            "Name": "supabase-pnfb01",
-            "Group": "Servers",
-            "Port": 6543,
-            "Username": "postgres.kzqeciwvlkrgokcvgjci",
-            "Host": "aws-0-us-east-1.pooler.supabase.com",
-            "SSLMode": "prefer",
-            "MaintenanceDB": "postgres"
-          },
-        }
+    "Servers": {
+      "1": {
+        "Name": "cnpg-cluster",
+        "Group": "Servers",
+        "Port": 5432,
+        "Username": "postgres",
+        "Host": "192.168.7.80",
+        "SSLMode": "prefer",
+        "MaintenanceDB": "postgres"
+      },
+    }
     }
