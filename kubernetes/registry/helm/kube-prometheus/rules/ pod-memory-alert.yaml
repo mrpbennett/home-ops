@@ -1,0 +1,74 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: pod-memory-alerts
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: pod-memory
+      interval: 30s
+      rules:
+        - alert: PodMemoryRequestsExceeded
+          expr: |
+            (
+              container_memory_working_set_bytes{container!="",container!="POD"}
+              /
+              (kube_pod_container_resource_requests{resource="memory"} > 0)
+            ) > 0.8
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding memory requests'
+            description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory request (container: {{ $labels.container }})'
+
+        - alert: PodMemoryRequestsCritical
+          expr: |
+            (
+              container_memory_working_set_bytes{container!="",container!="POD"}
+              /
+              (kube_pod_container_resource_requests{resource="memory"} > 0)
+            ) > 0.95
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} critically exceeding memory requests'
+            description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory request (container: {{ $labels.container }}). Potential OOM risk!'
+
+        - alert: PodMemoryLimitsExceeded
+          expr: |
+            (
+              container_memory_working_set_bytes{container!="",container!="POD"}
+              /
+              (kube_pod_container_resource_limits{resource="memory"} > 0)
+            ) > 0.9
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} approaching memory limits'
+            description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory limit (container: {{ $labels.container }}). OOMKill imminent!'
+
+        - alert: PodWithoutMemoryRequests
+          expr: |
+            kube_pod_container_resource_requests{resource="memory"} == 0
+          for: 10m
+          labels:
+            severity: info
+          annotations:
+            summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} has no memory requests'
+            description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has no memory requests set. This can lead to scheduling issues and resource contention.'
+
+        - alert: PodOOMKilled
+          expr: |
+            (kube_pod_container_status_last_terminated_reason{reason="OOMKilled"} == 1)
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} was OOMKilled'
+            description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} was terminated due to OOM. Memory limits need to be increased.'
