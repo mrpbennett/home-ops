@@ -311,7 +311,7 @@ spec:
 
           ingress:
             enabled: true
-            ingressClassName: nginx
+            ingressClassName: cilium
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
@@ -365,7 +365,7 @@ spec:
 
           ingress:
             enabled: true
-            ingressClassName: nginx
+            ingressClassName: cilium
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:
@@ -451,7 +451,7 @@ spec:
 
           ingress:
             enabled: true
-            ingressClassName: nginx
+            ingressClassName: cilium
             annotations:
               cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
             hosts:

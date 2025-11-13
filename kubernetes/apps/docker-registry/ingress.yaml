@@ -3,10 +3,9 @@ kind: Ingress
 metadata:
   name: registry-ingress
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
     cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
 spec:
+  ingressClassName: cilium
   rules:
     - host: registry.70ld.dev
       http:

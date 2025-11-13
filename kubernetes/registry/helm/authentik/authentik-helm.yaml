@@ -38,7 +38,7 @@ spec:
               enabled: true
               annotations:
                 cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-              ingressClassName: nginx
+              ingressClassName: cilium
               hosts:
                 - authentik.70ld.dev
               paths:

@@ -42,7 +42,7 @@ spec:
 
           ingress:
             enabled: true
-            ingressClassName: nginx
+            ingressClassName: cilium
             host: longhorn.70ld.dev
             tls: true
             tlsSecret: longhorn-tls

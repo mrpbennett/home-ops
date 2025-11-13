@@ -5,10 +5,9 @@ metadata:
   namespace: argocd
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    ingress.cilium.io/tls-passthrough: "true"
 spec:
-  ingressClassName: nginx
+  ingressClassName: cilium
   rules:
     - host: argocd.70ld.dev
       http:
