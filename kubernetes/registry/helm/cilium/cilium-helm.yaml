@@ -20,9 +20,7 @@ spec:
             service:
               name: cilium-ingress
               type: LoadBalancer
-              loadBalancerIP: 192.168.7.68
-
-
+              loadBalancerIP: 192.168.7.69
 
   destination:
     server: https://kubernetes.default.svc
@@ -34,4 +32,3 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-
