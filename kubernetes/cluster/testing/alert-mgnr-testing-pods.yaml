@@ -1,0 +1,194 @@
+---
+# Create namespace first
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: testing
+
+---
+# 1. Memory request exceeded - STABLE (won't crash)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-request-test
+  namespace: testing
+spec:
+  containers:
+    - name: memory-hog
+      image: progrium/stress
+      resources:
+        requests:
+          memory: '100Mi'
+        limits:
+          memory: '200Mi'
+      command: ['stress']
+      args:
+        - '--vm'
+        - '1'
+        - '--vm-bytes'
+        - '85M'
+        - '--vm-keep'
+      # Allocates 85MB and keeps it (85% of 100Mi request)
+
+---
+# 2. Memory request critical - STABLE
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-critical-test
+  namespace: testing
+spec:
+  containers:
+    - name: memory-critical
+      image: progrium/stress
+      resources:
+        requests:
+          memory: '100Mi'
+        limits:
+          memory: '200Mi'
+      command: ['stress']
+      args:
+        - '--vm'
+        - '1'
+        - '--vm-bytes'
+        - '98M'
+        - '--vm-keep'
+      # Allocates 98MB and keeps it (98% of 100Mi request)
+
+---
+# 3. CPU burner - STABLE
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-burner-test
+  namespace: testing
+spec:
+  containers:
+    - name: cpu-burner
+      image: progrium/stress
+      resources:
+        requests:
+          cpu: '100m'
+        limits:
+          cpu: '1000m'
+      command: ['stress']
+      args:
+        - '--cpu'
+        - '1'
+        - '--timeout'
+        - '3600s'
+      # Burns 1 CPU core (1000% of 100m request)
+
+---
+# 4. No memory requests - STABLE
+apiVersion: v1
+kind: Pod
+metadata:
+  name: no-requests-test
+  namespace: testing
+spec:
+  containers:
+    - name: no-requests
+      image: nginx:alpine
+      # No resource requests/limits
+
+---
+# 5. Memory limit approaching (90%) - STABLE
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-limit-test
+  namespace: testing
+spec:
+  containers:
+    - name: memory-limit
+      image: progrium/stress
+      resources:
+        requests:
+          memory: '50Mi'
+        limits:
+          memory: '100Mi'
+      command: ['stress']
+      args:
+        - '--vm'
+        - '1'
+        - '--vm-bytes'
+        - '92M'
+        - '--vm-keep'
+      # Uses 92MB which is 92% of the 100Mi limit
+
+---
+# 6. Simple Python memory holder (alternative)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: python-memory-test
+  namespace: testing
+spec:
+  containers:
+    - name: memory-holder
+      image: python:3.9-slim
+      resources:
+        requests:
+          memory: '128Mi'
+        limits:
+          memory: '256Mi'
+      command: ['python3', '-c']
+      args:
+        - |
+          import time
+          # Allocate and hold 110MB (85% of 128Mi request)
+          data = bytearray(110 * 1024 * 1024)
+          print(f"Allocated 110MB, holding forever...")
+          while True:
+              time.sleep(60)
+
+---
+# 7. Busybox memory holder (lightweight)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-memory-test
+  namespace: testing
+spec:
+  containers:
+    - name: memory-holder
+      image: busybox
+      resources:
+        requests:
+          memory: '64Mi'
+        limits:
+          memory: '128Mi'
+      command: ['sh', '-c']
+      args:
+        - |
+          # Allocate 55MB (85% of 64Mi)
+          dd if=/dev/zero of=/tmp/memory bs=1M count=55
+          echo "Memory allocated, sleeping..."
+          tail -f /dev/null
+
+---
+# 8. Test that WILL OOMKill (but restarts properly)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: oom-restart-test
+  namespace: testing
+spec:
+  restartPolicy: Always
+  containers:
+    - name: oom-container
+      image: progrium/stress
+      resources:
+        requests:
+          memory: '32Mi'
+        limits:
+          memory: '64Mi'
+      command: ['sh', '-c']
+      args:
+        - |
+          # Start low, then try to allocate more than limit
+          stress --vm 1 --vm-bytes 50M --vm-keep --timeout 30s
+          sleep 10
+          stress --vm 1 --vm-bytes 80M --vm-keep --timeout 10s
+      # This will eventually OOMKill and restart

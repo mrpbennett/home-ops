@@ -1,0 +1,46 @@
+---
+# Create a test alert that fires immediately
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: test-alerts
+  namespace: monitoring
+  labels:
+    # These labels are important - they match what Prometheus looks for
+    app: kube-prometheus-stack
+    app.kubernetes.io/instance: kube-prometheus-stack
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: test-immediate
+      interval: 10s
+      rules:
+        # This alert fires immediately
+        - alert: TestAlertImmediate
+          expr: vector(1)
+          for: 10s
+          labels:
+            severity: warning
+          annotations:
+            summary: 'TEST: This alert should fire immediately'
+            description: 'If you see this, your alerting pipeline is working!'
+
+        - alert: TestCriticalImmediate
+          expr: vector(1)
+          for: 10s
+          labels:
+            severity: critical
+          annotations:
+            summary: 'TEST CRITICAL: Should go to Discord critical channel'
+            description: 'This tests your critical alert routing'
+
+        # Check if any pods exist
+        - alert: TestPodsExist
+          expr: count(kube_pod_info{namespace="testing"}) > 0
+          for: 30s
+          labels:
+            severity: info
+          annotations:
+            summary: 'Pods detected in testing namespace'
+            description: 'Found {{ $value }} pods in testing namespace'
