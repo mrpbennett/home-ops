@@ -14,9 +14,9 @@ spec:
         valuesObject:
           ingress:
             enabled: true
-            ingressClassName: cilium
+            ingressClassName: nginx
             annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+              cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
             path: /
             pathType: Prefix
             hosts:
@@ -47,14 +47,14 @@ spec:
           # ref: https://github.com/TwiN/gatus#configuration
           config:
             ui:
-              title: "70LD Infra Health"
-              header: "70LD Homelab"
-              link: "https://github.com/mrpbennett"
+              title: '70LD Infra Health'
+              header: '70LD Homelab'
+              link: 'https://github.com/mrpbennett'
               default-sort-by: group
 
             alerting:
               discord:
-                webhook-url: "https://discord.com/api/webhooks/1434854791900692661/9UWUhw3Hocq33ccJaqnzC__kCS9hpEIzetobHmL7PZ859PB4jRbPZSE854kKWc_kwdHp"
+                webhook-url: 'https://discord.com/api/webhooks/1434854791900692661/9UWUhw3Hocq33ccJaqnzC__kCS9hpEIzetobHmL7PZ859PB4jRbPZSE854kKWc_kwdHp'
 
             endpoints:
               - name: Pi-Hole
@@ -64,12 +64,12 @@ spec:
                 ui:
                   hide-hostname: true
                 conditions:
-                  - "[CONNECTED] == true"
-                  - "[STATUS] == 0"
-                  - "[RESPONSE_TIME] < 100"
+                  - '[CONNECTED] == true'
+                  - '[STATUS] == 0'
+                  - '[RESPONSE_TIME] < 100'
                 alerts:
                   - type: discord
-                    description: "DNS IS DOWN!!!!"
+                    description: 'DNS IS DOWN!!!!'
 
               - name: K3s Control Plane
                 group: bare-metal
@@ -78,12 +78,12 @@ spec:
                 ui:
                   hide-hostname: true
                 conditions:
-                  - "[CONNECTED] == true"
-                  - "[STATUS] == 0"
-                  - "[RESPONSE_TIME] < 100"
+                  - '[CONNECTED] == true'
+                  - '[STATUS] == 0'
+                  - '[RESPONSE_TIME] < 100'
                 alerts:
                   - type: discord
-                    description: "K3s Control Plane is unreachable"
+                    description: 'K3s Control Plane is unreachable'
 
               - name: K3s Worker
                 group: bare-metal
@@ -92,12 +92,12 @@ spec:
                 ui:
                   hide-hostname: true
                 conditions:
-                  - "[CONNECTED] == true"
-                  - "[STATUS] == 0"
-                  - "[RESPONSE_TIME] < 100"
+                  - '[CONNECTED] == true'
+                  - '[STATUS] == 0'
+                  - '[RESPONSE_TIME] < 100'
                 alerts:
                   - type: discord
-                    description: "K3s Worker is unreachable"
+                    description: 'K3s Worker is unreachable'
 
               - name: NAS Storage
                 group: bare-metal
@@ -106,12 +106,12 @@ spec:
                 ui:
                   hide-hostname: true
                 conditions:
-                  - "[CONNECTED] == true"
-                  - "[STATUS] == 0"
-                  - "[RESPONSE_TIME] < 100"
+                  - '[CONNECTED] == true'
+                  - '[STATUS] == 0'
+                  - '[RESPONSE_TIME] < 100'
                 alerts:
                   - type: discord
-                    description: "NAS storage is unreachable"
+                    description: 'NAS storage is unreachable'
 
   destination:
     server: https://kubernetes.default.svc
