@@ -5,9 +5,9 @@ metadata:
   namespace: pgadmin
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+    cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
 spec:
-  ingressClassName: cilium
+  ingressClassName: nginx
   rules:
     - host: pgadmin.70ld.dev
       http:

@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
   metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: '0'
 spec:
   project: default
   sources:
@@ -22,7 +22,7 @@ spec:
             defaultFsType: ext4
             defaultClassReplicaCount: 2
             reclaimPolicy: Delete
-            volumeBindngMode: "Immediate"
+            volumeBindngMode: 'Immediate'
             dataEngine: v1
 
           defaultSetting:
@@ -30,11 +30,11 @@ spec:
             storageMinimalAvailablePercentage: 10
             # -- Log levels that indicate the type and severity of logs in Longhorn Manager.
             # -- The default value is "Info". (Options: "Panic", "Fatal", "Error", "Warn", "Info", "Debug", "Trace")
-            logLevel: "Warn"
+            logLevel: 'Warn'
 
           # -- Setting that allows you to update the default backupstore.
           defaultBackupStore:
-            backupTarget: "nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3,nolock,soft,timeo=300"
+            backupTarget: 'nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3,nolock,soft,timeo=300'
             backupTargetCredentialSecret: longhorn-nfs-backup-secret
 
           longhornUI:
@@ -42,13 +42,13 @@ spec:
 
           ingress:
             enabled: true
-            ingressClassName: cilium
+            ingressClassName: nginx
             host: longhorn.70ld.dev
             tls: true
             tlsSecret: longhorn-tls
             path: /
             annotations:
-              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+              cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
 
           metrics:
             serviceMonitor:
@@ -73,7 +73,7 @@ spec:
                 namespace: longhorn-system
               spec:
                 task: system-backup
-                cron: "0 1 * * SUN"
+                cron: '0 1 * * SUN'
                 retain: 1
                 parameters:
                   volume-backup-policy: if-not-present
@@ -85,7 +85,7 @@ spec:
                 namespace: longhorn-system
               spec:
                 task: snapshot
-                cron: "0 1 * * *"
+                cron: '0 1 * * *'
                 retain: 1
                 concurrency: 2
 
@@ -97,31 +97,31 @@ spec:
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: engineimages.longhorn.io
-      jsonPointers: ["/spec/preserveUnknownFields"]
+      jsonPointers: ['/spec/preserveUnknownFields']
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: engines.longhorn.io
-      jsonPointers: ["/spec/preserveUnknownFields"]
+      jsonPointers: ['/spec/preserveUnknownFields']
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: instancemanagers.longhorn.io
-      jsonPointers: ["/spec/preserveUnknownFields"]
+      jsonPointers: ['/spec/preserveUnknownFields']
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: nodes.longhorn.io
-      jsonPointers: ["/spec/preserveUnknownFields"]
+      jsonPointers: ['/spec/preserveUnknownFields']
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: replicas.longhorn.io
-      jsonPointers: ["/spec/preserveUnknownFields"]
+      jsonPointers: ['/spec/preserveUnknownFields']
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: settings.longhorn.io
-      jsonPointers: ["/spec/preserveUnknownFields"]
+      jsonPointers: ['/spec/preserveUnknownFields']
     - group: apiextensions.k8s.io
       kind: CustomResourceDefinition
       name: volumes.longhorn.io
-      jsonPointers: ["/spec/preserveUnknownFields"]
+      jsonPointers: ['/spec/preserveUnknownFields']
 
   syncPolicy:
     automated:

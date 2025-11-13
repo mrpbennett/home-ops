@@ -6,23 +6,23 @@ metadata:
   labels:
     app.kubernetes.io/name: homepage
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+    cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
     gethomepage.dev/description: Dynamically Detected Homepage
-    gethomepage.dev/enabled: "true"
+    gethomepage.dev/enabled: 'true'
     gethomepage.dev/group: Cluster Management
     gethomepage.dev/icon: homepage.png
     gethomepage.dev/name: Homepage
 spec:
-  ingressClassName: cilium
+  ingressClassName: nginx
   tls:
     - hosts:
         - homepage.70ld.dev
       secretName: homepage-tls
   rules:
-    - host: "homepage.70ld.dev"
+    - host: 'homepage.70ld.dev'
       http:
         paths:
-          - path: "/"
+          - path: '/'
             pathType: Prefix
             backend:
               service:

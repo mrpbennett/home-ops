@@ -27,8 +27,8 @@ spec:
               password: authentikpassword
 
             redis:
-              host: "{{ .Release.Name }}-redis-master"
-              password: ""
+              host: '{{ .Release.Name }}-redis-master'
+              password: ''
 
           server:
             name: authentik-server
@@ -37,12 +37,12 @@ spec:
             ingress:
               enabled: true
               annotations:
-                cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-              ingressClassName: cilium
+                cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+              ingressClassName: nginx
               hosts:
                 - authentik.70ld.dev
               paths:
-                - "{{ .Values.authentik.web.path }}"
+                - '{{ .Values.authentik.web.path }}'
               pathType: Prefix
               tls:
                 - secretName: authentik-tls
