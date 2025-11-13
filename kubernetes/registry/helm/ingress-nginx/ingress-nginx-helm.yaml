@@ -24,7 +24,7 @@ spec:
           ingressClassResource:
             name: nginx # default: nginx
             enabled: true
-            default: true
+            default: false
 
           ingressClass: nginx # default: nginx
 
