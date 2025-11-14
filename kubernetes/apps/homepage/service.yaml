@@ -8,7 +8,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: homepage
+    app.kubernetes.io/name: homepage
   ports:
     - port: 3000
       targetPort: 3000
