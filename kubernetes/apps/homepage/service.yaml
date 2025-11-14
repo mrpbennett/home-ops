@@ -7,10 +7,10 @@ metadata:
     app.kubernetes.io/name: homepage
 spec:
   type: ClusterIP
+  selector:
+    app: homepage
   ports:
     - port: 3000
-      targetPort: http
+      targetPort: 80
       protocol: TCP
       name: http
-  selector:
-    app.kubernetes.io/name: homepage
