@@ -18,19 +18,13 @@ spec:
       containers:
         - name: external-dns
           image: registry.k8s.io/external-dns/external-dns:v0.18.0
-          # If authentication is disabled and/or you didn't create
-          # a secret, you can remove this block.
           envFrom:
             - secretRef:
-                # Change this if you gave the secret a different name
                 name: external-dns-pihole
           args:
             - --source=service
             - --source=ingress
             - --source=gateway-httproute
-            - --source=gateway-tlsroute
-            - --source=gateway-tcproute
-            - --source=gateway-udproute
             # Pihole only supports A/AAAA/CNAME records so there is no mechanism to track ownership.
             # You don't need to set this flag, but if you leave it unset, you will receive warning
             # logs when ExternalDNS attempts to create TXT records.
@@ -43,5 +37,16 @@ spec:
             - --pihole-api-version=6
             # Change this to the actual address of your Pi-hole web server
             - --pihole-server=http://192.168.4.2
+            # Increase timeout and API limits to prevent crashes during migration
+            - --kube-api-burst=50
+            - --kube-api-qps=25
+            - --log-level=info
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes token files
