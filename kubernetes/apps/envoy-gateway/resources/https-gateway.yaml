@@ -13,6 +13,3 @@ spec:
       hostname: '*.70ld.dev'
       tls:
         mode: Terminate
-        certificateRefs:
-          - kind: Secret
-            name: wildcard-70ld-tls
