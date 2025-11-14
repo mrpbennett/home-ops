@@ -11,6 +11,6 @@ spec:
     app: homepage
   ports:
     - port: 3000
-      targetPort: 80
+      targetPort: 3000
       protocol: TCP
       name: http
