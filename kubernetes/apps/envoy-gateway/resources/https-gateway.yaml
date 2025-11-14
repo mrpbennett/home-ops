@@ -14,3 +14,6 @@ spec:
         certificateRefs:
           - kind: Secret
             name: wildcard-70ld-tls
+      allowedRoutes:
+        namespaces:
+          from: All
