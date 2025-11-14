@@ -18,3 +18,6 @@ rules:
   - apiGroups: ['']
     resources: ['nodes']
     verbs: ['list', 'watch']
+  - apiGroups: ['']
+    resources: ['namespaces']
+    verbs: ['get', 'list', 'watch']
