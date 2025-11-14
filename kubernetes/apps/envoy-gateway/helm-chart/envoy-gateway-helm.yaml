@@ -18,6 +18,12 @@ spec:
                 cpu: 100m
                 memory: 256Mi
 
+        # Set type: to LB so it can talk with MetalLb
+        service:
+          trafficDistribution: ''
+          annotations: {}
+          type: LoadBalancer
+
         config:
           # -- EnvoyGateway configuration. Visit https://gateway.envoyproxy.io/docs/api/extension_types/#envoygateway to view all options.
           envoyGateway:
