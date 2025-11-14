@@ -2,12 +2,15 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: envoy-shared-gateway
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
 spec:
   gatewayClassName: envoy-gatewayclass
   listeners:
     - name: https
       protocol: HTTPS
       port: 443
+      hostname: '*.70ld.dev'
       tls:
         mode: Terminate
         certificateRefs:
