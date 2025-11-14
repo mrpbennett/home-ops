@@ -9,7 +9,7 @@ spec:
   sources:
     - chart: gateway-helm
       repoURL: oci://docker.io/envoyproxy
-      targetRevision: 1.6.0
+      targetRevision: v1.6.0
       helm:
         valuesObject:
           # Global settings
