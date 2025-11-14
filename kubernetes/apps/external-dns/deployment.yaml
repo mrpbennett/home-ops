@@ -17,7 +17,7 @@ spec:
       serviceAccountName: external-dns
       containers:
         - name: external-dns
-          image: registry.k8s.io/external-dns/external-dns:v0.18.0
+          image: registry.k8s.io/external-dns/external-dns:v0.15.0
           envFrom:
             - secretRef:
                 name: external-dns-pihole
@@ -37,9 +37,7 @@ spec:
             - --pihole-api-version=6
             # Change this to the actual address of your Pi-hole web server
             - --pihole-server=http://192.168.4.2
-            # Increase timeout and API limits to prevent crashes during migration
-            - --kube-api-burst=50
-            - --kube-api-qps=25
+            # Use default API limits for older External DNS version
             - --log-level=info
           resources:
             requests:
