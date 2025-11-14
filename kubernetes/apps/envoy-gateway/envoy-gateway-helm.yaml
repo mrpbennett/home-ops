@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: envoy-gateway
+  name: envoy-gateway-helm
   namespace: argocd
 spec:
   project: default
