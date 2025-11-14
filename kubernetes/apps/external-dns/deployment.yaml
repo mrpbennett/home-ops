@@ -17,7 +17,7 @@ spec:
       serviceAccountName: external-dns
       containers:
         - name: external-dns
-          image: registry.k8s.io/external-dns/external-dns:v0.15.0
+          image: registry.k8s.io/external-dns/external-dns:v0.18.0
           envFrom:
             - secretRef:
                 name: external-dns-pihole
@@ -37,7 +37,9 @@ spec:
             - --pihole-api-version=6
             # Change this to the actual address of your Pi-hole web server
             - --pihole-server=http://192.168.4.2
-            # Use default API limits for older External DNS version
+            # Optimize for v0.18.0 performance
+            - --interval=120s
+            - --min-event-sync-interval=10s
             - --log-level=info
           resources:
             requests:
