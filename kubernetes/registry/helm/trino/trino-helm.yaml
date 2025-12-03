@@ -13,7 +13,7 @@ spec:
   source:
     chart: trino
     repoURL: https://trinodb.github.io/charts
-    targetRevision: 1.41.0
+    targetRevision: 1.39.1
     helm:
       valuesObject:
         imagePullSecrets: []
