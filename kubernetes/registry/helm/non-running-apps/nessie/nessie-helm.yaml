@@ -1,89 +1,98 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: &app nessie
-#   namespace: argocd
-#   metadata:
-# spec:
-#   project: default
-#   sources:
-#     - chart: nessie
-#       repoURL: https://charts.projectnessie.org
-#       targetRevision: 0.105.7
-#       helm:
-#         valuesObject:
-#           replicaCount: 1
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &app nessie
+  namespace: argocd
+  metadata:
+spec:
+  project: default
+  sources:
+    - chart: nessie
+      repoURL: https://charts.projectnessie.org
+      targetRevision: 0.105.7
+      helm:
+        valuesObject:
+          replicaCount: 1
 
-#           # -- The Nessie catalog server configuration.
-#           catalog:
+          log:
+            level: INFO
+            console:
+              enabled: true
+              threshold: ALL
+              json: false
+              format: '%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) %s%e%n'
+            file:
+              enabled: false
 
-#             # -- Whether to enable the REST catalog service.
-#             enabled: false
+          # -- The Nessie catalog server configuration.
+          catalog:
+            # -- Whether to enable the REST catalog service.
+            enabled: false
 
-#             iceberg:
-#               defaultWarehouse: warehouse70ld
-#               configDefaults: {}
-#               configOverrides: {}
-              
-#               warehouses:
-#                 name: warehouse70ld
-#                 location: ~
-#                 configDefaults: {}
-#                 configOverrides: {}
-            
-#             storage:
-#               s3:
-#                 defaultOptions:
-#                   region: ~
-#                   endpoint: ~
-#                   externalEndpoint: ~
-#                   pathStyleAccess: ~
-#                   accessPoint: ~
-#                   allowCrossRegionAccessPoint: ~
-#                   authType: STATIC
-#                   requestSigningEnabled: true
-#                   stsEndpoint: ~
+            iceberg:
+              defaultWarehouse: warehouse70ld
+              configDefaults: {}
+              configOverrides: {}
 
-#                   clientIam:
-#                     enabled: false
+              warehouses:
+                name: warehouse70ld
+                location: ~ # s3://bucket1/
+                configDefaults: {}
+                configOverrides: {}
 
-#                   serverIam:
-#                     enabled: false
+            storage:
+              s3:
+                defaultOptions:
+                  region: ~ #us-west-2
+                  endpoint: ~ # "https://bucket1.s3.amazonaws.com"
+                  externalEndpoint: ~
+                  pathStyleAccess: ~
+                  accessPoint: ~
+                  allowCrossRegionAccessPoint: ~
+                  authType: STATIC
+                  requestSigningEnabled: true
+                  stsEndpoint: ~
 
-#                   accessKeySecret:
-#                     name: nessie-s3-credentials
-#                     accessKeyId: accessKeyId
-#                     secretAccessKey: secretAccessKey
+                  clientIam:
+                    enabled: false
 
-#                 buckets: []
+                  serverIam:
+                    enabled: false
 
-#           metrics:
-#             enabled: true
-#             tags:
-#               service: nessie
+                  accessKeySecret:
+                    name: nessie-s3-credentials
+                    accessKeyId: accessKeyId
+                    secretAccessKey: secretAccessKey
 
-#           service:
-#             type: ClusterIP
-#             ports:
-#               - name: nessie-http
-#                 port: 19120
-#             annotations: {}
+                buckets: []
 
-#           resources:
-#             limits:
-#               cpu: 100m
-#               memory: 128Mi
-#             requests:
-#               cpu: 100m
-#               memory: 128Mi
+          metrics:
+            enabled: true
+            tags:
+              service: nessie
 
-#   destination:
-#     server: https://kubernetes.default.svc
-#     namespace: nessie
+          service:
+            type: ClusterIP
+            ports:
+              - name: nessie-http
+                port: 19120
+            annotations: {}
 
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nessie
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
