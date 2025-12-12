@@ -1,0 +1,110 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: garage
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://git.deuxfleurs.fr/Deuxfleurs/garage.git
+    targetRevision: main-v2
+    path: script/helm/garage
+    helm:
+      releaseName: garage
+      valuesObject:
+        garage:
+          dbEngine: 'lmdb'
+          blockSize: '1048576'
+          replicationMode: '3'
+          compressionLevel: '1'
+          s3:
+            api:
+              region: 'garage'
+              rootDomain: '.s3.garage.tld'
+            web:
+              rootDomain: '.web.garage.tld'
+              index: 'index.html'
+
+        persistence:
+          enabled: true
+          meta:
+            size: 100Mi
+            hostPath: /var/lib/garage/meta
+          data:
+            size: 100Mi
+            hostPath: /var/lib/garage/data
+
+        deployment:
+          kind: StatefulSet
+          repliaCount: 1
+          podManagementPolicy: OrderedReady
+
+        ingress:
+          s3:
+            api:
+              enabled: true
+              className: nginx
+              annotations:
+                cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+              hosts:
+                - host: 's3.garage.tld'
+                  paths:
+                    - path: /
+                      pathType: Prefix
+
+                - host: '*.s3.garage.tld'
+                  paths:
+                    - path: /
+                      pathType: Prefix
+              tls:
+                - secretName: garage-s3-tls
+                  hosts:
+                    - s3.garage.tld
+
+            web:
+              enabled: true
+              className: nginx
+              annotations:
+                cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+              hosts:
+                - host: '*.web.garage.tld'
+                  paths:
+                    - path: /
+                      pathType: Prefix
+
+                - host: 'garage-web.70ld.dev'
+                  paths:
+                    - path: /
+                      pathType: Prefix
+              tls:
+                - secretName: garage-web-tls
+                  hosts:
+                    - garage-web.70ld.dev
+
+        resources:
+          limits:
+            cpu: 100m
+            memory: 1024Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: garage
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Validate=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 5m0s
+        factor: 2
