@@ -17,7 +17,7 @@ spec:
         garage:
           dbEngine: 'lmdb'
           blockSize: '1048576'
-          replicationFactor: '1'
+          replicationFactor: 1
           compressionLevel: '1'
           s3:
             api:
