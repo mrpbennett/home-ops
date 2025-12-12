@@ -67,7 +67,7 @@ spec:
               - ALL
 
         service:
-          type: ClusterIP
+          type: LoadBalancer
           s3:
             api:
               port: 3900
