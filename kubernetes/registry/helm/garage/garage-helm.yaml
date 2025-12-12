@@ -17,7 +17,7 @@ spec:
         garage:
           dbEngine: 'lmdb'
           blockSize: '1048576'
-          replicationFactor: 1
+          replicationFactor: 3
           compressionLevel: '1'
           s3:
             api:
@@ -41,7 +41,7 @@ spec:
 
         deployment:
           kind: StatefulSet
-          replicaCount: 1
+          replicaCount: 3
           podManagementPolicy: OrderedReady
 
         image:
