@@ -47,7 +47,7 @@ spec:
 
         # Image configuration for ARM64 (Raspberry Pi)
         image:
-          repository: dxflrs/arm64v8_garage # ARM64 image for Raspberry Pi
+          repository: dxflrs/arm64_garage # ARM64 image for Raspberry Pi
           pullPolicy: IfNotPresent
 
         ingress:
