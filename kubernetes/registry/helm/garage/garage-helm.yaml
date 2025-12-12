@@ -22,22 +22,21 @@ spec:
           s3:
             api:
               region: 'garage'
-              rootDomain: '.s3.garage.70ld.dev' # Fixed: use your actual domain
+              rootDomain: '.s3.garage.70ld.dev'
             web:
-              rootDomain: '.web.garage.70ld.dev' # Fixed: use your actual domain
+              rootDomain: '.web.garage.70ld.dev'
               index: 'index.html'
 
         # For Raspberry Pi deployment - consider using PVCs instead of hostPath
         persistence:
           enabled: true
           meta:
-            size: 1Gi # Increased from 100Mi for better performance
-            # Use PVC instead of hostPath for better reliability
-            # storageClass: "local-path"  # Uncomment and adjust for your storage class
+            storageClass: longhorn
+            size: 1Gi
             hostPath: /var/lib/garage/meta
           data:
-            size: 10Gi # Increased from 100Mi for actual storage
-            # storageClass: "local-path"  # Uncomment and adjust for your storage class
+            storageClass: longhorn
+            size: 5Gi
             hostPath: /var/lib/garage/data
 
         deployment:
@@ -45,10 +44,35 @@ spec:
           replicaCount: 1
           podManagementPolicy: OrderedReady
 
-        # Image configuration for ARM64 (Raspberry Pi)
         image:
-          repository: dxflrs/arm64_garage # ARM64 image for Raspberry Pi
+          repository: dxflrs/arm64_garage
+          tag: ''
           pullPolicy: IfNotPresent
+
+        serviceAccount:
+          create: true
+          annotations: {}
+          name: ''
+
+        podSecurityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
+          runAsNonRoot: true
+
+        securityContext:
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+
+        service:
+          type: ClusterIP
+          s3:
+            api:
+              port: 3900
+            web:
+              port: 3902
 
         ingress:
           s3:
@@ -109,43 +133,6 @@ spec:
           requests:
             cpu: 100m
             memory: 256Mi # Increased from 128Mi
-
-        # Security context for non-root execution
-        podSecurityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
-          fsGroup: 1000
-          fsGroupChangePolicy: 'OnRootMismatch'
-          runAsNonRoot: true
-
-        securityContext:
-          capabilities:
-            drop:
-              - ALL
-          readOnlyRootFilesystem: true
-
-        # Health checks
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3903
-          initialDelaySeconds: 30
-          periodSeconds: 30
-          timeoutSeconds: 5
-          failureThreshold: 3
-
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 3903
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-
-        # Node selector for Raspberry Pi if you have mixed architecture
-        # nodeSelector:
-        #   kubernetes.io/arch: arm64
 
   destination:
     server: https://kubernetes.default.svc
