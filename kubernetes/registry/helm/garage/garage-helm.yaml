@@ -45,7 +45,7 @@ spec:
           podManagementPolicy: OrderedReady
 
         image:
-          repository: dxflrs/arm64_garage
+          repository: dxflrs/arm64_garage # change this when switching off rpi
           tag: ''
           pullPolicy: IfNotPresent
 
@@ -88,7 +88,7 @@ spec:
                 nginx.ingress.kubernetes.io/proxy-send-timeout: '600'
                 nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
               hosts:
-                - host: 's3.garage.70ld.dev'
+                - host: 's3.garage.70ld.dev' # API endpoint
                   paths:
                     - path: /
                       pathType: Prefix
