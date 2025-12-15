@@ -1,0 +1,98 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &app nessie
+  namespace: argocd
+  metadata:
+spec:
+  project: default
+  sources:
+    - chart: nessie
+      repoURL: https://charts.projectnessie.org
+      targetRevision: 0.105.7
+      helm:
+        valuesObject:
+          replicaCount: 1
+
+          log:
+            level: INFO
+            console:
+              enabled: true
+              threshold: ALL
+              json: false
+              format: '%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) %s%e%n'
+            file:
+              enabled: false
+
+          # -- The Nessie catalog server configuration.
+          catalog:
+            # -- Whether to enable the REST catalog service.
+            enabled: false
+
+            iceberg:
+              defaultWarehouse: warehouse70ld
+              configDefaults: {}
+              configOverrides: {}
+
+              warehouses:
+                name: warehouse70ld
+                location: https://s3.garage.70ld.dev
+                configDefaults: {}
+                configOverrides: {}
+
+            storage:
+              s3:
+                defaultOptions:
+                  region: garage
+                  endpoint: https://s3.garage.70ld.dev
+                  externalEndpoint: ~
+                  pathStyleAccess: ~
+                  accessPoint: ~
+                  allowCrossRegionAccessPoint: ~
+                  authType: STATIC
+                  requestSigningEnabled: true
+                  stsEndpoint: ~
+
+                  clientIam:
+                    enabled: false
+
+                  serverIam:
+                    enabled: false
+
+                  accessKeySecret:
+                    name: nessie-s3-credentials
+                    accessKeyId: accessKeyId
+                    secretAccessKey: secretAccessKey
+
+                buckets: []
+
+          metrics:
+            enabled: true
+            tags:
+              service: nessie
+
+          service:
+            type: ClusterIP
+            ports:
+              - name: nessie-http
+                port: 19120
+            annotations: {}
+
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: *app
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
