@@ -72,10 +72,10 @@ spec:
               service: nessie
 
           service:
-            type: ClusterIP
+            type: LoadBalancer
             ports:
               - name: nessie-http
-                port: 19120
+                number: 19120
             annotations: {}
 
           resources:
