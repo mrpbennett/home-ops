@@ -4,8 +4,8 @@ metadata:
   name: cnpg-cluster
   namespace: cnpg-cluster
 spec:
-  description: "70LD PostgreSQL PROD Cluster"
-  instances: 3
+  description: '70LD PostgreSQL PROD Cluster'
+  instances: 1
   startDelay: 3600
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
@@ -21,14 +21,14 @@ spec:
 
   postgresql:
     parameters:
-      shared_buffers: "256MB"
+      shared_buffers: '256MB'
 
   resources:
     requests:
-      memory: "750Mi"
+      memory: '750Mi'
       cpu: 250m
     limits:
-      memory: "1Gi"
+      memory: '1Gi'
       cpu: 500m
 
   storage:
@@ -59,7 +59,7 @@ spec:
 
       - name: authentik
         ensure: present
-        comment: "Simple application user for Authentik"
+        comment: 'Simple application user for Authentik'
         login: true
         superuser: true
         passwordSecret:
