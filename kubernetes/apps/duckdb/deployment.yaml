@@ -23,11 +23,12 @@ spec:
         - name: duckdb
           image: duckdb/duckdb:latest
           imagePullPolicy: Always
-          # DuckDB image has 'duckdb' as entrypoint, we just pass arguments
+          # DuckDB image has 'duckdb' as entrypoint
+          # We pass the database file and init script as arguments
           args:
-            - '/workspace/duckdb.db'
-            - '-init'
-            - '/init/init.sql'
+            - /workspace/duckdb.db
+            - -init
+            - /init/init.sql
           stdin: true
           tty: true
           volumeMounts:
