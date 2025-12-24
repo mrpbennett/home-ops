@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: duckdb-init
+  namespace: duckdb
+  labels:
+    app: duckdb
+data:
+  init.sql: |
+    -- DuckDB initialization script
+    -- This script runs when DuckDB starts
+    
+    -- Install and load the UI extension
+    INSTALL ui;
+    LOAD ui;
+    
+    -- You can add additional initialization commands here
+    -- For example, loading extensions:
+    -- INSTALL httpfs;
+    -- LOAD httpfs;

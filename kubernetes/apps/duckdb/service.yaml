@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: duckdb-ui
+  namespace: duckdb
+  labels:
+    app: duckdb
+spec:
+  type: LoadBalancer
+  selector:
+    app: duckdb
+  ports:
+    - name: ui
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

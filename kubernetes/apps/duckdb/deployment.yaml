@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: duckdb
+  namespace: duckdb
+  labels:
+    app: duckdb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate  # Important: DuckDB is single-instance
+  selector:
+    matchLabels:
+      app: duckdb
+  template:
+    metadata:
+      labels:
+        app: duckdb
+    spec:
+      hostNetwork: true  # Required for DuckDB UI to work properly
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: duckdb
+        image: duckdb/duckdb:latest
+        imagePullPolicy: Always
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            # Start DuckDB and execute initialization script
+            duckdb /workspace/duckdb.db < /init/init.sql
+            
+            # Keep the container running and start an interactive shell
+            # that automatically starts the UI
+            echo "Starting DuckDB with UI..."
+            duckdb /workspace/duckdb.db -init /init/start_ui.sql
+        stdin: true
+        tty: true
+        volumeMounts:
+        - name: data
+          mountPath: /workspace
+        - name: init-scripts
+          mountPath: /init
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        # Health check using the DuckDB process
+        livenessProbe:
+          exec:
+            command:
+            - pgrep
+            - duckdb
+          initialDelaySeconds: 10
+          periodSeconds: 30
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: duckdb-data
+      - name: init-scripts
+        configMap:
+          name: duckdb-init
+          items:
+          - key: init.sql
+            path: init.sql
