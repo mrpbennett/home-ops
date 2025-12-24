@@ -9,11 +9,14 @@ data:
   init.sql: |
     -- DuckDB initialization script
     -- This script runs when DuckDB starts
-    
+
     -- Install and load the UI extension
     INSTALL ui;
     LOAD ui;
-    
+
+    -- Start the UI
+    CALL start_ui();
+
     -- You can add additional initialization commands here
     -- For example, loading extensions:
     -- INSTALL httpfs;
