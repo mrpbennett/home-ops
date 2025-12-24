@@ -14,9 +14,6 @@ data:
     INSTALL ui;
     LOAD ui;
 
-    -- Start the UI
-    CALL start_ui();
-
     -- You can add additional initialization commands here
     -- For example, loading extensions:
     -- INSTALL httpfs;

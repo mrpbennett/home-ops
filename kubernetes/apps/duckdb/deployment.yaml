@@ -23,8 +23,9 @@ spec:
         - name: duckdb
           image: duckdb/duckdb:latest
           imagePullPolicy: Always
-          # DuckDB image has 'duckdb' as entrypoint
-          # We pass the database file and init script as arguments
+          # Explicitly set the command to use duckdb binary
+          command:
+            - duckdb
           args:
             - /workspace/duckdb.db
             - -init
