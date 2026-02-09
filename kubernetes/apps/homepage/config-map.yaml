@@ -8,7 +8,6 @@ metadata:
 data:
   kubernetes.yaml: |
     mode: cluster
-
   settings.yaml: |
     title: 70LD Homelab
     theme: dark
@@ -22,7 +21,6 @@ data:
         Kubernetes:
             style: row
             columns: 3
-
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: ""
@@ -59,20 +57,10 @@ data:
             href: https://registry.70ld.dev/v2/_catalog
             description: Container Registry
 
-        - Gatus:
-            icon: gatus.png
-            href: https://gatus.70ld.dev
-            description: Monitoring
-
         - Grafana:
             icon: grafana.png
             href: https://grafana.70ld.dev/dashboards?starred
             description: Analytics & Monitoring
-
-        - Headlamp:
-            icon: headlamp.png
-            href: https://headlamp.70ld.dev
-            description: Kubernetes Dashboard
 
         - Longhorn:
             icon: longhorn.png
@@ -93,11 +81,5 @@ data:
             icon: truenas-scale.svg
             href: http://nas.home.local
             description: Actually WD Cloud
-
-        - Vault:
-            icon: vault-light.png
-            href: https://vault.70ld.dev/ui/
-            description: Secrets Vault
-
   widgets.yaml: ""
   docker.yaml: ""
