@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          token: ${{ secrets.ACTION_PWD }}
+          token: ${{ secrets.HOME_OPS }}
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
