@@ -6,7 +6,6 @@
       apt:
         update_cache: yes
         upgrade: 'yes'
-
     - name: install latest qemu-guest-agent
       tasks:
         - name: install qemu-guest-agent
