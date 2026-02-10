@@ -1,3 +1,4 @@
+---
 # /etc/rancher/k3s/registries.yaml
 mirrors:
   "registry.70ld.dev":

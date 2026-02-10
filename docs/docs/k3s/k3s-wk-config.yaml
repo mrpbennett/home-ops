@@ -1,3 +1,4 @@
+---
 # Worker node configuration file
 
 node-name: "k3s-wk-1"

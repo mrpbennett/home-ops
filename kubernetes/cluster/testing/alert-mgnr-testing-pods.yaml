@@ -28,7 +28,7 @@ spec:
         - '--vm-bytes'
         - '85M'
         - '--vm-keep'
-      # Allocates 85MB and keeps it (85% of 100Mi request)
+        # Allocates 85MB and keeps it (85% of 100Mi request)
 
 ---
 # 2. Memory request critical - STABLE
@@ -53,7 +53,7 @@ spec:
         - '--vm-bytes'
         - '98M'
         - '--vm-keep'
-      # Allocates 98MB and keeps it (98% of 100Mi request)
+        # Allocates 98MB and keeps it (98% of 100Mi request)
 
 ---
 # 3. CPU burner - STABLE
@@ -77,7 +77,7 @@ spec:
         - '1'
         - '--timeout'
         - '3600s'
-      # Burns 1 CPU core (1000% of 100m request)
+        # Burns 1 CPU core (1000% of 100m request)
 
 ---
 # 4. No memory requests - STABLE
@@ -115,7 +115,7 @@ spec:
         - '--vm-bytes'
         - '92M'
         - '--vm-keep'
-      # Uses 92MB which is 92% of the 100Mi limit
+        # Uses 92MB which is 92% of the 100Mi limit
 
 ---
 # 6. Simple Python memory holder (alternative)

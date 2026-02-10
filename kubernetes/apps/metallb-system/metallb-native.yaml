@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -187,19 +188,15 @@ spec:
               properties:
                 aggregationLength:
                   default: 32
-                  description:
-                    The aggregation-length advertisement option lets you
-                    “roll up” the /32s into a larger prefix. Defaults to 32. Works for
-                    IPv4 addresses.
+                  description: The aggregation-length advertisement option lets you “roll up” the /32s into a larger prefix.
+                    Defaults to 32. Works for IPv4 addresses.
                   format: int32
                   minimum: 1
                   type: integer
                 aggregationLengthV6:
                   default: 128
-                  description:
-                    The aggregation-length advertisement option lets you
-                    “roll up” the /128s into a larger prefix. Defaults to 128. Works
-                    for IPv6 addresses.
+                  description: The aggregation-length advertisement option lets you “roll up” the /128s into a larger prefix.
+                    Defaults to 128. Works for IPv6 addresses.
                   format: int32
                   type: integer
                 communities:
@@ -221,18 +218,14 @@ spec:
                       label selector matches no objects.
                     properties:
                       matchExpressions:
-                        description:
-                          matchExpressions is a list of label selector requirements.
-                          The requirements are ANDed.
+                        description: matchExpressions is a list of label selector requirements. The requirements are ANDed.
                         items:
                           description: |-
                             A label selector requirement is a selector that contains values, a key, and an operator that
                             relates the key and values.
                           properties:
                             key:
-                              description:
-                                key is the label key that the selector applies
-                                to.
+                              description: key is the label key that the selector applies to.
                               type: string
                             operator:
                               description: |-
@@ -267,9 +260,7 @@ spec:
                     x-kubernetes-map-type: atomic
                   type: array
                 ipAddressPools:
-                  description:
-                    The list of IPAddressPools to advertise via this advertisement,
-                    selected by name.
+                  description: The list of IPAddressPools to advertise via this advertisement, selected by name.
                   items:
                     type: string
                   type: array
@@ -280,10 +271,8 @@ spec:
                   format: int32
                   type: integer
                 nodeSelectors:
-                  description:
-                    NodeSelectors allows to limit the nodes to announce as
-                    next hops for the LoadBalancer IP. When empty, all the nodes having  are
-                    announced as next hops.
+                  description: NodeSelectors allows to limit the nodes to announce as next hops for the LoadBalancer IP. When
+                    empty, all the nodes having  are announced as next hops.
                   items:
                     description: |-
                       A label selector is a label query over a set of resources. The result of matchLabels and
@@ -291,18 +280,14 @@ spec:
                       label selector matches no objects.
                     properties:
                       matchExpressions:
-                        description:
-                          matchExpressions is a list of label selector requirements.
-                          The requirements are ANDed.
+                        description: matchExpressions is a list of label selector requirements. The requirements are ANDed.
                         items:
                           description: |-
                             A label selector requirement is a selector that contains values, a key, and an operator that
                             relates the key and values.
                           properties:
                             key:
-                              description:
-                                key is the label key that the selector applies
-                                to.
+                              description: key is the label key that the selector applies to.
                               type: string
                             operator:
                               description: |-
@@ -467,9 +452,7 @@ spec:
                     type: object
                   type: array
                 password:
-                  description:
-                    Authentication password for routers enforcing TCP MD5
-                    authenticated sessions
+                  description: Authentication password for routers enforcing TCP MD5 authenticated sessions
                   type: string
                 peerASN:
                   description: AS number to expect from the remote end of the session.
@@ -543,21 +526,15 @@ spec:
               description: BGPPeerSpec defines the desired state of Peer.
               properties:
                 bfdProfile:
-                  description:
-                    The name of the BFD Profile to be used for the BFD session
-                    associated to the BGP session. If not set, the BFD session won't
-                    be set up.
+                  description: The name of the BFD Profile to be used for the BFD session associated to the BGP session. If
+                    not set, the BFD session won't be set up.
                   type: string
                 connectTime:
-                  description:
-                    Requested BGP connect time, controls how long BGP waits
-                    between connection attempts to a neighbor.
+                  description: Requested BGP connect time, controls how long BGP waits between connection attempts to a neighbor.
                   type: string
                   x-kubernetes-validations:
                     - message: connect time should be between 1 seconds to 65535
-                      rule:
-                        duration(self).getSeconds() >= 1 && duration(self).getSeconds()
-                        <= 65535
+                      rule: duration(self).getSeconds() >= 1 && duration(self).getSeconds() <= 65535
                     - message: connect time should contain a whole number of seconds
                       rule: duration(self).getMilliseconds() % 1000 == 0
                 disableMP:
@@ -584,9 +561,7 @@ spec:
                     - external
                   type: string
                 ebgpMultiHop:
-                  description:
-                    To set if the BGPPeer is multi-hops away. Needed for
-                    FRR mode only.
+                  description: To set if the BGPPeer is multi-hops away. Needed for FRR mode only.
                   type: boolean
                 enableGracefulRestart:
                   description: |-
@@ -629,18 +604,14 @@ spec:
                       label selector matches no objects.
                     properties:
                       matchExpressions:
-                        description:
-                          matchExpressions is a list of label selector requirements.
-                          The requirements are ANDed.
+                        description: matchExpressions is a list of label selector requirements. The requirements are ANDed.
                         items:
                           description: |-
                             A label selector requirement is a selector that contains values, a key, and an operator that
                             relates the key and values.
                           properties:
                             key:
-                              description:
-                                key is the label key that the selector applies
-                                to.
+                              description: key is the label key that the selector applies to.
                               type: string
                             operator:
                               description: |-
@@ -675,9 +646,7 @@ spec:
                     x-kubernetes-map-type: atomic
                   type: array
                 password:
-                  description:
-                    Authentication password for routers enforcing TCP MD5
-                    authenticated sessions
+                  description: Authentication password for routers enforcing TCP MD5 authenticated sessions
                   type: string
                 passwordSecret:
                   description: |-
@@ -687,14 +656,10 @@ spec:
                     secret as the key "password".
                   properties:
                     name:
-                      description:
-                        name is unique within a namespace to reference a
-                        secret resource.
+                      description: name is unique within a namespace to reference a secret resource.
                       type: string
                     namespace:
-                      description:
-                        namespace defines the space within which the secret
-                        name must be unique.
+                      description: namespace defines the space within which the secret name must be unique.
                       type: string
                   type: object
                   x-kubernetes-map-type: atomic
@@ -897,18 +862,14 @@ spec:
                           label selector matches no objects.
                         properties:
                           matchExpressions:
-                            description:
-                              matchExpressions is a list of label selector
-                              requirements. The requirements are ANDed.
+                            description: matchExpressions is a list of label selector requirements. The requirements are ANDed.
                             items:
                               description: |-
                                 A label selector requirement is a selector that contains values, a key, and an operator that
                                 relates the key and values.
                               properties:
                                 key:
-                                  description:
-                                    key is the label key that the selector
-                                    applies to.
+                                  description: key is the label key that the selector applies to.
                                   type: string
                                 operator:
                                   description: |-
@@ -943,16 +904,12 @@ spec:
                         x-kubernetes-map-type: atomic
                       type: array
                     namespaces:
-                      description:
-                        Namespaces list of namespace(s) on which ip pool
-                        can be attached.
+                      description: Namespaces list of namespace(s) on which ip pool can be attached.
                       items:
                         type: string
                       type: array
                     priority:
-                      description:
-                        Priority priority given for ip pool while ip allocation
-                        on a service.
+                      description: Priority priority given for ip pool while ip allocation on a service.
                       type: integer
                     serviceSelectors:
                       description: |-
@@ -965,18 +922,14 @@ spec:
                           label selector matches no objects.
                         properties:
                           matchExpressions:
-                            description:
-                              matchExpressions is a list of label selector
-                              requirements. The requirements are ANDed.
+                            description: matchExpressions is a list of label selector requirements. The requirements are ANDed.
                             items:
                               description: |-
                                 A label selector requirement is a selector that contains values, a key, and an operator that
                                 relates the key and values.
                               properties:
                                 key:
-                                  description:
-                                    key is the label key that the selector
-                                    applies to.
+                                  description: key is the label key that the selector applies to.
                                   type: string
                                 operator:
                                   description: |-
@@ -1121,18 +1074,14 @@ spec:
                       label selector matches no objects.
                     properties:
                       matchExpressions:
-                        description:
-                          matchExpressions is a list of label selector requirements.
-                          The requirements are ANDed.
+                        description: matchExpressions is a list of label selector requirements. The requirements are ANDed.
                         items:
                           description: |-
                             A label selector requirement is a selector that contains values, a key, and an operator that
                             relates the key and values.
                           properties:
                             key:
-                              description:
-                                key is the label key that the selector applies
-                                to.
+                              description: key is the label key that the selector applies to.
                               type: string
                             operator:
                               description: |-
@@ -1167,17 +1116,13 @@ spec:
                     x-kubernetes-map-type: atomic
                   type: array
                 ipAddressPools:
-                  description:
-                    The list of IPAddressPools to advertise via this advertisement,
-                    selected by name.
+                  description: The list of IPAddressPools to advertise via this advertisement, selected by name.
                   items:
                     type: string
                   type: array
                 nodeSelectors:
-                  description:
-                    NodeSelectors allows to limit the nodes to announce as
-                    next hops for the LoadBalancer IP. When empty, all the nodes having  are
-                    announced as next hops.
+                  description: NodeSelectors allows to limit the nodes to announce as next hops for the LoadBalancer IP. When
+                    empty, all the nodes having  are announced as next hops.
                   items:
                     description: |-
                       A label selector is a label query over a set of resources. The result of matchLabels and
@@ -1185,18 +1130,14 @@ spec:
                       label selector matches no objects.
                     properties:
                       matchExpressions:
-                        description:
-                          matchExpressions is a list of label selector requirements.
-                          The requirements are ANDed.
+                        description: matchExpressions is a list of label selector requirements. The requirements are ANDed.
                         items:
                           description: |-
                             A label selector requirement is a selector that contains values, a key, and an operator that
                             relates the key and values.
                           properties:
                             key:
-                              description:
-                                key is the label key that the selector applies
-                                to.
+                              description: key is the label key that the selector applies to.
                               type: string
                             operator:
                               description: |-
@@ -1268,9 +1209,7 @@ spec:
       name: v1beta1
       schema:
         openAPIV3Schema:
-          description:
-            ServiceBGPStatus exposes the BGP peers a service is configured
-            to be advertised to, per relevant node.
+          description: ServiceBGPStatus exposes the BGP peers a service is configured to be advertised to, per relevant node.
           properties:
             apiVersion:
               description: |-
@@ -1355,9 +1294,7 @@ spec:
       name: v1beta1
       schema:
         openAPIV3Schema:
-          description:
-            ServiceL2Status reveals the actual traffic status of loadbalancer
-            services in layer2 mode.
+          description: ServiceL2Status reveals the actual traffic status of loadbalancer services in layer2 mode.
           properties:
             apiVersion:
               description: |-
@@ -1383,9 +1320,7 @@ spec:
               description: MetalLBServiceL2Status defines the observed state of ServiceL2Status.
               properties:
                 interfaces:
-                  description:
-                    Interfaces indicates the interfaces that receive the
-                    directed traffic
+                  description: Interfaces indicates the interfaces that receive the directed traffic
                   items:
                     description: InterfaceInfo defines interface info of layer2 announcement.
                     properties:
