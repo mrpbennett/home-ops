@@ -9,14 +9,25 @@ permissions:
   contents: write
 
 jobs:
+  kubeconform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: login to Github Packages
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${GITHUB_ACTOR} --password-stdin
+      - uses: actions/checkout@v6
+      - uses: docker://ghcr.io/yannh/kubeconform:latest
+        with:
+          entrypoint: '/kubeconform'
+          args: "-summary -output json kubeconfigs/"
+
   k8sManifestsValidation:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo content
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: '1.25'
 
@@ -26,20 +37,27 @@ jobs:
       - name: Run kubectl-validate
         run: kubectl-validate ./kubernetes/ --version 1.25
 
+
   yamlfmt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+        # Install Go
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version: '1.25'
+
+        # find errors with yamlfmt
       - name: Install yamlfmt
         run: go install github.com/google/yamlfmt/cmd/yamlfmt@latest
       - name: Run yamlfmt
         run: yamlfmt .
+
+        # commit changes
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
