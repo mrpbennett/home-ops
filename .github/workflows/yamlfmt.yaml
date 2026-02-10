@@ -4,13 +4,17 @@ on:
   pull_request:
   push:
     branches: [main]
+
+permissions:
+  contents: write # Required for git-auto-commit-action
+
 jobs:
   yamlfmt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
-          token: ${{ secrets.HOME_OPS }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
