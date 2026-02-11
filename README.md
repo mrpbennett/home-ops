@@ -87,84 +87,64 @@ source:
 
 <table>
     <tr>
-        <th>Logo</th>
         <th>Name</th>
         <th>Description</th>
     </tr>
     <tr>
-        <td><img width="32" src="https://github.com/homarr-labs/dashboard-icons/blob/main/png/apache-airflow.png?raw=true"></td>
         <td><a href="https://airflow.apache.org/">Apache Airflow</a></td>
         <td>Workflow Orchestration</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://avatars.githubusercontent.com/u/30269780"></td>
         <td><a href="https://argoproj.github.io/cd">ArgoCD</a></td>
         <td>GitOps tool built to deploy applications to Kubernetes</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://avatars.githubusercontent.com/u/30269780"></td>
         <td><a href="https://argoproj.github.io/workflows">Argo Workflows</a></td>
         <td>Workflow management to help with CronWorkflows</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://github.com/jetstack/cert-manager/raw/master/logo/logo.png"></td>
         <td><a href="https://cert-manager.io">cert-manager</a></td>
-        <td>Cloud native certificate management - TBA</td>
+        <td>Certificate management</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main/png/harbor.png"></td>
-        <td><a href="https://goharbor.io/">Harbor</a></td>
+        <td><a href="https://docker.com/">Docker Registry</a></td>
         <td>Private container registry</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://grafana.com/static/img/menu/grafana2.svg"></td>
         <td><a href="https://grafana.com">Grafana</a></td>
         <td>Observability platform</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://helm.sh/img/helm.svg"></td>
         <td><a href="https://helm.sh">Helm</a></td>
         <td>The package manager for Kubernetes</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://avatars.githubusercontent.com/u/13629408"></td>
         <td><a href="https://kubernetes.io">Kubernetes</a></td>
         <td>Container-orchestration system, the backbone of this project</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://github.com/homarr-labs/dashboard-icons/blob/main/png/loki.png?raw=true"></td>
         <td><a href="https://grafana.com/oss/loki/">Loki</a></td>
         <td>Log aggregation system</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://avatars.githubusercontent.com/u/1412239?s=200&v=4"></td>
         <td><a href="https://www.nginx.com">NGINX</a></td>
         <td>Kubernetes Ingress Controller</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://metallb.universe.tf/images/logo/metallb-white.png"></td>
         <td><a href="https://metallb.universe.tf/">MetalLB</a></td>
         <td>Kubernetes load balancer</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://cdn.worldvectorlogo.com/logos/portainer.svg"></td>
-        <td><a href="https://docs.portainer.io/start/install-ce">Portainer</a></td>
-        <td>Docker container management</td>
-    </tr>
-    <tr>
-        <td><img width="32" src="https://avatars.githubusercontent.com/u/3380462"></td>
         <td><a href="https://prometheus.io">Prometheus</a></td>
         <td>Systems monitoring and alerting toolkit</td>
     </tr>
     <tr>
-        <td><img width="28" src="https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg"></td>
         <td><a href="https://trino.io/">Trino</a></td>
         <td>Fast distributed SQL query engine</td>
     </tr>
     <tr>
-        <td><img width="32" src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo-ubuntu_cof-orange-hex.svg"></td>
-        <td><a href="https://getfedora.org/en/server">Ubuntu Server</a></td>
-        <td>Base OS minimized for all Non K8 VMs</td>
+        <td><a href="https://talos.dev">Talos OS</a></td>
+        <td>Talos OS</td>
     </tr>
 </table>
 
@@ -174,9 +154,9 @@ source:
 
 | Device                        | Count | Disk Sizes               | Ram  | Operating System  | Purpose          |
 | ----------------------------- | ----- | ------------------------ | ---- | ----------------- | ---------------- |
-| Raspberry Pi5                 | 3     | 250GB NVMe               | 8GB  | Ubuntu Svr ARM64  | Microservices    |
-| Lenovo ThinkCentre M720q tiny | 3     | 1TB NVMe                 | 32GB | Ubuntu Svr x86_64 | K8s Worker       |
-| Hypervisor / NAS              | 1     | 250GB NVMe + 4TB storage | 16GB | Proxmox           | Hypervisor / NAS |
+| Raspberry Pi5                 | 3     | 250GB NVMe               | 8GB  | Raspberry Pi ARM64  | Microservices    |
+| Dell 7060 micro | 3     | 1TB NVMe                 | 32GB | Talos OS | Control Planes as workers       |
+
 
 ---
 
