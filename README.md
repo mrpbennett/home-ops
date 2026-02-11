@@ -20,7 +20,7 @@ _... managed with ArgoCD, Renovate and GitHub Actions_ 🤖
 
 ---
 
-## 📖 Overview
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4a1/512.gif" alt="💡" width="20" height="20"> Overview
 
 This is a mono repository for my home infrastructure and Kubernetes node. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
@@ -28,7 +28,7 @@ I have a HA setup running 3 Raspberry Pi5 8GB as control planes with a further 2
 
 ## The purpose here is to learn Kubernetes, while practising GitOps
 
-## ⛵ Kubernetes
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> Kubernetes
 
 ### Installation
 
@@ -126,6 +126,10 @@ source:
         <td><a href="https://grafana.com/oss/loki/">Loki</a></td>
         <td>Log aggregation system</td>
     </tr>
+  <tr>
+    <td><a href="https://github.com/kubernetes-sigs/external-dns">ExternalDNS<a/></td>
+      <td>External DNS server configuration</td>
+    </tr>
     <tr>
         <td><a href="https://www.nginx.com">NGINX</a></td>
         <td>Kubernetes Ingress Controller</td>
@@ -150,12 +154,18 @@ source:
 
 ---
 
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f30e/512.gif" alt="🌎" width="20" height="20"> DNS
+
+In my cluster there is one instance of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. This syncs to a Raspberry Pi5 running [Pi-hole](https://pi-hole.net/) for syncing private DNS records. This setup allows me to create dns records with valid certification via cert-manager and cloudflares API.
+
+---
+
 ## 🔧 Hardware
 
-| Device                        | Count | Disk Sizes               | Ram  | Operating System  | Purpose          |
-| ----------------------------- | ----- | ------------------------ | ---- | ----------------- | ---------------- |
-| Raspberry Pi5                 | 3     | 250GB NVMe               | 8GB  | Raspberry Pi ARM64  | Microservices    |
-| Dell 7060 micro | 3     | 1TB NVMe                 | 32GB | Talos OS | Control Planes as workers       |
+| Device                        | Count | OS Disk Size |Data Disk Size               | Ram  | Operating System  | Purpose          |
+| ----------------------------- | ----- | --- |------------------------ | ---- | ----------------- | ---------------- |
+| Raspberry Pi5                 | 3     | 250GB NVMe |     -         | 8GB  | Raspberry Pi ARM64  | Microservices    |
+| Dell 7060 micro | 3     |  256GB NVMe      |     1TB NVMe     | 32GB | Talos OS | Control Planes as workers       |
 
 
 ---
