@@ -1,7 +1,7 @@
 
 ---
 apiVersion: argoproj.io/v1alpha1
-kinda: Application
+kind: Application
 metadata:
   name: caddy-ingress
   namespace: &app caddy-system

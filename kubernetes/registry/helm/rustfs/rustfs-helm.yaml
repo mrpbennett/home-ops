@@ -1,6 +1,6 @@
 ---
 apiVersion: argoproj.io/v1alpha1
-kinda: Application
+kind: Application
 metadata:
   name: rustfs
   namespace: &app rustfs
@@ -47,17 +47,3 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-
-
-
-
-
-
-
-
-
-
-
-
-
-
