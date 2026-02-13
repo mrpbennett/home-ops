@@ -1,4 +1,3 @@
-
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -7,7 +6,7 @@ metadata:
   namespace: &app caddy-system
 spec:
   project: default
-  sources:
+  source:
     - chart: caddy-ingress-controller
       repoURL: https://caddyserver.github.io/ingress
       targetRevision: atomic
@@ -24,28 +23,28 @@ spec:
           image:
             repository: caddy/ingress
             pullPolicy: IfNotPresent
-            tag: "v0.2.1"
+            tag: 'v0.2.1'
 
           imagePullSecrets: []
-          nameOverride: ""
-          fullnameOverride: ""
+          nameOverride: ''
+          fullnameOverride: ''
 
           # Default values for the caddy ingress controller.
           ingressController:
-            watchNamespace: ""
+            watchNamespace: ''
             verbose: false
             rbac:
               create: true
-            className: "caddy"
+            className: 'caddy'
             classNameRequired: false
-            leaseId: ""
+            leaseId: ''
             config:
-              acmeEABKeyId: ""
-              acmeEABMacKey: ""
+              acmeEABKeyId: ''
+              acmeEABMacKey: ''
               # -- Acme Server URL
-              acmeCA: ""
+              acmeCA: ''
               debug: false
-              email: ""
+              email: ''
               metrics: true
               proxyProtocol: false
               experimentalSmartSort: false
@@ -80,11 +79,11 @@ spec:
             ## Service type
             type: ClusterIP
             ## IP address for type ClusterIP
-            clusterIP: ""
+            clusterIP: ''
             ipDualStack:
               enabled: false
-              ipFamilies: ["IPv6", "IPv4"]
-              ipFamilyPolicy: "PreferDualStack"
+              ipFamilies: ['IPv6', 'IPv4']
+              ipFamilyPolicy: 'PreferDualStack'
 
           serviceAccount:
             # Specifies whether a service account should be created
@@ -93,7 +92,7 @@ spec:
             annotations: {}
             # The name of the service account to use.
             # If not set and create is true, a name is generated using the fullname template
-            name: "caddy-ingress-controller"
+            name: 'caddy-ingress-controller'
 
           podAnnotations: {}
 
@@ -142,17 +141,3 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-
-
-
-
-
-
-
-
-
-
-
-
-
-
