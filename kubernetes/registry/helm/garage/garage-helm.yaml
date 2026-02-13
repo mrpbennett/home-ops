@@ -1,154 +1,154 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: garage
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    repoURL: https://git.deuxfleurs.fr/Deuxfleurs/garage.git
-    targetRevision: main-v2
-    path: script/helm/garage
-    helm:
-      releaseName: garage
-      valuesObject:
-        garage:
-          dbEngine: 'lmdb'
-          blockSize: '1048576'
-          replicationFactor: 3
-          compressionLevel: '1'
-          s3:
-            api:
-              region: 'garage'
-              rootDomain: '.s3.garage.70ld.dev'
-            web:
-              rootDomain: '.web.garage.70ld.dev'
-              index: 'index.html'
-
-        # For Raspberry Pi deployment - consider using PVCs instead of hostPath
-        persistence:
-          enabled: true
-          meta:
-            storageClass: longhorn
-            size: 2Gi
-            hostPath: /var/lib/garage/meta
-          data:
-            storageClass: longhorn
-            size: 10Gi
-            hostPath: /var/lib/garage/data
-
-        deployment:
-          kind: StatefulSet
-          replicaCount: 3
-          podManagementPolicy: OrderedReady
-
-        image:
-          repository: dxflrs/arm64_garage # change this when switching off rpi
-          tag: ''
-          pullPolicy: IfNotPresent
-
-        serviceAccount:
-          create: true
-          annotations: {}
-          name: ''
-
-        podSecurityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
-          fsGroup: 1000
-          runAsNonRoot: true
-
-        securityContext:
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-              - ALL
-
-        service:
-          type: LoadBalancer
-          s3:
-            api:
-              port: 3900
-            web:
-              port: 3902
-
-        ingress:
-          s3:
-            api:
-              enabled: true
-              className: nginx
-              annotations:
-                cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
-                # Add body size limit for S3 uploads
-                nginx.ingress.kubernetes.io/proxy-body-size: '1024m'
-                # Add timeout configurations for large uploads
-                nginx.ingress.kubernetes.io/proxy-connect-timeout: '600'
-                nginx.ingress.kubernetes.io/proxy-send-timeout: '600'
-                nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
-              hosts:
-                - host: 's3.garage.70ld.dev' # API endpoint
-                  paths:
-                    - path: /
-                      pathType: Prefix
-                # For S3 virtual-hosted-style requests (bucket.s3.garage.70ld.dev)
-                - host: '*.s3.garage.70ld.dev'
-                  paths:
-                    - path: /
-                      pathType: Prefix
-              tls:
-                - secretName: garage-s3-tls
-                  hosts:
-                    - s3.garage.70ld.dev
-                    - '*.s3.garage.70ld.dev'
-
-            web:
-              enabled: true
-              className: nginx
-              annotations:
-                cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
-              hosts:
-                # For website hosting (bucket.web.garage.70ld.dev)
-                - host: '*.web.garage.70ld.dev'
-                  paths:
-                    - path: /
-                      pathType: Prefix
-                # Main web interface
-                - host: 'garage-web.70ld.dev'
-                  paths:
-                    - path: /
-                      pathType: Prefix
-              tls:
-                - secretName: garage-web-tls
-                  hosts:
-                    - '*.web.garage.70ld.dev'
-                    - garage-web.70ld.dev
-
-        # Resource limits appropriate for Raspberry Pi
-        resources:
-          limits:
-            cpu: 500m # Increased for better performance
-            memory: 1024Mi
-          requests:
-            cpu: 100m
-            memory: 256Mi # Increased from 128Mi
-
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: garage
-
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - Validate=true
-    retry:
-      limit: 5
-      backoff:
-        duration: 5s
-        maxDuration: 5m0s
-        factor: 2
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: garage
+#   namespace: argocd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   project: default
+#   source:
+#     repoURL: https://git.deuxfleurs.fr/Deuxfleurs/garage.git
+#     targetRevision: main-v2
+#     path: script/helm/garage
+#     helm:
+#       releaseName: garage
+#       valuesObject:
+#         garage:
+#           dbEngine: 'lmdb'
+#           blockSize: '1048576'
+#           replicationFactor: 3
+#           compressionLevel: '1'
+#           s3:
+#             api:
+#               region: 'garage'
+#               rootDomain: '.s3.garage.70ld.dev'
+#             web:
+#               rootDomain: '.web.garage.70ld.dev'
+#               index: 'index.html'
+#
+#         # For Raspberry Pi deployment - consider using PVCs instead of hostPath
+#         persistence:
+#           enabled: true
+#           meta:
+#             storageClass: longhorn
+#             size: 2Gi
+#             hostPath: /var/lib/garage/meta
+#           data:
+#             storageClass: longhorn
+#             size: 10Gi
+#             hostPath: /var/lib/garage/data
+#
+#         deployment:
+#           kind: StatefulSet
+#           replicaCount: 3
+#           podManagementPolicy: OrderedReady
+#
+#         image:
+#           repository: dxflrs/arm64_garage # change this when switching off rpi
+#           tag: ''
+#           pullPolicy: IfNotPresent
+#
+#         serviceAccount:
+#           create: true
+#           annotations: {}
+#           name: ''
+#
+#         podSecurityContext:
+#           runAsUser: 1000
+#           runAsGroup: 1000
+#           fsGroup: 1000
+#           runAsNonRoot: true
+#
+#         securityContext:
+#           readOnlyRootFilesystem: true
+#           capabilities:
+#             drop:
+#               - ALL
+#
+#         service:
+#           type: LoadBalancer
+#           s3:
+#             api:
+#               port: 3900
+#             web:
+#               port: 3902
+#
+#         ingress:
+#           s3:
+#             api:
+#               enabled: true
+#               className: nginx
+#               annotations:
+#                 cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+#                 # Add body size limit for S3 uploads
+#                 nginx.ingress.kubernetes.io/proxy-body-size: '1024m'
+#                 # Add timeout configurations for large uploads
+#                 nginx.ingress.kubernetes.io/proxy-connect-timeout: '600'
+#                 nginx.ingress.kubernetes.io/proxy-send-timeout: '600'
+#                 nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
+#               hosts:
+#                 - host: 's3.garage.70ld.dev' # API endpoint
+#                   paths:
+#                     - path: /
+#                       pathType: Prefix
+#                 # For S3 virtual-hosted-style requests (bucket.s3.garage.70ld.dev)
+#                 - host: '*.s3.garage.70ld.dev'
+#                   paths:
+#                     - path: /
+#                       pathType: Prefix
+#               tls:
+#                 - secretName: garage-s3-tls
+#                   hosts:
+#                     - s3.garage.70ld.dev
+#                     - '*.s3.garage.70ld.dev'
+#
+#             web:
+#               enabled: true
+#               className: nginx
+#               annotations:
+#                 cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+#               hosts:
+#                 # For website hosting (bucket.web.garage.70ld.dev)
+#                 - host: '*.web.garage.70ld.dev'
+#                   paths:
+#                     - path: /
+#                       pathType: Prefix
+#                 # Main web interface
+#                 - host: 'garage-web.70ld.dev'
+#                   paths:
+#                     - path: /
+#                       pathType: Prefix
+#               tls:
+#                 - secretName: garage-web-tls
+#                   hosts:
+#                     - '*.web.garage.70ld.dev'
+#                     - garage-web.70ld.dev
+#
+#         # Resource limits appropriate for Raspberry Pi
+#         resources:
+#           limits:
+#             cpu: 500m # Increased for better performance
+#             memory: 1024Mi
+#           requests:
+#             cpu: 100m
+#             memory: 256Mi # Increased from 128Mi
+#
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: garage
+#
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - CreateNamespace=true
+#       - Validate=true
+#     retry:
+#       limit: 5
+#       backoff:
+#         duration: 5s
+#         maxDuration: 5m0s
+#         factor: 2
