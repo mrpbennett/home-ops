@@ -12,30 +12,30 @@ spec:
     targetRevision: 0.0.83
     helm:
       valuesObject:
-          replicaCount: 1
+        replicaCount: 1
 
-          mode:
-            standalone:
-              enabled: true
-              strategy:
-                type: RollingUpdate
-
-          secret:
-            rustfs:
-              access_key: rustfsadmin
-              secret_key: rustfsadmin
-
-          service:
-            type: LoadBalancer
-
-          ingress:
+        mode:
+          standalone:
             enabled: true
-            className: nginx
-            hosts:
-              - host: rustfs.home.local
-                paths:
-                  - path: /
-                    pathType: Prefix
+            strategy:
+              type: RollingUpdate
+
+        secret:
+          rustfs:
+            access_key: rustfsadmin
+            secret_key: rustfsadmin
+
+        service:
+          type: LoadBalancer
+
+        ingress:
+          enabled: true
+          className: nginx
+          hosts:
+            - host: rustfs.home.local
+              paths:
+                - path: /
+                  pathType: Prefix
 
   destination:
     server: https://kubernetes.default.svc
