@@ -7,11 +7,11 @@ metadata:
 spec:
   project: default
   source:
-    - chart: rustfs
-      repoURL: https://charts.rustfs.com
-      targetRevision: 0.0.83
-      helm:
-        valuesObject:
+    chart: rustfs
+    repoURL: https://charts.rustfs.com
+    targetRevision: 0.0.83
+    helm:
+      valuesObject:
           replicaCount: 1
 
           mode:

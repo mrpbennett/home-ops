@@ -2,61 +2,61 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app alloy
+  name: alloy
   namespace: argocd
 spec:
   project: default
   source:
-    - chart: alloy
-      repoURL: https://grafana.github.io/helm-charts
-      targetRevision: 1.4.0
-      helm:
-        valuesObject:
-          alloy:
-            configMap:
-              content: |
-                logging {
-                  level = "warn"
-                  format = "logfmt"
+    chart: alloy
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 1.4.0
+    helm:
+      valuesObject:
+        alloy:
+          configMap:
+            content: |
+              logging {
+                level = "warn"
+                format = "logfmt"
+              }
+
+              loki.write "grafana_loki" {
+                endpoint {
+                  url = "http://loki.logging.svc.cluster.local:3100/loki/api/v1/push"
+                }
+              }
+
+              discovery.kubernetes "pods" {
+                role = "pod"
+                selectors {
+                  role  = "pod"
+                  field = "spec.nodeName=" + coalesce(env("HOSTNAME"), constants.hostname)
+                }
+              }
+
+              discovery.relabel "pods" {
+                targets = discovery.kubernetes.pods.targets
+
+                rule {
+                  source_labels = ["__meta_kubernetes_namespace"]
+                  target_label  = "namespace"
                 }
 
-                loki.write "grafana_loki" {
-                  endpoint {
-                    url = "http://loki.logging.svc.cluster.local:3100/loki/api/v1/push"
-                  }
+                rule {
+                  source_labels = ["__meta_kubernetes_pod_name"]
+                  target_label  = "pod"
                 }
 
-                discovery.kubernetes "pods" {
-                  role = "pod"
-                  selectors {
-                    role  = "pod"
-                    field = "spec.nodeName=" + coalesce(env("HOSTNAME"), constants.hostname)
-                  }
+                rule {
+                  source_labels = ["__meta_kubernetes_pod_container_name"]
+                  target_label  = "container"
                 }
+              }
 
-                discovery.relabel "pods" {
-                  targets = discovery.kubernetes.pods.targets
-
-                  rule {
-                    source_labels = ["__meta_kubernetes_namespace"]
-                    target_label  = "namespace"
-                  }
-
-                  rule {
-                    source_labels = ["__meta_kubernetes_pod_name"]
-                    target_label  = "pod"
-                  }
-
-                  rule {
-                    source_labels = ["__meta_kubernetes_pod_container_name"]
-                    target_label  = "container"
-                  }
-                }
-
-                loki.source.kubernetes "pods" {
-                  targets    = discovery.relabel.pods.output
-                  forward_to = [loki.write.grafana_loki.receiver]
-                }
+              loki.source.kubernetes "pods" {
+                targets    = discovery.relabel.pods.output
+                forward_to = [loki.write.grafana_loki.receiver]
+              }
 
             extraArgs: []
 

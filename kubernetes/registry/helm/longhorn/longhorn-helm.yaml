@@ -9,94 +9,94 @@ metadata:
 spec:
   project: default
   source:
-    - chart: longhorn
-      repoURL: https://charts.longhorn.io/
-      targetRevision: 1.10.0
-      helm:
-        valuesObject:
-          preUpgradeChecker:
-            jobEnabled: false
+    chart: longhorn
+    repoURL: https://charts.longhorn.io/
+    targetRevision: 1.10.0
+    helm:
+      valuesObject:
+        preUpgradeChecker:
+          jobEnabled: false
 
-          persistence:
-            defaultClass: true
-            defaultFsType: ext4
-            defaultClassReplicaCount: 2
-            reclaimPolicy: Delete
-            volumeBindngMode: 'Immediate'
-            dataEngine: v1
+        persistence:
+          defaultClass: true
+          defaultFsType: ext4
+          defaultClassReplicaCount: 2
+          reclaimPolicy: Delete
+          volumeBindngMode: 'Immediate'
+          dataEngine: v1
 
-          defaultSetting:
-            # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
-            storageMinimalAvailablePercentage: 10
-            # -- Log levels that indicate the type and severity of logs in Longhorn Manager.
-            # -- The default value is "Info". (Options: "Panic", "Fatal", "Error", "Warn", "Info", "Debug", "Trace")
-            logLevel: 'Warn'
+        defaultSetting:
+          # -- Percentage of minimum available disk capacity. When the minimum available capacity exceeds the total available capacity, the disk becomes unschedulable until more space is made available for use. The default value is "25".
+          storageMinimalAvailablePercentage: 10
+          # -- Log levels that indicate the type and severity of logs in Longhorn Manager.
+          # -- The default value is "Info". (Options: "Panic", "Fatal", "Error", "Warn", "Info", "Debug", "Trace")
+          logLevel: 'Warn'
 
-          # -- Setting that allows you to update the default backupstore.
-          defaultBackupStore:
-            backupTarget: 'nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3,nolock,soft,timeo=300'
-            backupTargetCredentialSecret: longhorn-nfs-backup-secret
+        # -- Setting that allows you to update the default backupstore.
+        defaultBackupStore:
+          backupTarget: 'nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3,nolock,soft,timeo=300'
+          backupTargetCredentialSecret: longhorn-nfs-backup-secret
 
-          longhornUI:
-            replicas: 1
+        longhornUI:
+          replicas: 1
 
-          ingress:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          host: longhorn.70ld.dev
+          tls: true
+          tlsSecret: longhorn-tls
+          path: /
+          annotations:
+            cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+
+        metrics:
+          serviceMonitor:
             enabled: true
-            ingressClassName: nginx
-            host: longhorn.70ld.dev
-            tls: true
-            tlsSecret: longhorn-tls
-            path: /
-            annotations:
-              cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+            interval: 30s
 
-          metrics:
-            serviceMonitor:
-              enabled: true
-              interval: 30s
+        extraObjects:
+          - apiVersion: v1
+            kind: Namespace
+            metadata:
+              name: longhorn-system
+              labels:
+                pod-security.kubernetes.io/enforce: privileged
+                pod-security.kubernetes.io/audit: privileged
+                pod-security.kubernetes.io/warn: privileged
 
-          extraObjects:
-            - apiVersion: v1
-              kind: Namespace
-              metadata:
-                name: longhorn-system
-                labels:
-                  pod-security.kubernetes.io/enforce: privileged
-                  pod-security.kubernetes.io/audit: privileged
-                  pod-security.kubernetes.io/warn: privileged
+          - apiVersion: v1
+            kind: Secret
+            metadata:
+              name: longhorn-nfs-backup-secret
+              namespace: longhorn-system
+            type: Opaque
+            data:
+              username: cGF1bA==
+              password: MTIzcXdlISE=
 
-            - apiVersion: v1
-              kind: Secret
-              metadata:
-                name: longhorn-nfs-backup-secret
-                namespace: longhorn-system
-              type: Opaque
-              data:
-                username: cGF1bA==
-                password: MTIzcXdlISE=
+          - apiVersion: longhorn.io/v1beta2
+            kind: RecurringJob
+            metadata:
+              name: weekly-system-backup
+              namespace: longhorn-system
+            spec:
+              task: system-backup
+              cron: '0 1 * * SUN'
+              retain: 1
+              parameters:
+                volume-backup-policy: if-not-present
 
-            - apiVersion: longhorn.io/v1beta2
-              kind: RecurringJob
-              metadata:
-                name: weekly-system-backup
-                namespace: longhorn-system
-              spec:
-                task: system-backup
-                cron: '0 1 * * SUN'
-                retain: 1
-                parameters:
-                  volume-backup-policy: if-not-present
-
-            - apiVersion: longhorn.io/v1beta2
-              kind: RecurringJob
-              metadata:
-                name: daily-snapshot-backup
-                namespace: longhorn-system
-              spec:
-                task: snapshot
-                cron: '0 1 * * *'
-                retain: 1
-                concurrency: 2
+          - apiVersion: longhorn.io/v1beta2
+            kind: RecurringJob
+            metadata:
+              name: daily-snapshot-backup
+              namespace: longhorn-system
+            spec:
+              task: snapshot
+              cron: '0 1 * * *'
+              retain: 1
+              concurrency: 2
 
   destination:
     server: https://kubernetes.default.svc
