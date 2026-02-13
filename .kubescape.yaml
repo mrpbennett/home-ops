@@ -1,3 +1,4 @@
+---
 kubescape:
   scan-target:
     - kubernetes-objects
