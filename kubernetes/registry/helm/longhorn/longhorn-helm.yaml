@@ -4,7 +4,6 @@ kind: Application
 metadata:
   name: longhorn
   namespace: argocd
-  metadata:
   annotations:
     argocd.argoproj.io/sync-wave: '0'
 spec:

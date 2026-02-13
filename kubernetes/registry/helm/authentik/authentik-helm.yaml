@@ -4,7 +4,6 @@ kind: Application
 metadata:
   name: &app authentik
   namespace: argocd
-  metadata:
 spec:
   project: default
   sources:
