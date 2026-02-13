@@ -32,19 +32,15 @@ spec:
             volume_enabled: true
           ruler:
             enable_api: true
-
           storage:
             bucketNames:
               chunks: loki-chunks
               ruler: loki-ruler
               admin: loki-admin
             type: s3
-
         minio:
           enabled: true
-
         deploymentMode: SingleBinary
-
         singleBinary:
           replicas: 1
           resources:
@@ -54,11 +50,9 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
-
           persistance:
             size: 10Gi
             storageClass: longhorn
-
         # Zero out replica counts of other deployment modes
         backend:
           replicas: 0
@@ -66,7 +60,6 @@ spec:
           replicas: 0
         write:
           replicas: 0
-
         ingester:
           replicas: 0
         querier:
@@ -85,14 +78,11 @@ spec:
           replicas: 0
         bloomGateway:
           replicas: 0
-
         memcached:
           enabled: false
-
   destination:
     server: https://kubernetes.default.svc
     namespace: logging
-
   syncPolicy:
     automated:
       prune: true

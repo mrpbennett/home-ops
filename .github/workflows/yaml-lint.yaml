@@ -1,0 +1,42 @@
+---
+name: Lint YAML
+on:
+  pull_request:
+    paths: ['**/*.yaml', '**/*.yml', '.yamlfmt']
+  push:
+    branches: [main]
+    paths: ['**/*.yaml', '**/*.yml', '.yamlfmt']
+
+jobs:
+  yaml-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: Install yamlfmt
+        run: go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+
+      - name: Validate YAML syntax
+        run: |
+          INVALID=0
+          for f in $(find . -name '*.yaml' -o -name '*.yml' 2>/dev/null); do
+            if ! python3 -c "import yaml; yaml.safe_load(open('$f'))" 2>/dev/null; then
+              echo "INVALID: $f"
+              INVALID=1
+            fi
+          done
+          if [ $INVALID -eq 1 ]; then
+            exit 1
+          fi
+
+      - name: Check YAML formatting (dry-run)
+        run: yamlfmt -dry .
+
+      - name: Report success
+        if: success()
+        run: echo "All YAML files are valid and properly formatted"

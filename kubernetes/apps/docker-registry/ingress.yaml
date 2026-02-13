@@ -6,7 +6,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
 spec:
-  ingressClassName: caddy
+  ingressClassName: nginx
   rules:
     - host: registry.70ld.dev
       http:

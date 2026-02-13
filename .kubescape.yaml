@@ -1,0 +1,11 @@
+kubescape:
+  scan-target:
+    - kubernetes-objects
+  include-files:
+    - kubernetes/
+  exclude-files:
+    - kubernetes/cluster/testing/
+    - kubernetes/cluster/crds/
+    - boilerplates/
+  controls:
+    severityThreshold: low

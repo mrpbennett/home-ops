@@ -1,0 +1,36 @@
+---
+name: Kubescape K8s Scan
+on:
+  pull_request:
+    paths: ['kubernetes/**/*.yaml', 'kubernetes/**/*.yml']
+  push:
+    branches: [main]
+    paths: ['kubernetes/**/*.yaml', 'kubernetes/**/*.yml']
+
+jobs:
+  kubescape:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Kubescape scan
+        uses: kubescape/github-action@main
+        continue-on-error: true
+        with:
+          format: sarif
+          outputFile: results.sarif
+          framework: NSA,MITRE
+          severityThreshold: low
+
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+
+      - name: Display results
+        run: |
+          echo "Kubescape scan complete. Results uploaded to GitHub Security tab."
