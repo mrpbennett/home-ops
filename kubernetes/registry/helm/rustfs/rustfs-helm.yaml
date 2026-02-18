@@ -33,11 +33,11 @@ spec:
           rustfs:
             volumes: "/data/rustfs0"
             address: ":9000"
-            console_enabled: "true"
+            console_enable: "true"
             console_address: ":9001"
             log_level: "info"
             region: "us-east-1"
-            domain: "rustfs.home.local"
+            domains: "rustfs.home.local"
             log_rotation:
               keep_files: 30
 
