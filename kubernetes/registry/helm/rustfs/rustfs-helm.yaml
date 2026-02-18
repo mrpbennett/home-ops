@@ -1,4 +1,3 @@
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -39,7 +38,6 @@ spec:
               keep_files: 30
         service:
           type: LoadBalancer
-
         ingress:
           enabled: true
           className: nginx
@@ -50,10 +48,8 @@ spec:
             nginx.ingress.kubernetes.io/session-cookie-hash: sha1
             nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
             nginx.ingress.kubernetes.io/session-cookie-name: rustfs
-          customAnnotations:
-            cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
           hosts:
-            - host: rustfs.70ld.dev
+            - host: rustfs.home.local
               paths:
                 - path: /
                   pathType: Prefix
@@ -63,12 +59,10 @@ spec:
             secretName: rustfs-tls
             crt: tls.crt
             key: tls.key
-
         storageclass:
           name: longhorn
           dataStorageSize: 10Gi
           logStorageSize: 512Mi
-
   destination:
     server: https://kubernetes.default.svc
     namespace: rustfs
