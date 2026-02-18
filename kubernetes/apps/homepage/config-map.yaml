@@ -53,6 +53,11 @@ data:
             href: https://authentik.70ld.dev/if/admin/#/administration/overview
             description: Authentication Provider
 
+        - ChartDB
+            icon: https://avatars.githubusercontent.com/u/177466511?s=200&v=4
+            href: https://chartdb.70ld.dev
+            description: ERD Tooling
+
         - Docker Registry:
             icon: docker.svg
             href: https://registry.70ld.dev/v2/_catalog
