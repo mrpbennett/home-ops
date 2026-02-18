@@ -59,10 +59,8 @@ spec:
                   pathType: Prefix
           tls:
             enabled: true
-            certManager: true
+            certManager: false
             secretName: rustfs-secret-tls
-            crt: tls.crt
-            key: tls.key
 
         storageclass:
           name: longhorn
