@@ -42,6 +42,8 @@ spec:
         ingress:
           enabled: true
           className: nginx
+          customAnnotations:
+            cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
           nginxAnnotations:
             nginx.ingress.kubernetes.io/affinity: cookie
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
@@ -50,7 +52,7 @@ spec:
             nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
             nginx.ingress.kubernetes.io/session-cookie-name: rustfs
           hosts:
-            - host: rustfs.home.local
+            - host: rustfs.70ld.dev
               paths:
                 - path: /
                   pathType: Prefix
@@ -58,8 +60,8 @@ spec:
             enabled: true
             certManager: true
             secretName: rustfs-tls
-            crt: tls.crt
-            key: tls.key
+            crt: ""
+            key: ""
         storageclass:
           name: longhorn
           dataStorageSize: 10Gi
