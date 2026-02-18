@@ -59,7 +59,7 @@ spec:
                   pathType: Prefix
           tls:
             enabled: true
-            certManager: false
+            certManager: true
             secretName: rustfs-secret-tls
 
         storageclass:
