@@ -77,6 +77,18 @@ spec:
             spec:
               type: LoadBalancer
 
+    backup:
+      barmanObjectStore:
+        destinationPath: "rustfs-svc.rustfs.svc.cluster.local:9000"
+        s3Credentials:
+          accessKeyId:
+            name: rustfs-cloudnativepg
+            key: access_key
+          secretAccessKey:
+            name: rustfs-cloudnativepg
+            key: access_secret_key
+        retentionPolicy: "7d"
+
   affinity:
     enablePodAntiAffinity: true
     topologyKey: failure-domain.beta.kubernetes.io/zone

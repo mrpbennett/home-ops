@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# install helix
-sudo add-apt-repository ppa:maveonair/helix-editor
-sudo apt update
-sudo apt install helix
+# TO RUN: curl -fsSL https://raw.githubusercontent.com/mrpbennett/home-ops/main/servers/helix-install.sh | bash
+
+# install helix if using homebrew within Linux Ubuntu
+brew install helix
 
 cat <<EOF >~/.config/helix/config.toml
 theme = "boo_berry"
