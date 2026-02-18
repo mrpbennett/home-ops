@@ -54,6 +54,11 @@ spec:
                 - path: /
                   pathType: Prefix
 
+        storageclass:
+          name: longhorn
+          dataStorageSize: 10Gi
+          logStorageSize: 512Mi
+
   destination:
     server: https://kubernetes.default.svc
     namespace: rustfs
