@@ -1,3 +1,4 @@
+# ---
 # apiVersion: argoproj.io/v1alpha1
 # kind: Application
 # metadata:
@@ -13,7 +14,7 @@
 #       helm:
 #         valuesObject:
 #           replicaCount: 1
-
+#
 #           log:
 #             level: INFO
 #             console:
@@ -23,28 +24,28 @@
 #               format: '%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) %s%e%n'
 #             file:
 #               enabled: false
-
+#
 #           # -- The Nessie catalog server configuration.
 #           catalog:
 #             # -- Whether to enable the REST catalog service.
 #             enabled: false
-
+#
 #             iceberg:
 #               defaultWarehouse: warehouse70ld
 #               configDefaults: {}
 #               configOverrides: {}
-
+#
 #               warehouses:
 #                 name: warehouse70ld
 #                 location: https://s3.garage.70ld.dev
 #                 configDefaults: {}
 #                 configOverrides: {}
-
+#
 #             storage:
 #               s3:
 #                 defaultOptions:
-#                   region: garage
-#                   endpoint: https://s3.garage.70ld.dev
+#                   region: us-east-1
+#                   endpoint: rustfs-svc.rustfs.svc.cluster.local:9000
 #                   externalEndpoint: ~
 #                   pathStyleAccess: ~
 #                   accessPoint: ~
@@ -52,32 +53,32 @@
 #                   authType: STATIC
 #                   requestSigningEnabled: true
 #                   stsEndpoint: ~
-
+#
 #                   clientIam:
 #                     enabled: false
-
+#
 #                   serverIam:
 #                     enabled: false
-
+#
 #                   accessKeySecret:
-#                     name: nessie-s3-credentials
+#                     name: rustfs-nessie
 #                     accessKeyId: accessKeyId
 #                     secretAccessKey: secretAccessKey
-
+#
 #                 buckets: []
-
+#
 #           metrics:
 #             enabled: true
 #             tags:
 #               service: nessie
-
+#
 #           service:
 #             type: LoadBalancer
 #             ports:
 #               - name: nessie-http
 #                 number: 19120
 #             annotations: {}
-
+#
 #           resources:
 #             limits:
 #               cpu: 100m
@@ -85,11 +86,11 @@
 #             requests:
 #               cpu: 100m
 #               memory: 128Mi
-
+#
 #   destination:
 #     server: https://kubernetes.default.svc
 #     namespace: *app
-
+#
 #   syncPolicy:
 #     automated:
 #       prune: true

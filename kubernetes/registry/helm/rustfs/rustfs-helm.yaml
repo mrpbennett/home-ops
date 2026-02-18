@@ -50,11 +50,19 @@ spec:
             nginx.ingress.kubernetes.io/session-cookie-hash: sha1
             nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
             nginx.ingress.kubernetes.io/session-cookie-name: rustfs
+          customAnnotations:
+            cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
           hosts:
-            - host: rustfs.home.local
+            - host: rustfs.70ld.dev
               paths:
                 - path: /
                   pathType: Prefix
+          tls:
+            enabled: true
+            certManager: true
+            secretName: rustfs-secret-tls
+            crt: tls.crt
+            key: tls.key
 
         storageclass:
           name: longhorn
