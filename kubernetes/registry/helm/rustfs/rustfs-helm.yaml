@@ -60,7 +60,9 @@ spec:
           tls:
             enabled: true
             certManager: true
-            secretName: rustfs-secret-tls
+            secretName: rustfs-tls
+            crt: tls.crt
+            key: tls.key
 
         storageclass:
           name: longhorn
