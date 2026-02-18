@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chartdb
+  namespace: chartdb
+  labels:
+    app: chartdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chartdb
+  template:
+    metadata:
+      labels:
+        app: chartdb
+    spec:
+      containers:
+        - name: chartdb
+          image: ghcr.io/chartdb/chartdb:latest
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: chartdb-data
+---
