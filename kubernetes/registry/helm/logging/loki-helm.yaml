@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: loki
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
@@ -30,6 +32,9 @@ spec:
           limits_config:
             allow_structured_metadata: true
             volume_enabled: true
+            retention_period: 168h
+            reject_old_samples: true
+            reject_old_smaples_max_age: 168h
           ruler:
             enable_api: true
           storage:
@@ -71,7 +76,9 @@ spec:
         distributor:
           replicas: 0
         compactor:
-          replicas: 0
+          replicas: 1
+          retention_enabled: true
+          compaction_interval: 10m
         indexGateway:
           replicas: 0
         bloomCompactor:
