@@ -83,6 +83,11 @@ data:
             href: http://prometheus.70ld.dev
             description: Analytics & Monitoring
 
+        - RustFS:
+            icon: rustfs.png
+            href: http://rustfs.home.local
+            description: Object Storage
+
         - TrueNAS Scale:
             icon: truenas-scale.svg
             href: http://nas.home.local
