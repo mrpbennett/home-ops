@@ -15,7 +15,6 @@ spec:
     helm:
       valuesObject:
         replicaCount: 1
-
         mode:
           standalone:
             enabled: true
@@ -23,12 +22,10 @@ spec:
               type: RollingUpdate
           distributed:
             enabled: false
-
         secret:
           rustfs:
             access_key: rustfsadmin
             secret_key: rustfsadmin
-
         config:
           rustfs:
             volumes: "/data/rustfs0"
@@ -40,14 +37,19 @@ spec:
             domains: "rustfs.home.local"
             log_rotation:
               keep_files: 30
-
-
         service:
           type: LoadBalancer
 
         ingress:
           enabled: true
           className: nginx
+          nginxAnnotations:
+            nginx.ingress.kubernetes.io/affinity: cookie
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+            nginx.ingress.kubernetes.io/session-cookie-expires: "3600"
+            nginx.ingress.kubernetes.io/session-cookie-hash: sha1
+            nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
+            nginx.ingress.kubernetes.io/session-cookie-name: rustfs
           hosts:
             - host: rustfs.home.local
               paths:
@@ -62,7 +64,6 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: rustfs
-
   syncPolicy:
     automated:
       prune: true
