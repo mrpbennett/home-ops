@@ -38,7 +38,8 @@ jobs:
         run: pip install yamllint
 
       - name: Lint YAML files
-        run: yamllint --no-warnings --relaxed-line-length=300 kubernetes/
+        run: |
+          yamllint --no-warnings -d "{extends: default, rules: {line-length: {max:200, allow-non-breakable-words: true}}}" kubernetes/
 
       # ── Step 3: Kubescape security scan ──────────────────────
       - name: Run Kubescape scan
