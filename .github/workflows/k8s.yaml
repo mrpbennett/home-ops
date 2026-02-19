@@ -45,7 +45,7 @@ jobs:
         uses: kubescape/github-action@main
         with:
           format: sarif
-          outputFile: results
+          outputFile: results.sarif
           frameworks: NSA,MITRE
           severityThreshold: high
           githubToken: ${{ secrets.GITHUB_TOKEN }}
