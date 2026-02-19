@@ -1,5 +1,5 @@
 ---
-name: Kubescape K8s Scan
+name: K8s Workflow
 
 on:
   pull_request:
