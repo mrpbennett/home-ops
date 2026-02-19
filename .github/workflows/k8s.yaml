@@ -39,7 +39,7 @@ jobs:
 
       - name: Lint YAML files
         run: |
-          yamllint --no-warnings -d "{extends: default, rules: {line-length: {max:200, allow-non-breakable-words: true}}}" kubernetes/
+          yamllint --no-warnings -d "{extends: default, rules: {line-length: {allow-non-breakable-words: true}}}" kubernetes/
 
       # ── Step 3: Kubescape security scan ──────────────────────
       - name: Run Kubescape scan
