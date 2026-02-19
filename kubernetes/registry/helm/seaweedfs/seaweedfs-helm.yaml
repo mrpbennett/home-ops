@@ -1,0 +1,114 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seaweedfs
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: seaweedfs
+    repoURL: https://seaweedfs.github.io/seaweedfs/helm
+    targetRevision: 4.0.413
+    helm:
+      valuesObject:
+        global:
+          createClusterRole: true
+
+        master:
+          enabled: true
+          replicas: 1
+          port: 9333
+
+        volume:
+          enabled: true
+          port: 8080
+          replicas: 1
+
+          dataDirs:
+            - name: data1
+              type: "hostPath"
+              hostPathPrefix: /ssd
+              maxVolumes: 0
+
+        filer:
+          enabled: true
+          replicas: 1
+          port: 8888
+          storage: 10Gi
+          storageClass: longhorn
+          data:
+            type: "hostPath"
+            size: ""
+            storageClass: longhorn
+            hostPathPrefix: /storage
+
+
+        s3:
+          enabled: true
+          replicas: 1
+          port: 8333
+          icebergPort: null
+
+          ingress:
+            enabled: true
+            className: nginx
+            host: seaweedfs.70ld.dev
+            path: /
+            pathType: Prefix
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+            tls:
+              - hosts:
+                  - seaweedfs.70ld.dev
+                secretName: seaweedfs-tls
+          icebergIngress:
+            enabled: true
+            className: nginx
+            host: seaweedfs-iceberg.70ld.dev
+            path: /
+            pathType: Prefix
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+            tls:
+              - hosts:
+                  - seaweedfs-iceberg.70ld.dev
+                secretName: seaweedfs-iceberg-tls
+
+
+        admin:
+          enabled: true
+          replicas: 1
+          port: 23646
+          secret:
+            adminUser: "admin"
+            adminPassword: ""
+
+          ingress:
+            enabled: true
+            className: nginx
+            host: admin.seaweedfs.70ld.dev
+            path: /
+            pathType: Prefix
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+            tls:
+              - hosts:
+                  - admin.seaweedfs.70ld.dev
+                secretName: admin-seaweedfs-tls
+
+          service:
+            type: LoadBalancer
+
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: seaweedfs
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
