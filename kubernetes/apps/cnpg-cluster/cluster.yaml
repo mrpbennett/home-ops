@@ -81,6 +81,8 @@ spec:
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
       endpointURL: rustfs-svc.rustfs.svc.cluster.local:9000
+      wal:
+        compression: gzip
       s3Credentials:
         accessKeyId:
           name: rustfs-cloudnativepg
@@ -88,7 +90,7 @@ spec:
         secretAccessKey:
           name: rustfs-cloudnativepg
           key: access_secret_key
-      retentionPolicy: "7d"
+    retentionPolicy: "7d"
 
   affinity:
     enablePodAntiAffinity: true
