@@ -85,7 +85,7 @@ data:
 
         - RustFS:
             icon: rustfs.png
-            href: http://rustfs.home.local
+            href: https://rustfs.70ld.dev
             description: Object Storage
 
         - TrueNAS Scale:
