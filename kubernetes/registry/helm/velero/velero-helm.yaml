@@ -13,7 +13,65 @@ spec:
     repoURL: https://vmware-tanzu.github.io/helm-charts
     targetRevision: 11.3.2
     helm:
-      valuesObject: {}
+      valuesObject:
+        namespace:
+          labels:
+            # Enforce Pod Security Standards with Namespace Labels
+            # https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/
+            pod-security.kubernetes.io/enforce: privileged
+            pod-security.kubernetes.io/enforce-version: latest
+            pod-security.kubernetes.io/audit: privileged
+            pod-security.kubernetes.io/audit-version: latest
+            pod-security.kubernetes.io/warn: privileged
+            pod-security.kubernetes.io/warn-version: latest
+
+        initContainers:
+          - name: velero-plugin-for-aws
+            image: velero/velero-plugin-for-aws:v1.13.00
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+              - mountPath: /target
+                name: plugins
+
+        extraObjects:
+          - apiVersion: v1
+            kind: Secret
+            metadata:
+              name: velero-seaweedfs-creds
+              namespace: velero
+            type: Opaque
+            data:
+              AWS_ACCESS_KEY_ID: TzQwWkk5NU80MTlTSkNYVVBZMFU=
+              AWS_SECRET_ACCESS_KEY: MmlKTFZ0ZFdXK3B1WDR5QUk1R1dFTjA2ZWpSaWVMNjhWamw5VUNyYg==
+
+
+        configuration:
+          backupStorageLocation:
+            - name: "seaweedfs "
+              provider: "aws"
+              bucket: "velero"
+              accessMode: ReadWrite
+              config:
+                region: seaweedfs
+                s3ForcePathStyle: "true"
+                s3URL: http://seaweedfs.70ld.dev:8443
+                insecureSkipTLSVerify: false
+
+        credentials:
+          useSecret: true
+          existingSecret: velero-seaweedfs-creds
+
+        schedules:
+          daily-backup:
+            disabled: false
+            schedule: '0 1 * * *'
+            template:
+              ttl: '72h0m0s'
+              storageLocation: seaweedfs
+              includedNamespaces:
+                - '*'
+              excludedClusterScopedResources:
+                - persistentVolumeClaims
 
   destination:
     server: https://kubernetes.default.svc

@@ -16,11 +16,18 @@ spec:
       valuesObject:
         global:
           createClusterRole: true
+          monitoring:
+            enabled: true
 
         master:
           enabled: true
           replicas: 1
           port: 9333
+
+          data:
+            type: "persistentVolumeClaim"
+            storageClass: longhorn
+            hostPathPrefix: /ssd
 
         volume:
           enabled: true
@@ -29,9 +36,13 @@ spec:
 
           dataDirs:
             - name: data1
-              type: "hostPath"
+              type: "persistentVolumeClaim"
+              storageClass: longhorn
               hostPathPrefix: /ssd
               maxVolumes: 0
+
+          resizeHook:
+            enabled: true
 
         filer:
           enabled: true
@@ -50,7 +61,16 @@ spec:
           enabled: true
           replicas: 1
           port: 8333
+          httpsPort: 8443
           icebergPort: null
+          enabledAuth: true
+          existingConfigSecret:
+          createBuckets:
+            - name: cloudnativepg-backup
+              anonymousRead: true
+              # - name: velero
+              #   anonymousRead: false
+          domainName: "seaweedfs.70ld.dev"
 
           ingress:
             enabled: true
@@ -85,6 +105,19 @@ spec:
           secret:
             adminUser: "admin"
             adminPassword: ""
+
+          data:
+            type: "persistentVolumeClaim"
+            size: 5Gi
+            storageClass: longhorn
+            hostPathPrefix: /storage
+
+          logs:
+            type: "persistentVolumeClaim"
+            size: 5Gi
+            storageClass: longhorn
+            hostPathPrefix: /storage
+
 
           ingress:
             enabled: true
