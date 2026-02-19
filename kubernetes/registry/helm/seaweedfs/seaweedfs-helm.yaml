@@ -26,8 +26,8 @@ spec:
 
           data:
             type: "persistentVolumeClaim"
+            size: 10Gi
             storageClass: longhorn
-            hostPathPrefix: /ssd
 
         volume:
           enabled: true
@@ -37,8 +37,8 @@ spec:
           dataDirs:
             - name: data1
               type: "persistentVolumeClaim"
+              size: 100Gi
               storageClass: longhorn
-              hostPathPrefix: /ssd
               maxVolumes: 0
 
           resizeHook:
@@ -54,7 +54,6 @@ spec:
             type: "hostPath"
             size: ""
             storageClass: longhorn
-            hostPathPrefix: /storage
 
 
         s3:
@@ -68,8 +67,8 @@ spec:
           createBuckets:
             - name: cloudnativepg-backup
               anonymousRead: true
-              # - name: velero
-              #   anonymousRead: false
+            - name: velero
+              anonymousRead: false
           domainName: "seaweedfs.70ld.dev"
 
           ingress:
@@ -110,13 +109,11 @@ spec:
             type: "persistentVolumeClaim"
             size: 5Gi
             storageClass: longhorn
-            hostPathPrefix: /storage
 
           logs:
             type: "persistentVolumeClaim"
             size: 5Gi
             storageClass: longhorn
-            hostPathPrefix: /storage
 
 
           ingress:
