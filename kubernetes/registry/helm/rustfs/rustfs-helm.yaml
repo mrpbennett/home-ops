@@ -40,28 +40,7 @@ spec:
         service:
           type: LoadBalancer
         ingress:
-          enabled: true
-          className: nginx
-          customAnnotations:
-            cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
-          nginxAnnotations:
-            nginx.ingress.kubernetes.io/affinity: cookie
-            nginx.ingress.kubernetes.io/proxy-body-size: "0"
-            nginx.ingress.kubernetes.io/session-cookie-expires: "3600"
-            nginx.ingress.kubernetes.io/session-cookie-hash: sha1
-            nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
-            nginx.ingress.kubernetes.io/session-cookie-name: rustfs
-          hosts:
-            - host: rustfs.70ld.dev
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            enabled: true
-            certManager: true
-            secretName: rustfs-tls
-            crt: ""
-            key: ""
+          enabled: false
         storageclass:
           name: longhorn
           dataStorageSize: 10Gi
