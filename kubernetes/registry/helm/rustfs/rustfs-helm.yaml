@@ -34,7 +34,7 @@ spec:
             console_address: ":9001"
             log_level: "info"
             region: "us-east-1"
-            domains: "rustfs.home.local"
+            domains: "rustfs.70ld.dev"
             log_rotation:
               keep_files: 30
         service:
@@ -61,7 +61,6 @@ spec:
                 nginx.ingress.kubernetes.io/session-cookie-hash: sha1
                 nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
                 nginx.ingress.kubernetes.io/session-cookie-name: rustfs
-                # cert-manager
                 cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
             spec:
               ingressClassName: nginx
