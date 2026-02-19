@@ -40,22 +40,25 @@ spec:
               name: velero-seaweedfs-creds
               namespace: velero
             type: Opaque
-            data:
-              AWS_ACCESS_KEY_ID: TzQwWkk5NU80MTlTSkNYVVBZMFU=
-              AWS_SECRET_ACCESS_KEY: MmlKTFZ0ZFdXK3B1WDR5QUk1R1dFTjA2ZWpSaWVMNjhWamw5VUNyYg==
-
-
+            stringData:
+              cloud: |
+                [default]
+                aws_access_key_id=O40ZI95O419SJCXUPY0U
+                aws_secret_access_key=2iJLVtdWW+puX4yAI5GWEN06ejRieL68Vjl9UCrb
         configuration:
           backupStorageLocation:
-            - name: "seaweedfs "
-              provider: "aws"
-              bucket: "velero"
+            - name: seaweedfs
+              provider: aws
+              bucket: velero
               accessMode: ReadWrite
               config:
                 region: seaweedfs
                 s3ForcePathStyle: "true"
-                s3URL: http://seaweedfs.70ld.dev:8443
-                insecureSkipTLSVerify: false
+                s3Url: http://seaweedfs.70ld.dev:8443
+                insecureSkipTLSVerify: "false"
+
+          # Disable volume snapshots since only backing up Kubernetes resources
+          volumeSnapshotLocation: []
 
         credentials:
           useSecret: true
