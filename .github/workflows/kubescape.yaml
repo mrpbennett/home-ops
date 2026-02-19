@@ -1,5 +1,6 @@
 ---
 name: Kubescape K8s Scan
+
 on:
   pull_request:
     paths: ['kubernetes/**/*.yaml', 'kubernetes/**/*.yml']
@@ -8,26 +9,56 @@ on:
     paths: ['kubernetes/**/*.yaml', 'kubernetes/**/*.yml']
 
 jobs:
-  kubescape:
+  validate-and-scan:
     runs-on: ubuntu-latest
     permissions:
       actions: read
-      contents: read
+      contents: write
       security-events: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
+      # ── Step 1: Format YAML ──────────────────────────────────
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Install yamlfmt
+        run: go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+
+      - name: Format YAML files
+        run: yamlfmt kubernetes/
+
+      # ── Step 2: Lint YAML ────────────────────────────────────
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Lint YAML files
+        run: yamllint --no-warnings kubernetes/
+
+      # ── Step 3: Kubescape security scan ──────────────────────
       - name: Run Kubescape scan
         uses: kubescape/github-action@main
-        continue-on-error: true
         with:
           format: sarif
-          outputFile: results.sarif
-          framework: NSA,MITRE
-          severityThreshold: low
-          submit: true
+          outputFile: results
+          frameworks: NSA,MITRE
+          severityThreshold: high
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Display results
-        run: |
-          echo "Kubescape scan complete. Results uploaded to GitHub Security tab."
+      - name: Upload Kubescape results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: results.sarif
+
+      # ── Step 4: Commit formatted YAML (push only) ───────────
+      - name: Commit formatted YAML
+        if: github.event_name == 'push'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: auto-format YAML files"
+          file_pattern: "kubernetes/**/*.yaml kubernetes/**/*.yml"
