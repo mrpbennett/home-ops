@@ -1,4 +1,3 @@
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -10,20 +9,16 @@ spec:
   startDelay: 3600
   stopDelay: 300
   primaryUpdateStrategy: unsupervised
-
   probes:
     startup:
       initialDelaySeconds: 30
       periodSeconds: 10
       timeoutSeconds: 5
-
   projectedVolumeTemplate:
     sources: []
-
   postgresql:
     parameters:
       shared_buffers: '256MB'
-
   resources:
     requests:
       memory: '750Mi'
@@ -31,22 +26,18 @@ spec:
     limits:
       memory: '1Gi'
       cpu: 500m
-
   storage:
     storageClass: longhorn
     size: 8Gi
-
   bootstrap:
     initdb:
       database: main
       owner: paul
       secret:
         name: cnpg-cluster-user
-
   enableSuperuserAccess: true
   superuserSecret:
     name: cnpg-cluster-superuser
-
   managed:
     roles:
       # Role: My personal user
@@ -57,7 +48,6 @@ spec:
         superuser: true
         passwordSecret:
           name: cnpg-cluster-user
-
       - name: authentik
         ensure: present
         comment: 'Simple application user for Authentik'
@@ -65,7 +55,6 @@ spec:
         superuser: true
         passwordSecret:
           name: cnpg-authentik-user
-
     services:
       additional:
         - selectorType: rw
@@ -76,11 +65,14 @@ spec:
                 metallb.universe.tf/loadBalancerIPs: 192.168.7.80
             spec:
               type: LoadBalancer
-
   backup:
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
-      endpointURL: rustfs-svc.rustfs.svc.cluster.local:9000
+      # RUSTFS
+      # endpointURL: rustfs-svc.rustfs.svc.cluster.local:9000
+      endpointURL: https://rustfs.70ld.dev
+      # SEAWEEDFS
+      # endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local
       # endpointURL: https://seaweedfs.70ld.dev
       wal:
         compression: gzip
@@ -92,10 +84,8 @@ spec:
           name: rustfs-cloudnativepg
           key: access_secret_key
     retentionPolicy: "7d"
-
   affinity:
     enablePodAntiAffinity: true
     topologyKey: failure-domain.beta.kubernetes.io/zone
-
   monitoring:
     enablePodMonitor: true
