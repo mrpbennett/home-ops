@@ -88,6 +88,11 @@ data:
             href: https://rustfs.70ld.dev
             description: Object Storage
 
+        - SeaweedFS:
+            icon: https://avatars.githubusercontent.com/u/11985425?s=200&v=4
+            href: https://seaweedfs.70ld.dev
+            description: Object Storage
+
         - TrueNAS Scale:
             icon: truenas-scale.svg
             href: http://nas.home.local
