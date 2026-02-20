@@ -37,7 +37,7 @@ spec:
           dataDirs:
             - name: data1
               type: "persistentVolumeClaim"
-              size: 20Gi
+              size: 100Gi
               storageClass: longhorn
               maxVolumes: 0
 
