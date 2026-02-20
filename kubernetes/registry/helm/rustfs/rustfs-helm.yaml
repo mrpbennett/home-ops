@@ -34,7 +34,7 @@ spec:
             console_address: ":9001"
             log_level: "info"
             region: "uk-west-1"
-            domains: "rustfs.70ld.dev"
+            domains: "rustfs.70ld.dev,rustfs-svc.rustfs.svc.cluster.local"
             log_rotation:
               keep_files: 30
         service:
