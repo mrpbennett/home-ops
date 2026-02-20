@@ -62,7 +62,7 @@ spec:
           port: 8333
           httpsPort: 0
           icebergPort: 8553
-          enabledAuth: true
+          enabledAuth: false
           createBuckets:
             - name: cloudnativepg-backup
               anonymousRead: true
