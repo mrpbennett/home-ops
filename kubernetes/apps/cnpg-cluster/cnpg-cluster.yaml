@@ -95,13 +95,13 @@ spec:
       endpointURL: http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333
       wal:
         compression: gzip
-        # s3Credentials:
-        #   accessKeyId:
-        #     name: seaweedfs-cloudnativepg
-        #     key: access_key
-        #   secretAccessKey:
-        #     name: seaweedfs-cloudnativepg
-        #     key: access_secret_key
+      s3Credentials:
+        accessKeyId:
+          name: seaweedfs-cloudnativepg
+          key: access_key
+        secretAccessKey:
+          name: seaweedfs-cloudnativepg
+          key: access_secret_key
 
   affinity:
     enablePodAntiAffinity: true
