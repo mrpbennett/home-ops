@@ -74,8 +74,8 @@ spec:
       # endpointURL: https://rustfs.70ld.dev
 
       # SEAWEEDFS
-      # endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local:8333
-      endpointURL: https://seaweedfs.70ld.dev
+      endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local:8334
+      # endpointURL: https://seaweedfs.70ld.dev
       wal:
         compression: gzip
       s3Credentials:
