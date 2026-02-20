@@ -1,4 +1,3 @@
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -74,20 +73,20 @@ spec:
             spec:
               type: LoadBalancer
   backup:
-  # RUSTFS
-  barmanObjectStore:
-    destinationPath: s3://cloudnativepg-backup
-    endpointURL: http://rustfs-svc.rustfs.svc.cluster.local:9000
-    wal:
-      compression: gzip
-    s3Credentials:
-      accessKeyId:
-        name: rustfs-cloudnativepg
-        key: access_key
-      secretAccessKey:
-        name: rustfs-cloudnativepg
-        key: access_secret_key
-  retentionPolicy: "7d"
+    retentionPolicy: "7d"
+    # RUSTFS
+    barmanObjectStore:
+      destinationPath: s3://cloudnativepg-backup
+      endpointURL: http://rustfs-svc.rustfs.svc.cluster.local:9000
+      wal:
+        compression: gzip
+      s3Credentials:
+        accessKeyId:
+          name: rustfs-cloudnativepg
+          key: access_key
+        secretAccessKey:
+          name: rustfs-cloudnativepg
+          key: access_secret_key
   # -------
   # SEAWEEDFS
   # barmanObjectStore:
@@ -102,7 +101,6 @@ spec:
   #     secretAccessKey:
   #       name: seaweedfs-cloudnativepg
   #       key: access_secret_key
-  # retentionPolicy: "7d"
 
   affinity:
     enablePodAntiAffinity: true
