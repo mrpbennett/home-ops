@@ -92,7 +92,7 @@ spec:
     # SEAWEEDFS
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
-      endpointURL: https://seaweedfs.70ld.dev:8443
+      endpointURL: https://seaweedfs-s3.seaweedfs.svc.cluster.local:8443
       wal:
         compression: gzip
       s3Credentials:
