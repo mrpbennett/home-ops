@@ -1,3 +1,4 @@
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -70,18 +71,19 @@ spec:
       destinationPath: s3://cloudnativepg-backup
       # RUSTFS
       # endpointURL: rustfs-svc.rustfs.svc.cluster.local:9000
-      endpointURL: https://rustfs.70ld.dev
+      # endpointURL: https://rustfs.70ld.dev
+
       # SEAWEEDFS
-      # endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local
+      endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local:8333
       # endpointURL: https://seaweedfs.70ld.dev
       wal:
         compression: gzip
       s3Credentials:
         accessKeyId:
-          name: rustfs-cloudnativepg
+          name: seaweedfs-cloudnativepg
           key: access_key
         secretAccessKey:
-          name: rustfs-cloudnativepg
+          name: seaweedfs-cloudnativepg
           key: access_secret_key
     retentionPolicy: "7d"
   affinity:
