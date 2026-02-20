@@ -67,19 +67,36 @@ spec:
             spec:
               type: LoadBalancer
   backup:
+    # RUSTFS
+    # barmanObjectStore:
+    #   destinationPath: s3://cloudnativepg-backup
+    #   endpointURL: rustfs-svc.rustfs.svc.cluster.local:9000
+    #   wal:
+    #     compression: gzip
+    #   s3Credentials:
+    #     accessKeyId:
+    #       name: rustfs-cloudnativepg
+    #       key: access_key
+    #     secretAccessKey:
+    #       name: rustfs-cloudnativepg
+    #       key: access_secret_key
+    # retentionPolicy: "7d"
+    # -------
+    # SEAWEEDFS
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
-      endpointURL: http://rustfs-svc.rustfs.svc.cluster.local:9000
+      endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local:8333
       wal:
         compression: gzip
       s3Credentials:
         accessKeyId:
-          name: rustfs-cloudnativepg
+          name: seaweedfs-cloudnativepg
           key: access_key
         secretAccessKey:
-          name: rustfs-cloudnativepg
+          name: seaweedfs-cloudnativepg
           key: access_secret_key
     retentionPolicy: "7d"
+
   affinity:
     enablePodAntiAffinity: true
     topologyKey: failure-domain.beta.kubernetes.io/zone
