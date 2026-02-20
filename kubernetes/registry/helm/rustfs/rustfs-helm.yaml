@@ -38,7 +38,7 @@ spec:
             log_rotation:
               keep_files: 30
         service:
-          type: LoadBalancer
+          type: ClusterIP
           endpoint:
             port: 9000
             nodePort: 32000
