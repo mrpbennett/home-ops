@@ -1,9 +1,0 @@
----
-# /etc/rancher/k3s/registries.yaml
-mirrors:
-  "registry.70ld.dev":
-    endpoint: ["http://registry.70ld.dev"]
-configs:
-  "registry.70ld.dev":
-    tls:
-      insecure_skip_verify: true

@@ -162,11 +162,10 @@ In my cluster there is one instance of [ExternalDNS](https://github.com/kubernet
 
 ## 🔧 Hardware
 
-| Device                        | Count | OS Disk Size |Data Disk Size               | Ram  | Operating System  | Purpose          |
-| ----------------------------- | ----- | --- |------------------------ | ---- | ----------------- | ---------------- |
-| Raspberry Pi5                 | 3     | 250GB NVMe |     -         | 8GB  | Raspberry Pi ARM64  | Microservices    |
-| Dell 7060 micro | 3     |  256GB NVMe      |     1TB NVMe     | 32GB | Talos OS | Control Planes as workers       |
-
+| Device          | Count | OS Disk Size | Data Disk Size | Ram  | Operating System   | Purpose                   |
+| --------------- | ----- | ------------ | -------------- | ---- | ------------------ | ------------------------- |
+| Raspberry Pi5   | 3     | 250GB NVMe   | -              | 8GB  | Raspberry Pi ARM64 | Microservices             |
+| Dell 7060 micro | 3     | 256GB NVMe   | 1TB NVMe       | 32GB | Talos OS           | Control Planes as workers |
 
 ---
 
