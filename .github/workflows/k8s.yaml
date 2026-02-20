@@ -60,7 +60,7 @@ jobs:
       # ── Step 4: Commit formatted YAML (push only) ───────────
       - name: Commit formatted YAML
         if: github.event_name == 'push'
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: auto-format YAML files"
           file_pattern: "kubernetes/**/*.yaml kubernetes/**/*.yml"
