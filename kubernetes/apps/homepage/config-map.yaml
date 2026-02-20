@@ -86,12 +86,12 @@ data:
         - RustFS:
             icon: rustfs.png
             href: https://rustfs.70ld.dev
-            description: Object Storage
+            description: Backup Object Storage
 
         - SeaweedFS:
             icon: https://avatars.githubusercontent.com/u/11985425?s=200&v=4
             href: https://admin.seaweedfs.70ld.dev
-            description: Object Storage
+            description: DataWarehoue Object Storage
 
         - TrueNAS Scale:
             icon: truenas-scale.svg
