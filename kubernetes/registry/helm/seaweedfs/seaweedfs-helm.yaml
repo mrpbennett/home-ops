@@ -61,9 +61,9 @@ spec:
           replicas: 1
           port: 8333
           httpsPort: 8443
-          icebergPort: null
+          icebergPort: 8553
           enabledAuth: true
-          existingConfigSecret:
+          # existingConfigSecret:
           createBuckets:
             - name: cloudnativepg-backup
               anonymousRead: true

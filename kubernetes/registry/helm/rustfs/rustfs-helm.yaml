@@ -47,8 +47,7 @@ spec:
           logStorageSize: 512Mi
 
         extraManifests:
-          - |
-            apiVersion: networking.k8s.io/v1
+          - apiVersion: networking.k8s.io/v1
             kind: Ingress
             metadata:
               name: rustfs-ingress
@@ -61,7 +60,7 @@ spec:
                 nginx.ingress.kubernetes.io/session-cookie-hash: sha1
                 nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
                 nginx.ingress.kubernetes.io/session-cookie-name: rustfs
-                cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+                cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
             spec:
               ingressClassName: nginx
               rules:
