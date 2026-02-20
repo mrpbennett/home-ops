@@ -60,7 +60,7 @@ spec:
           enabled: true
           replicas: 1
           port: 8333
-          httpsPort: 8443
+          httpsPort: 0
           icebergPort: 8553
           enabledAuth: false
           createBuckets:

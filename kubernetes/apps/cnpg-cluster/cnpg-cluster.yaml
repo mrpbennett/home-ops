@@ -77,7 +77,7 @@ spec:
     # RUSTFS
     # barmanObjectStore:
     #   destinationPath: s3://cloudnativepg-backup
-    #   endpointURL: rustfs-svc.rustfs.svc.cluster.local:9000
+    #   endpointURL: http://rustfs-svc.rustfs.svc.cluster.local:9000
     #   wal:
     #     compression: gzip
     #   s3Credentials:
@@ -92,7 +92,7 @@ spec:
     # SEAWEEDFS
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
-      endpointURL: https://seaweedfs-s3.seaweedfs.svc.cluster.local:8443
+      endpointURL: http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333
       wal:
         compression: gzip
       s3Credentials:
