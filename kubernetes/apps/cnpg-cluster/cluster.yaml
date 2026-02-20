@@ -70,20 +70,20 @@ spec:
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
       # RUSTFS
-      # endpointURL: rustfs-svc.rustfs.svc.cluster.local:9000
+      endpointURL: rustfs-svc.rustfs.svc.cluster.local:9000
       # endpointURL: https://rustfs.70ld.dev
 
       # SEAWEEDFS
-      endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local:8334
+      # endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local:8334
       # endpointURL: https://seaweedfs.70ld.dev
       wal:
         compression: gzip
       s3Credentials:
         accessKeyId:
-          name: seaweedfs-cloudnativepg
+          name: rustfs-cloudnativepg
           key: access_key
         secretAccessKey:
-          name: seaweedfs-cloudnativepg
+          name: rustfs-cloudnativepg
           key: access_secret_key
     retentionPolicy: "7d"
   affinity:
