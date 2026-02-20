@@ -33,17 +33,23 @@ spec:
             console_enable: "true"
             console_address: ":9001"
             log_level: "info"
-            region: "us-east-1"
+            region: "uk-west-1"
             domains: "rustfs.70ld.dev"
             log_rotation:
               keep_files: 30
         service:
           type: LoadBalancer
+          endpoint:
+            port: 9000
+            nodePort: 32000
+          console:
+            port: 9001
+            nodePort: 32001
         ingress:
           enabled: false
         storageclass:
           name: longhorn
-          dataStorageSize: 10Gi
+          dataStorageSize: 100Gi
           logStorageSize: 512Mi
 
         extraManifests:
