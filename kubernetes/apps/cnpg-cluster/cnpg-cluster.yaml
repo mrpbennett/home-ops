@@ -56,6 +56,13 @@ spec:
         superuser: true
         passwordSecret:
           name: cnpg-authentik-user
+      - name: nessie
+        ensure: present
+        comment: 'Nessie catalog server'
+        login: true
+        superuser: false
+        passwordSecret:
+          name: cnpg-nessie-user
     services:
       additional:
         - selectorType: rw
@@ -85,7 +92,7 @@ spec:
     # SEAWEEDFS
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
-      endpointURL: seaweedfs-s3.seaweedfs.svc.cluster.local:8333
+      endpointURL: https://seaweedfs.70ld.dev
       wal:
         compression: gzip
       s3Credentials:

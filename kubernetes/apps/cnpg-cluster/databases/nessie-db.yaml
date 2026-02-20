@@ -1,0 +1,10 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: nessie-db
+spec:
+  name: nessie
+  owner: nessie
+  cluster:
+    name: cnpg-cluster
