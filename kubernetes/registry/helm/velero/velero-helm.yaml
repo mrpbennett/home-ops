@@ -37,24 +37,24 @@ spec:
           - apiVersion: v1
             kind: Secret
             metadata:
-              name: velero-seaweedfs-creds
+              name: velero-rustfs-creds
               namespace: velero
             type: Opaque
             stringData:
               cloud: |
                 [default]
-                aws_access_key_id=O40ZI95O419SJCXUPY0U
-                aws_secret_access_key=2iJLVtdWW+puX4yAI5GWEN06ejRieL68Vjl9UCrb
+                aws_access_key_id=eIMLZBRm3XlKyTCd5g6z
+                aws_secret_access_key=aTcuoZNgIXhtMWF3AUECJG5j6eQ9i1vfH0sY7yzk
         configuration:
           backupStorageLocation:
-            - name: seaweedfs
+            - name: rustfs
               provider: aws
               bucket: velero
               accessMode: ReadWrite
               config:
-                region: seaweedfs
+                region: uk-west-1
                 s3ForcePathStyle: "true"
-                s3Url: http://seaweedfs.70ld.dev:8443
+                s3Url: https://rustfs.70ld.dev
                 insecureSkipTLSVerify: "false"
 
           # Disable volume snapshots since only backing up Kubernetes resources
@@ -62,7 +62,7 @@ spec:
 
         credentials:
           useSecret: true
-          existingSecret: velero-seaweedfs-creds
+          existingSecret: velero-rustfs-creds
 
         schedules:
           daily-backup:
@@ -70,7 +70,7 @@ spec:
             schedule: '0 1 * * *'
             template:
               ttl: '72h0m0s'
-              storageLocation: seaweedfs
+              storageLocation: rustfs
               includedNamespaces:
                 - '*'
               excludedClusterScopedResources:
