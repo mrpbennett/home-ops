@@ -5,7 +5,7 @@ metadata:
   name: cnpg-cluster
   namespace: cnpg-cluster
 spec:
-  description: '70LD PostgreSQL PROD Cluster'
+  description: '70LD CNPG PROD Cluster'
   instances: 1
   startDelay: 3600
   stopDelay: 300

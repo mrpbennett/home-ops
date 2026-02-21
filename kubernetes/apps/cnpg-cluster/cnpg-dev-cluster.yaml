@@ -1,0 +1,39 @@
+---
+apiVersion: postgres.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-dev-cluster
+  namespace: cnpg-cluster
+spec:
+  description: '70LD CNPG Dev Cluster'
+  instances: 1
+  startDelay: 3600
+  stopDelay: 300
+  primaryUpdateStrategy: unsupervised
+
+  postgresql:
+    parameters:
+      shared_buffers: '256MB'
+
+  bootstrap:
+    initdb:
+      database: dev
+      owner: paul
+      secret:
+        name: cnpg-cluster-user
+
+  backup:
+    retentionPolicy: "1d"
+
+    barmanObjectStore:
+      destinationPath: s3://cloudnativepg-backup
+      endpointURL: http://rustfs-svc.rustfs.svc.cluster.local:9000
+      wal:
+        compression: gzip
+      s3Credentials:
+        accessKeyId:
+          name: rustfs-cloudnativepg
+          key: access_key
+        secretAccessKey:
+          name: rustfs-cloudnativepg
+          key: access_secret_key
