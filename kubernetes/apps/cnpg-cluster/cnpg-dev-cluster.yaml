@@ -15,6 +15,10 @@ spec:
     parameters:
       shared_buffers: '256MB'
 
+  storage:
+    storageClass: longhorn
+    size: 8Gi
+
   bootstrap:
     initdb:
       database: dev
