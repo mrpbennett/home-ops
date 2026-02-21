@@ -45,7 +45,7 @@ spec:
             enabled: true
 
           rack: '70ld-office'
-          dataCenter: '70ld-west'
+          dataCenter: '70ld-west-1'
 
         filer:
           enabled: true
