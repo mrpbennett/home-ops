@@ -44,6 +44,9 @@ spec:
           resizeHook:
             enabled: true
 
+          rack: '70ld-office'
+          dataCenter: '70ld-west'
+
         filer:
           enabled: true
           replicas: 1
