@@ -49,6 +49,15 @@ spec:
         superuser: true
         passwordSecret:
           name: cnpg-cluster-user
+
+      - name: monispeed
+        ensure: present
+        comment: 'monispeed DB'
+        login: true
+        superuser: true
+        passwordSecret:
+          name: cnpg-cluster-user
+
       - name: authentik
         ensure: present
         comment: 'Simple application user for Authentik'
@@ -56,6 +65,7 @@ spec:
         superuser: true
         passwordSecret:
           name: cnpg-authentik-user
+
       - name: nessie
         ensure: present
         comment: 'Nessie catalog server'

@@ -1,0 +1,10 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: monispeed-db
+spec:
+  name: monispeed
+  owner: monispeed
+  cluster:
+    name: cnpg-prod-cluster
