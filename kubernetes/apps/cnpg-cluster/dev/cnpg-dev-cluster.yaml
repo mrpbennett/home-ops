@@ -42,7 +42,7 @@ spec:
     retentionPolicy: "1d"
 
     barmanObjectStore:
-      destinationPath: s3://cloudnativepg-backup
+      destinationPath: s3://cloudnativepg-dev-backup
       endpointURL: http://rustfs-svc.rustfs.svc.cluster.local:9000
       wal:
         compression: gzip
