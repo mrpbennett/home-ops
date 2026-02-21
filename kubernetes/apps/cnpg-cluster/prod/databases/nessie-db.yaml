@@ -7,4 +7,4 @@ spec:
   name: nessie
   owner: nessie
   cluster:
-    name: cnpg-cluster
+    name: cnpg-prod-cluster

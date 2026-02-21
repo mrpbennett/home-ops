@@ -2,8 +2,8 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cnpg-cluster
-  namespace: cnpg-cluster
+  name: cnpg-prod-cluster
+  namespace: cnpg-prod-cluster
 spec:
   description: '70LD CNPG PROD Cluster'
   instances: 1
@@ -75,21 +75,6 @@ spec:
               type: LoadBalancer
   backup:
     retentionPolicy: "7d"
-    # RUSTFS
-    # barmanObjectStore:
-    #   destinationPath: s3://cloudnativepg-backup
-    #   endpointURL: http://rustfs-svc.rustfs.svc.cluster.local:9000
-    #   wal:
-    #     compression: gzip
-    #   s3Credentials:
-    #     accessKeyId:
-    #       name: rustfs-cloudnativepg
-    #       key: access_key
-    #     secretAccessKey:
-    #       name: rustfs-cloudnativepg
-    #       key: access_secret_key
-    # -------
-    # SEAWEEDFS
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
       endpointURL: http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333

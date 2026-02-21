@@ -7,4 +7,4 @@ spec:
   name: authentik # Database name
   owner: authentik # Database owner
   cluster:
-    name: cnpg-cluster
+    name: cnpg-prod-cluster

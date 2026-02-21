@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cnpg-dev-cluster
-  namespace: cnpg-cluster
+  namespace: cnpg-dev-cluster
 spec:
   description: '70LD CNPG Dev Cluster'
   instances: 1
@@ -25,6 +25,18 @@ spec:
       owner: paul
       secret:
         name: cnpg-cluster-user
+
+  managed:
+    services:
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: postgres-dev-rw-svc
+              annotations:
+                metallb.universe.tf/loadBalancerIPs: 192.168.7.81
+            spec:
+              type: LoadBalancer
 
   backup:
     retentionPolicy: "1d"
