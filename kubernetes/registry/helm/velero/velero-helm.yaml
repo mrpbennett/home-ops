@@ -51,6 +51,9 @@ spec:
               provider: aws
               bucket: velero
               accessMode: ReadWrite
+              credential:
+                name: velero-rustfs-creds
+                key: cloud
               config:
                 region: 70ld-west-1
                 s3ForcePathStyle: "true"
