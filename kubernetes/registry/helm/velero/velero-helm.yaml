@@ -43,8 +43,8 @@ spec:
             stringData:
               cloud: |
                 [default]
-                aws_access_key_id=eIMLZBRm3XlKyTCd5g6z
-                aws_secret_access_key=aTcuoZNgIXhtMWF3AUECJG5j6eQ9i1vfH0sY7yzk
+                aws_access_key_id=E02ceVYn7zytorRSABX3
+                aws_secret_access_key=FRPwxlL7o8ADkCph2rcteJiH140ZgnTKNfBGjIya
         configuration:
           backupStorageLocation:
             - name: rustfs
@@ -52,9 +52,9 @@ spec:
               bucket: velero
               accessMode: ReadWrite
               config:
-                region: uk-west-1
+                region: 70ld-west-1
                 s3ForcePathStyle: "true"
-                s3Url: https://rustfs.70ld.dev
+                s3Url: http://rustfs-svc.rustfs.svc.cluster.local:9000
                 insecureSkipTLSVerify: "false"
 
           # Disable volume snapshots since only backing up Kubernetes resources
