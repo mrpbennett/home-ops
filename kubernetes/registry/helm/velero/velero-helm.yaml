@@ -50,6 +50,7 @@ spec:
             - name: rustfs
               provider: aws
               bucket: velero
+              default: true
               accessMode: ReadWrite
               credential:
                 name: velero-rustfs-creds
