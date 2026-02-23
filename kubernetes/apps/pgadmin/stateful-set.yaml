@@ -32,7 +32,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: PGADMIN_DEFAULT_EMAIL
-              value: p@mrpbennett.dev
+              value: admin@70ld.dev
             - name: PGADMIN_DEFAULT_PASSWORD
               value: password
 
