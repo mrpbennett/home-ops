@@ -90,8 +90,9 @@ source:
 | [Apache Airflow](https://airflow.apache.org/)                  | Workflow Orchestration                                       |
 | [ArgoCD](https://argoproj.github.io/cd)                        | GitOps tool built to deploy applications to Kubernetes       |
 | [Argo Workflows](https://argoproj.github.io/workflows)         | Workflow management to help with CronWorkflows               |
-| [cert-manager](https://cert-manager.io)                        | Certificate management                                       |
+| [Cert Manager](https://cert-manager.io)                        | Certificate management                                       |
 | [Docker Registry](https://docker.com/)                         | Private container registry                                   |
+| [Envoy Gateway](https://gateway.envoyproxy.io/)                | API Gateway                                                  |
 | [Grafana](https://grafana.com)                                 | Observability platform                                       |
 | [Helm](https://helm.sh)                                        | The package manager for Kubernetes                           |
 | [Kubernetes](https://kubernetes.io)                            | Container-orchestration system, the backbone of this project |
