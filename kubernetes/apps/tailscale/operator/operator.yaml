@@ -5717,7 +5717,7 @@ spec:
             - name: PROXY_TAGS
               value: tag:k8s
             - name: APISERVER_PROXY
-              value: "false"
+              value: "true"
             - name: PROXY_FIREWALL_MODE
               value: auto
             - name: POD_NAME
