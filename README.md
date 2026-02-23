@@ -22,9 +22,9 @@ _... managed with ArgoCD, Renovate and GitHub Actions_ 🤖
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4a1/512.gif" alt="💡" width="20" height="20"> Overview
 
-This is a mono repository for my home infrastructure and Kubernetes node. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
+This is a mono repository for my home infrastructure and Kubernetes nodes. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
-I have a HA setup running 3 Raspberry Pi5 8GB as control planes with a further 2x Lenovo M720q as worker nodes running K3s.
+I have a HA setup running 3 Dell Optiplex 7060's that consist of Talos control planes that accept workloads.
 
 ## The purpose here is to learn Kubernetes, while practising GitOps
 
@@ -33,13 +33,6 @@ I have a HA setup running 3 Raspberry Pi5 8GB as control planes with a further 2
 ### Installation
 
 My Kubernetes enviroment is deployed with [Talos](https://talos.dev). With [MetalLB](https://metallb.universe.tf/) providing `LoadBalancer` support.
-
-#### System Requirements
-
-| Role          | Memory | Cores | System Disk |
-| ------------- | ------ | ----- | ----------- |
-| Control Plane | 6 GiB  | 4     | 250 Gb      |
-| Worker Nodes  | 32 GiB | 6     | 1 TB        |
 
 ### GitOps
 
@@ -59,7 +52,7 @@ All Helm deployment `values.yaml` are contained within the Application under the
 │       ├── ingress.yaml
 │       └── stateful-set.yaml
 ├── argo-root.yaml
-├── 📁 cluster                        # cluster wide manifests
+├── 📁 CLUSTER                        # cluster wide manifests
 │   ├── 📁 cluster-role-bindings
 │   ├── 📁 cron-workflows
 │   ├── 📁 cronjobs
@@ -110,7 +103,7 @@ source:
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f30e/512.gif" alt="🌎" width="20" height="20"> DNS
 
-In my cluster there is one instance of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. This syncs to a Raspberry Pi5 running [Pi-hole](https://pi-hole.net/) for syncing private DNS records. This setup allows me to create dns records with valid certification via cert-manager and cloudflares API.
+In my cluster there is one instance of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. This syncs to a Raspberry Pi5 running [Pi-hole](https://pi-hole.net/) for syncing local DNS records. This setup allows me to create dns records with valid certification via cert-manager and cloudflares API.
 
 ---
 
@@ -119,7 +112,7 @@ In my cluster there is one instance of [ExternalDNS](https://github.com/kubernet
 | Device          | Count | OS Disk Size | Data Disk Size | Ram  | Operating System   | Purpose                   |
 | --------------- | ----- | ------------ | -------------- | ---- | ------------------ | ------------------------- |
 | Raspberry Pi5   | 3     | 250GB NVMe   | -              | 8GB  | Raspberry Pi ARM64 | Microservices             |
-| Dell 7060 micro | 3     | 256GB NVMe   | 1TB NVMe       | 32GB | Talos OS           | Control Planes as workers |
+| Dell 7060 micro | 3     | 256GB SSD    | 1TB NVMe       | 32GB | Talos OS           | Control Planes as workers |
 
 ---
 
