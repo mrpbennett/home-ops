@@ -85,72 +85,25 @@ source:
 
 ## Tech stack
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td><a href="https://airflow.apache.org/">Apache Airflow</a></td>
-        <td>Workflow Orchestration</td>
-    </tr>
-    <tr>
-        <td><a href="https://argoproj.github.io/cd">ArgoCD</a></td>
-        <td>GitOps tool built to deploy applications to Kubernetes</td>
-    </tr>
-    <tr>
-        <td><a href="https://argoproj.github.io/workflows">Argo Workflows</a></td>
-        <td>Workflow management to help with CronWorkflows</td>
-    </tr>
-    <tr>
-        <td><a href="https://cert-manager.io">cert-manager</a></td>
-        <td>Certificate management</td>
-    </tr>
-    <tr>
-        <td><a href="https://docker.com/">Docker Registry</a></td>
-        <td>Private container registry</td>
-    </tr>
-    <tr>
-        <td><a href="https://grafana.com">Grafana</a></td>
-        <td>Observability platform</td>
-    </tr>
-    <tr>
-        <td><a href="https://helm.sh">Helm</a></td>
-        <td>The package manager for Kubernetes</td>
-    </tr>
-    <tr>
-        <td><a href="https://kubernetes.io">Kubernetes</a></td>
-        <td>Container-orchestration system, the backbone of this project</td>
-    </tr>
-    <tr>
-        <td><a href="https://grafana.com/oss/loki/">Loki</a></td>
-        <td>Log aggregation system</td>
-    </tr>
-  <tr>
-    <td><a href="https://github.com/kubernetes-sigs/external-dns">ExternalDNS<a/></td>
-      <td>External DNS server configuration</td>
-    </tr>
-    <tr>
-        <td><a href="https://www.nginx.com">NGINX</a></td>
-        <td>Kubernetes Ingress Controller</td>
-    </tr>
-    <tr>
-        <td><a href="https://metallb.universe.tf/">MetalLB</a></td>
-        <td>Kubernetes load balancer</td>
-    </tr>
-    <tr>
-        <td><a href="https://prometheus.io">Prometheus</a></td>
-        <td>Systems monitoring and alerting toolkit</td>
-    </tr>
-    <tr>
-        <td><a href="https://trino.io/">Trino</a></td>
-        <td>Fast distributed SQL query engine</td>
-    </tr>
-    <tr>
-        <td><a href="https://talos.dev">Talos OS</a></td>
-        <td>Talos OS</td>
-    </tr>
-</table>
+| Name                                                           | Description                                                  |
+| -------------------------------------------------------------- | ------------------------------------------------------------ |
+| [Apache Airflow](https://airflow.apache.org/)                  | Workflow Orchestration                                       |
+| [ArgoCD](https://argoproj.github.io/cd)                        | GitOps tool built to deploy applications to Kubernetes       |
+| [Argo Workflows](https://argoproj.github.io/workflows)         | Workflow management to help with CronWorkflows               |
+| [cert-manager](https://cert-manager.io)                        | Certificate management                                       |
+| [Docker Registry](https://docker.com/)                         | Private container registry                                   |
+| [Grafana](https://grafana.com)                                 | Observability platform                                       |
+| [Helm](https://helm.sh)                                        | The package manager for Kubernetes                           |
+| [Kubernetes](https://kubernetes.io)                            | Container-orchestration system, the backbone of this project |
+| [Loki](https://grafana.com/oss/loki/)                          | Log aggregation system                                       |
+| [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) | External DNS server configuration                            |
+| [NGINX](https://www.nginx.com)                                 | Kubernetes Ingress Controller                                |
+| [MetalLB](https://metallb.universe.tf/)                        | Kubernetes load balancer                                     |
+| [Prometheus](https://prometheus.io)                            | Systems monitoring and alerting toolkit                      |
+| [RustFS](https://rustfs.com/)                                  | Object Storage                                               |
+| [SeaweedFS](https://github.com/seaweedfs/seaweedfs)            | Data Warehouse Object Storage                                |
+| [Trino](https://trino.io/)                                     | Fast distributed SQL query engine                            |
+| [Talos OS](https://talos.dev)                                  | Talos OS                                                     |
 
 ---
 
