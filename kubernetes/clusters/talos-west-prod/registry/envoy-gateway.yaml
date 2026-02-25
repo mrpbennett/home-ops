@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/mrpbennett/home-ops.git'
-    path: kubernetes/cluster/talos-west-prod/apps/envoy-gateway
+    path: kubernetes/clusters/talos-west-prod/apps/envoy-gateway
     targetRevision: HEAD
     directory:
       recurse: true

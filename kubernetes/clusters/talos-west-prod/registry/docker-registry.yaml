@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/cluster/talos-west-prod/apps/docker-registry
+    path: kubernetes/clusters/talos-west-prod/apps/docker-registry
     targetRevision: HEAD
     directory:
       recurse: true
