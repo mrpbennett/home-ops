@@ -1,8 +1,9 @@
 ---
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pgadmin
+  name: &app external-dns
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -12,12 +13,12 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/clusters/talos-west-prod/apps/pgadmin
+    path: kubernetes/clusters/portland/apps/external-dns
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: pgadmin
+    namespace: *app
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:

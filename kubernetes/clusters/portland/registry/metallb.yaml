@@ -2,17 +2,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app tailscale
+  name: &app metallb-system
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "0"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/clusters/talos-west-prod/apps/tailscale
+    path: kubernetes/clusters/portland/apps/metallb-system
     targetRevision: HEAD
     directory:
       recurse: true

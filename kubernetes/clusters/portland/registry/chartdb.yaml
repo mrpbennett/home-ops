@@ -2,22 +2,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app docker-registry
+  name: &app chartdb
   namespace: argocd
-  annotations: {}
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/clusters/talos-west-prod/apps/docker-registry
+    repoURL: 'https://github.com/mrpbennett/home-ops.git'
+    path: kubernetes/clusters/portland/apps/chartdb
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
     namespace: *app
-    server: "https://kubernetes.default.svc"
+    server: 'https://kubernetes.default.svc'
   syncPolicy:
     automated:
       prune: true

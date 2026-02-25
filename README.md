@@ -38,42 +38,52 @@ My Kubernetes enviroment is deployed with [Talos](https://talos.dev). With [Meta
 
 [ArgoCD](https://argoproj.github.io/cd/) watches the cluster in my kubernetes directory (see structure below) and makes the changes to my cluster based on the state of my Git repository. The way ArgoCD works for me here is it will search through `kubernetes/registry...`. Then deploy apps using the [apps of apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern).
 
+### Cluster Naming
+
+Clusters use short, Dorset-themed names rather than encoding distro or environment info into the directory name. This keeps paths concise and avoids churn if the underlying distro changes.
+
+| Cluster      | Environment | Description              |
+| ------------ | ----------- | ------------------------ |
+| **portland** | Production  | Primary workload cluster |
+| **corfe**   | Development | Dev / experimentation    |
+
 ### Directories
 
-This Git repository contains the following directories under [kubernetes](./kubernetes). I have the `apps` directory that stores all the application manifests for deployed apps. The registry directory is where I store all my `Application` type manifests for deployed apps. I also have a `cluster` directory for all cluster wide manifests.
+This Git repository contains the following directories under [kubernetes](./kubernetes). Each cluster lives under `kubernetes/clusters/<name>/` with its own `apps`, `registry`, and `CLUSTER` directories.
 
 All Helm deployment `values.yaml` are contained within the Application under the `helm.valuesObject`
 
 ```sh
 📁 kubernetes
-├── 📁 apps                           # application directory
-│   └── 📁 app
-│       ├── config-map.yaml
-│       ├── ingress.yaml
-│       └── stateful-set.yaml
-├── argo-root.yaml
-├── 📁 CLUSTER                        # cluster wide manifests
-│   ├── 📁 cluster-role-bindings
-│   ├── 📁 cron-workflows
-│   ├── 📁 cronjobs
-│   ├── 📁 ingress
-│   ├── 📁 namespaces
-│   ├── 📁 secrets
-│   ├── 📁 users
-│   └── 📁 workflows
-├── 📁 registry                       # registry for application deployments
-│   ├── argo-workflows.yaml
-│   ├── 📁 helm                       # helm deployments
-│   │   └── trino-helm.yaml
-
+└── 📁 clusters
+    ├── 📁 portland                       # production cluster
+    │   ├── argo-root.yaml
+    │   ├── 📁 apps                       # application manifests
+    │   │   └── 📁 app
+    │   │       ├── config-map.yaml
+    │   │       ├── ingress.yaml
+    │   │       └── stateful-set.yaml
+    │   ├── 📁 CLUSTER                    # cluster-wide manifests
+    │   │   ├── 📁 cluster-role-bindings
+    │   │   ├── 📁 crds
+    │   │   ├── 📁 cronjobs
+    │   │   ├── 📁 gateway-api
+    │   │   ├── 📁 ingress
+    │   │   ├── 📁 namespaces
+    │   │   └── 📁 testing
+    │   └── 📁 registry                   # ArgoCD Application manifests
+    │       ├── chartdb.yaml
+    │       ├── 📁 helm
+    │       └── ...
+    └── 📁 corfe                          # development cluster
 ```
 
-My `argo-root.yaml` argocd application checks for changes in `./kubernetes/<cluster>/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:
+My `argo-root.yaml` argocd application checks for changes in `./kubernetes/clusters/portland/registry` for new `Application` manifests. That manifest then checks in the `apps` directory, then deploys the app like the below:
 
 ```yml
 source:
   repoURL: "https://github.com/mrpbennett/home-ops.git"
-  path: kubernetes/apps/nginx
+  path: kubernetes/clusters/portland/apps/nginx
 ```
 
 ## Tech stack

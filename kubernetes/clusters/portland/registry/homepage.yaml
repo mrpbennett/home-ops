@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app cnpg-prod-cluster
+  name: &app homepage
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/clusters/talos-west-prod/apps/cnpg-cluster/prod
+    path: kubernetes/clusters/portland/apps/homepage
     targetRevision: HEAD
     directory:
       recurse: true

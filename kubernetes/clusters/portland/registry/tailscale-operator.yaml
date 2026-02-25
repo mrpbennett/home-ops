@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app homepage
+  name: &app tailscale
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/clusters/talos-west-prod/apps/homepage
+    path: kubernetes/clusters/portland/apps/tailscale
     targetRevision: HEAD
     directory:
       recurse: true
