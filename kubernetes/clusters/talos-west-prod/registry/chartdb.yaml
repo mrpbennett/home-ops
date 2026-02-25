@@ -2,23 +2,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pgadmin
+  name: &app chartdb
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/pgadmin
+    repoURL: 'https://github.com/mrpbennett/home-ops.git'
+    path: kubernetes/cluster/talos-west-prod/chartdb
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: pgadmin
-    server: "https://kubernetes.default.svc"
+    namespace: *app
+    server: 'https://kubernetes.default.svc'
   syncPolicy:
     automated:
       prune: true

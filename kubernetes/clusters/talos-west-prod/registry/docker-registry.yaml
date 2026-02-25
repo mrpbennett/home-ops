@@ -2,17 +2,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app tailscale
+  name: &app docker-registry
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
+  annotations: {}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/tailscale
+    path: kubernetes/cluster/talos-west-prod/docker-registry
     targetRevision: HEAD
     directory:
       recurse: true

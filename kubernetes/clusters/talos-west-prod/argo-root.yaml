@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/registry
+    path: kubernetes/clusters/talos-west-prod/registry
     targetRevision: HEAD
     directory:
       recurse: true

@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app cnpg-prod-cluster
+  name: &app tailscale
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/cnpg-cluster/prod
+    path: kubernetes/cluster/talos-west-prod/tailscale
     targetRevision: HEAD
     directory:
       recurse: true

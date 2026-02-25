@@ -2,22 +2,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app cnpg-dev-cluster
+  name: cnpg-operator
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "0"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/apps/cnpg-cluster/dev
+    path: kubernetes/cluster/talos-west-prod/cnpg-operator
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: *app
+    namespace: cnpg-system
     server: "https://kubernetes.default.svc"
   syncPolicy:
     automated:
@@ -25,6 +25,7 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
     retry:
       limit: 5
       backoff:

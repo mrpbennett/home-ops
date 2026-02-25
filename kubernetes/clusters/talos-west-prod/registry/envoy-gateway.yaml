@@ -2,18 +2,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: &app chartdb
+  name: envoy-gateway
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: '0'
 spec:
   project: default
   source:
     repoURL: 'https://github.com/mrpbennett/home-ops.git'
-    path: kubernetes/apps/chartdb
+    path: kubernetes/cluster/talos-west-prod/envoy-gateway
     targetRevision: HEAD
     directory:
       recurse: true
   destination:
-    namespace: *app
+    namespace: envoy-gateway-system
     server: 'https://kubernetes.default.svc'
   syncPolicy:
     automated:
