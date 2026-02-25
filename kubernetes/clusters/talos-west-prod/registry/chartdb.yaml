@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/mrpbennett/home-ops.git'
-    path: kubernetes/cluster/talos-west-prod/chartdb
+    path: kubernetes/cluster/talos-west-prod/apps/chartdb
     targetRevision: HEAD
     directory:
       recurse: true
