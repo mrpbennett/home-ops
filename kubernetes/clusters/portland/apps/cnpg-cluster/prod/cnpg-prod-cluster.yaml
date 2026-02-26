@@ -84,7 +84,7 @@ spec:
             spec:
               type: LoadBalancer
   backup:
-    retentionPolicy: "7d"
+    retentionPolicy: "3d"
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
       endpointURL: http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333
@@ -93,10 +93,10 @@ spec:
       s3Credentials:
         accessKeyId:
           name: seaweedfs-cloudnativepg
-          key: access_key
+          key: AWS_ACCESS_KEY_ID
         secretAccessKey:
           name: seaweedfs-cloudnativepg
-          key: access_secret_key
+          key: AWS_SECRET_ACCESS_KEY
 
   affinity:
     enablePodAntiAffinity: true
