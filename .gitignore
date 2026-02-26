@@ -4,6 +4,8 @@
 # Ignore Terraform
 *.tfstate
 *.tfvars
+*.terraform/
+
 
 .toml
 
