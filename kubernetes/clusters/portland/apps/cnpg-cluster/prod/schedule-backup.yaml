@@ -5,7 +5,7 @@ metadata:
   name: cnpg-prod-daily-backup
 spec:
   # daily @ midnight
-  schedule: "0 0 * * *"
+  schedule: "0 0 0 * * *"
   backupOwnerReference: self
   cluster:
     name: cnpg-prod-cluster
