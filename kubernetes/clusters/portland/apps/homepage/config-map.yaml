@@ -97,5 +97,11 @@ data:
             icon: truenas-scale.svg
             href: http://nas.home.local
             description: Actually WD Cloud
+
+        - Vault:
+            icon: vault.png
+            href: http://vault.70ld.dev
+            description: Secret Management
+
   widgets.yaml: ""
   docker.yaml: ""
