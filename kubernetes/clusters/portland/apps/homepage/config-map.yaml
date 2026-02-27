@@ -83,10 +83,10 @@ data:
             href: http://prometheus.70ld.dev
             description: Analytics & Monitoring
 
-        - RustFS:
-            icon: rustfs.png
-            href: https://rustfs.70ld.dev
-            description: Backup Object Storage
+        # - RustFS:
+        #     icon: rustfs.png
+        #     href: https://rustfs.70ld.dev
+        #     description: Backup Object Storage
 
         - SeaweedFS:
             icon: https://avatars.githubusercontent.com/u/11985425?s=200&v=4
@@ -99,7 +99,7 @@ data:
             description: Actually WD Cloud
 
         - Vault:
-            icon: vault.png
+            icon: vault-light.png
             href: http://vault.70ld.dev
             description: Secret Management
 
