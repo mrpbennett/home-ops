@@ -65,42 +65,40 @@ spec:
             redis:
               enabled: true
 
-            additionalObjects:
+          additionalObjects:
 
-              - apiVersion: secrets.hashicorp.com/v1beta1
-                kind: VaultStaticSecret
-                metadata:
-                  name: cloudnativepg-prod-authentik
-                spec:
-                  vaultAuthRef: vault-auth
-                  mount: kv
-                  type: kv-v2
-                  path: cloudnativepg/prod/authentik
-                  refreshAfter: 60s
-                  destination:
-                    name: cnpg-authentik-user
-                    create: true
+            - apiVersion: secrets.hashicorp.com/v1beta1
+              kind: VaultStaticSecret
+              metadata:
+                name: cloudnativepg-prod-authentik
+              spec:
+                vaultAuthRef: vault-auth
+                mount: kv
+                type: kv-v2
+                path: cloudnativepg/prod/authentik
+                refreshAfter: 60s
+                destination:
+                  name: cnpg-authentik-user
+                  create: true
 
-              - apiVersion: secrets.hashicorp.com/v1beta1
-                kind: VaultConnection
-                metadata:
-                  name: vault-connection
-                spec:
-                  address: http://vault.vault.svc.cluster.local:8200
+            - apiVersion: secrets.hashicorp.com/v1beta1
+              kind: VaultConnection
+              metadata:
+                name: vault-connection
+              spec:
+                address: http://vault.vault.svc.cluster.local:8200
 
-              - apiVersion: secrets.hashicorp.com/v1beta1
-                kind: VaultAuth
-                metadata:
-                  name: vault-auth
-                spec:
-                  method: kubernetes
-                  mount: kubernetes
-                  kubernetes:
-                    role: vso-role
-                    serviceAccount: default
-                  vaultConnectionRef: vault-connection
-
-
+            - apiVersion: secrets.hashicorp.com/v1beta1
+              kind: VaultAuth
+              metadata:
+                name: vault-auth
+              spec:
+                method: kubernetes
+                mount: kubernetes
+                kubernetes:
+                  role: vso-role
+                  serviceAccount: default
+                vaultConnectionRef: vault-connection
 
   destination:
     server: https://kubernetes.default.svc
