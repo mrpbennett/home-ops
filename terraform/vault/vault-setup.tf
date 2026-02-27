@@ -86,7 +86,6 @@ variable "CNPG_AWS_ACCESS_KEY_ID" {
   type      = string
   sensitive = true
 }
-
 variable "CNPG_AWS_SECRET_ACCESS_KEY" {
   type      = string
   sensitive = true
@@ -97,7 +96,6 @@ variable "VELERO_AWS_ACCESS_KEY_ID" {
   type      = string
   sensitive = true
 }
-
 variable "VELERO_AWS_SECRET_ACCESS_KEY" {
   type      = string
   sensitive = true
