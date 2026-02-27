@@ -56,7 +56,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
 # secrets.tf - Create the actual secrets
 resource "vault_kv_secret_v2" "seaweedfs_cloudnativepg" {
   mount = vault_mount.kv.path
-  name  = "seaweedfs/cloudnativepg-dev-backup"
+  name  = "seaweedfs/cloudnativepg-prod-backup"
 
   data_json = jsonencode({
     access_key        = var.CNPG_AWS_ACCESS_KEY_ID
