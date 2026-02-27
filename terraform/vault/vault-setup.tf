@@ -33,10 +33,10 @@ resource "vault_kubernetes_auth_backend_config" "config" {
 }
 
 # policies.tf - Create policies
-resource "vault_policy" "rustfs_read" {
-  name   = "rustfs-read"
+resource "vault_policy" "seaweedfs_read" {
+  name   = "seaweedfs-read"
   policy = <<EOT
-path "kv/data/rustfs/*" {
+path "kv/data/seaweedfs/*" {
   capabilities = ["read"]
 }
 EOT
@@ -50,19 +50,30 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["rustfs-read"]
+  token_policies                   = ["seaweedfs-read"]
 }
 
 # secrets.tf - Create the actual secrets
-resource "vault_kv_secret_v2" "rustfs_cloudnativepg" {
+resource "vault_kv_secret_v2" "seaweedfs_cloudnativepg" {
   mount = vault_mount.kv.path
-  name  = "rustfs/cloudnativepg-dev-backup"
+  name  = "seaweedfs/cloudnativepg-dev-backup"
 
   data_json = jsonencode({
-    access_key        = var.aws_access_key_id
-    access_secret_key = var.aws_secret_access_key
+    access_key        = var.CNPG_AWS_ACCESS_KEY_ID
+    access_secret_key = var.CNPG_AWS_SECRET_ACCESS_KEY
   })
 }
+
+resource "vault_kv_secret_v2" "seaweedfs_velero" {
+  mount = vault_mount.kv.path
+  name  = "seaweedfs/velero"
+
+  data_json = jsonencode({
+    access_key        = var.VELERO_AWS_ACCESS_KEY_ID
+    access_secret_key = var.VELERO_AWS_SECRET_ACCESS_KEY
+  })
+}
+
 
 # variables.tf - Keep actual values out of code
 variable "vault_token" {
@@ -70,14 +81,24 @@ variable "vault_token" {
   sensitive = true
 }
 
-variable "aws_access_key_id" {
+# CNPG ---
+variable "CNPG_AWS_ACCESS_KEY_ID" {
   type      = string
   sensitive = true
 }
 
-variable "aws_secret_access_key" {
+variable "CNPG_AWS_SECRET_ACCESS_KEY" {
   type      = string
   sensitive = true
 }
 
+# VELERO ---
+variable "VELERO_AWS_ACCESS_KEY_ID" {
+  type      = string
+  sensitive = true
+}
 
+variable "VELERO_AWS_SECRET_ACCESS_KEY" {
+  type      = string
+  sensitive = true
+}

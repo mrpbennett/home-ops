@@ -34,31 +34,59 @@ spec:
                 name: plugins
 
         extraObjects:
-          - apiVersion: v1
-            kind: Secret
+          - apiVersion: secrets.hashicorp.com/v1beta1
+            kind: VaultConnection
             metadata:
-              name: velero-rustfs-creds
-              namespace: velero
-            type: Opaque
-            stringData:
-              cloud: |
-                [default]
-                aws_access_key_id=E02ceVYn7zytorRSABX3
-                aws_secret_access_key=FRPwxlL7o8ADkCph2rcteJiH140ZgnTKNfBGjIya
+              name: vault-connection
+            spec:
+              address: http://vault.vault.svc.cluster.local:8200
+
+          - apiVersion: secrets.hashicorp.com/v1beta1
+            kind: VaultAuth
+            metadata:
+              name: vault-auth
+            spec:
+              method: kubernetes
+              mount: kubernetes
+              kubernetes:
+                role: vso-role
+                serviceAccount: default
+              vaultConnectionRef: vault-connection
+
+          - apiVersion: secrets.hashicorp.com/v1beta1
+            kind: VaultStaticSecret
+            metadata:
+              name: vault-seaweedfs-velero
+            spec:
+              vaultAuthRef: vault-auth
+              mount: kv
+              type: kv-v2
+              path: seaweedfs/velero
+              refreshAfter: 60s
+              destination:
+                name: seaweedfs-velero-secret
+                create: true
+                transformation:
+                  templates:
+                    cloud: |
+                      [default]
+                      AWS_ACCESS_KEY_ID={{ .Secrets.AWS_ACCESS_KEY_ID }}
+                      AWS_SECRET_ACCESS_KEY={{ .Secrets.AWS_SECRET_ACCESS_KEY }}
+
         configuration:
           backupStorageLocation:
-            - name: rustfs
+            - name: seaweedfs
               provider: aws
               bucket: velero
               default: true
               accessMode: ReadWrite
               credential:
-                name: velero-rustfs-creds
+                name: seaweedfs-velero-secret
                 key: cloud
               config:
                 region: 70ld-west-1
                 s3ForcePathStyle: "true"
-                s3Url: http://rustfs-svc.rustfs.svc.cluster.local:9000
+                s3Url: http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333
                 insecureSkipTLSVerify: "false"
 
           # Disable volume snapshots since only backing up Kubernetes resources
@@ -66,7 +94,7 @@ spec:
 
         credentials:
           useSecret: true
-          existingSecret: velero-rustfs-creds
+          existingSecret: seaweedfs-velero-secret
 
         schedules:
           daily-backup:
@@ -74,7 +102,7 @@ spec:
             schedule: '0 1 * * *'
             template:
               ttl: '72h0m0s'
-              storageLocation: rustfs
+              storageLocation: seaweedfs
               includedNamespaces:
                 - '*'
               excludedClusterScopedResources:
