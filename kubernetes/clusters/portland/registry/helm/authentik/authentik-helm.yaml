@@ -24,11 +24,19 @@ spec:
               port: 5432
               name: authentik
               user: authentik
-              password: authentikpassword
+              password: ""
 
             redis:
               host: '{{ .Release.Name }}-redis-master'
               password: ''
+
+          global:
+            env:
+              - name: AUTHENTIK_POSTGRESQL__PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-db-credentials
+                    key: password
 
           server:
             name: authentik-server
