@@ -86,7 +86,7 @@ spec:
   backup:
     retentionPolicy: "3d"
     barmanObjectStore:
-      destinationPath: s3://cloudnativepg-prod-backup
+      destinationPath: s3://cloudnativepg
       endpointURL: http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333
       wal:
         compression: gzip
