@@ -75,7 +75,7 @@ spec:
 
         configuration:
           backupStorageLocation:
-            - name: seaweedfs
+            - name: default
               provider: aws
               bucket: velero
               default: true
@@ -102,7 +102,7 @@ spec:
             schedule: '0 1 * * *'
             template:
               ttl: '72h0m0s'
-              storageLocation: seaweedfs
+              storageLocation: default
               includedNamespaces:
                 - '*'
               excludedClusterScopedResources:
