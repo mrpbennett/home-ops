@@ -29,7 +29,7 @@ spec:
             - name: default
               masquerade: {}
         machine:
-          type: q35
+          type: virt
         resources:
           requests:
             memory: 2Gi
