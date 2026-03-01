@@ -5,16 +5,18 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   labels:
-    kubevirt.io/vm: vm-cirros
-  name: vm-cirros
+    kubevirt.io/vm: ubuntu-vm
+  name: ubuntu-vm
 spec:
-  runStrategy: Halted
+  runStrategy: Always
   template:
     metadata:
       labels:
-        kubevirt.io/vm: vm-cirros
+        kubevirt.io/vm: ubuntu-vm
     spec:
       domain:
+        cpu:
+          cores: 2
         devices:
           disks:
             - disk:
@@ -23,16 +25,46 @@ spec:
             - disk:
                 bus: virtio
               name: cloudinitdisk
+          interfaces:
+            - name: default
+              masquerade: {}
         machine:
-          type: "virt"
+          type: q35
         resources:
           requests:
-            memory: 64M
-      terminationGracePeriodSeconds: 0
+            memory: 2Gi
+      networks:
+        - name: default
+          pod: {}
+      terminationGracePeriodSeconds: 30
       volumes:
         - name: containerdisk
           containerDisk:
-            image: kubevirt/cirros-container-disk-demo:latest
-        - cloudInitNoCloud:
-            userDataBase64: IyEvYmluL3NoCgplY2hvICdwcmludGVkIGZyb20gY2xvdWQtaW5pdCB1c2VyZGF0YScK
-          name: cloudinitdisk
+            image: quay.io/containerdisks/ubuntu:22.04
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              users:
+                - name: ubuntu
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+                  shell: /bin/bash
+                  lock_passwd: false
+              chpasswd:
+                list: |
+                  ubuntu:ubuntu
+                expire: false
+              ssh_pwauth: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ubuntu-vm-ssh
+spec:
+  type: NodePort
+  selector:
+    vm.kubevirt.io/name: ubuntu-vm
+  ports:
+    - port: 22
+      targetPort: 22
+      protocol: TCP
