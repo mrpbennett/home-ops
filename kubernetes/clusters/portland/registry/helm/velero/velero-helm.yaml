@@ -70,8 +70,8 @@ spec:
                   template:
                     cloud: |
                       [default]
-                      AWS_ACCESS_KEY_ID={{ .Secrets.AWS_ACCESS_KEY_ID }}
-                      AWS_SECRET_ACCESS_KEY={{ .Secrets.AWS_SECRET_ACCESS_KEY }}
+                      AWS_ACCESS_KEY_ID={{ "{{" }} .Secrets.AWS_ACCESS_KEY_ID {{ "}}" }}
+                      AWS_SECRET_ACCESS_KEY={{ "{{" }} .Secrets.AWS_SECRET_ACCESS_KEY {{ "}}" }}
 
         configuration:
           backupStorageLocation:

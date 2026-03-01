@@ -24,7 +24,7 @@ spec:
                 bus: virtio
               name: cloudinitdisk
         machine:
-          type: ""
+          type: "virt"
         resources:
           requests:
             memory: 64M
