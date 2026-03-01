@@ -2,54 +2,35 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: ubuntu-server
   labels:
-    app: ubuntu-server
+    kubevirt.io/vm: vm-cirros
+  name: vm-cirros
 spec:
-  running: true
+  runStrategy: Halted
   template:
     metadata:
       labels:
-        kubevirt.io/vm: ubuntu-server
+        kubevirt.io/vm: vm-cirros
     spec:
       domain:
-        cpu:
-          cores: 1
-        resources:
-          requests:
-            memory: 1Gi
-          limits:
-            memory: 2Gi
         devices:
           disks:
-            - name: rootdisk
-              disk:
+            - disk:
                 bus: virtio
-            - name: cloudinitdisk
-              disk:
+              name: containerdisk
+            - disk:
                 bus: virtio
-          interfaces:
-            - name: default
-              masquerade: {}
-      networks:
-        - name: default
-          pod: {}
+              name: cloudinitdisk
+        machine:
+          type: ""
+        resources:
+          requests:
+            memory: 64M
+      terminationGracePeriodSeconds: 0
       volumes:
-        - name: rootdisk
+        - name: containerdisk
           containerDisk:
-            image: quay.io/containerdisks/ubuntu:22.04
-        - name: cloudinitdisk
-          cloudInitNoCloud:
-            userData: |
-              #cloud-config
-              hostname: ubuntu-server
-              user: ubuntu
-              password: changeme
-              chpasswd:
-                expire: false
-              ssh_pwauth: true
-              package_update: true
-              packages:
-                - qemu-guest-agent
-              runcmd:
-                - systemctl enable --now qemu-guest-agent
+            image: kubevirt/cirros-container-disk-demo:latest
+        - cloudInitNoCloud:
+            userDataBase64: IyEvYmluL3NoCgplY2hvICdwcmludGVkIGZyb20gY2xvdWQtaW5pdCB1c2VyZGF0YScK
+          name: cloudinitdisk
