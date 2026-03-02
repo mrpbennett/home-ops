@@ -26,8 +26,14 @@ spec:
     spec:
       containers:
         - name: metabase
-          image: metabase/metabase:v0.55.21
+          image: metabase/metabase:latest
           imagePullPolicy: IfNotPresent
+          env:
+            - name: MB_DB_FILE
+              value: /metabase-data/metabase.db
+          volumeMounts:
+            - name: metabase-data
+              mountPath: /metabase-data
           resources:
             requests:
               cpu: 100m
@@ -36,9 +42,10 @@ spec:
               cpu: 100m
               memory: 100Mi
           livenessProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 5
+            httpGet:
+              path: /_status/healthz
+              port: 3000
+            initialDelaySeconds: 60
             timeoutSeconds: 5
             successThreshold: 1
             failureThreshold: 3
@@ -46,7 +53,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /_status/healthz
-              port: 80
+              port: 3000
             initialDelaySeconds: 5
             timeoutSeconds: 2
             successThreshold: 1
@@ -55,6 +62,10 @@ spec:
           ports:
             - containerPort: 3000
               name: metabase
+      volumes:
+        - name: metabase-data
+          persistentVolumeClaim:
+            claimName: metabase-data
       restartPolicy: Always
 
 ---
