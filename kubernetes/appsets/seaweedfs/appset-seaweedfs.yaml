@@ -1,0 +1,162 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: seaweedfs
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ['missingkey=error']
+  generators:
+    - list:
+        elements:
+          - project: default
+            cluster: portland
+            clusterURL: 'https://kubernetes.default.svc'
+  template:
+    metadata:
+      name: 'seaweedfs-{{.cluster}}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: '{{.project}}'
+      source:
+        chart: seaweedfs
+        repoURL: https://seaweedfs.github.io/seaweedfs/helm
+        targetRevision: 4.0.413
+        helm:
+          valuesObject:
+            global:
+              createClusterRole: true
+              monitoring:
+                enabled: true
+
+            master:
+              enabled: true
+              replicas: 1
+              port: 9333
+
+              data:
+                type: "persistentVolumeClaim"
+                size: 50Gi
+                storageClass: longhorn
+
+            volume:
+              enabled: true
+              port: 8080
+              replicas: 1
+
+              dataDirs:
+                - name: data1
+                  type: "persistentVolumeClaim"
+                  size: 50Gi
+                  storageClass: longhorn
+                  maxVolumes: 0
+
+              resizeHook:
+                enabled: true
+
+              rack: '70ld-office'
+              dataCenter: '70ld-west-1'
+
+            filer:
+              enabled: true
+              replicas: 1
+              port: 8888
+              storage: 10Gi
+              storageClass: longhorn
+              data:
+                type: "hostPath"
+                size: ""
+                storageClass: longhorn
+
+            s3:
+              enabled: true
+              replicas: 1
+              port: 8333
+              httpsPort: 0
+              icebergPort: 8553
+              enabledAuth: true
+              createBuckets:
+                - name: cloudnativepg-prod-backup
+                  anonymousRead: true
+                - name: velero
+                  anonymousRead: false
+                - name: general
+                  anonymousRead: true
+              domainName: "seaweedfs.70ld.dev"
+
+              ingress:
+                enabled: true
+                className: nginx
+                host: seaweedfs.70ld.dev
+                path: /
+                pathType: Prefix
+                annotations:
+                  cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+                tls:
+                  - hosts:
+                      - seaweedfs.70ld.dev
+                    secretName: seaweedfs-tls
+              icebergIngress:
+                enabled: true
+                className: nginx
+                host: seaweedfs-iceberg.70ld.dev
+                path: /
+                pathType: Prefix
+                annotations:
+                  cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+                tls:
+                  - hosts:
+                      - seaweedfs-iceberg.70ld.dev
+                    secretName: seaweedfs-iceberg-tls
+
+            admin:
+              enabled: true
+              replicas: 1
+              port: 23646
+              secret:
+                adminUser: "admin"
+                adminPassword: ""
+
+              data:
+                type: "persistentVolumeClaim"
+                size: 5Gi
+                storageClass: longhorn
+
+              logs:
+                type: "persistentVolumeClaim"
+                size: 5Gi
+                storageClass: longhorn
+
+              ingress:
+                enabled: true
+                className: nginx
+                host: admin.seaweedfs.70ld.dev
+                path: /
+                pathType: Prefix
+                annotations:
+                  cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+                tls:
+                  - hosts:
+                      - admin.seaweedfs.70ld.dev
+                    secretName: admin-seaweedfs-tls
+
+              service:
+                type: LoadBalancer
+      destination:
+        server: '{{.clusterURL}}'
+        namespace: seaweedfs
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2

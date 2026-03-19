@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: "https://github.com/mrpbennett/home-ops.git"
-    path: kubernetes/clusters/portland/registry
+    path: kubernetes/appsets
     targetRevision: HEAD
     directory:
       recurse: true
