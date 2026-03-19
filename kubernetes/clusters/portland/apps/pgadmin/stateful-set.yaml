@@ -32,9 +32,9 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: PGADMIN_DEFAULT_EMAIL
-              value: admin@70ld.dev
+              value: pbennett.uk@outlook.com
             - name: PGADMIN_DEFAULT_PASSWORD
-              value: password
+              value: ""
 
             # Authentik OAuth2 configuration
             - name: PGADMIN_CONFIG_AUTHENTICATION_SOURCES
