@@ -1,0 +1,75 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: vault
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ['missingkey=error']
+  generators:
+    - list:
+        elements:
+          - project: default
+            cluster: portland
+            clusterURL: 'https://kubernetes.default.svc'
+  template:
+    metadata:
+      name: 'vault-{{.cluster}}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: '{{.project}}'
+      source:
+        chart: vault
+        repoURL: https://helm.releases.hashicorp.com
+        targetRevision: 0.32.0
+        helm:
+          valuesObject:
+            global:
+              enabled: true
+
+            server:
+              ingress:
+                enabled: true
+                annotations:
+                  cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+                ingressClassName: nginx
+                pathType: Prefix
+                hosts:
+                  - host: vault.70ld.dev
+                tls:
+                  - secretName: vault-tls
+                    hosts:
+                      - vault.70ld.dev
+
+              service:
+                type: ClusterIP
+
+              dataStorage:
+                enabled: true
+                size: 10Gi
+                mountPath: "/vault/data"
+                storageClass: longhorn
+                accessMode: ReadWriteOnce
+
+            ui:
+              enabled: true
+              externalPort: 8200
+              targetPort: 8200
+      destination:
+        server: '{{.clusterURL}}'
+        namespace: vault
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2

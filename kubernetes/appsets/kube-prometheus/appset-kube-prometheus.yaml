@@ -1,0 +1,495 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ['missingkey=error']
+  generators:
+    - list:
+        elements:
+          - project: default
+            cluster: portland
+            clusterURL: 'https://kubernetes.default.svc'
+  template:
+    metadata:
+      name: 'kube-prometheus-stack-{{.cluster}}'
+      namespace: argocd
+      annotations:
+        argocd.argoproj.io/compare-options: ServerSideDiff=true
+        argocd.argoproj.io/sync-wave: '0'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: '{{.project}}'
+      source:
+        chart: kube-prometheus-stack
+        repoURL: https://prometheus-community.github.io/helm-charts
+        targetRevision: 79.4.1
+        helm:
+          valuesObject:
+            namespaceOverride: 'monitoring'
+
+            crds:
+              enabled: true
+
+            defaultRules:
+              create: true
+              rules:
+                alertmanager: true
+                etcd: true
+                configReloaders: true
+                general: true
+                k8sContainerCpuUsageSecondsTotal: true
+                k8sContainerMemoryCache: true
+                k8sContainerMemoryRss: true
+                k8sContainerMemorySwap: true
+                k8sContainerResource: true
+                k8sContainerMemoryWorkingSetBytes: true
+                k8sPodOwner: true
+                kubeApiserverAvailability: true
+                kubeApiserverBurnrate: true
+                kubeApiserverHistogram: true
+                kubeApiserverSlos: true
+                kubeControllerManager: true
+                kubelet: true
+                kubeProxy: true
+                kubePrometheusGeneral: true
+                kubePrometheusNodeRecording: true
+                kubernetesApps: true
+                kubernetesResources: true
+                kubernetesStorage: true
+                kubernetesSystem: true
+                kubeSchedulerAlerting: true
+                kubeSchedulerRecording: true
+                kubeStateMetrics: true
+                network: true
+                node: true
+                nodeExporterAlerting: true
+                nodeExporterRecording: true
+                prometheus: true
+                prometheusOperator: true
+                windows: true
+
+              additionalRuleGroupLabels:
+                alertmanager: {}
+                etcd: {}
+                configReloaders: {}
+                general: {}
+                k8sContainerCpuUsageSecondsTotal: {}
+                k8sContainerMemoryCache: {}
+                k8sContainerMemoryRss: {}
+                k8sContainerMemorySwap: {}
+                k8sContainerResource: {}
+                k8sPodOwner: {}
+                kubeApiserverAvailability: {}
+                kubeApiserverBurnrate: {}
+                kubeApiserverHistogram: {}
+                kubeApiserverSlos: {}
+                kubeControllerManager: {}
+                kubelet: {}
+                kubeProxy: {}
+                kubePrometheusGeneral: {}
+                kubePrometheusNodeRecording: {}
+                kubernetesApps: {}
+                kubernetesResources: {}
+                kubernetesStorage: {}
+                kubernetesSystem: {}
+                kubeSchedulerAlerting: {}
+                kubeSchedulerRecording: {}
+                kubeStateMetrics: {}
+                network: {}
+                node: {}
+                nodeExporterAlerting: {}
+                nodeExporterRecording: {}
+                prometheus: {}
+                prometheusOperator: {}
+
+              additionalRuleGroupAnnotations:
+                alertmanager: {}
+                etcd: {}
+                configReloaders: {}
+                general: {}
+                k8sContainerCpuUsageSecondsTotal: {}
+                k8sContainerMemoryCache: {}
+                k8sContainerMemoryRss: {}
+                k8sContainerMemorySwap: {}
+                k8sContainerResource: {}
+                k8sPodOwner: {}
+                kubeApiserverAvailability: {}
+                kubeApiserverBurnrate: {}
+                kubeApiserverHistogram: {}
+                kubeApiserverSlos: {}
+                kubeControllerManager: {}
+                kubelet: {}
+                kubeProxy: {}
+                kubePrometheusGeneral: {}
+                kubePrometheusNodeRecording: {}
+                kubernetesApps: {}
+                kubernetesResources: {}
+                kubernetesStorage: {}
+                kubernetesSystem: {}
+                kubeSchedulerAlerting: {}
+                kubeSchedulerRecording: {}
+                kubeStateMetrics: {}
+                network: {}
+                node: {}
+                nodeExporterAlerting: {}
+                nodeExporterRecording: {}
+                prometheus: {}
+                prometheusOperator: {}
+
+            additionalPrometheusRulesMap:
+              pod-memory-alerts:
+                groups:
+                  - name: pod-memory
+                    interval: 30s
+                    rules:
+                      - alert: PodMemoryRequestsExceeded
+                        expr: |
+                          (
+                            container_memory_working_set_bytes{container!="",container!="POD"}
+                            /
+                            (kube_pod_container_resource_requests{resource="memory"} > 0)
+                          ) > 0.8
+                        for: 5m
+                        labels:
+                          severity: warning
+                        annotations:
+                          summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding memory requests'
+                          description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
+                            }} of its memory request (container: {{ $labels.container }})'
+
+                      - alert: PodMemoryRequestsCritical
+                        expr: |
+                          (
+                            container_memory_working_set_bytes{container!="",container!="POD"}
+                            /
+                            (kube_pod_container_resource_requests{resource="memory"} > 0)
+                          ) > 0.95
+                        for: 2m
+                        labels:
+                          severity: critical
+                        annotations:
+                          summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} critically exceeding memory requests'
+                          description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
+                            }} of its memory request (container: {{ $labels.container }}). Potential OOM risk!'
+
+                      - alert: PodMemoryLimitsExceeded
+                        expr: |
+                          (
+                            container_memory_working_set_bytes{container!="",container!="POD"}
+                            /
+                            (kube_pod_container_resource_limits{resource="memory"} > 0)
+                          ) > 0.9
+                        for: 2m
+                        labels:
+                          severity: critical
+                        annotations:
+                          summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} approaching memory limits'
+                          description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
+                            }} of its memory limit (container: {{ $labels.container }}). OOMKill imminent!'
+
+                      - alert: PodCPURequestsExceeded
+                        expr: |
+                          (
+                            rate(container_cpu_usage_seconds_total{container!="",container!="POD"}[5m])
+                            /
+                            (kube_pod_container_resource_requests{resource="cpu"} > 0)
+                          ) > 0.8
+                        for: 5m
+                        labels:
+                          severity: warning
+                        annotations:
+                          summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding CPU requests'
+                          description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
+                            }} of its CPU request (container: {{ $labels.container }})'
+
+                      - alert: PodWithoutMemoryRequests
+                        expr: |
+                          kube_pod_container_resource_requests{resource="memory"} == 0
+                        for: 10m
+                        labels:
+                          severity: info
+                        annotations:
+                          summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} has no memory requests'
+                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has
+                            no memory requests set. This can lead to scheduling issues and resource contention.'
+
+                      - alert: PodOOMKilled
+                        expr: |
+                          (kube_pod_container_status_last_terminated_reason{reason="OOMKilled"} == 1)
+                        for: 1m
+                        labels:
+                          severity: critical
+                        annotations:
+                          summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} was OOMKilled'
+                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} was
+                            terminated due to OOM. Memory limits need to be increased.'
+
+                      - alert: PodFrequentRestarts
+                        expr: |
+                          rate(kube_pod_container_status_restarts_total[1h]) > 0.016
+                        for: 15m
+                        labels:
+                          severity: warning
+                        annotations:
+                          summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} restarting frequently'
+                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has
+                            restarted {{ $value | humanize }} times in the last hour. Check for OOM or crashloops.'
+
+            global:
+              rbac:
+                create: true
+
+            alertmanager:
+              enabled: true
+
+              config:
+                global:
+                  resolve_timeout: 5m
+                inhibit_rules:
+                  - source_matchers:
+                      - 'severity = critical'
+                    target_matchers:
+                      - 'severity =~ warning|info'
+                    equal:
+                      - 'namespace'
+                      - 'alertname'
+                  - source_matchers:
+                      - 'severity = warning'
+                    target_matchers:
+                      - 'severity = info'
+                    equal:
+                      - 'namespace'
+                      - 'alertname'
+                  - source_matchers:
+                      - 'alertname = InfoInhibitor'
+                    target_matchers:
+                      - 'severity = info'
+                    equal:
+                      - 'namespace'
+                  - target_matchers:
+                      - 'alertname = InfoInhibitor'
+                route:
+                  group_by: ['alertname', 'cluster', 'service']
+                  group_wait: 30s
+                  group_interval: 5m
+                  repeat_interval: 3h
+                  receiver: discord-warning
+                  routes:
+                    - receiver: 'null'
+                      matchers:
+                        - alertname = "Watchdog"
+
+                    - receiver: 'null'
+                      matchers:
+                        - severity = "warning"
+                        - alertname = "KubeMemoryOvercommit"
+
+                    - receiver: 'null'
+                      matchers:
+                        - severity = "critical"
+                        - alertname =~ "KubeSchedulerDown|KubeProxyDown|KubeControllerManagerDown"
+
+                    - receiver: discord-critical
+                      matchers:
+                        - severity = "critical"
+
+                receivers:
+                  - name: 'null'
+
+                  - name: discord-critical
+                    discord_configs:
+                      - webhook_url: https://discord.com/api/webhooks/1435002409062629446/q9I3DMmVt1WBCMKFC1Y0swU8kuMBmtzqAD0avc1ZEJ9-avvIQEupJBOXp3ldYzMP4c8t
+                        send_resolved: true
+
+                  - name: discord-warning
+                    discord_configs:
+                      - webhook_url: https://discord.com/api/webhooks/1435002806858809485/2YRHDIh5jLTw1h3VSC4n_r7-vHV6AKxO3L8Hak2P8aP4p_JDaZVn--u9ckZET1gd6pky
+                        send_resolved: true
+
+                templates:
+                  - '/etc/alertmanager/config/*.tmpl'
+
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                annotations:
+                  cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+                hosts:
+                  - alertmanager.70ld.dev
+                paths:
+                  - /
+                tls:
+                  - hosts:
+                      - alertmanager.70ld.dev
+                    secretName: alertmanager-prod-tls
+
+              service:
+                annotations: {}
+                labels: {}
+                ipDualStack:
+                  enabled: false
+                  ipFamilies: ['IPv6', 'IPv4']
+                  ipFamilyPolicy: 'PreferDualStack'
+                port: 9093
+                targetPort: 9093
+                type: ClusterIP
+
+              serviceMonitor:
+                selfMonitor: true
+
+              alertmanagerSpec:
+                resources:
+                  requests:
+                    memory: 64Mi
+                  limits:
+                    memory: 128Mi
+
+            grafana:
+              adminPassword: password
+
+              defaultDashboardsTimezone: Europe/London
+              defaultDashboardsEditable: true
+
+              dashboards:
+                default:
+                  cloudnative-pg:
+                    gnetId: 20417
+                    datasource: prometheus
+
+                  loki-logs:
+                    gnetId: 13186
+                    datasource: loki
+
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                annotations:
+                  cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+                hosts:
+                  - grafana.70ld.dev
+                path: /
+                tls:
+                  - hosts:
+                      - grafana.70ld.dev
+                    secretName: grafana-prod-tls
+
+              persistence:
+                enabled: true
+                type: sts
+                storageClassName: longhorn
+                accessModes:
+                  - ReadWriteOnce
+                size: 10Gi
+                finalizers:
+                  - kubernetes.io/pvc-protection
+
+            kubeApiServer:
+              enabled: true
+              tlsConfig:
+                serverName: kubernetes
+                insecureSkipVerify: false
+
+            kubelet:
+              enabled: true
+              namespace: kube-system
+
+            kubeControllerManager:
+              enabled: true
+
+            coreDns:
+              enabled: true
+
+            kubeEtcd:
+              enabled: true
+
+            kubeScheduler:
+              enabled: true
+
+            kubeProxy:
+              enabled: true
+
+            kubeStateMetrics:
+              enabled: true
+
+            nodeExporter:
+              enabled: true
+              operatingSystems:
+                linux:
+                  enabled: true
+                darwin:
+                  enabled: true
+
+            prometheusOperator:
+              enabled: true
+
+              admissionWebhooks:
+                annotations: {}
+
+                mutatingWebhookConfiguration:
+                  annotations: {}
+
+                validatingWebhookConfiguration:
+                  annotations: {}
+
+                deployment:
+                  enabled: true
+
+            prometheus:
+              enabled: true
+              annotations: {}
+
+              service:
+                type: LoadBalancer
+
+              ingress:
+                enabled: true
+                ingressClassName: nginx
+                annotations:
+                  cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+                hosts:
+                  - prometheus.70ld.dev
+                paths:
+                  - /
+                tls:
+                  - hosts:
+                      - prometheus.70ld.dev
+                    secretName: prometheus-prod-tls
+
+              prometheusSpec:
+                resources:
+                  requests:
+                    memory: 200Mi
+
+                serviceMonitorSelectorNilUsesHelmValues: false
+                serviceMonitorSelector: {}
+                serviceMonitorNamespaceSelector: {}
+
+                podMonitorSelectorNilUsesHelmValues: false
+                ruleSelectorNilUsesHelmValues: false
+                probeSelectorNilUsesHelmValues: false
+
+                retention: 7d
+                replicas: 1
+                logLevel: info
+                logFormat: logfmt
+      destination:
+        server: '{{.clusterURL}}'
+        namespace: monitoring
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2

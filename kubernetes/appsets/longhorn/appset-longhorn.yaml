@@ -1,0 +1,154 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: longhorn
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ['missingkey=error']
+  generators:
+    - list:
+        elements:
+          - project: default
+            cluster: portland
+            clusterURL: 'https://kubernetes.default.svc'
+  template:
+    metadata:
+      name: 'longhorn-{{.cluster}}'
+      namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: '0'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: '{{.project}}'
+      source:
+        chart: longhorn
+        repoURL: https://charts.longhorn.io/
+        targetRevision: 1.10.0
+        helm:
+          valuesObject:
+            preUpgradeChecker:
+              jobEnabled: false
+
+            persistence:
+              defaultClass: true
+              defaultFsType: ext4
+              defaultClassReplicaCount: 2
+              reclaimPolicy: Delete
+              volumeBindngMode: 'Immediate'
+              dataEngine: v1
+
+            defaultSetting:
+              storageMinimalAvailablePercentage: 10
+              logLevel: 'Warn'
+
+            defaultBackupStore:
+              backupTarget: 'nfs://192.168.4.110:/mnt/HD/HD_a2/longhorn-backups?nfsOptions=nfsvers=3,nolock,soft,timeo=300'
+              backupTargetCredentialSecret: longhorn-nfs-backup-secret
+
+            longhornUI:
+              replicas: 1
+
+            ingress:
+              enabled: true
+              ingressClassName: nginx
+              host: longhorn.70ld.dev
+              tls: true
+              tlsSecret: longhorn-tls
+              path: /
+              annotations:
+                cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+
+            metrics:
+              serviceMonitor:
+                enabled: true
+                interval: 30s
+
+            extraObjects:
+              - apiVersion: v1
+                kind: Namespace
+                metadata:
+                  name: longhorn-system
+                  labels:
+                    pod-security.kubernetes.io/enforce: privileged
+                    pod-security.kubernetes.io/audit: privileged
+                    pod-security.kubernetes.io/warn: privileged
+
+              - apiVersion: v1
+                kind: Secret
+                metadata:
+                  name: longhorn-nfs-backup-secret
+                  namespace: longhorn-system
+                type: Opaque
+                data:
+                  username: cGF1bA==
+                  password: MTIzcXdlISE=
+
+              - apiVersion: longhorn.io/v1beta2
+                kind: RecurringJob
+                metadata:
+                  name: weekly-system-backup
+                  namespace: longhorn-system
+                spec:
+                  task: system-backup
+                  cron: '0 1 * * SUN'
+                  retain: 1
+                  parameters:
+                    volume-backup-policy: if-not-present
+
+              - apiVersion: longhorn.io/v1beta2
+                kind: RecurringJob
+                metadata:
+                  name: daily-snapshot-backup
+                  namespace: longhorn-system
+                spec:
+                  task: snapshot
+                  cron: '0 1 * * *'
+                  retain: 1
+                  concurrency: 2
+      destination:
+        server: '{{.clusterURL}}'
+        namespace: longhorn-system
+      ignoreDifferences:
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          name: engineimages.longhorn.io
+          jsonPointers: ['/spec/preserveUnknownFields']
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          name: engines.longhorn.io
+          jsonPointers: ['/spec/preserveUnknownFields']
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          name: instancemanagers.longhorn.io
+          jsonPointers: ['/spec/preserveUnknownFields']
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          name: nodes.longhorn.io
+          jsonPointers: ['/spec/preserveUnknownFields']
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          name: replicas.longhorn.io
+          jsonPointers: ['/spec/preserveUnknownFields']
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          name: settings.longhorn.io
+          jsonPointers: ['/spec/preserveUnknownFields']
+        - group: apiextensions.k8s.io
+          kind: CustomResourceDefinition
+          name: volumes.longhorn.io
+          jsonPointers: ['/spec/preserveUnknownFields']
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2

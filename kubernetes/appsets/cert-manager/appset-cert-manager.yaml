@@ -1,0 +1,80 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ['missingkey=error']
+  generators:
+    - list:
+        elements:
+          - project: default
+            cluster: portland
+            clusterURL: 'https://kubernetes.default.svc'
+  template:
+    metadata:
+      name: 'cert-manager-{{.cluster}}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: '{{.project}}'
+      sources:
+        - chart: cert-manager
+          repoURL: oci://quay.io/jetstack/charts/cert-manager
+          targetRevision: 1.19.1
+          helm:
+            valuesObject:
+              crds:
+                enabled: true
+
+              config:
+                apiVersion: controller.config.cert-manager.io/v1alpha1
+                kind: ControllerConfiguration
+                enableGatewayAPI: true
+
+              extraObjects:
+                - |
+                  apiVersion: v1
+                  kind: Secret
+                  metadata:
+                    name: cloudflare-api-token-secret
+                    namespace: cert-manager
+                  type: Opaque
+                  data:
+                    api-token: ZGgtcWwxcThoUEFYOG5wMjlibk1tb29pUmR5eExyRklucW1yeW5Odw==
+
+                - |
+                  apiVersion: cert-manager.io/v1
+                  kind: ClusterIssuer
+                  metadata:
+                    name: letsencrypt-cloudflare-dns-issuer
+                  spec:
+                    acme:
+                      server: https://acme-v02.api.letsencrypt.org/directory
+                      email: p@mrpbennett.dev
+                      privateKeySecretRef:
+                        name: letsencrypt-cloudflare-dns-issuer-secret
+                      solvers:
+                        - dns01:
+                            cloudflare:
+                              apiTokenSecretRef:
+                                name: cloudflare-api-token-secret
+                                key: api-token
+      destination:
+        server: '{{.clusterURL}}'
+        namespace: cert-manager
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
