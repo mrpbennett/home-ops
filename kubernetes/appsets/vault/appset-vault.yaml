@@ -9,10 +9,7 @@ spec:
   goTemplateOptions: ['missingkey=error']
   generators:
     - list:
-        elements:
-          - project: default
-            cluster: portland
-            clusterURL: 'https://kubernetes.default.svc'
+        elements: []
   template:
     metadata:
       name: 'vault-{{.cluster}}'

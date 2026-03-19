@@ -1,11 +1,3 @@
----
-# Create namespace first
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: testing
-
----
 # 1. Memory request exceeded - STABLE (won't crash)
 apiVersion: v1
 kind: Pod

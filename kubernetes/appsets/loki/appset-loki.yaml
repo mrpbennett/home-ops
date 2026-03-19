@@ -47,7 +47,7 @@ spec:
                 volume_enabled: true
                 retention_period: 168h
                 reject_old_samples: true
-                reject_old_smaples_max_age: 168h
+                reject_old_samples_max_age: 168h
               compactor:
                 retention_enabled: true
                 compaction_interval: 10m
@@ -71,7 +71,7 @@ spec:
                 limits:
                   cpu: 500m
                   memory: 512Mi
-              persistance:
+              persistence:
                 size: 10Gi
                 storageClass: longhorn
             backend:
