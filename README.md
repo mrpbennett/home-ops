@@ -3,7 +3,7 @@
 <p>Wife approved HomeOps driven by Kubernetes and GitOps using ArgoCD</p>
 
 <p align="center">
-  <a href="https://github.com/k8s-at-home" alt="Image used with permission from k8s-at-home"><img alt="Image used with permission from k8s-at-home" src="https://avatars.githubusercontent.com/u/61287648" /></a>
+  <a href="https://github.com/k8s-at-home" alt="Image used with permission from k8s-at-home"><img width="300" alt="Image used with permission from k8s-at-home" src="misc/homeops-logo.png" /></a>
 </p>
 
 <p align="center">
@@ -45,7 +45,7 @@ Clusters use short, Dorset-themed names rather than encoding distro or environme
 | Cluster      | Environment | Description              |
 | ------------ | ----------- | ------------------------ |
 | **portland** | Production  | Primary workload cluster |
-| **corfe**   | Development | Dev / experimentation    |
+| **corfe**    | Development | Dev / experimentation    |
 
 ### Directories
 
