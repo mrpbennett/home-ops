@@ -6,6 +6,7 @@
 *.tfvars
 *.terraform/
 
+docs/plans/
 
 .toml
 
