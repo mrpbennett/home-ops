@@ -74,11 +74,10 @@ spec:
       sources:
         - repoURL: "{{.repo_url}}"
           targetRevision: main
-          path: "kubernetes/clusters/{{.cluster}}/{{.namespace}}/{{.app_name}}"
+          path: "kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}"
           helm:
             ignoreMissingValueFiles: false
-            valueFiles:
-              - "values-{{.cluster}}.yaml"
+            valuesObject: {}
       destination:
         name: "{{.cluster}}"
         namespace: "{{.namespace}}"
@@ -86,10 +85,7 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - RespectIgnoreDifferences=true
-      ignoreDifferences:
-        - jsonPointers:
-            - /metadata/annotations/fluxcd.io~1sync-checksum
-            - /metadata/labels/fluxcd.io~1sync-gc-mark
+      ignoreDifferences: []
 ```
 
 ## ApplicationSet Configuration Details
@@ -124,23 +120,13 @@ generators:
 Applications are generated using the following template pattern:
 
 - **Name**: `{{.app_name}}-{{.project}}-{{.cluster}}`
-- **Source**: Points to Helm chart in `clusters/common/{{.namespace}}/{{.app_name}}/chart`
-- **Values**: Uses cluster-specific `values-{{.cluster}}.yaml`
+- **Values**: Uses ApplicationSet `spec.helm.valueObject`
 - **Destination**: Deploys to the specified cluster and namespace
 
 ### 2. `clusters/` Directory
 
 This directory contains the actual Helm charts and cluster-specific configurations that are deployed by the
 ApplicationSets.
-
-#### `clusters/common/`
-
-Contains shared accross all clusters Helm charts organized by namespace and application:
-
-- **Helm Charts**: Located in `chart/` subdirectories with standard Helm structure
-  - `Chart.yaml`: Chart metadata
-  - `templates/`: Kubernetes resource templates, using **go-templates** templating language
-  - `values-<cluster>.yaml`: Cluster-specific configuration files
 
 #### Managed Clusters:
 
