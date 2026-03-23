@@ -34,9 +34,10 @@ spec:
             - name: RCON_CMDS_STARTUP
               value: |-
                 gamerule randomTickSpeed 6
-                gamerule playersSleepingPercentage 1
+                gamerule keepInventory true
+                gamerule mobGriefing false
+                gamerule doImmediateRespawn true
                 gamerule doInsomnia false
-                gamerule doFireTick false
           volumeMounts:
             - mountPath: /data
               name: data
