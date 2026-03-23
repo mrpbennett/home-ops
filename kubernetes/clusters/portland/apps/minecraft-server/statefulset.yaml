@@ -37,7 +37,6 @@ spec:
                 gamerule playersSleepingPercentage 1
                 gamerule doInsomnia false
                 gamerule doFireTick false
-                gamerule keepInventory false
           volumeMounts:
             - mountPath: /data
               name: data
