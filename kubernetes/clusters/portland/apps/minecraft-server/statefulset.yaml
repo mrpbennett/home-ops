@@ -24,6 +24,20 @@ spec:
           env:
             - name: EULA
               value: "TRUE"
+            - name: DIFFICULTY
+              value: "normal"
+            - name: VIEW_DISTANCE
+              value: 10
+            - name: SIMULATION_DISTANCE
+              value: 6
+
+            - name: RCON_CMDS_STARTUP
+              value: |-
+                gamerule randomTickSpeed 6 # less waiting, farms still matter
+                gamerule playersSleepingPercentage 1 # you can skip night instantly (solo = no waiting anyway)
+                gamerule doInsomnia false # removes phantoms (huge QoL)
+                gamerule doFireTick false # prevents dumb accidents ruining build
+                gamerule keepInventory false
           volumeMounts:
             - mountPath: /data
               name: data
