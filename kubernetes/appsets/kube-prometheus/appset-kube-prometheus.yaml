@@ -19,7 +19,6 @@ spec:
       namespace: argocd
       annotations:
         argocd.argoproj.io/compare-options: ServerSideDiff=true
-        argocd.argoproj.io/sync-wave: '0'
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
@@ -215,8 +214,8 @@ spec:
                           severity: info
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} has no memory requests'
-                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has
-                            no memory requests set. This can lead to scheduling issues and resource contention.'
+                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                            has no memory requests set. This can lead to scheduling issues and resource contention.'
 
                       - alert: PodOOMKilled
                         expr: |
@@ -226,8 +225,8 @@ spec:
                           severity: critical
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} was OOMKilled'
-                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} was
-                            terminated due to OOM. Memory limits need to be increased.'
+                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                            was terminated due to OOM. Memory limits need to be increased.'
 
                       - alert: PodFrequentRestarts
                         expr: |
@@ -237,8 +236,8 @@ spec:
                           severity: warning
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} restarting frequently'
-                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has
-                            restarted {{ $value | humanize }} times in the last hour. Check for OOM or crashloops.'
+                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                            has restarted {{ $value | humanize }} times in the last hour. Check for OOM or crashloops.'
 
             global:
               rbac:
