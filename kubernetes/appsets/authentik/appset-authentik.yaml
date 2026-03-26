@@ -1,129 +1,129 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: authentik
-  namespace: argocd
-spec:
-  goTemplate: true
-  goTemplateOptions: ['missingkey=error']
-  generators:
-    - list:
-        elements:
-          - project: default
-            cluster: portland
-            clusterURL: 'https://kubernetes.default.svc'
-  template:
-    metadata:
-      name: 'authentik-{{.cluster}}'
-      namespace: argocd
-      finalizers:
-        - resources-finalizer.argocd.argoproj.io
-    spec:
-      project: '{{.project}}'
-      sources:
-        - chart: authentik
-          repoURL: https://charts.goauthentik.io
-          targetRevision: 2025.10.1
-          helm:
-            valuesObject:
-              global:
-                env:
-                  - name: AUTHENTIK_POSTGRESQL__PASSWORD
-                    valueFrom:
-                      secretKeyRef:
-                        name: cnpg-authentik-user
-                        key: password
-
-              authentik:
-                enabled: true
-                log_level: info
-                secret_key: O+9nm3otMhLN+yhWrUWMrzgJmOnofBCA2igay0DnMB3WNKiaCfSCdL4ampBAvk6S8C5gz5fR5hLx/0CM
-                error_reporting:
-                  enabled: false
-
-                postgresql:
-                  host: 192.168.7.80
-                  port: 5432
-                  name: authentik
-                  user: authentik
-                  password: ""
-
-                redis:
-                  host: '{{ .Release.Name }}-redis-master'
-                  password: ''
-
-              server:
-                name: authentik-server
-                replicas: 1
-
-                ingress:
-                  enabled: true
-                  annotations:
-                    cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
-                  ingressClassName: nginx
-                  hosts:
-                    - authentik.70ld.dev
-                  paths:
-                    - '{{ .Values.authentik.web.path }}'
-                  pathType: Prefix
-                  tls:
-                    - secretName: authentik-tls
-                      hosts:
-                        - authentik.70ld.dev
-                  https: false
-
-                postgresql:
-                  enabled: false
-
-                redis:
-                  enabled: true
-
-              additionalObjects:
-                - apiVersion: secrets.hashicorp.com/v1beta1
-                  kind: VaultStaticSecret
-                  metadata:
-                    name: cloudnativepg-prod-authentik
-                  spec:
-                    vaultAuthRef: vault-auth
-                    mount: kv
-                    type: kv-v2
-                    path: cloudnativepg/prod/authentik
-                    refreshAfter: 60s
-                    destination:
-                      name: cnpg-authentik-user
-                      create: true
-
-                - apiVersion: secrets.hashicorp.com/v1beta1
-                  kind: VaultConnection
-                  metadata:
-                    name: vault-connection
-                  spec:
-                    address: http://vault.vault.svc.cluster.local:8200
-
-                - apiVersion: secrets.hashicorp.com/v1beta1
-                  kind: VaultAuth
-                  metadata:
-                    name: vault-auth
-                  spec:
-                    method: kubernetes
-                    mount: kubernetes
-                    kubernetes:
-                      role: vso-role
-                      serviceAccount: default
-                    vaultConnectionRef: vault-connection
-      destination:
-        server: '{{.clusterURL}}'
-        namespace: authentik
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-        retry:
-          limit: 5
-          backoff:
-            duration: 5s
-            maxDuration: 5m0s
-            factor: 2
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: authentik
+#   namespace: argocd
+# spec:
+#   goTemplate: true
+#   goTemplateOptions: ['missingkey=error']
+#   generators:
+#     - list:
+#         elements:
+#           - project: default
+#             cluster: portland
+#             clusterURL: 'https://kubernetes.default.svc'
+#   template:
+#     metadata:
+#       name: 'authentik-{{.cluster}}'
+#       namespace: argocd
+#       finalizers:
+#         - resources-finalizer.argocd.argoproj.io
+#     spec:
+#       project: '{{.project}}'
+#       sources:
+#         - chart: authentik
+#           repoURL: https://charts.goauthentik.io
+#           targetRevision: 2025.10.1
+#           helm:
+#             valuesObject:
+#               global:
+#                 env:
+#                   - name: AUTHENTIK_POSTGRESQL__PASSWORD
+#                     valueFrom:
+#                       secretKeyRef:
+#                         name: cnpg-authentik-user
+#                         key: password
+#
+#               authentik:
+#                 enabled: true
+#                 log_level: info
+#                 secret_key: O+9nm3otMhLN+yhWrUWMrzgJmOnofBCA2igay0DnMB3WNKiaCfSCdL4ampBAvk6S8C5gz5fR5hLx/0CM
+#                 error_reporting:
+#                   enabled: false
+#
+#                 postgresql:
+#                   host: 192.168.7.80
+#                   port: 5432
+#                   name: authentik
+#                   user: authentik
+#                   password: ""
+#
+#                 redis:
+#                   host: '{{ .Release.Name }}-redis-master'
+#                   password: ''
+#
+#               server:
+#                 name: authentik-server
+#                 replicas: 1
+#
+#                 ingress:
+#                   enabled: true
+#                   annotations:
+#                     cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
+#                   ingressClassName: nginx
+#                   hosts:
+#                     - authentik.70ld.dev
+#                   paths:
+#                     - '{{ .Values.authentik.web.path }}'
+#                   pathType: Prefix
+#                   tls:
+#                     - secretName: authentik-tls
+#                       hosts:
+#                         - authentik.70ld.dev
+#                   https: false
+#
+#                 postgresql:
+#                   enabled: false
+#
+#                 redis:
+#                   enabled: true
+#
+#               additionalObjects:
+#                 - apiVersion: secrets.hashicorp.com/v1beta1
+#                   kind: VaultStaticSecret
+#                   metadata:
+#                     name: cloudnativepg-prod-authentik
+#                   spec:
+#                     vaultAuthRef: vault-auth
+#                     mount: kv
+#                     type: kv-v2
+#                     path: cloudnativepg/prod/authentik
+#                     refreshAfter: 60s
+#                     destination:
+#                       name: cnpg-authentik-user
+#                       create: true
+#
+#                 - apiVersion: secrets.hashicorp.com/v1beta1
+#                   kind: VaultConnection
+#                   metadata:
+#                     name: vault-connection
+#                   spec:
+#                     address: http://vault.vault.svc.cluster.local:8200
+#
+#                 - apiVersion: secrets.hashicorp.com/v1beta1
+#                   kind: VaultAuth
+#                   metadata:
+#                     name: vault-auth
+#                   spec:
+#                     method: kubernetes
+#                     mount: kubernetes
+#                     kubernetes:
+#                       role: vso-role
+#                       serviceAccount: default
+#                     vaultConnectionRef: vault-connection
+#       destination:
+#         server: '{{.clusterURL}}'
+#         namespace: authentik
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#           - CreateNamespace=true
+#         retry:
+#           limit: 5
+#           backoff:
+#             duration: 5s
+#             maxDuration: 5m0s
+#             factor: 2

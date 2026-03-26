@@ -1,117 +1,117 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: loki
-  namespace: argocd
-spec:
-  goTemplate: true
-  goTemplateOptions: ['missingkey=error']
-  generators:
-    - list:
-        elements:
-          - project: default
-            cluster: portland
-            clusterURL: 'https://kubernetes.default.svc'
-  template:
-    metadata:
-      name: 'loki-{{.cluster}}'
-      namespace: argocd
-      finalizers:
-        - resources-finalizer.argocd.argoproj.io
-    spec:
-      project: '{{.project}}'
-      source:
-        chart: loki
-        repoURL: https://grafana.github.io/helm-charts
-        targetRevision: 6.46.0
-        helm:
-          valuesObject:
-            loki:
-              commonConfig:
-                replication_factor: 1
-              schemaConfig:
-                configs:
-                  - from: '2024-04-01'
-                    store: tsdb
-                    object_store: s3
-                    schema: v13
-                    index:
-                      prefix: loki_index_
-                      period: 24h
-              auth_enabled: false
-              pattern_ingester:
-                enabled: true
-              limits_config:
-                allow_structured_metadata: true
-                volume_enabled: true
-                retention_period: 168h
-                reject_old_samples: true
-                reject_old_samples_max_age: 168h
-              compactor:
-                retention_enabled: true
-                compaction_interval: 10m
-              ruler:
-                enable_api: true
-              storage:
-                bucketNames:
-                  chunks: loki-chunks
-                  ruler: loki-ruler
-                  admin: loki-admin
-                type: s3
-            minio:
-              enabled: true
-            deploymentMode: SingleBinary
-            singleBinary:
-              replicas: 1
-              resources:
-                requests:
-                  cpu: 100m
-                  memory: 256Mi
-                limits:
-                  cpu: 500m
-                  memory: 512Mi
-              persistence:
-                size: 10Gi
-                storageClass: longhorn
-            backend:
-              replicas: 0
-            read:
-              replicas: 0
-            write:
-              replicas: 0
-            ingester:
-              replicas: 0
-            querier:
-              replicas: 0
-            queryFrontend:
-              replicas: 0
-            queryScheduler:
-              replicas: 0
-            distributor:
-              replicas: 0
-            compactor:
-              replicas: 0
-            indexGateway:
-              replicas: 0
-            bloomCompactor:
-              replicas: 0
-            bloomGateway:
-              replicas: 0
-            memcached:
-              enabled: false
-      destination:
-        server: '{{.clusterURL}}'
-        namespace: logging
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-        retry:
-          limit: 5
-          backoff:
-            duration: 5s
-            maxDuration: 5m0s
-            factor: 2
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: loki
+#   namespace: argocd
+# spec:
+#   goTemplate: true
+#   goTemplateOptions: ['missingkey=error']
+#   generators:
+#     - list:
+#         elements:
+#           - project: default
+#             cluster: portland
+#             clusterURL: 'https://kubernetes.default.svc'
+#   template:
+#     metadata:
+#       name: 'loki-{{.cluster}}'
+#       namespace: argocd
+#       finalizers:
+#         - resources-finalizer.argocd.argoproj.io
+#     spec:
+#       project: '{{.project}}'
+#       source:
+#         chart: loki
+#         repoURL: https://grafana.github.io/helm-charts
+#         targetRevision: 6.46.0
+#         helm:
+#           valuesObject:
+#             loki:
+#               commonConfig:
+#                 replication_factor: 1
+#               schemaConfig:
+#                 configs:
+#                   - from: '2024-04-01'
+#                     store: tsdb
+#                     object_store: s3
+#                     schema: v13
+#                     index:
+#                       prefix: loki_index_
+#                       period: 24h
+#               auth_enabled: false
+#               pattern_ingester:
+#                 enabled: true
+#               limits_config:
+#                 allow_structured_metadata: true
+#                 volume_enabled: true
+#                 retention_period: 168h
+#                 reject_old_samples: true
+#                 reject_old_samples_max_age: 168h
+#               compactor:
+#                 retention_enabled: true
+#                 compaction_interval: 10m
+#               ruler:
+#                 enable_api: true
+#               storage:
+#                 bucketNames:
+#                   chunks: loki-chunks
+#                   ruler: loki-ruler
+#                   admin: loki-admin
+#                 type: s3
+#             minio:
+#               enabled: true
+#             deploymentMode: SingleBinary
+#             singleBinary:
+#               replicas: 1
+#               resources:
+#                 requests:
+#                   cpu: 100m
+#                   memory: 256Mi
+#                 limits:
+#                   cpu: 500m
+#                   memory: 512Mi
+#               persistence:
+#                 size: 10Gi
+#                 storageClass: longhorn
+#             backend:
+#               replicas: 0
+#             read:
+#               replicas: 0
+#             write:
+#               replicas: 0
+#             ingester:
+#               replicas: 0
+#             querier:
+#               replicas: 0
+#             queryFrontend:
+#               replicas: 0
+#             queryScheduler:
+#               replicas: 0
+#             distributor:
+#               replicas: 0
+#             compactor:
+#               replicas: 0
+#             indexGateway:
+#               replicas: 0
+#             bloomCompactor:
+#               replicas: 0
+#             bloomGateway:
+#               replicas: 0
+#             memcached:
+#               enabled: false
+#       destination:
+#         server: '{{.clusterURL}}'
+#         namespace: logging
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#           - CreateNamespace=true
+#         retry:
+#           limit: 5
+#           backoff:
+#             duration: 5s
+#             maxDuration: 5m0s
+#             factor: 2
