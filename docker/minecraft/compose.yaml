@@ -1,0 +1,38 @@
+# helped with https://setupmc.com/java-server
+#
+services:
+  mc:
+    container_name: mcsvr
+    image: itzg/minecraft-server:latest
+    restart: always
+    tty: true
+    stdin_open: true
+    ports:
+      - '25565:25565'
+    environment:
+      EULA: 'TRUE'
+      TYPE: 'PAPER'
+      MEMORY: '6144M'
+      MAX_PLAYERS: '4'
+
+      # World Settings
+      GENERATOR_SETTINGS: |-
+        {
+          "biome":"minecraft:bamboo_jungle"
+        }
+      GENERATE_STRUCTURES: 'true'
+      LEVEL: '70LD Bamboo Jungle'
+
+      # Game Settings
+      DIFFICULTY: '2' # normal
+      HARDCORE: 'false'
+      ALLOW_CHEATS: 'true'
+      ALLOW_FLIGHT: 'true'
+      ENABLE_COMMAND_BLOCK: 'true'
+      OPS: 'mrpbennett'
+      RCON_CMDS_ON_CONNECT: |-
+        gamerule randomTickSpeed 6
+        gamerule keepInventory true
+
+    volumes:
+      - './data:/data'

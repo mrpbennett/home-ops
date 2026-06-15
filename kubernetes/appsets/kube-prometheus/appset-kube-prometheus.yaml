@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kube-prometheus-stack
+  name: &app_name kube-prometheus-stack
   namespace: argocd
 spec:
   goTemplate: true
@@ -10,8 +10,14 @@ spec:
   generators:
     - list:
         elements:
-          - project: default
-            cluster: portland
+          # - cluster: portland
+          - cluster: corfe
+
+    - list:
+        elements:
+          - app_name: *app_name
+            project: default
+            repo_url: https://github.com/mrpbennett/home-ops.git
             clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
@@ -158,7 +164,8 @@ spec:
                           severity: warning
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding memory requests'
-                          description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
+                          description:
+                            'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
                             }} of its memory request (container: {{ $labels.container }})'
 
                       - alert: PodMemoryRequestsCritical
@@ -173,7 +180,8 @@ spec:
                           severity: critical
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} critically exceeding memory requests'
-                          description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
+                          description:
+                            'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
                             }} of its memory request (container: {{ $labels.container }}). Potential OOM risk!'
 
                       - alert: PodMemoryLimitsExceeded
@@ -188,7 +196,8 @@ spec:
                           severity: critical
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} approaching memory limits'
-                          description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
+                          description:
+                            'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
                             }} of its memory limit (container: {{ $labels.container }}). OOMKill imminent!'
 
                       - alert: PodCPURequestsExceeded
@@ -203,7 +212,8 @@ spec:
                           severity: warning
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding CPU requests'
-                          description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
+                          description:
+                            'Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
                             }} of its CPU request (container: {{ $labels.container }})'
 
                       - alert: PodWithoutMemoryRequests
@@ -214,7 +224,8 @@ spec:
                           severity: info
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} has no memory requests'
-                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                          description:
+                            'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
                             has no memory requests set. This can lead to scheduling issues and resource contention.'
 
                       - alert: PodOOMKilled
@@ -225,7 +236,8 @@ spec:
                           severity: critical
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} was OOMKilled'
-                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                          description:
+                            'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
                             was terminated due to OOM. Memory limits need to be increased.'
 
                       - alert: PodFrequentRestarts
@@ -236,7 +248,8 @@ spec:
                           severity: warning
                         annotations:
                           summary: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} restarting frequently'
-                          description: 'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                          description:
+                            'Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
                             has restarted {{ $value | humanize }} times in the last hour. Check for OOM or crashloops.'
 
             global:

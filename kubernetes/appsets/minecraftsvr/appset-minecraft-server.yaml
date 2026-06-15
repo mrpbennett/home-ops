@@ -1,4 +1,3 @@
-
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -11,10 +10,14 @@ spec:
   generators:
     - list:
         elements:
+          # - cluster: portland
+          - cluster: corfe
+
+    - list:
+        elements:
           - app_name: *app_name
             project: default
             repo_url: https://github.com/mrpbennett/home-ops.git
-            cluster: portland
             clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:

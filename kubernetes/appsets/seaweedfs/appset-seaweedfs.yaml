@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: seaweedfs
+  name: &app_name seaweedfs
   namespace: argocd
 spec:
   goTemplate: true
@@ -10,8 +10,14 @@ spec:
   generators:
     - list:
         elements:
-          - project: default
-            cluster: portland
+          # - cluster: portland
+          - cluster: corfe
+
+    - list:
+        elements:
+          - app_name: *app_name
+            project: default
+            repo_url: https://github.com/mrpbennett/home-ops.git
             clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
@@ -38,7 +44,7 @@ spec:
               port: 9333
 
               data:
-                type: "persistentVolumeClaim"
+                type: 'persistentVolumeClaim'
                 size: 50Gi
                 storageClass: longhorn
 
@@ -49,7 +55,7 @@ spec:
 
               dataDirs:
                 - name: data1
-                  type: "persistentVolumeClaim"
+                  type: 'persistentVolumeClaim'
                   size: 50Gi
                   storageClass: longhorn
                   maxVolumes: 0
@@ -67,8 +73,8 @@ spec:
               storage: 10Gi
               storageClass: longhorn
               data:
-                type: "hostPath"
-                size: ""
+                type: 'hostPath'
+                size: ''
                 storageClass: longhorn
 
             s3:
@@ -85,7 +91,7 @@ spec:
                   anonymousRead: false
                 - name: general
                   anonymousRead: true
-              domainName: "seaweedfs.70ld.dev"
+              domainName: 'seaweedfs.70ld.dev'
 
               ingress:
                 enabled: true
@@ -94,7 +100,7 @@ spec:
                 path: /
                 pathType: Prefix
                 annotations:
-                  cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+                  cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
                 tls:
                   - hosts:
                       - seaweedfs.70ld.dev
@@ -106,7 +112,7 @@ spec:
                 path: /
                 pathType: Prefix
                 annotations:
-                  cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+                  cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
                 tls:
                   - hosts:
                       - seaweedfs-iceberg.70ld.dev
@@ -117,16 +123,16 @@ spec:
               replicas: 1
               port: 23646
               secret:
-                adminUser: "admin"
-                adminPassword: ""
+                adminUser: 'admin'
+                adminPassword: ''
 
               data:
-                type: "persistentVolumeClaim"
+                type: 'persistentVolumeClaim'
                 size: 5Gi
                 storageClass: longhorn
 
               logs:
-                type: "persistentVolumeClaim"
+                type: 'persistentVolumeClaim'
                 size: 5Gi
                 storageClass: longhorn
 
@@ -137,7 +143,7 @@ spec:
                 path: /
                 pathType: Prefix
                 annotations:
-                  cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+                  cert-manager.io/cluster-issuer: 'letsencrypt-cloudflare-dns-issuer'
                 tls:
                   - hosts:
                       - admin.seaweedfs.70ld.dev

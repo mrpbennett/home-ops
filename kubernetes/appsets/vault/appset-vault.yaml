@@ -2,14 +2,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: vault
+  name: &app_name vault
   namespace: argocd
 spec:
   goTemplate: true
   goTemplateOptions: ['missingkey=error']
   generators:
     - list:
-        elements: []
+        elements:
+          # - cluster: portland
+          - cluster: corfe
+
+    - list:
+        elements:
+          - app_name: *app_name
+            project: default
+            repo_url: https://github.com/mrpbennett/home-ops.git
+            clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
       name: 'vault-{{.cluster}}'
@@ -47,7 +56,7 @@ spec:
               dataStorage:
                 enabled: true
                 size: 10Gi
-                mountPath: "/vault/data"
+                mountPath: '/vault/data'
                 storageClass: longhorn
                 accessMode: ReadWriteOnce
 
