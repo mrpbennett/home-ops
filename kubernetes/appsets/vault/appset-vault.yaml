@@ -19,7 +19,6 @@ spec:
                 - app_name: *app_name
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
-                  clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
       name: 'vault-{{.cluster}}'
@@ -66,7 +65,7 @@ spec:
               externalPort: 8200
               targetPort: 8200
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: vault
       syncPolicy:
         automated:

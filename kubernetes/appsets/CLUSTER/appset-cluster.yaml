@@ -21,7 +21,6 @@ spec:
                 - app_name: *app_name
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
-                  clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
       name: '{{.app_name}}-{{.cluster}}'
@@ -37,7 +36,7 @@ spec:
         directory:
           recurse: true
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: argocd
       syncPolicy:
         automated:

@@ -19,7 +19,6 @@ spec:
                 - app_name: *app_name
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
-                  clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
       name: 'seaweedfs-{{.cluster}}'
@@ -153,7 +152,7 @@ spec:
               service:
                 type: LoadBalancer
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: seaweedfs
       syncPolicy:
         automated:

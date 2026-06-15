@@ -19,7 +19,6 @@ spec:
                 - app_name: *app_name
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
-                  clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
       name: 'envoy-gateway-helm-{{.cluster}}'
@@ -63,7 +62,7 @@ spec:
             createNamespace: false
             kubernetesClusterDomain: cluster.local
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: envoy-gateway-system
       syncPolicy:
         automated:

@@ -19,7 +19,6 @@ spec:
                 - app_name: *app_name
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
-                  clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
       name: 'ingress-nginx-{{.cluster}}'
@@ -141,7 +140,7 @@ spec:
                                 - controller
                         topologyKey: kubernetes.io/hostname
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: ingress-nginx
       syncPolicy:
         automated:

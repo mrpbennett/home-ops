@@ -19,7 +19,6 @@ spec:
                 - app_name: *app_name
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
-                  clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
       name: 'cert-manager-{{.cluster}}'
@@ -71,7 +70,7 @@ spec:
                                 name: cloudflare-api-token-secret
                                 key: api-token
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: cert-manager
       syncPolicy:
         automated:
