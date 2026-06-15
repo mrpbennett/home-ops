@@ -8,17 +8,18 @@ spec:
   goTemplate: true
   goTemplateOptions: ['missingkey=error']
   generators:
-    - list:
-        elements:
-          # - cluster: portland
-          - cluster: corfe
-
-    - list:
-        elements:
-          - app_name: *app_name
-            project: default
-            repo_url: https://github.com/mrpbennett/home-ops.git
-            clusterURL: 'https://kubernetes.default.svc'
+    - matrix:
+        generators:
+          - list:
+              elements:
+                # - cluster: portland
+                - cluster: corfe
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+                  clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
       name: 'kube-prometheus-stack-{{.cluster}}'
