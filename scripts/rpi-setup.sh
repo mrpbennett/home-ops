@@ -28,20 +28,7 @@ echo "==> Enabling Docker on boot"
 sudo systemctl enable --now docker
 
 echo "==> Installing Homebrew"
-NONINTERACTIVE=1 /bin/bash -c \
-  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Add brew to current session and shell rc
-BREW_PREFIX="/home/linuxbrew/.linuxbrew"
-eval "$("$BREW_PREFIX/bin/brew" shellenv)"
-
-# Persist to .bashrc and .zshrc if present
-for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
-  if [ -f "$rc" ]; then
-    grep -qxF 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' "$rc" ||
-      echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>"$rc"
-  fi
-done
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # ─────────────────────────────────────────────
 #  Neovim (latest stable via brew)

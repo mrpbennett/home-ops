@@ -3,6 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: registry-pvc
+  namespace: docker-registry
 spec:
   storageClassName: longhorn
   accessModes:
