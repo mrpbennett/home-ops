@@ -1,40 +1,78 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-[ "$(uname -m)" = "aarch64" ] || { echo "arm64 only"; exit 1; }
+sudo apt-get install -y \
+  git curl wget unzip build-essential
 
-sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install -y git curl unzip ripgrep fd-find make gcc
-# ponytail: fd-find installs as fdfind on Debian; LazyVim expects fd
-sudo ln -sf /usr/bin/fdfind /usr/local/bin/fd
+echo "==> Installing Docker"
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg |
+  sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Neovim
-curl -L https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz \
-  | sudo tar -xz -C /usr/local --strip-components=1
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+  sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
-# LazyVim starter config
-[ -d ~/.config/nvim ] && mv ~/.config/nvim ~/.config/nvim.bak
-git clone https://github.com/LazyVim/starter ~/.config/nvim
-rm -rf ~/.config/nvim/.git
+sudo apt-get update
+sudo apt-get install -y \
+  docker-ce docker-ce-cli containerd.io \
+  docker-buildx-plugin docker-compose-plugin
 
-# Eza
-curl -L https://github.com/eza-community/eza/releases/latest/download/eza_aarch64-unknown-linux-musl.tar.gz \
-  | sudo tar -xz -C /usr/local/bin
+echo "==> Adding $USER to docker group"
+sudo usermod -aG docker "$USER"
 
-# Yazi + ya shell wrapper
-curl -L -o /tmp/yazi.zip \
-  https://github.com/sxyazi/yazi/releases/latest/download/yazi-aarch64-unknown-linux-gnu.zip
-sudo unzip -jo /tmp/yazi.zip "*/yazi" "*/ya" -d /usr/local/bin/
-rm /tmp/yazi.zip
+echo "==> Enabling Docker on boot"
+sudo systemctl enable --now docker
+
+echo "==> Installing Homebrew"
+NONINTERACTIVE=1 /bin/bash -c \
+  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Add brew to current session and shell rc
+BREW_PREFIX="/home/linuxbrew/.linuxbrew"
+eval "$("$BREW_PREFIX/bin/brew" shellenv)"
+
+# Persist to .bashrc and .zshrc if present
+for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
+  if [ -f "$rc" ]; then
+    grep -qxF 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' "$rc" ||
+      echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>"$rc"
+  fi
+done
+
+# ─────────────────────────────────────────────
+#  Neovim (latest stable via brew)
+# ─────────────────────────────────────────────
+echo "==> Installing Neovim"
+brew install neovim
+
+# ─────────────────────────────────────────────
+#  LazyVim
+# ─────────────────────────────────────────────
+echo "==> Backing up any existing Neovim config"
+[ -d "$HOME/.config/nvim" ] && mv "$HOME/.config/nvim" "$HOME/.config/nvim.bak.$(date +%s)"
+[ -d "$HOME/.local/share/nvim" ] && mv "$HOME/.local/share/nvim" "$HOME/.local/share/nvim.bak.$(date +%s)"
+[ -d "$HOME/.cache/nvim" ] && mv "$HOME/.cache/nvim" "$HOME/.cache/nvim.bak.$(date +%s)"
+
+echo "==> Cloning LazyVim starter"
+git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
+rm -rf "$HOME/.config/nvim/.git"
+
+## Installing EZA
+brew install eza
 
 # Eza aliases
-grep -qF 'alias ls=' ~/.bashrc || cat >> ~/.bashrc << 'EOF'
+grep -qF 'alias ls=' ~/.bashrc || cat >>~/.bashrc <<'EOF'
 
 # eza
-alias ls='eza'
-alias ll='eza -l'
-alias la='eza -la'
-alias lt='eza --tree'
+alias ls='eza -lh --group-directories-first --icons=auto'
+alias lsa='ls -a'
+alias lt='eza --tree --level=2 --long --icons --git'
+alias lta='lt -a'
 EOF
 
-echo "Done. Run: nvim  (LazyVim will self-install on first open)"
+# Installing Yazi
+brew install yazi
