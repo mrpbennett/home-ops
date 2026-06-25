@@ -9,7 +9,7 @@ spec:
     - name: envoy-shared-gateway
       namespace: envoy-gateway-system
   hostnames:
-    - 'corfe.registry.70ld.dev'
+    - 'corfe-registry.70ld.dev'
   rules:
     - matches:
         - path:
