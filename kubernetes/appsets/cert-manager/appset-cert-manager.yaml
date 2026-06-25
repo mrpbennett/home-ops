@@ -60,7 +60,7 @@ spec:
                   spec:
                     acme:
                       server: https://acme-v02.api.letsencrypt.org/directory
-                      email: p@mrpbennett.dev
+                      email: pbenentt.uk@outlook.com
                       privateKeySecretRef:
                         name: letsencrypt-cloudflare-dns-issuer-secret
                       solvers:

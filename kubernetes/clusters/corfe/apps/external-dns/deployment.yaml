@@ -19,26 +19,15 @@ spec:
       containers:
         - name: external-dns
           image: registry.k8s.io/external-dns/external-dns:v0.18.0
-          envFrom:
-            - secretRef:
-                name: external-dns-pihole
           args:
             - --source=service
             - --source=ingress
             - --source=gateway-httproute
-            # Pihole only supports A/AAAA/CNAME records so there is no mechanism to track ownership.
-            # You don't need to set this flag, but if you leave it unset, you will receive warning
-            # logs when ExternalDNS attempts to create TXT records.
+            # AdGuard only supports A/AAAA/CNAME records, no TXT ownership tracking
             - --registry=noop
-            # IMPORTANT: If you have records that you manage manually in Pi-hole, set
-            # the policy to upsert-only so they do not get deleted.
             - --policy=upsert-only
-            - --provider=pihole
-            # Switch to pihole V6 API
-            - --pihole-api-version=6
-            # Change this to the actual address of your Pi-hole web server
-            - --pihole-server=http://192.168.4.2
-            # Optimize for v0.18.0 performance
+            - --provider=webhook
+            - --webhook-provider-url=http://localhost:8888
             - --interval=120s
             - --min-event-sync-interval=10s
             - --log-level=info
@@ -49,5 +38,19 @@ spec:
             limits:
               cpu: 200m
               memory: 256Mi
+        - name: adguard-webhook
+          image: ghcr.io/muhlba91/external-dns-provider-adguard:v11.1.1
+          envFrom:
+            - secretRef:
+                name: external-dns-adguard
+          ports:
+            - containerPort: 8888
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
       securityContext:
         fsGroup: 65534 # For ExternalDNS to be able to read Kubernetes token files
