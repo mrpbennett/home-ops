@@ -36,7 +36,7 @@ spec:
               memory: 128Mi
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
-              value: "homepage.70ld.dev"
+              value: "corfe-homepage.70ld.dev"
           ports:
             - name: http
               containerPort: 3000
