@@ -1,0 +1,20 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: homepage-route
+  namespace: homepage
+spec:
+  parentRefs:
+    - name: envoy-shared-gateway
+      namespace: envoy-gateway-system
+  hostnames:
+    - 'corfe-homepage.70ld.dev'
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: homepage
+          port: 3000
