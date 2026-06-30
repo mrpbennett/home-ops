@@ -15,10 +15,6 @@ data:
     color: slate
 
     layout:
-        Network:
-            style: row
-            columns: 1
-
         Kubernetes:
             style: row
             columns: 3
@@ -26,8 +22,6 @@ data:
   custom.js: ""
   bookmarks.yaml: ""
   services.yaml: |
-    - Network:
-
     - Kubernetes:
         - AlertManager:
             icon: prometheus.png
