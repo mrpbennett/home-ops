@@ -38,6 +38,11 @@ data:
             href: https://corfe-grafana.70ld.dev/dashboards?starred
             description: Analytics & Monitoring
 
+        - Longhorn:
+            icon: longhorn.png
+            href: https://corfe-longhorn.70ld.dev
+            description: Distributed Block Storage
+
         - Prometheus:
             icon: prometheus.png
             href: http://corfe-prometheus.70ld.dev

@@ -5,7 +5,7 @@ metadata:
   name: registry-pvc
   namespace: docker-registry
 spec:
-  storageClassName: local-path
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
