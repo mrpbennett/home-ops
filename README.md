@@ -98,6 +98,7 @@ source:
 | [Envoy Gateway](https://gateway.envoyproxy.io/)                | API Gateway                                                  |
 | [Grafana](https://grafana.com)                                 | Observability platform                                       |
 | [Helm](https://helm.sh)                                        | The package manager for Kubernetes                           |
+| [K3s](https://k3s.io)                                  | Kubernetes OS                                                     |
 | [Kubernetes](https://kubernetes.io)                            | Container-orchestration system, the backbone of this project |
 | [Loki](https://grafana.com/oss/loki/)                          | Log aggregation system                                       |
 | [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) | External DNS server configuration                            |
@@ -107,7 +108,6 @@ source:
 | [RustFS](https://rustfs.com/)                                  | Object Storage                                               |
 | [SeaweedFS](https://github.com/seaweedfs/seaweedfs)            | Data Warehouse Object Storage                                |
 | [Trino](https://trino.io/)                                     | Fast distributed SQL query engine                            |
-| [Talos OS](https://talos.dev)                                  | Talos OS                                                     |
 
 ---
 
