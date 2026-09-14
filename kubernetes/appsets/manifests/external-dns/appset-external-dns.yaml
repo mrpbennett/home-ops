@@ -2,13 +2,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: &app_name cluster-resources
+  name: &app_name external-dns
   namespace: argocd
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
-  syncPolicy:
-    preserveResourcesOnDeletion: true
   generators:
     - matrix:
         generators:
@@ -22,28 +20,28 @@ spec:
                   repo_url: https://github.com/mrpbennett/home-ops.git
   template:
     metadata:
-      name: "{{.app_name}}-{{.cluster}}"
+      name: "cnpg-cluster-{{.cluster}}"
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: "{{.project}}"
-      source:
-        repoURL: "{{.repo_url}}"
-        path: "kubernetes/clusters/{{.cluster}}/CLUSTER"
-        targetRevision: HEAD
-        directory:
-          recurse: true
+      sources:
+        - repoURL: "{{.repo_url}}"
+          path: "clusters/{{.cluster}}/{{.apps}}/{{.app_name}}"
+          targetRevision: main
+          directory:
+            recurse: true
+
       destination:
         name: "{{.cluster}}"
-        namespace: argocd
+        namespace: external-dns
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
-          - Validate=true
-          - CreateNamespace=false
+          - CreateNamespace=true
         retry:
           limit: 5
           backoff:

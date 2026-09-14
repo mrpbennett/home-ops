@@ -1,0 +1,76 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name envoy-gateway-helm
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "envoy-gateway-helm-{{.cluster}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      source:
+        chart: gateway-helm
+        repoURL: docker.io/envoyproxy
+        targetRevision: v1.9.1
+        helm:
+          valuesObject:
+            deployment:
+              annotations: {}
+              envoyGateway:
+                resources:
+                  limits:
+                    cpu: 700m
+                    memory: 256Mi
+
+            service:
+              trafficDistribution: ""
+              annotations: {}
+              type: LoadBalancer
+
+            config:
+              envoyGateway:
+                gateway:
+                  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+                provider:
+                  type: Kubernetes
+                logging:
+                  level:
+                    default: info
+                extensionApis: {}
+
+            kubernetesClusterDomain: cluster.local
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: envoy-gateway-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
