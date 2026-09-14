@@ -35,7 +35,7 @@ spec:
 
       destination:
         name: "{{.cluster}}"
-        namespace: cpng-system
+        namespace: cnpg-prod-cluster
       syncPolicy:
         automated:
           prune: true
