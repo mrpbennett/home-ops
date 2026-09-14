@@ -162,10 +162,10 @@ spec:
                         labels:
                           severity: warning
                         annotations:
-                          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding memory requests"
+                          summary: "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} exceeding memory requests"
                           description:
-                            "Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
-                            }} of its memory request (container: {{ $labels.container }})"
+                            "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} is using {{`{{ $value |
+                            humanizePercentage }}`}} of its memory request (container: {{`{{ $labels.container }}`}})"
 
                       - alert: PodMemoryRequestsCritical
                         expr: |
@@ -178,10 +178,10 @@ spec:
                         labels:
                           severity: critical
                         annotations:
-                          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} critically exceeding memory requests"
+                          summary: "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} critically exceeding memory requests"
                           description:
-                            "Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
-                            }} of its memory request (container: {{ $labels.container }}). Potential OOM risk!"
+                            "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} is using {{`{{ $value |
+                            humanizePercentage }}`}} of its memory request (container: {{`{{ $labels.container }}`}}). Potential OOM risk!"
 
                       - alert: PodMemoryLimitsExceeded
                         expr: |
@@ -194,10 +194,10 @@ spec:
                         labels:
                           severity: critical
                         annotations:
-                          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} approaching memory limits"
+                          summary: "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} approaching memory limits"
                           description:
-                            "Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
-                            }} of its memory limit (container: {{ $labels.container }}). OOMKill imminent!"
+                            "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} is using {{`{{ $value |
+                            humanizePercentage }}`}} of its memory limit (container: {{`{{ $labels.container }}`}}). OOMKill imminent!"
 
                       - alert: PodCPURequestsExceeded
                         expr: |
@@ -210,10 +210,10 @@ spec:
                         labels:
                           severity: warning
                         annotations:
-                          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} exceeding CPU requests"
+                          summary: "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} exceeding CPU requests"
                           description:
-                            "Pod {{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage
-                            }} of its CPU request (container: {{ $labels.container }})"
+                            "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} is using {{`{{ $value |
+                            humanizePercentage }}`}} of its CPU request (container: {{`{{ $labels.container }}`}})"
 
                       - alert: PodWithoutMemoryRequests
                         expr: |
@@ -222,9 +222,9 @@ spec:
                         labels:
                           severity: info
                         annotations:
-                          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has no memory requests"
+                          summary: "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} has no memory requests"
                           description:
-                            "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                            "Container {{`{{ $labels.container }}`}} in pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}}
                             has no memory requests set. This can lead to scheduling issues and resource contention."
 
                       - alert: PodOOMKilled
@@ -234,9 +234,9 @@ spec:
                         labels:
                           severity: critical
                         annotations:
-                          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} was OOMKilled"
+                          summary: "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} was OOMKilled"
                           description:
-                            "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
+                            "Container {{`{{ $labels.container }}`}} in pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}}
                             was terminated due to OOM. Memory limits need to be increased."
 
                       - alert: PodFrequentRestarts
@@ -246,10 +246,10 @@ spec:
                         labels:
                           severity: warning
                         annotations:
-                          summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} restarting frequently"
+                          summary: "Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} restarting frequently"
                           description:
-                            "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }}
-                            has restarted {{ $value | humanize }} times in the last hour. Check for OOM or crashloops."
+                            "Container {{`{{ $labels.container }}`}} in pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}}
+                            has restarted {{`{{ $value | humanize }}`}} times in the last hour. Check for OOM or crashloops."
 
             global:
               rbac:
