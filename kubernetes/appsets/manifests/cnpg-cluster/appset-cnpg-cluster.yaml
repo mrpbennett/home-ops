@@ -28,7 +28,7 @@ spec:
       project: "{{.project}}"
       sources:
         - repoURL: "{{.repo_url}}"
-          path: "clusters/{{.cluster}}/apps/cnpg/{{.app_name}}"
+          path: "kubernetes/clusters/{{.cluster}}/apps/cnpg/{{.app_name}}"
           targetRevision: main
           directory:
             recurse: true
