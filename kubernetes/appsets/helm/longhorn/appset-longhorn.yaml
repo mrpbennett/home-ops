@@ -59,8 +59,8 @@ spec:
             httproute:
               enabled: true
               parentRefs:
-                - name: primary-gateway
-                  namespace: gateway-system
+                - name: envoy-shared-gateway
+                  namespace: envoy-gateway-system
                   sectionName: https
               hostnames:
                 - longhorn.70ld.dev
