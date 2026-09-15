@@ -42,6 +42,15 @@ path "kv/data/cloudnativepg/*" {
 EOT
 }
 
+resource "vault_policy" "pgadmin_read" {
+  name   = "pgadmin-read"
+  policy = <<EOT
+path "kv/data/pgadmin/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 
 # roles.tf - Create auth roles
 resource "vault_kubernetes_auth_backend_role" "vso_role" {
@@ -50,7 +59,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["cloudnativepg-read"]
+  token_policies                   = ["cloudnativepg-read", "pgadmin-read"]
 }
 
 # secrets.tf - Create the actual secrets
