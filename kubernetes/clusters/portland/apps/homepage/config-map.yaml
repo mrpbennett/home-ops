@@ -28,14 +28,15 @@ data:
   services.yaml: |
     - Network:
       - PiHole:
-            icon: pi-hole.png
+            icon: adguard.png
             href: https://192.168.4.2/admin
             description: Primary DNS
             widget:
-                type: pihole
+                type: adguard
                 url: http://192.168.4.2
-                version: 6
-                fields: ["queries", "blocked", "blocked_percent", "gravity"]
+                username: admin
+                password: 123qwe!!
+                fields: ["queries", "blocked", "filtered", "latency"]
 
     - Kubernetes:
         - AlertManager:
@@ -47,21 +48,6 @@ data:
             icon: argo-cd.png
             href: https://argocd.70ld.dev
             description: Continuous Delivery
-
-        - Authentik:
-            icon: authentik.png
-            href: https://authentik.70ld.dev/if/admin/#/administration/overview
-            description: Authentication Provider
-
-        - ChartDB:
-            icon: https://avatars.githubusercontent.com/u/177466511?s=200&v=4
-            href: https://chartdb.70ld.dev
-            description: ERD Tooling
-
-        - Docker Registry:
-            icon: docker.svg
-            href: https://registry.70ld.dev/v2/_catalog
-            description: Container Registry
 
         - Grafana:
             icon: grafana.png
@@ -83,14 +69,9 @@ data:
             href: http://prometheus.70ld.dev
             description: Analytics & Monitoring
 
-        - SeaweedFS:
-            icon: https://avatars.githubusercontent.com/u/11985425?s=200&v=4
-            href: https://admin.seaweedfs.70ld.dev
-            description: DataWarehoue Object Storage
-
         - TrueNAS Scale:
             icon: truenas-scale.svg
-            href: http://nas.home.local
+            href: http://192.168.4.110
             description: Actually WD Cloud
 
         - Vault:
