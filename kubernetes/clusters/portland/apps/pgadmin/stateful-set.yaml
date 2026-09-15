@@ -32,9 +32,19 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: PGADMIN_DEFAULT_EMAIL
-              value: pbennett.uk@outlook.com
+              valueFrom:
+                secretKeyRef:
+                  name: pgadmin-credentials
+                  key: email
             - name: PGADMIN_DEFAULT_PASSWORD
-              value: ""
+              valueFrom:
+                secretKeyRef:
+                  name: pgadmin-credentials
+                  key: password
+            - name: PGADMIN_SERVER_JSON_FILE
+              value: /pgadmin4/servers.json
+            - name: PGADMIN_LISTEN_PORT
+              value: "80"
 
           ports:
             - name: http
