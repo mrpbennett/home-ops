@@ -50,7 +50,7 @@ spec:
                       - vault.70ld.dev
 
               service:
-                type: ClusterIP
+                type: LoadBalancer
 
               dataStorage:
                 enabled: true
