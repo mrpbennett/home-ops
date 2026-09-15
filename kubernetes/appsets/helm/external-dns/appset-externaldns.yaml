@@ -43,6 +43,18 @@ spec:
 
             replicaCount: 1
 
+            policy: upsert-only
+            registry: noop
+            sources:
+              - service
+              - ingress
+              - gateway-httproute
+            logLevel: info
+            interval: 2m
+
+            serviceMonitor:
+              enabled: true
+
             provider:
               name: webhook
               webhook:
@@ -63,7 +75,7 @@ spec:
                     port: 8080
                   initialDelaySeconds: 10
                   timeoutSeconds: 5
-                envFrom:
+                env:
                   - name: ADGUARD_URL
                     valueFrom:
                       secretKeyRef:
