@@ -1,0 +1,101 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name external-dns
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "external-dns-{{.cluster}}"
+      namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: "0"
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      source:
+        chart: external-dns
+        repoURL: https://kubernetes-sigs.github.io/external-dns
+        targetRevision: 1.22.0
+        helm:
+          valuesObject:
+            global:
+              imagePullSecrets: []
+
+            service:
+              port: 7979
+              enabled: true
+
+            replicaCount: 1
+
+            provider:
+              name: webhook
+              webhook:
+                image:
+                  repository: ghcr.io/muhlba91/external-dns-provider-adguard
+                  tag: latest
+                service:
+                  port: 8888
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 8080
+                  initialDelaySeconds: 10
+                  timeoutSeconds: 5
+                readinessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 8080
+                  initialDelaySeconds: 10
+                  timeoutSeconds: 5
+                envFrom:
+                  - name: ADGUARD_URL
+                    valueFrom:
+                      secretKeyRef:
+                        name: adguard-configuration
+                        key: url
+                  - name: ADGUARD_USER
+                    valueFrom:
+                      secretKeyRef:
+                        name: adguard-configuration
+                        key: user
+                  - name: ADGUARD_PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: adguard-configuration
+                        key: password
+                  - name: LOG_LEVEL
+                    value: debug
+                  - name: DRY_RUN
+                    value: "false"
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: *app_name
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2

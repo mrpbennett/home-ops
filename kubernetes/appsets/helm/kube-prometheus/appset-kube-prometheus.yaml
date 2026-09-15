@@ -331,12 +331,12 @@ spec:
                 annotations:
                   cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
                 hosts:
-                  - alertmanager.70ld.de
+                  - alertmanager.70ld.dev
                 paths:
                   - /
                 tls:
                   - hosts:
-                      - alertmanager.70ld.de
+                      - alertmanager.70ld.dev
                     secretName: alertmanager-prod-tls
 
               service:
