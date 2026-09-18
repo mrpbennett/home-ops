@@ -7,6 +7,8 @@ metadata:
   name: atuin
 spec:
   type: NodePort
+  selector:
+    io.kompose.service: atuin
   ports:
     - name: "8888"
       port: 8888

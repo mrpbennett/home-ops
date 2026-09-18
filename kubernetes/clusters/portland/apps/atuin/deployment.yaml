@@ -6,6 +6,8 @@ metadata:
   namespace: atuin
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       io.kompose.service: atuin
