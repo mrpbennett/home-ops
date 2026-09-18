@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: atuin
+  namespace: atuin
 spec:
   replicas: 1
   selector:
@@ -32,8 +33,8 @@ spec:
               memory: 1Gi
           volumeMounts:
             - mountPath: /config
-              name: autin-claim
+              name: atuin-claim
       volumes:
-        - name: autin-claim
+        - name: atuin-claim
           persistentVolumeClaim:
-            claimName: autin-claim
+            claimName: atuin-claim
