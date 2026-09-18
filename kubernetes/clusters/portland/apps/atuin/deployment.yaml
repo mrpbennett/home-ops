@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atuin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: atuin
+  template:
+    metadata:
+      labels:
+        io.kompose.service: atuin
+    spec:
+      containers:
+        - args:
+            - start
+          envFrom:
+            - secretRef:
+                name: atuin-secret
+          image: ghcr.io/atuinsh/atuin:18.22.0
+          name: atuin
+          ports:
+            - containerPort: 8888
+          resources:
+            limits:
+              cpu: 250m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 1Gi
+          volumeMounts:
+            - mountPath: /config
+              name: autin-claim
+      volumes:
+        - name: autin-claim
+          persistentVolumeClaim:
+            claimName: autin-claim
