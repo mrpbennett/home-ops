@@ -1,0 +1,153 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name trino
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      source:
+        chart: trino
+        repoURL: https://trinodb.github.io/charts
+        targetRevision: 1.42.2
+        helm:
+          valuesObject:
+            server:
+              workers: 2
+              node:
+                environment: production
+                dataDir: /data/trino
+                pluginDir: /usr/lib/trino/plugin
+              log:
+                trino:
+                  level: INFO
+              config:
+                path: /etc/trino
+                https:
+                  enabled: false
+                  port: 8443
+                  keystore:
+                    path: ""
+                authenticationType: ""
+                query:
+                  maxMemory: "2GB"
+
+            additionalConfigProperties:
+              - http-server.process-forwarded=true
+
+            # CATALOGS
+            catalogs:
+              # CNPG Cluster main db [K8s]
+              cloudnativepg-prod: |
+                connector.name=postgresql
+                connection-url=jdbc:postgresql://192.168.7.80:5432/main
+                connection-user=paul
+                connection-password=password
+
+              # Supabase PostgreSQL Cluster
+              supabase-pnfb01: |
+                connector.name=postgresql
+                connection-url=jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres
+                connection-user=postgres.kzqeciwvlkrgokcvgjci
+                connection-password=fYjc4g*r2^L%3&
+
+            service:
+              type: LoadBalancer
+              port: 8080
+              annotations:
+                metallb.universe.tf/loadBalancerIPs: 192.168.7.81
+
+            auth: {}
+
+            coordinator:
+              jvm:
+                maxHeapSize: "2G"
+                gcMethod:
+                  type: "UseG1GC"
+                  g1:
+                    heapRegionSize: "16M"
+              resources:
+                requests:
+                  cpu: "500m"
+                  memory: "1Gi"
+                limits:
+                  cpu: "1500m"
+                  memory: "2560Mi"
+
+            worker:
+              jvm:
+                maxHeapSize: "2G"
+                gcMethod:
+                  type: "UseG1GC"
+                  g1:
+                    heapRegionSize: "16M"
+              resources:
+                requests:
+                  cpu: "500m"
+                  memory: "1Gi"
+                limits:
+                  cpu: "1500m"
+                  memory: "2560Mi"
+              config:
+                query:
+                  maxMemoryPerNode: "1GB"
+
+            kafka:
+              mountPath: "/etc/trino/schemas"
+
+            serviceMonitor:
+              enabled: true
+              labels:
+                prometheus: kube-prometheus
+              interval: 30s
+
+            ingress:
+              enabled: true
+              className: nginx
+              annotations:
+                cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+              hosts:
+                - host: trino.70ld.dev
+                  paths:
+                    - path: /ui
+                      pathType: ImplementationSpecific
+              tls:
+                - hosts:
+                    - trino.70ld.dev
+                  secretName: trino-prod-tls
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: vault
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2

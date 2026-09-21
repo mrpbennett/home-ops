@@ -22,7 +22,7 @@ spec:
                   repo_url: https://github.com/mrpbennett/home-ops.git
   template:
     metadata:
-      name: "{{.app_name}}-{{.cluster}}"
+      name: "{{.app_name}}"
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io

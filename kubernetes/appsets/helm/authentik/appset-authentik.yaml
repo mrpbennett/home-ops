@@ -15,7 +15,7 @@
 #             clusterURL: 'https://kubernetes.default.svc'
 #   template:
 #     metadata:
-#       name: 'authentik-{{.cluster}}'
+#       name: '{{.app_name}}'
 #       namespace: argocd
 #       finalizers:
 #         - resources-finalizer.argocd.argoproj.io

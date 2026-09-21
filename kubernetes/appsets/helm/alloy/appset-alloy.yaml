@@ -2,7 +2,7 @@
 # apiVersion: argoproj.io/v1alpha1
 # kind: ApplicationSet
 # metadata:
-#   name: alloy
+#   name: &app_name alloy
 #   namespace: argocd
 # spec:
 #   goTemplate: true
@@ -11,11 +11,12 @@
 #     - list:
 #         elements:
 #           - project: default
+#              app_name: *app_name
 #             cluster: portland
 #             clusterURL: 'https://kubernetes.default.svc'
 #   template:
 #     metadata:
-#       name: 'alloy-{{.cluster}}'
+#       name: '{{.app_name}}'
 #       namespace: argocd
 #       finalizers:
 #         - resources-finalizer.argocd.argoproj.io

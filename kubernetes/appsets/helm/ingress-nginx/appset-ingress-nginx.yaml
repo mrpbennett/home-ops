@@ -20,7 +20,7 @@ spec:
                   repo_url: https://github.com/mrpbennett/home-ops.git
   template:
     metadata:
-      name: "ingress-nginx-{{.cluster}}"
+      name: "{{.app_name}}"
       namespace: argocd
       annotations:
         argocd.argoproj.io/sync-wave: "0"
@@ -99,8 +99,7 @@ spec:
                         description: ssl certificate(s) will expire in less then a week
                         summary: renew expiring certificates to avoid downtime
                     - alert: NGINXTooMany500s
-                      expr:
-                        100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests)
+                      expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests)
                         ) > 5
                       for: 1m
                       labels:
@@ -109,8 +108,7 @@ spec:
                         description: Too many 5XXs
                         summary: More than 5% of all requests returned 5XX, this requires your attention
                     - alert: NGINXTooMany400s
-                      expr:
-                        100 * ( sum( nginx_ingress_controller_requests{status=~"4.+"} ) / sum(nginx_ingress_controller_requests)
+                      expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"4.+"} ) / sum(nginx_ingress_controller_requests)
                         ) > 5
                       for: 1m
                       labels:

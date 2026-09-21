@@ -17,7 +17,7 @@ spec:
             clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
-      name: '{{.app_name}}-{{.cluster}}'
+      name: '{{.app_name}}'
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io
