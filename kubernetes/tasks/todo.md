@@ -18,3 +18,11 @@ references the same `envoy-shared-gateway` parent as the other routes.
 Server-side dry runs pass for both the cluster resources and Longhorn
 ApplicationSet. Live route acceptance remains pending until the changes are
 committed and Argo syncs them.
+
+# Headlamp Namespace And RBAC
+
+- [x] Identify the invalid route backend and token Secret.
+- [x] Move Headlamp resources to the `headlamp` namespace.
+- [x] Create a dedicated ServiceAccount with cluster-admin access.
+- [x] Validate the manifests and Gateway namespace policy.
+- [ ] Verify the Argo reconciliation after the Git change is synced.
