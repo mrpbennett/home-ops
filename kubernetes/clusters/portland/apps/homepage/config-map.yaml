@@ -81,7 +81,7 @@ data:
 
         - Trino:
             icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
-            href: http://192.168.7.81
+            href: http://trino.70ld.dev/ui/preview
             description: SQL Query Engine
 
         - TrueNAS Scale:
