@@ -19,6 +19,9 @@ spec:
       # fsGroup matches the image's fixed non-root atuin user (uid/gid 1000), so it can write to the Longhorn-mounted /config volume
       securityContext:
         fsGroup: 1000
+      # avoids kubelet injecting ATUIN_PORT=tcp://... from the "atuin" Service, which collides
+      # with the app's own ATUIN_PORT env var and breaks config parsing
+      enableServiceLinks: false
       containers:
         - args:
             - start
