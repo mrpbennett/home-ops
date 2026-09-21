@@ -49,6 +49,11 @@ data:
             href: https://argocd.70ld.dev
             description: Continuous Delivery
 
+        - ChartDB:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/chartdb.png
+            href: https://chartdb.70ld.dev
+            description: Self hosted ERD
+
         - Grafana:
             icon: grafana.png
             href: https://grafana.70ld.dev/dashboards?starred
