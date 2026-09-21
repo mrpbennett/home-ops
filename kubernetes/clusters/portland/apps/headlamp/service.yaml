@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: headlamp
+  name: headlamp-svc
   namespace: kube-system
 spec:
   ports:

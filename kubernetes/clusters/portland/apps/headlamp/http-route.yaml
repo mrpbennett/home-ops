@@ -16,5 +16,5 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: chartdb
+        - name: chartdb-svc
           port: 80
