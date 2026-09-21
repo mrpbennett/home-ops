@@ -79,6 +79,11 @@ data:
             href: http://prometheus.70ld.dev
             description: Analytics & Monitoring
 
+        - Trino:
+            icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
+            href: http://192.168.7.81
+            description: SQL Query Engine
+
         - TrueNAS Scale:
             icon: truenas-scale.svg
             href: http://192.168.4.110
