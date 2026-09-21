@@ -129,7 +129,7 @@ spec:
               hosts:
                 - host: trino.70ld.dev
                   paths:
-                    - path: /ui
+                    - path: /ui/preview
                       pathType: ImplementationSpecific
               tls:
                 - hosts:
