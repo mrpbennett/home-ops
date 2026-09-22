@@ -90,7 +90,6 @@ source:
 
 | Name                                                           | Description                                                  |
 | -------------------------------------------------------------- | ------------------------------------------------------------ |
-| [Apache Airflow](https://airflow.apache.org/)                  | Workflow Orchestration                                       |
 | [ArgoCD](https://argoproj.github.io/cd)                        | GitOps tool built to deploy applications to Kubernetes       |
 | [Argo Workflows](https://argoproj.github.io/workflows)         | Workflow management to help with CronWorkflows               |
 | [Cert Manager](https://cert-manager.io)                        | Certificate management                                       |
@@ -99,21 +98,22 @@ source:
 | [Grafana](https://grafana.com)                                 | Observability platform                                       |
 | [Helm](https://helm.sh)                                        | The package manager for Kubernetes                           |
 | [K3s](https://k3s.io)                                  | Kubernetes OS                                                     |
+| [Keycloak](https://www.keycloak.org/) | OIDC provider |
 | [Kubernetes](https://kubernetes.io)                            | Container-orchestration system, the backbone of this project |
 | [Loki](https://grafana.com/oss/loki/)                          | Log aggregation system                                       |
 | [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) | External DNS server configuration                            |
 | [NGINX](https://www.nginx.com)                                 | Kubernetes Ingress Controller                                |
 | [MetalLB](https://metallb.universe.tf/)                        | Kubernetes load balancer                                     |
 | [Prometheus](https://prometheus.io)                            | Systems monitoring and alerting toolkit                      |
-| [RustFS](https://rustfs.com/)                                  | Object Storage                                               |
 | [SeaweedFS](https://github.com/seaweedfs/seaweedfs)            | Data Warehouse Object Storage                                |
 | [Trino](https://trino.io/)                                     | Fast distributed SQL query engine                            |
+| [Tailscale](https://tailscale.com/docs/kubernetes-operator) | Secure connectivity |
 
 ---
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f30e/512.gif" alt="🌎" width="20" height="20"> DNS
 
-In my cluster there is one instance of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. This syncs to a Raspberry Pi5 running [Pi-hole](https://pi-hole.net/) for syncing local DNS records. This setup allows me to create dns records with valid certification via cert-manager and cloudflares API.
+In my cluster there is one instance of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. This syncs to a LXCPi5 running [Adguard Home](https://github.com/AdguardTeam/Adguardhome) for syncing local DNS records. This setup allows me to create dns records with valid certification via cert-manager and cloudflares API.
 
 ---
 
@@ -129,9 +129,9 @@ In my cluster there is one instance of [ExternalDNS](https://github.com/kubernet
 ## ⭐ Stargazers
 
 <div align="center">
-  
+
 [![Star History Chart](https://api.star-history.com/svg?repos=mrpbennett/home-ops&type=Date)](https://star-history.com/#mrpbennett/home-ops&Date)
-  
+
 </div>
 
 ---
