@@ -65,6 +65,15 @@ path "kv/data/atuin/*" {
 EOT
 }
 
+resource "vault_policy" "headlamp_read" {
+  name   = "headlamp-read"
+  policy = <<EOT
+path "kv/data/headlamp" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 # roles.tf - Create auth roles
 resource "vault_kubernetes_auth_backend_role" "vso_role" {
   backend                          = vault_auth_backend.kubernetes.path
@@ -72,7 +81,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["atuin-read", "cloudnativepg-read", "pgadmin-read"]
+  token_policies                   = ["atuin-read", "cloudnativepg-read", "headlamp-read", "pgadmin-read"]
 }
 
 # secrets.tf - Create the actual secrets
