@@ -84,8 +84,7 @@ spec:
               - http-server.authentication.oauth2.client-id=trino
               - http-server.authentication.oauth2.client-secret=30WfG2zriXeU1gbK9ys32o4vM6sqtf2j6CMahfFsHI6Cado3yP2vLHmBwgzmrsrsN59zpjXPrWwq5DOtSDLI5C
               - http-server.authentication.oauth2.scopes="openid,profile,email"
-
-              - web-ui.authentication.type=oauth2
+              # - web-ui.authentication.type=oauth2
 
             # CATALOGS
             catalogs:
