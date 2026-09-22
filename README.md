@@ -24,7 +24,7 @@ _... managed with ArgoCD, Renovate and GitHub Actions_ 🤖
 
 This is a mono repository for my home infrastructure and Kubernetes nodes. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
-I have a HA setup running 3 Dell Optiplex 7060's that consist of Talos control planes that accept workloads.
+I have a HA setup running 3 RPi's (8gb) that consist of K3s control planes that accept workloads.
 
 ## The purpose here is to learn Kubernetes, while practising GitOps
 
@@ -32,7 +32,7 @@ I have a HA setup running 3 Dell Optiplex 7060's that consist of Talos control p
 
 ### Installation
 
-My Kubernetes enviroment is deployed with [Talos](https://talos.dev). With [MetalLB](https://metallb.universe.tf/) providing `LoadBalancer` support.
+My Kubernetes enviroment is deployed with [K3s](https://k3s.io). With [MetalLB](https://metallb.universe.tf/) providing `LoadBalancer` support.
 
 ### GitOps
 
@@ -45,7 +45,6 @@ Clusters use short, Dorset-themed names rather than encoding distro or environme
 | Cluster      | Environment | Description              |
 | ------------ | ----------- | ------------------------ |
 | **portland** | Production  | Primary workload cluster |
-| **corfe**    | Development | Dev / experimentation    |
 
 ### Directories
 
