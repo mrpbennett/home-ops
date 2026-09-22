@@ -85,7 +85,7 @@ spec:
               - http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
               - http-server.authentication.oauth2.client-id=trino
               - http-server.authentication.oauth2.client-secret=30WfG2zriXeU1gbK9ys32o4vM6sqtf2j6CMahfFsHI6Cado3yP2vLHmBwgzmrsrsN59zpjXPrWwq5DOtSDLI5C
-              - http-server.authentication.oauth2.scopes="openid,profile,email"
+              - http-server.authentication.oauth2.scopes=openid,profile,email
 
               - internal-communication.shared-secret=${ENV:TRINO_INTERNAL_SHARED_SECRET}
               - http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
