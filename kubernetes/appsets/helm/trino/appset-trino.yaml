@@ -80,9 +80,6 @@ spec:
               - http-server.process-forwarded=true
               - http-server.authentication.type=oauth2
 
-              - http-server.https.port=8443
-              - http-server.https.enabled=true
-
               - http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
               - http-server.authentication.oauth2.client-id=trino
               - http-server.authentication.oauth2.client-secret=30WfG2zriXeU1gbK9ys32o4vM6sqtf2j6CMahfFsHI6Cado3yP2vLHmBwgzmrsrsN59zpjXPrWwq5DOtSDLI5C
@@ -156,20 +153,19 @@ spec:
                 prometheus: kube-prometheus
               interval: 30s
 
-            ingress:
+            gateway:
               enabled: true
-              className: nginx
-              annotations:
-                cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
-              hosts:
-                - host: trino.70ld.dev
-                  paths:
-                    - path: /ui/preview
-                      pathType: ImplementationSpecific
-              tls:
-                - hosts:
-                    - trino.70ld.dev
-                  secretName: trino-prod-tls
+              parentRefs:
+                - name: envoy-shared-gateway
+                  namespace: envoy-gateway-system
+                  sectionName: https
+              hostnames:
+                - trino.70ld.dev
+              rules:
+                - matches:
+                    - path:
+                        type: PathPrefix
+                        value: /ui
 
       destination:
         name: "{{.cluster}}"
