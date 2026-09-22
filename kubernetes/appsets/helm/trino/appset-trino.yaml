@@ -48,12 +48,47 @@ spec:
                   port: 8443
                   keystore:
                     path: ""
-                authenticationType: ""
+                authenticationType: "OAUTH2"
                 query:
                   maxMemory: "2GB"
 
+            autoscaling:
+              enabled: true
+              maxReplicas: 5
+              targetCPUUtilizationPercentage: ""
+              targetMemoryUtilizationPercentage: 80
+              behavior:
+                scaleDown:
+                  stabilizationWindowSeconds: 300
+                  policies:
+                    - type: Percent
+                      value: 100
+                      periodSeconds: 15
+                scaleUp:
+                  stabilizationWindowSeconds: 0
+                  policies:
+                    - type: Percent
+                      value: 100
+                      periodSeconds: 15
+                    - type: Pods
+                      value: 4
+                      periodSeconds: 15
+                  selectPolicy: Max
+
+            # https://trino.io/docs/current/admin/properties.html
             additionalConfigProperties:
               - http-server.process-forwarded=true
+              - http-server.authentication.type=oauth2
+
+              - http-server.https.port=8443
+              - http-server.https.enabled=true
+
+              - http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
+              - http-server.authentication.oauth2.client-id=trino
+              - http-server.authentication.oauth2.client-secret=30WfG2zriXeU1gbK9ys32o4vM6sqtf2j6CMahfFsHI6Cado3yP2vLHmBwgzmrsrsN59zpjXPrWwq5DOtSDLI5C
+              - http-server.authentication.oauth2.scopes="openid,profile,email"
+
+              - web-ui.authentication.type=oauth2
 
             # CATALOGS
             catalogs:
