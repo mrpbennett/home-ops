@@ -1,0 +1,11 @@
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: keycloak-db
+spec:
+  name: keycloak
+  owner: paul
+  cluster:
+    name: cnpg-prod-cluster
