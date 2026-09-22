@@ -172,7 +172,7 @@ spec:
                 - matches:
                     - path:
                         type: PathPrefix
-                        value: /ui
+                        value: /
 
       destination:
         name: "{{.cluster}}"
