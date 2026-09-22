@@ -1,3 +1,4 @@
+
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -24,11 +25,34 @@ spec:
     spec:
       project: '{{.project}}'
       source:
-        repoURL: '{{.repo_url}}'
-        path: 'kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}'
-        targetRevision: HEAD
-        directory:
-          recurse: true
+        chart: headlamp
+        repoURL: https://kubernetes-sigs.github.io/headlamp/
+        targetRevision: 0.45.0
+        helm:
+          valuesObject:
+            replicaCount: 1
+            config:
+              inCluster: true
+              inClusterContextName: "main"
+              oidc:
+                secret:
+                  create: false
+                externalSecret:
+                  enabled: true
+                  name: headlamp-oidc
+                  hasScopes: true
+                callbackURL: https://headlamp.70ld.dev/oidc-callback
+
+
+            httpRoute:
+              enabled: true
+              parentRefs:
+                - name: envoy-gateway-helm
+                  namespace: envoy-gateway-system
+                  sectionName: https
+              hostnames:
+                - headlamp.70ld.dev
+
       destination:
         server: '{{.clusterURL}}'
         namespace: '{{.app_name}}'

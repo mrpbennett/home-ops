@@ -10,8 +10,13 @@ terraform {
 
 # provider.tf
 provider "vault" {
-  address = "http://127.0.0.1:8200" # or your vault URL
+  address = "http://192.168.7.11:8200" # or your vault URL
   token   = var.vault_token
+}
+
+variable "vault_token" {
+  type      = string
+  sensitive = true
 }
 
 # kv-engine.tf - Enable the KV v2 secrets engine
@@ -51,6 +56,14 @@ path "kv/data/pgadmin/*" {
 EOT
 }
 
+resource "vault_policy" "atuin_read" {
+  name   = "atuin-read"
+  policy = <<EOT
+path "kv/data/atuin/*" {
+  capabilities = ["read"]
+}
+EOT
+}
 
 # roles.tf - Create auth roles
 resource "vault_kubernetes_auth_backend_role" "vso_role" {
@@ -59,25 +72,54 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["cloudnativepg-read", "pgadmin-read"]
+  token_policies                   = ["atuin-read", "cloudnativepg-read", "pgadmin-read"]
 }
 
 # secrets.tf - Create the actual secrets
-resource "vault_kv_secret_v2" "cnpg-cluster-user" {
+resource "vault_kv_secret_v2" "cnpg_cluster_user" {
   mount = vault_mount.kv.path
   name  = "cloudnativepg/cnpg-cluster-user"
 
   data_json = jsonencode({
-    access_key        = var.CNPG_USERNAME
-    access_secret_key = var.CNPG_PASSWORD
+    CNPG_USERNAME = var.CNPG_USERNAME
+    CNPG_PASSWORD = var.CNPG_PASSWORD
   })
 }
 
+resource "vault_kv_secret_v2" "pgadmin" {
+  mount = vault_mount.kv.path
+  name  = "pgadmin/config"
 
-# variables.tf - Keep actual values out of code
-variable "vault_token" {
+  data_json = jsonencode({
+    PGADMIN_DEFAULT_EMAIL    = var.PGADMIN_DEFAULT_EMAIL
+    PGADMIN_DEFAULT_PASSWORD = var.PGADMIN_DEFAULT_PASSWORD
+  })
+}
+
+resource "vault_kv_secret_v2" "atuin" {
+  mount = vault_mount.kv.path
+  name  = "atuin/config"
+
+  data_json = jsonencode({
+    ATUIN_DB_URI            = var.ATUIN_DB_URI
+    ATUIN_HOST              = var.ATUIN_HOST
+    ATUIN_OPEN_REGISTRATION = var.ATUIN_OPEN_REGISTRATION
+  })
+}
+# terraform.tfvars - Keep actual values out of code
+
+# ATUIN ---
+variable "ATUIN_DB_URI" {
   type      = string
   sensitive = true
+}
+variable "ATUIN_HOST" {
+  type      = string
+  sensitive = true
+}
+variable "ATUIN_OPEN_REGISTRATION" {
+  type      = string
+  sensitive = false
 }
 
 # CNPG ---
@@ -90,3 +132,12 @@ variable "CNPG_PASSWORD" {
   sensitive = true
 }
 
+# PGADMIN ---
+variable "PGADMIN_DEFAULT_EMAIL" {
+  type      = string
+  sensitive = true
+}
+variable "PGADMIN_DEFAULT_PASSWORD" {
+  type      = string
+  sensitive = true
+}
