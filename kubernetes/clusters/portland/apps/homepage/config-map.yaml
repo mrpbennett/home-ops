@@ -59,6 +59,11 @@ data:
             href: https://grafana.70ld.dev/dashboards?starred
             description: Analytics & Monitoring
 
+        - Keycloak:
+            icon: keycloak.png
+            href: https://keycloak.70ld.dev
+            description: Auth & OIDC
+
         - Headlamp:
             icon: headlamp.png
             href: https://headlamp.70ld.dev
