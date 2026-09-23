@@ -84,6 +84,11 @@ data:
             href: http://prometheus.70ld.dev
             description: Analytics & Monitoring
 
+        - SeaweedFS:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
+            href: http://192.168.6.6:23646/admin
+            description: Object Storage
+
         - Trino:
             icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
             href: http://trino.70ld.dev
