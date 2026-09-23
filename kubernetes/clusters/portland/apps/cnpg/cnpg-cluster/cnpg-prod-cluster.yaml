@@ -61,6 +61,21 @@ spec:
             spec:
               type: LoadBalancer
 
+  backup:
+    retentionPolicy: "7d"
+    barmanObjectStore:
+      destinationPath: s3://cloudnativepg-backup
+      endpointURL: http://192.168.6.6:8333
+      wal:
+        compression: gzip
+      s3Credentials:
+        accessKeyId:
+          name: cloudnativepg-backup-secret
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: cloudnativepg-backup-secret
+          key: AWS_SECRET_ACCESS_KEY
+
   affinity:
     enablePodAntiAffinity: true
     topologyKey: failure-domain.beta.kubernetes.io/zone

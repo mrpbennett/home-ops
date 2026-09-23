@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: cnpg-prod-weekly-backup
+spec:
+  # weekly @ midnight on sunday
+  schedule: "0 0 * * SUN"
+  backupOwnerReference: self
+  cluster:
+    name: cnpg-prod-cluster
