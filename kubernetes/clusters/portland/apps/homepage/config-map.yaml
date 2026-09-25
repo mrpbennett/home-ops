@@ -96,6 +96,11 @@ data:
 
         - TrueNAS Scale:
             icon: truenas-scale.svg
+            href: http://192.168.4.50
+            description: Actually WD Cloud
+
+        - WDCloud:
+            icon: truenas-scale.svg
             href: http://192.168.4.110
             description: Actually WD Cloud
 
