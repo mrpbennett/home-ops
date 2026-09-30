@@ -45,9 +45,9 @@ data:
             description: Alert Management
 
         - Airflow:
-            icon: airflow.png
-            href: https://192.168.9.69
-            description: Data Pipelines
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
+            href: https://192.168.7.69
+            description: Workflow Management Platform
 
         - ArgoCD:
             icon: argo-cd.png
@@ -95,7 +95,7 @@ data:
             description: Object Storage
 
         - Trino:
-            icon: https://trino.io/assets/images/trino-logo/trino-ko_tiny-alt.svg
+            icon: https://cdn.simpleicons.org/trino/DD00A1
             href: http://trino.70ld.dev
             description: SQL Query Engine
 
