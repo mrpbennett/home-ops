@@ -1,0 +1,9 @@
+---
+kubernetes:
+  hosts:
+    kube-cp-1:
+      ansible_host: 192.168.7.1
+    kube-cp-2:
+      ansible_host: 192.168.7.2
+    kube-cp-3:
+      ansible_host: 192.168.7.3
