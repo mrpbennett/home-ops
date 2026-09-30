@@ -27,7 +27,7 @@ spec:
     spec:
       project: "{{.project}}"
       sources:
-        - chart: apache-airflow
+        - chart: airflow
           repoURL: https://airflow.apache.org
           targetRevision: 1.22.0
           helm:
@@ -108,7 +108,7 @@ spec:
                   password: admin
                   firstName: Paul
                   lastName: Bennett
-                  email: pbennett.uk@outlook.com
+                  email: pbennett.uk@outlook.
 
               # Settings for ArgoCD
               createUserJob:
