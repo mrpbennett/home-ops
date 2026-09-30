@@ -33,6 +33,23 @@ spec:
           helm:
             valuesObject:
 
+              ingress:
+                web:
+                  enable: true
+                  annotations:
+                    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+                  path: /
+                  pathType: ImplementationSpecific
+                  host:
+                    - name: airflow-ui.70ld.dev
+                      tls:
+                        enabled: true
+                        secretName: airflow-tls
+                  ingressClassName: nginx
+
+
+
+
               createUserJob:
                 useHelmHooks: false
                 applyCustomEnv: false
