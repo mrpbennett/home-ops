@@ -1,0 +1,74 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name airflow
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      sources:
+        - chart: apache-airflow
+          repoURL: https://airflow.apache.org
+          targetRevision: 1.22.0
+          helm:
+            valuesObject:
+
+              createUserJob:
+                useHelmHooks: false
+                applyCustomEnv: false
+              migrateDatabaseJob:
+                useHelmHooks: false
+                applyCustomEnv: false
+                jobAnnotations:
+                  "argocd.argoproj.io/hook": Sync
+
+
+              extraSecrets:
+                '{{ .Release.Name }}-example':
+                  useHelmHooks: false
+                  data: |
+                    AIRFLOW_VAR_HELLO_MESSAGE: "Hi!"
+
+              extraConfigMaps:
+                '{{ .Release.Name }}-example':
+                  useHelmHooks: false
+                  data: |
+                    AIRFLOW_VAR_HELLO_MESSAGE: "Hi!"
+
+              useStandingNaming: true
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: *app_name
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
