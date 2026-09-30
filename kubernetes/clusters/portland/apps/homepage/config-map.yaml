@@ -44,6 +44,11 @@ data:
             href: https://alertmanager.70ld.dev
             description: Alert Management
 
+        - Airflow:
+            icon: airflow.png
+            href: https://192.168.9.69
+            description: Data Pipelines
+
         - ArgoCD:
             icon: argo-cd.png
             href: https://argocd.70ld.dev
