@@ -108,7 +108,7 @@ spec:
                   password: admin
                   firstName: Paul
                   lastName: Bennett
-                  email: pbennett.uk@outlook.
+                  email: pbennett.uk@outlook.com
 
               # Settings for ArgoCD
               createUserJob:
