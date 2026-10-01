@@ -1,0 +1,143 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name argocd
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+      # No resources-finalizer: Argo CD manages itself, deleting this app must not cascade-delete Argo CD.
+    spec:
+      project: "{{.project}}"
+      sources:
+        - chart: argo-cd
+          repoURL: https://argoproj.github.io/argo-helm
+          targetRevision: 10.9.6 # appVersion v3.5.3
+          helm:
+            valuesObject:
+              createAggregateRoles: false
+              createClusterRoles: true
+
+              ## Custom resource configuration
+              crds:
+                install: true
+                # Keep CRDs on uninstall, otherwise every Application/AppProject is deleted with them
+                keep: true
+                annotations:
+                  argocd.argoproj.io/sync-options: ServerSideApply=true
+
+              ## Globally shared configuration
+              global:
+                domain: argocd.70ld.dev
+                additionalLabels:
+                  app: argo-cd
+                revisionHistoryLimit: 1
+
+                logging:
+                  format: text
+                  level: info
+
+                # -- Add Prometheus scrape annotations to all metrics services. This can be used as an alternative to the ServiceMonitors.
+                addPrometheusAnnotations: false
+
+              ## Argo Configs
+              configs:
+                # argocd-cm (url is derived from global.domain)
+                cm:
+                  create: true
+                  # -- Enable local admin user
+                  ## Ref: https://argo-cd.readthedocs.io/en/latest/faq/#how-to-disable-admin-user
+                  admin.enabled: true
+
+                  # --- API users ---
+                  accounts.admin: apiKey, login
+                  accounts.admin.enabled: "true"
+
+                  accounts.homepage: apiKey
+                  accounts.homepage.enabled: "true"
+
+                  # --- Keycloak SSO ---
+                  # OIDC configuration as an alternative to dex (optional).
+                  oidc.config: |
+                    name: Keycloak
+                    issuer: https://keycloak.70ld.dev/realms/master
+                    clientID: argocd
+                    enablePKCEAuthentication: true
+                    refreshTokenThreshold: 2m
+                    requestedScopes: ["openid", "profile", "email", "groups", "offline_access"]
+
+                # argocd-cmd-params-cm
+                params:
+                  create: true
+                  # TLS is terminated at the envoy gateway
+                  server.insecure: true
+
+                # argocd-rbac-cm
+                rbac:
+                  create: true
+                  policy.csv: |
+                    g, ArgoCDAdmins, role:admin
+                    g, homepage, role:readonly
+
+              # SSO goes straight to Keycloak via oidc.config, dex is unused
+              dex:
+                enabled: false
+
+              server:
+                replicas: 2
+                # Keep the existing MetalLB IP used by the argocd CLI context
+                service:
+                  type: LoadBalancer
+                  annotations:
+                    metallb.io/loadBalancerIPs: 192.168.7.10
+                httproute:
+                  enabled: true
+                  parentRefs:
+                    - name: envoy-shared-gateway
+                      namespace: envoy-gateway-system
+                  hostnames:
+                    - argocd.70ld.dev
+                  rules:
+                    - matches:
+                        - path:
+                            type: PathPrefix
+                            value: /
+
+              repoServer:
+                name: repo-server
+                replicas: 2
+
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: *app_name
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          # Argo CD CRDs exceed the client-side apply annotation size limit
+          - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
