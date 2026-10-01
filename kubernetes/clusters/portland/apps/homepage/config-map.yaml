@@ -132,6 +132,10 @@ data:
           icon: argo-cd.png
           href: https://argocd.70ld.dev
           description: Continuous Delivery
+          widget:
+            type: argocd
+            url: https://argocd.70ld.dev
+            key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmdvY2QiLCJzdWIiOiJob21lcGFnZTphcGlLZXkiLCJuYmYiOjE3OTA4NjY4OTAsImlhdCI6MTc5MDg2Njg5MCwianRpIjoiYWVjMDhhMzUtOGJhNi00NTA2LWE5NjgtYTM2NDBlZTVmNTcwIn0.LeZVpTc0JGbyLJf3byyLlLuPN97YgAalarwDMDhNTpY
 
     - Security:
 
