@@ -74,6 +74,24 @@ path "kv/data/headlamp" {
 EOT
 }
 
+resource "vault_policy" "trino_read" {
+  name   = "trino-read"
+  policy = <<EOT
+path "kv/data/trino" {
+  capabilities = ["read"]
+}
+EOT
+}
+
+resource "vault_policy" "seaweedfs_read" {
+  name   = "seaweedfs-read"
+  policy = <<EOT
+path "kv/data/seaweedfs/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 # roles.tf - Create auth roles
 resource "vault_kubernetes_auth_backend_role" "vso_role" {
   backend                          = vault_auth_backend.kubernetes.path
@@ -81,7 +99,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["atuin-read", "cloudnativepg-read", "headlamp-read", "pgadmin-read"]
+  token_policies                   = ["atuin-read", "cloudnativepg-read", "headlamp-read", "pgadmin-read", "seaweedfs-read", "trino-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -113,6 +131,16 @@ resource "vault_kv_secret_v2" "atuin" {
     ATUIN_DB_URI            = var.ATUIN_DB_URI
     ATUIN_HOST              = var.ATUIN_HOST
     ATUIN_OPEN_REGISTRATION = var.ATUIN_OPEN_REGISTRATION
+  })
+}
+
+resource "vault_kv_secret_v2" "seadweedfs" {
+  mount = vault_mount.kv.path
+  name  = "seaweedfs/loki"
+
+  data_json = jsonencode({
+    AWS_ACCESS_KEY_ID = var.AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
   })
 }
 # terraform.tfvars - Keep actual values out of code
@@ -150,3 +178,14 @@ variable "PGADMIN_DEFAULT_PASSWORD" {
   type      = string
   sensitive = true
 }
+
+# SEAWEEDFS
+variable "AWS_ACCESS_KEY_ID" {
+  type      = string
+  sensitive = true
+}
+variable "AWS_SECRET_ACCESS_KEY" {
+  type      = string
+  sensitive = true
+}
+
