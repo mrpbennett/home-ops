@@ -63,7 +63,7 @@ spec:
                   ruler: loki-ruler
                   admin: loki-admin
                 s3:
-                  endpoint: 192.168.6.6:18333
+                  endpoint: 192.168.6.6:8333
                   region: us-east-1
                   accessKeyId: ${AWS_ACCESS_KEY_ID}
                   secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
