@@ -15,7 +15,7 @@ spec:
             clusterURL: 'https://kubernetes.default.svc'
   template:
     metadata:
-      name: 'loki-{{.cluster}}'
+      name: 'loki'
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io
