@@ -109,7 +109,9 @@ spec:
                 httproute:
                   enabled: true
                   parentRefs:
-                    - name: envoy-shared-gateway
+                    - group: gateway.networking.k8s.io
+                      kind: Gateway
+                      name: envoy-shared-gateway
                       namespace: envoy-gateway-system
                   hostnames:
                     - argocd.70ld.dev
