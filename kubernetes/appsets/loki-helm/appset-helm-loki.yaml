@@ -81,6 +81,10 @@ spec:
                     name: seaweedfs-loki
 
               replicas: 1
+
+              nodeSelector:
+                kubernetes.io/hostname: kube-wk-1
+
               resources:
                 requests:
                   cpu: 100m
