@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: argocd-homepage-user-cm
+  name: argocd-admin-cm
   namespace: argocd
   labels:
-    app.kubernetes.io/name: argocd-homepage-user-cm
+    app.kubernetes.io/name: argocd-admin-user-cm
     app.kubernetes.io/part-of: argocd
 data:
-  accounts.hompage: apiKey, login
-  accounts.hompage.enabled: "true"
+  accounts.admin: apiKey, login
+  accounts.admin.enabled: "true"
