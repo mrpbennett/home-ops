@@ -13,15 +13,38 @@ data:
     title: 70LD Homelab
     theme: dark
     color: slate
+    useEqualHeights: true
 
     layout:
-        Network:
-            style: row
-            columns: 1
+      Network:
+        style: row
+        columns: 1
 
-        Kubernetes:
-            style: row
-            columns: 3
+      Observability:
+        icon: mdi-chart-line
+        style: row
+        columns: 4
+
+      Storage:
+        icon: mdi-harddisk
+        style: row
+        columns: 4
+
+      Data:
+        icon: mdi-database
+        style: row
+        columns: 3
+
+      Platform:
+        icon: mdi-kubernetes
+        style: row
+        columns: 2
+
+      Security:
+        icon: mdi-shield-lock
+        style: row
+        columns: 2
+
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: ""
@@ -38,81 +61,87 @@ data:
                 password: 123qwe!!
                 fields: ["queries", "blocked", "filtered", "latency"]
 
-    - Kubernetes:
-        - AlertManager:
-            icon: prometheus.png
-            href: https://alertmanager.70ld.dev
-            description: Alert Management
+    - Observability:
+      - AlertManager:
+          icon: prometheus.png
+          href: https://alertmanager.70ld.dev
+          description: Alert Management
 
-        - Airflow:
-            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
-            href: https://192.168.7.69
-            description: Workflow Management Platform
+      - Headlamp:
+          icon: headlamp.png
+          href: https://headlamp.70ld.dev
+          description: Cluster Monitoring
 
-        - ArgoCD:
-            icon: argo-cd.png
-            href: https://argocd.70ld.dev
-            description: Continuous Delivery
+      - Grafana:
+          icon: grafana.png
+          href: https://grafana.70ld.dev/dashboards?starred
+          description: Analytics & Monitoring
 
-        - ChartDB:
-            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/chartdb.png
-            href: https://chartdb.70ld.dev
-            description: Self hosted ERD
+      - Prometheus:
+          icon: prometheus.png
+          href: http://prometheus.70ld.dev
+          description: Analytics & Monitoring
 
-        - Grafana:
-            icon: grafana.png
-            href: https://grafana.70ld.dev/dashboards?starred
-            description: Analytics & Monitoring
+    - Storage:
+      - Longhorn:
+          icon: longhorn.png
+          href: https://longhorn.70ld.dev
+          description: Persistent Block Storage
 
-        - Keycloak:
-            icon: keycloak.png
-            href: https://keycloak.70ld.dev
-            description: Auth & OIDC
+      - SeaweedFS:
+          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
+          href: http://192.168.6.6:23646/admin
+          description: Object Storage
 
-        - Headlamp:
-            icon: headlamp.png
-            href: https://headlamp.70ld.dev
-            description: Cluster Monitoring
+      - TrueNAS Scale:
+          icon: truenas-scale.svg
+          href: http://192.168.4.50
+          description: Actually WD Cloud
 
-        - Longhorn:
-            icon: longhorn.png
-            href: https://longhorn.70ld.dev
-            description: Persistent Block Storage
+      - WDCloud:
+          icon: truenas-scale.svg
+          href: http://192.168.4.110
+          description: Actually WD Cloud
 
-        - PGAdmin:
-            icon: postgres.png
-            href: https://pgadmin.70ld.dev
-            description: Postgres Management
+    - Data:
+      - ChartDB:
+          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/chartdb.png
+          href: https://chartdb.70ld.dev
+          description: Self hosted ERD
 
-        - Prometheus:
-            icon: prometheus.png
-            href: http://prometheus.70ld.dev
-            description: Analytics & Monitoring
+      - PGAdmin:
+          icon: postgres.png
+          href: https://pgadmin.70ld.dev
+          description: Postgres Management
 
-        - SeaweedFS:
-            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
-            href: http://192.168.6.6:23646/admin
-            description: Object Storage
+      - Trino:
+          icon: https://cdn.simpleicons.org/trino/DD00A1
+          href: http://trino.70ld.dev
+          description: SQL Query Engine
 
-        - Trino:
-            icon: https://cdn.simpleicons.org/trino/DD00A1
-            href: http://trino.70ld.dev
-            description: SQL Query Engine
+    - Platform:
 
-        - TrueNAS Scale:
-            icon: truenas-scale.svg
-            href: http://192.168.4.50
-            description: Actually WD Cloud
+      - Airflow:
+          icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
+          href: https://192.168.7.69
+          description: Workflow Management Platform
 
-        - WDCloud:
-            icon: truenas-scale.svg
-            href: http://192.168.4.110
-            description: Actually WD Cloud
+      - ArgoCD:
+          icon: argo-cd.png
+          href: https://argocd.70ld.dev
+          description: Continuous Delivery
 
-        - Vault:
-            icon: vault-light.png
-            href: http://vault.70ld.dev
-            description: Secret Management
+    - Security:
+
+      - Keycloak:
+          icon: keycloak.png
+          href: https://keycloak.70ld.dev
+          description: Auth & OIDC
+
+      - Vault:
+          icon: vault-light.png
+          href: http://vault.70ld.dev
+          description: Secret Management
 
   widgets.yaml: ""
   docker.yaml: ""
