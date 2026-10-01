@@ -9,6 +9,8 @@ metadata:
 data:
   kubernetes.yaml: |
     mode: cluster
+    ingress: true
+    gateway: true
   settings.yaml: |
     title: 70LD Homelab
     theme: dark
