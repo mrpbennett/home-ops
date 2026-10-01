@@ -2,11 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: argocd-rbac-cm
+  name: argocd-cmd-params-cm
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-options: Prune=false
 data:
-  policy.csv: |
-    g, ArgoCDAdmins, role:admin
-    g, homepage, role:readonly
+  server.insecure: "true"
