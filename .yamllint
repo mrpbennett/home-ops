@@ -1,4 +1,7 @@
 ---
 extends: default
+ignore: |
+  kubernetes/clusters/portland/apps/cnpg/cnpg-operator/operator.yaml
 rules:
   line-length: {max: 200, allow-non-breakable-words: true}
+  empty-lines: {max: 2, max-start: 0, max-end: 2}
