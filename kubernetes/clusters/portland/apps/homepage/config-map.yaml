@@ -18,9 +18,9 @@ data:
     useEqualHeights: true
 
     layout:
-      Network:
+      Infra:
         style: row
-        columns: 1
+        columns: 2
 
       Observability:
         icon: mdi-chart-line
@@ -51,7 +51,18 @@ data:
   custom.js: ""
   bookmarks.yaml: ""
   services.yaml: |
-    - Network:
+    - Infra:
+      - Promxox:
+          icon: proxmox.png
+          href: http://192.168.7.5:8006
+          description: Hypervisor
+          widget:
+            type: proxmox
+            url: http://192.168.7.5:8006
+            username: api@pam!homepage
+            password: b09ab10a-8725-4f28-9fad-9d116790b82f
+            fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
+
       - AdGuard Home:
             icon: adguard-home.png
             href: http://dns.70ld.local
