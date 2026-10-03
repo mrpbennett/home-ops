@@ -83,6 +83,15 @@ path "kv/data/trino" {
 EOT
 }
 
+resource "vault_policy" "alertmanager_read" {
+  name   = "alertmanager-read"
+  policy = <<EOT
+path "kv/data/alertmanager/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 resource "vault_policy" "seaweedfs_read" {
   name   = "seaweedfs-read"
   policy = <<EOT
@@ -99,7 +108,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["atuin-read", "cloudnativepg-read", "headlamp-read", "pgadmin-read", "seaweedfs-read", "trino-read"]
+  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "headlamp-read", "pgadmin-read", "seaweedfs-read", "trino-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -139,7 +148,7 @@ resource "vault_kv_secret_v2" "seadweedfs" {
   name  = "seaweedfs/loki"
 
   data_json = jsonencode({
-    AWS_ACCESS_KEY_ID = var.AWS_ACCESS_KEY_ID
+    AWS_ACCESS_KEY_ID     = var.AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
   })
 }
