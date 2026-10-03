@@ -48,11 +48,12 @@ spec:
                   port: 8443
                   keystore:
                     path: ""
-                authenticationType: "OAUTH2"
+                # authenticationType: "OAUTH2"
+                authenticationType: "PASSWORD"
                 query:
                   maxMemory: "2GB"
-              coordinatorExtraConfig: |
-                web-ui.authentication.type=oauth2
+                  # coordinatorExtraConfig: |
+                  #   web-ui.authentication.type=oauth2
 
             autoscaling:
               enabled: true
