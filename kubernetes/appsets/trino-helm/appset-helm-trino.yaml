@@ -91,7 +91,6 @@ spec:
             #
             # - http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
             # - http-server.authentication.oauth2.client-id=trino
-            # - http-server.authentication.oauth2.client-secret=30WfG2zriXeU1gbK9ys32o4vM6sqtf2j6CMahfFsHI6Cado3yP2vLHmBwgzmrsrsN59zpjXPrWwq5DOtSDLI5C
             # - http-server.authentication.oauth2.scopes=openid,profile,email
             #
             # - internal-communication.shared-secret=${ENV:TRINO_INTERNAL_SHARED_SECRET}
@@ -109,13 +108,6 @@ spec:
                 connection-url=jdbc:postgresql://192.168.7.80:5432/main
                 connection-user=${ENV:TRINO_CNPG_CATALOG_USERNAME}
                 connection-password=${ENV:TRINO_CNPG_CATALOG_PASSWORD}
-
-              # Supabase PostgreSQL Cluster
-              supabase-pnfb01: |
-                connector.name=postgresql
-                connection-url=jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres
-                connection-user=postgres.kzqeciwvlkrgokcvgjci
-                connection-password=fYjc4g*r2^L%3&
 
             service:
               type: LoadBalancer
@@ -194,8 +186,9 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - SkipDryRunOnMissingResource=true
         retry:
-          limit: 5
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
           backoff:
             duration: 5s
             maxDuration: 5m0s

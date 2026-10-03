@@ -6,6 +6,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: tailscale
+  labels:
+    # Talos enforces baseline Pod Security by default; Tailscale proxy pods need privileged
+    pod-security.kubernetes.io/enforce: privileged
 ---
 apiVersion: v1
 kind: ServiceAccount

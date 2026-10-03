@@ -1,2 +1,18 @@
 ---
-something: "per-node overrides (hostname, static IP)"
+# kube-cp-1 — per-node overrides. Shared settings (DNS, install disk, Longhorn mount) are in all-nodes.yaml.
+machine:
+  network:
+    hostname: kube-cp-1
+    interfaces:
+      # Match the onboard NIC without hard-coding its name (eno1/enp0s31f6/...)
+      - deviceSelector:
+          physical: true
+        dhcp: false
+        addresses:
+          - 192.168.7.1/22
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.4.1
+        # Shared control-plane VIP; the Kubernetes API endpoint is https://192.168.7.200:6443
+        vip:
+          ip: 192.168.7.200

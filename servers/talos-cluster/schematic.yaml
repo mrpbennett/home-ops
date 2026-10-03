@@ -1,0 +1,13 @@
+---
+# Talos Image Factory schematic. Get a schematic ID with:
+#   curl -X POST --data-binary @schematic.yaml https://factory.talos.dev/schematics
+# then install from factory.talos.dev/installer/<schematic-id>:<talos-version>
+# (set machine.install.image in patches/all-nodes.yaml).
+customization:
+  systemExtensions:
+    officialExtensions:
+      # Required by Longhorn
+      - siderolabs/iscsi-tools
+      - siderolabs/util-linux-tools
+      # CPU microcode updates for the OptiPlex 7060's Intel CPU
+      - siderolabs/intel-ucode

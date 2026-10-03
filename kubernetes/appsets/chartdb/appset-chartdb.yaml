@@ -39,8 +39,9 @@ spec:
         syncOptions:
           - Validate=true
           - CreateNamespace=true
+          - SkipDryRunOnMissingResource=true
         retry:
-          limit: 5
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
           backoff:
             duration: 5s
             maxDuration: 5m0s

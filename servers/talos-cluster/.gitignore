@@ -1,0 +1,6 @@
+# talosctl output contains the cluster PKI and admin credentials — never commit
+controlplane.yaml
+worker.yaml
+talosconfig
+secrets.yaml
+kube-cp-*.yaml

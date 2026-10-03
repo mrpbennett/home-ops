@@ -22,8 +22,6 @@ spec:
     metadata:
       name: "{{.app_name}}"
       namespace: argocd
-      annotations:
-        argocd.argoproj.io/sync-wave: "0"
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
@@ -104,9 +102,10 @@ spec:
           prune: true
         syncOptions:
           - CreateNamespace=true
+          - SkipDryRunOnMissingResource=true
           - ApplyOutOfSyncOnly=true
         retry:
-          limit: 5
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
           backoff:
             duration: 5s
             maxDuration: 5m0s

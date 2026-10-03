@@ -1,0 +1,30 @@
+---
+# Shared patch for every node. Generate the base config once, then apply each node's own patch on top:
+#   talosctl gen config portland https://192.168.7.200:6443 --config-patch @patches/all-nodes.yaml
+#   talosctl machineconfig patch controlplane.yaml --patch @patches/controlplane-1.yaml -o kube-cp-1.yaml
+#
+# Longhorn also needs the iscsi-tools and util-linux-tools system extensions,
+# which come from the installer image (see ../schematic.yaml), not from this patch.
+cluster:
+  # All three nodes are control planes that also run workloads
+  allowSchedulingOnControlPlanes: true
+
+machine:
+  install:
+    # Each OptiPlex has a single 1TB NVMe
+    disk: /dev/nvme0n1
+    # Install from the Image Factory image built from ../schematic.yaml so the extensions persist:
+    # image: factory.talos.dev/installer/<schematic-id>:<talos-version>
+  network:
+    nameservers:
+      - 192.168.4.2 # AdGuard
+  kubelet:
+    # Longhorn stores volume data here; it must be visible to the kubelet with shared propagation
+    extraMounts:
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
+        options:
+          - bind
+          - rshared
+          - rw

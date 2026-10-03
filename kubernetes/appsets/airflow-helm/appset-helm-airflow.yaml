@@ -32,9 +32,6 @@ spec:
           targetRevision: 1.22.0
           helm:
             valuesObject:
-              nodeSelector:
-                kubernetes.io/hostname: kube-wk-1
-
               ingress:
                 enabled: true
 
@@ -149,7 +146,7 @@ spec:
         syncOptions:
           - CreateNamespace=true
         retry:
-          limit: 5
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
           backoff:
             duration: 5s
             maxDuration: 5m0s

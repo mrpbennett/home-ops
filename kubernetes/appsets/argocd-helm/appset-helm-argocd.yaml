@@ -58,6 +58,15 @@ spec:
 
               ## Argo Configs
               configs:
+                # Registers the local cluster as "portland", the destination name every appset targets.
+                # No bearerToken: Argo CD uses its own in-cluster service account.
+                clusterCredentials:
+                  portland:
+                    server: https://kubernetes.default.svc
+                    config:
+                      tlsClientConfig:
+                        insecure: false
+
                 # argocd-cm (url is derived from global.domain)
                 cm:
                   create: true
@@ -135,9 +144,10 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - SkipDryRunOnMissingResource=true
           - ServerSideApply=true
         retry:
-          limit: 5
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
           backoff:
             duration: 5s
             maxDuration: 5m0s

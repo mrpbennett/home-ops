@@ -82,9 +82,6 @@ spec:
 
               replicas: 1
 
-              nodeSelector:
-                kubernetes.io/hostname: kube-wk-1
-
               resources:
                 requests:
                   cpu: 100m
@@ -131,10 +128,14 @@ spec:
         automated:
           prune: true
           selfHeal: true
+        # Shares the logging namespace with Alloy, which needs privileged on Talos; keep these labels identical
+        managedNamespaceMetadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged
         syncOptions:
           - CreateNamespace=true
         retry:
-          limit: 5
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
           backoff:
             duration: 5s
             maxDuration: 5m0s
