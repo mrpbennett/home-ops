@@ -312,12 +312,12 @@ spec:
 
                   - name: discord-critical
                     discord_configs:
-                      - webhook_url: https://discord.com/api/webhooks/1435002409062629446/q9I3DMmVt1WBCMKFC1Y0swU8kuMBmtzqAD0avc1ZEJ9-avvIQEupJBOXp3ldYzMP4c8t
+                      - webhook_url_file: /etc/alertmanager/secrets/alertmanager-discord/alertmanager-critical
                         send_resolved: true
 
                   - name: discord-warning
                     discord_configs:
-                      - webhook_url: https://discord.com/api/webhooks/1435002806858809485/2YRHDIh5jLTw1h3VSC4n_r7-vHV6AKxO3L8Hak2P8aP4p_JDaZVn--u9ckZET1gd6pky
+                      - webhook_url_file: /etc/alertmanager/secrets/alertmanager-discord/alertmanager-warning
                         send_resolved: true
 
                 templates:
@@ -352,6 +352,8 @@ spec:
                 selfMonitor: true
 
               alertmanagerSpec:
+                secrets:
+                  - alertmanager-discord
                 resources:
                   requests:
                     memory: 64Mi
