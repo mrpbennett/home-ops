@@ -80,6 +80,12 @@ spec:
 
             # https://trino.io/docs/current/admin/properties.html
             additionalConfigProperties:
+              # CHANGE: PASSWORD auth refuses plain HTTP by default; TLS is terminated at the envoy gateway
+              - http-server.authentication.allow-insecure-over-http=true
+              # CHANGE: trust X-Forwarded-* headers from the envoy gateway
+              - http-server.process-forwarded=true
+              # CHANGE: required for internal communication when authentication is enabled
+              - internal-communication.shared-secret=${ENV:TRINO_INTERNAL_SHARED_SECRET}
             # - http-server.process-forwarded=true
             # - http-server.authentication.type=oauth2
             #
@@ -117,7 +123,11 @@ spec:
               annotations:
                 metallb.universe.tf/loadBalancerIPs: 192.168.7.81
 
-            auth: {}
+            # CHANGE: PASSWORD auth needs a password file; point at a pre-created secret
+            # (key "password.db", htpasswd bcrypt: htpasswd -B -C 10 -c password.db <user>)
+            auth:
+              passwordAuthSecret: trino-password-auth
+            # auth: {}
 
             coordinator:
               jvm:
