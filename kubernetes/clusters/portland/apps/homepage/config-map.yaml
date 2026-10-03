@@ -112,9 +112,9 @@ data:
           description: Actually WD Cloud
 
       - WDCloud:
-          icon: truenas-scale.svg
+          icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/western-digital.svg
           href: http://192.168.4.110
-          description: Actually WD Cloud
+          description: WD Cloud
 
     - Data:
       - ChartDB:
@@ -128,7 +128,7 @@ data:
           description: Postgres Management
 
       - Trino:
-          icon: https://cdn.simpleicons.org/trino/DD00A1
+          icon: https://cdn.simpleicons.org/trino/FFFFFF
           href: http://trino.70ld.dev
           description: SQL Query Engine
 

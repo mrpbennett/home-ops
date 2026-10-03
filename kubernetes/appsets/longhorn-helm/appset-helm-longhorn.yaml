@@ -46,7 +46,7 @@ spec:
               dataEngine: v1
 
             defaultSetting:
-              storageOverProvisioningPercentage: 100
+              storageOverProvisioningPercentage: 200
               storageMinimalAvailablePercentage: 10
               autoCleanupSystemGeneratedSnapshot: true
               orphanResourceAutoDeletion: "replica-data"

@@ -135,7 +135,6 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
-          # Argo CD CRDs exceed the client-side apply annotation size limit
           - ServerSideApply=true
         retry:
           limit: 5
