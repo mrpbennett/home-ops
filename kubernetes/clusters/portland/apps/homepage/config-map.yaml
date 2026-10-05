@@ -167,7 +167,7 @@ data:
           cpu: true
           memory: true
           showLabel: true
-          label: "k3s-rpi"
+          label: "portland"
         nodes:
           show: true
           cpu: true

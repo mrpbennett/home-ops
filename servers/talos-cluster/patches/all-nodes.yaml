@@ -38,10 +38,20 @@ apiVersion: v1alpha1
 kind: KubeletConfig
 $patch: delete
 ---
+cluster:
+  etcd:
+    extraArgs:
+      # Expose etcd metrics for Prometheus (unauthenticated, read-only; LAN-only by design).
+      # Needs a node reboot to take effect: etcd can't be restarted through the Talos API.
+      listen-metrics-urls: http://0.0.0.0:2381
 machine:
   kubelet:
     image: ghcr.io/siderolabs/kubelet:v1.37.1
     defaultRuntimeSeccompProfileEnabled: true
+    # Kubelet requests CA-signed serving certs; kubelet-serving-cert-approver approves the CSRs
+    # so metrics-server can verify TLS to the kubelet
+    extraArgs:
+      rotate-server-certificates: "true"
     # Longhorn stores volume data here; it must be visible to the kubelet with shared propagation
     extraMounts:
       - destination: /var/lib/longhorn
