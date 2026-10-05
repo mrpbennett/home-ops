@@ -1,24 +1,47 @@
 ---
-# Shared patch for every node. Generate the base config once, then apply each node's own patch on top:
-#   talosctl gen config portland https://192.168.7.200:6443 --config-patch @patches/all-nodes.yaml
-#   talosctl machineconfig patch controlplane.yaml --patch @patches/controlplane-1.yaml -o kube-cp-1.yaml
+# Shared patch for every node, applied on top of the generated base config:
+#   talosctl patch machineconfig --nodes <ip> --patch @patches/all-nodes.yaml
+#
+# Talos 1.14 splits most settings into separate documents, so the old
+# machine.install / machine.network.nameservers / cluster.allowSchedulingOnControlPlanes
+# keys are rejected ("already set in v1alpha1 config"). Only the kubelet mount stays in the
+# v1alpha1 block, because the KubeletConfig document has no extraMounts.
 #
 # Longhorn also needs the iscsi-tools and util-linux-tools system extensions,
 # which come from the installer image (see ../schematic.yaml), not from this patch.
-cluster:
-  # All three nodes are control planes that also run workloads
-  allowSchedulingOnControlPlanes: true
-
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  # Image Factory image built from ../schematic.yaml so the extensions persist across upgrades
+  image: factory.talos.dev/metal-installer/83848d3fcc873dd8b82510cc71cb6832ea59623fc2a7fd13d0fdad4535e3a97d:v1.14.2
+provisioning:
+  # Each OptiPlex has a single 1TB NVMe
+  diskSelector:
+    match: disk.dev_path == "/dev/nvme0n1"
+  wipe: false
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+nameservers:
+  - address: 192.168.4.2 # AdGuard
+---
+# All three nodes are control planes that also run workloads: drop the NoSchedule taint
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+taints:
+  node-role.kubernetes.io/control-plane:
+    $patch: delete
+---
+# Replace the KubeletConfig document with the v1alpha1 block so extraMounts can be set.
+# Keep image/seccomp in sync with the values the generated config uses.
+apiVersion: v1alpha1
+kind: KubeletConfig
+$patch: delete
+---
 machine:
-  install:
-    # Each OptiPlex has a single 1TB NVMe
-    disk: /dev/nvme0n1
-    # Install from the Image Factory image built from ../schematic.yaml so the extensions persist:
-    # image: factory.talos.dev/installer/<schematic-id>:<talos-version>
-  network:
-    nameservers:
-      - 192.168.4.2 # AdGuard
   kubelet:
+    image: ghcr.io/siderolabs/kubelet:v1.37.1
+    defaultRuntimeSeccompProfileEnabled: true
     # Longhorn stores volume data here; it must be visible to the kubelet with shared propagation
     extraMounts:
       - destination: /var/lib/longhorn
