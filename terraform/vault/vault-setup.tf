@@ -10,7 +10,7 @@ terraform {
 
 # provider.tf
 provider "vault" {
-  address = "http://192.168.7.11:8200" # or your vault URL
+  address = "http://192.168.7.12:8200" # pinned in kubernetes/appsets/vault-helm
   token   = var.vault_token
 }
 

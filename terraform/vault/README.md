@@ -40,7 +40,7 @@ terraform.tfvars ──► vault-setup.tf ──► Vault kv/<path>
 ## Prerequisites
 
 - Terraform. `mise install` in this directory installs it via `mise.toml`.
-- Vault deployed by Argo CD (`kubernetes/appsets/vault-helm`) and reachable at the provider `address` in `vault-setup.tf`, currently `http://192.168.7.11:8200`. Update it if the Vault LoadBalancer IP changes.
+- Vault deployed by Argo CD (`kubernetes/appsets/vault-helm`) and reachable at the provider `address` in `vault-setup.tf`, currently `http://192.168.7.12:8200`. The IP is pinned in the Vault appset (`metallb.io/loadBalancerIPs`); update both together if it changes.
 - A Vault token with admin rights, passed as an environment variable so it never lands in a file:
 
   ```sh
