@@ -1,0 +1,3861 @@
+{
+  "uid": "logs-explorer",
+  "title": "Logs Explorer",
+  "description": "Kibana-style log exploration for Loki + Alloy: Discover histogram & log stream, breakdowns, ingress-nginx HTTP analytics and pipeline health.",
+  "tags": [
+    "loki",
+    "alloy",
+    "logs"
+  ],
+  "editable": true,
+  "graphTooltip": 1,
+  "timezone": "browser",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "refresh": "",
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m"
+    ]
+  },
+  "liveNow": false,
+  "schemaVersion": 41,
+  "version": 1,
+  "fiscalYearStartMonth": 0,
+  "links": [
+    {
+      "title": "Explore logs",
+      "type": "link",
+      "icon": "compass",
+      "targetBlank": true,
+      "url": "/a/grafana-lokiexplore-app/explore",
+      "tooltip": "Grafana Logs Drilldown"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "templating": {
+    "list": [
+      {
+        "type": "datasource",
+        "name": "loki",
+        "label": "Loki",
+        "query": "loki",
+        "refresh": 1,
+        "regex": "",
+        "current": {},
+        "hide": 0
+      },
+      {
+        "type": "datasource",
+        "name": "prometheus",
+        "label": "Prometheus",
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "current": {},
+        "hide": 0
+      },
+      {
+        "type": "query",
+        "name": "namespace",
+        "label": "Namespace",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "query": {
+          "type": 1,
+          "label": "namespace",
+          "stream": "",
+          "refId": "LokiVariableQueryEditor-VariableQuery"
+        },
+        "definition": "label_values(namespace)",
+        "refresh": 2,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".+",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "hide": 0
+      },
+      {
+        "type": "query",
+        "name": "app",
+        "label": "App",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "query": {
+          "type": 1,
+          "label": "app",
+          "stream": "{namespace=~\"$namespace\"}",
+          "refId": "LokiVariableQueryEditor-VariableQuery"
+        },
+        "definition": "label_values({namespace=~\"$namespace\"}, app)",
+        "refresh": 2,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "hide": 0
+      },
+      {
+        "type": "query",
+        "name": "container",
+        "label": "Container",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "query": {
+          "type": 1,
+          "label": "container",
+          "stream": "{namespace=~\"$namespace\", app=~\"$app\"}",
+          "refId": "LokiVariableQueryEditor-VariableQuery"
+        },
+        "definition": "label_values({namespace=~\"$namespace\", app=~\"$app\"}, container)",
+        "refresh": 2,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "hide": 0
+      },
+      {
+        "type": "query",
+        "name": "pod",
+        "label": "Pod",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "query": {
+          "type": 1,
+          "label": "pod",
+          "stream": "{namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\"}",
+          "refId": "LokiVariableQueryEditor-VariableQuery"
+        },
+        "definition": "label_values({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\"}, pod)",
+        "refresh": 2,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "hide": 0
+      },
+      {
+        "type": "query",
+        "name": "node",
+        "label": "Node",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "query": {
+          "type": 1,
+          "label": "node",
+          "stream": "{namespace=~\"$namespace\"}",
+          "refId": "LokiVariableQueryEditor-VariableQuery"
+        },
+        "definition": "label_values({namespace=~\"$namespace\"}, node)",
+        "refresh": 2,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "hide": 0
+      },
+      {
+        "type": "custom",
+        "name": "level",
+        "label": "Level",
+        "query": "critical,error,warn,info,debug,trace,unknown",
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "options": [],
+        "hide": 0
+      },
+      {
+        "type": "textbox",
+        "name": "search",
+        "label": "Search (regex)",
+        "query": "",
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "hide": 0,
+        "description": "Case-insensitive RE2 line match, like the Kibana query bar. Empty = everything."
+      },
+      {
+        "type": "textbox",
+        "name": "exclude",
+        "label": "Exclude (regex)",
+        "query": "^$",
+        "current": {
+          "text": "^$",
+          "value": "^$"
+        },
+        "hide": 0,
+        "description": "Case-insensitive RE2; matching lines are hidden. Keep ^$ to exclude nothing \u2014 an empty box hides everything."
+      },
+      {
+        "type": "adhoc",
+        "name": "filters",
+        "label": "Filters",
+        "datasource": {
+          "type": "loki",
+          "uid": "${loki}"
+        },
+        "filters": [],
+        "baseFilters": [],
+        "hide": 0
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Overview",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 1
+      },
+      "panels": []
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Log lines",
+      "description": "All lines matching the current filters in the selected time range.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "sum(count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"$level\" [$__range]))",
+          "editorMode": "code",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Errors",
+      "description": "detected_level = error | critical | fatal (ignores the Level filter).",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 4,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "sum(count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"error|critical|fatal\" [$__range])) or vector(0)",
+          "editorMode": "code",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Warnings",
+      "description": "detected_level = warn | warning (ignores the Level filter).",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "sum(count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"warn|warning\" [$__range])) or vector(0)",
+          "editorMode": "code",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Error rate",
+      "description": "Errors as a percentage of all lines (ignores the Level filter).",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "100 * (sum(count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"error|critical|fatal\" [$__range])) or vector(0)) / sum(count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" [$__range]))",
+          "editorMode": "code",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Volume",
+      "description": "Raw bytes of matching log lines.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "sum(bytes_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"$level\" [$__range]))",
+          "editorMode": "code",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 7,
+      "type": "stat",
+      "title": "Pods logging",
+      "description": "Distinct pods that produced at least one matching line.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 20,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "count(sum by (namespace, pod) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"$level\" [$__range])))",
+          "editorMode": "code",
+          "queryType": "instant"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 8,
+      "type": "row",
+      "title": "Discover",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 5,
+        "w": 24,
+        "h": 1
+      },
+      "panels": []
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Log histogram",
+      "description": "Kibana-style hit histogram, stacked by detected log level. Drag to zoom.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 6,
+        "w": 24,
+        "h": 7
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "sum by (detected_level) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"$level\" [$__auto]))",
+          "editorMode": "code",
+          "queryType": "range",
+          "legendFormat": "{{detected_level}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 1,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "barAlignment": 0,
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "axisSoftMin": 0,
+            "insertNulls": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "critical"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fatal"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "error"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "warn"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "warning"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "info"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "debug"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "trace"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "unknown"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": [],
+          "sortBy": null,
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "logs",
+      "title": "Logs",
+      "description": "Discover view. Expand a line for fields; use the +/- magnifiers to add ad-hoc filters. Search / Exclude are case-insensitive regex (RE2).",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 13,
+        "w": 24,
+        "h": 20
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "{namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"$level\"",
+          "editorMode": "code",
+          "queryType": "range",
+          "maxLines": 1000
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "enableInfiniteScrolling": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending",
+        "syntaxHighlighting": true,
+        "showControls": true
+      }
+    },
+    {
+      "id": 11,
+      "type": "row",
+      "title": "Breakdown",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 33,
+        "w": 24,
+        "h": 1
+      },
+      "panels": []
+    },
+    {
+      "id": 12,
+      "type": "timeseries",
+      "title": "Volume by namespace",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 34,
+        "w": 16,
+        "h": 9
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "sum by (namespace) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"$level\" [$__auto]))",
+          "editorMode": "code",
+          "queryType": "range",
+          "legendFormat": "{{namespace}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 1,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "barAlignment": 0,
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "axisSoftMin": 0,
+            "insertNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "calcs": [
+            "sum"
+          ],
+          "sortBy": "Sum",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": "piechart",
+      "title": "Levels",
+      "description": "Level split for the current filters (ignores the Level filter).",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 34,
+        "w": 8,
+        "h": 9
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "sum by (detected_level) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" [$__range]))",
+          "editorMode": "code",
+          "queryType": "instant",
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "rowsToFields",
+          "options": {
+            "mappings": [
+              {
+                "fieldName": "Time",
+                "handlerKey": "__ignore"
+              },
+              {
+                "fieldName": "detected_level",
+                "handlerKey": "field.name"
+              },
+              {
+                "fieldName": "Value #A",
+                "handlerKey": "field.value"
+              }
+            ]
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "critical"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fatal"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "dark-red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "error"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "warn"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "warning"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "info"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "debug"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "trace"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "unknown"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "pieType": "donut",
+        "displayLabels": [
+          "percent"
+        ],
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "type": "table",
+      "title": "Top sources",
+      "description": "Noisiest sources. Click a row to drill the whole dashboard into that namespace/container.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 43,
+        "w": 14,
+        "h": 11
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "topk(25, sum by (namespace, app, container) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"$level\" [$__range])))",
+          "editorMode": "code",
+          "queryType": "instant",
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "B",
+          "expr": "sum by (namespace, app, container) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"error|critical|fatal\" [$__range]))",
+          "editorMode": "code",
+          "queryType": "instant",
+          "format": "table"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "C",
+          "expr": "sum by (namespace, app, container) (bytes_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"$level\" [$__range]))",
+          "editorMode": "code",
+          "queryType": "instant",
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "fieldName": "Value #A",
+                "config": {
+                  "id": "isNotNull",
+                  "options": {}
+                }
+              }
+            ],
+            "type": "include",
+            "match": "any"
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "binary",
+            "alias": "Error %",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #B"
+                }
+              },
+              "operator": "/",
+              "right": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #A"
+                }
+              }
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "indexByName": {
+              "namespace": 0,
+              "app": 1,
+              "container": 2,
+              "Value #A": 3,
+              "Value #B": 4,
+              "Error %": 5,
+              "Value #C": 6
+            },
+            "renameByName": {
+              "Value #A": "Lines",
+              "Value #B": "Errors",
+              "Value #C": "Bytes"
+            }
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": true
+          },
+          "links": [
+            {
+              "title": "Filter dashboard to ${__data.fields.namespace} / ${__data.fields.container}",
+              "url": "/d/logs-explorer/logs-explorer?${__url_time_range}&${loki:queryparam}&${prometheus:queryparam}&var-namespace=${__data.fields.namespace}&var-container=${__data.fields.container}"
+            }
+          ]
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Lines"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bytes"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              },
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Errors"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Error %"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "special",
+                    "options": {
+                      "match": "nan",
+                      "result": {
+                        "text": "\u2013"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "basic"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "thresholds"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "transparent",
+                      "value": null
+                    },
+                    {
+                      "color": "orange",
+                      "value": 0.01
+                    },
+                    {
+                      "color": "red",
+                      "value": 0.05
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false,
+          "reducer": [
+            "sum"
+          ],
+          "fields": "",
+          "countRows": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Lines",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": "table",
+      "title": "Top error messages",
+      "description": "Top values of the msg field (logfmt or JSON) on error lines \u2014 Kibana 'top values' equivalent.",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 14,
+        "y": 43,
+        "w": 10,
+        "h": 11
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "topk(25, sum by (namespace, msg) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"error|critical|fatal\" | logfmt | __error__=\"\" | msg!=\"\" [$__range])) or sum by (namespace, msg) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"error|critical|fatal\" | json msg | __error__=\"\" | msg!=\"\" [$__range])))",
+          "editorMode": "code",
+          "queryType": "instant",
+          "format": "table"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "indexByName": {
+              "Value #A": 0,
+              "namespace": 1,
+              "msg": 2
+            },
+            "renameByName": {
+              "Value #A": "Count",
+              "msg": "Message"
+            }
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": true
+          },
+          "links": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Count"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "namespace"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 140
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "footer": {
+          "show": false,
+          "reducer": [
+            "sum"
+          ],
+          "fields": "",
+          "countRows": false
+        },
+        "sortBy": [
+          {
+            "displayName": "Count",
+            "desc": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": "timeseries",
+      "title": "Errors by pod",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 54,
+        "w": 12,
+        "h": 9
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "topk(10, sum by (pod) (count_over_time({namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"error|critical|fatal\" [$__auto])))",
+          "editorMode": "code",
+          "queryType": "range",
+          "legendFormat": "{{pod}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 1,
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "barAlignment": 0,
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            },
+            "axisSoftMin": 0,
+            "insertNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "calcs": [
+            "sum"
+          ],
+          "sortBy": "Sum",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 17,
+      "type": "logs",
+      "title": "Errors & warnings",
+      "description": "",
+      "datasource": {
+        "type": "loki",
+        "uid": "${loki}"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 54,
+        "w": 12,
+        "h": 9
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "refId": "A",
+          "expr": "{namespace=~\"$namespace\", app=~\"$app\", container=~\"$container\", pod=~\"$pod\", node=~\"$node\"} |~ \"(?i)$search\" !~ \"(?i)$exclude\" | detected_level=~\"error|critical|fatal|warn|warning\"",
+          "editorMode": "code",
+          "queryType": "range",
+          "maxLines": 500
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "enableInfiniteScrolling": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending",
+        "syntaxHighlighting": true,
+        "showControls": true
+      }
+    },
+    {
+      "id": 31,
+      "type": "row",
+      "title": "HTTP access \u00b7 ingress-nginx",
+      "collapsed": true,
+      "gridPos": {
+        "x": 0,
+        "y": 64,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [
+        {
+          "id": 18,
+          "type": "stat",
+          "title": "Requests",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 65,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "sum(count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" [$__range]))",
+              "editorMode": "code",
+              "queryType": "instant"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 19,
+          "type": "stat",
+          "title": "Req/s",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 4,
+            "y": 65,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "sum(count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" [$__range])) / $__range_s",
+              "editorMode": "code",
+              "queryType": "instant"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "text",
+                    "value": null
+                  }
+                ]
+              },
+              "decimals": 2
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 20,
+          "type": "stat",
+          "title": "5xx rate",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 8,
+            "y": 65,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "100 * (sum(count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status=~\"5..\" [$__range])) or vector(0)) / sum(count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" [$__range]))",
+              "editorMode": "code",
+              "queryType": "instant"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 0.5
+                  },
+                  {
+                    "color": "red",
+                    "value": 2
+                  }
+                ]
+              },
+              "decimals": 2
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 21,
+          "type": "stat",
+          "title": "4xx rate",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 65,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "100 * (sum(count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status=~\"4..\" [$__range])) or vector(0)) / sum(count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" [$__range]))",
+              "editorMode": "code",
+              "queryType": "instant"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 5
+                  },
+                  {
+                    "color": "red",
+                    "value": 20
+                  }
+                ]
+              },
+              "decimals": 2
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 22,
+          "type": "stat",
+          "title": "p95 latency",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 16,
+            "y": 65,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "quantile_over_time(0.95, {namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status!=\"101\" | unwrap request_time | __error__=\"\" [$__range]) by ()",
+              "editorMode": "code",
+              "queryType": "instant"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 0.5
+                  },
+                  {
+                    "color": "red",
+                    "value": 2
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 23,
+          "type": "stat",
+          "title": "Bytes sent",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 20,
+            "y": 65,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "sum(sum_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | unwrap bytes | __error__=\"\" [$__range]))",
+              "editorMode": "code",
+              "queryType": "instant"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "bytes",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "purple",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 24,
+          "type": "timeseries",
+          "title": "Requests by status",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 69,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "sum by (status_class) (count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | label_format status_class=`{{ substr 0 1 .status }}xx` [$__auto]))",
+              "editorMode": "code",
+              "queryType": "range",
+              "legendFormat": "{{status_class}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "drawStyle": "bars",
+                "lineWidth": 1,
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "barAlignment": 0,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "normal",
+                  "group": "A"
+                },
+                "axisSoftMin": 0,
+                "insertNulls": false
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "1xx"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "text"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "2xx"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "green"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "3xx"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "blue"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "4xx"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "5xx"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true,
+              "calcs": [],
+              "sortBy": null,
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 25,
+          "type": "timeseries",
+          "title": "Latency percentiles",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 69,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "quantile_over_time(0.50, {namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status!=\"101\" | unwrap request_time | __error__=\"\" [$__auto]) by ()",
+              "editorMode": "code",
+              "queryType": "range",
+              "legendFormat": "p50"
+            },
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "B",
+              "expr": "quantile_over_time(0.95, {namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status!=\"101\" | unwrap request_time | __error__=\"\" [$__auto]) by ()",
+              "editorMode": "code",
+              "queryType": "range",
+              "legendFormat": "p95"
+            },
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "C",
+              "expr": "quantile_over_time(0.99, {namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status!=\"101\" | unwrap request_time | __error__=\"\" [$__auto]) by ()",
+              "editorMode": "code",
+              "queryType": "range",
+              "legendFormat": "p99"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s",
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "drawStyle": "line",
+                "lineWidth": 1,
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "barAlignment": 0,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                },
+                "axisSoftMin": 0,
+                "insertNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true,
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "sortBy": "Mean",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 26,
+          "type": "table",
+          "title": "Upstreams",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 77,
+            "w": 12,
+            "h": 10
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "sum by (upstream) (count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" [$__range]))",
+              "editorMode": "code",
+              "queryType": "instant",
+              "format": "table"
+            },
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "B",
+              "expr": "sum by (upstream) (count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status=~\"5..\" [$__range]))",
+              "editorMode": "code",
+              "queryType": "instant",
+              "format": "table"
+            },
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "C",
+              "expr": "quantile_over_time(0.95, {namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status!=\"101\" | unwrap request_time | __error__=\"\" [$__range]) by (upstream)",
+              "editorMode": "code",
+              "queryType": "instant",
+              "format": "table"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "renameByName": {
+                  "upstream": "Upstream",
+                  "Value #A": "Requests",
+                  "Value #B": "5xx",
+                  "Value #C": "p95"
+                }
+              }
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "filterable": true,
+                "inspect": true
+              },
+              "links": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Requests"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "gauge",
+                      "mode": "basic",
+                      "valueDisplayMode": "text"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "blue"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "p95"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "s"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "5xx"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "color-text"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false,
+              "reducer": [
+                "sum"
+              ],
+              "fields": "",
+              "countRows": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Requests",
+                "desc": true
+              }
+            ]
+          }
+        },
+        {
+          "id": 27,
+          "type": "table",
+          "title": "Top routes",
+          "description": "Paths with query strings stripped.",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 77,
+            "w": 12,
+            "h": 10
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "topk(20, sum by (method, route) (count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | label_format route=`{{ regexReplaceAll \"\\\\?.*\" .path \"\" }}` [$__range])))",
+              "editorMode": "code",
+              "queryType": "instant",
+              "format": "table"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {
+                  "method": 0,
+                  "route": 1,
+                  "Value #A": 2
+                },
+                "renameByName": {
+                  "Value #A": "Requests"
+                }
+              }
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "filterable": true,
+                "inspect": true
+              },
+              "links": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Requests"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "gauge",
+                      "mode": "basic",
+                      "valueDisplayMode": "text"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "blue"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "method"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 80
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false,
+              "reducer": [
+                "sum"
+              ],
+              "fields": "",
+              "countRows": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Requests",
+                "desc": true
+              }
+            ]
+          }
+        },
+        {
+          "id": 28,
+          "type": "table",
+          "title": "Error routes (4xx/5xx)",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 87,
+            "w": 12,
+            "h": 10
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "topk(20, sum by (status, method, route) (count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status=~\"[45]..\" | label_format route=`{{ regexReplaceAll \"\\\\?.*\" .path \"\" }}` [$__range])))",
+              "editorMode": "code",
+              "queryType": "instant",
+              "format": "table"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {
+                  "status": 0,
+                  "method": 1,
+                  "route": 2,
+                  "Value #A": 3
+                },
+                "renameByName": {
+                  "Value #A": "Requests"
+                }
+              }
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "filterable": true,
+                "inspect": true
+              },
+              "links": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "status"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 70
+                  },
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "color-text"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "thresholds"
+                    }
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "orange",
+                          "value": null
+                        },
+                        {
+                          "color": "red",
+                          "value": 500
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "method"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 80
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false,
+              "reducer": [
+                "sum"
+              ],
+              "fields": "",
+              "countRows": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Requests",
+                "desc": true
+              }
+            ]
+          }
+        },
+        {
+          "id": 29,
+          "type": "table",
+          "title": "Top user agents",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 87,
+            "w": 12,
+            "h": 10
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "topk(15, sum by (user_agent) (count_over_time({namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" [$__range])))",
+              "editorMode": "code",
+              "queryType": "instant",
+              "format": "table"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Time": true
+                },
+                "indexByName": {
+                  "Value #A": 0,
+                  "user_agent": 1
+                },
+                "renameByName": {
+                  "Value #A": "Requests",
+                  "user_agent": "User agent"
+                }
+              }
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "filterable": true,
+                "inspect": true
+              },
+              "links": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Requests"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 90
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "showHeader": true,
+            "cellHeight": "sm",
+            "footer": {
+              "show": false,
+              "reducer": [
+                "sum"
+              ],
+              "fields": "",
+              "countRows": false
+            },
+            "sortBy": [
+              {
+                "displayName": "Requests",
+                "desc": true
+              }
+            ]
+          }
+        },
+        {
+          "id": 30,
+          "type": "logs",
+          "title": "Slow requests (> 1s)",
+          "description": "",
+          "datasource": {
+            "type": "loki",
+            "uid": "${loki}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 97,
+            "w": 24,
+            "h": 10
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "${loki}"
+              },
+              "refId": "A",
+              "expr": "{namespace=\"ingress-nginx\", container=\"controller\"} |~ \"(?i)$search\" | pattern `<client> - <_> [<_>] \"<method> <path> <_>\" <status> <bytes> \"<_>\" \"<user_agent>\" <_> <request_time> [<upstream>] [<_>] <_>` | status=~\"[1-5][0-9][0-9]\" | status!=\"101\" | request_time > 1",
+              "editorMode": "code",
+              "queryType": "range",
+              "maxLines": 200
+            }
+          ],
+          "options": {
+            "showTime": true,
+            "showLabels": false,
+            "showCommonLabels": false,
+            "wrapLogMessage": true,
+            "prettifyLogMessage": false,
+            "enableLogDetails": true,
+            "enableInfiniteScrolling": true,
+            "dedupStrategy": "none",
+            "sortOrder": "Descending",
+            "syntaxHighlighting": true,
+            "showControls": true
+          }
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "type": "row",
+      "title": "Pipeline health \u00b7 Loki & Alloy",
+      "collapsed": true,
+      "gridPos": {
+        "x": 0,
+        "y": 65,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [
+        {
+          "id": 32,
+          "type": "stat",
+          "title": "Loki ingest",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 66,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum(rate(loki_distributor_bytes_received_total{namespace=\"logging\"}[5m]))",
+              "editorMode": "code",
+              "instant": true,
+              "range": false
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "Bps",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "purple",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 33,
+          "type": "stat",
+          "title": "Loki lines/s",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 4,
+            "y": 66,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum(rate(loki_distributor_lines_received_total{namespace=\"logging\"}[5m]))",
+              "editorMode": "code",
+              "instant": true,
+              "range": false
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              },
+              "decimals": 1
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 34,
+          "type": "stat",
+          "title": "In-memory streams",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 8,
+            "y": 66,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum(loki_ingester_memory_streams{namespace=\"logging\"})",
+              "editorMode": "code",
+              "instant": true,
+              "range": false
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "text",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 35,
+          "type": "stat",
+          "title": "Alloy dropped",
+          "description": "Entries Alloy gave up sending to Loki.",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 66,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum(increase(loki_write_dropped_entries_total{namespace=\"logging\"}[$__range])) or vector(0)",
+              "editorMode": "code",
+              "instant": true,
+              "range": false
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 36,
+          "type": "stat",
+          "title": "Loki discarded",
+          "description": "Samples Loki rejected (rate limits, too old, line too long\u2026).",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 16,
+            "y": 66,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum(increase(loki_discarded_samples_total{namespace=\"logging\"}[$__range])) or vector(0)",
+              "editorMode": "code",
+              "instant": true,
+              "range": false
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 37,
+          "type": "stat",
+          "title": "Alloy pods",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 20,
+            "y": 66,
+            "w": 4,
+            "h": 4
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "count(alloy_build_info{namespace=\"logging\"})",
+              "editorMode": "code",
+              "instant": true,
+              "range": false
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "text",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "colorMode": "background",
+            "graphMode": "area",
+            "textMode": "value",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "showPercentChange": false,
+            "wideLayout": true
+          }
+        },
+        {
+          "id": 38,
+          "type": "timeseries",
+          "title": "Alloy \u2192 Loki throughput",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 70,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum by (pod) (rate(loki_write_sent_bytes_total{namespace=\"logging\"}[$__rate_interval]))",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "{{pod}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "Bps",
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "drawStyle": "line",
+                "lineWidth": 1,
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "barAlignment": 0,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "normal",
+                  "group": "A"
+                },
+                "axisSoftMin": 0,
+                "insertNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "sortBy": "Mean",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 39,
+          "type": "timeseries",
+          "title": "Dropped / discarded",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 70,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum by (reason) (rate(loki_write_dropped_entries_total{namespace=\"logging\"}[$__rate_interval]))",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "alloy dropped: {{reason}}"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "B",
+              "expr": "sum by (reason) (rate(loki_discarded_samples_total{namespace=\"logging\"}[$__rate_interval]))",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "loki discarded: {{reason}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "drawStyle": "line",
+                "lineWidth": 1,
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "barAlignment": 0,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                },
+                "axisSoftMin": 0,
+                "insertNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "calcs": [
+                "sum"
+              ],
+              "sortBy": "Sum",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 40,
+          "type": "timeseries",
+          "title": "Push latency (Alloy \u2192 Loki)",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 78,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "histogram_quantile(0.99, sum by (le) (rate(loki_write_request_duration_seconds_bucket{namespace=\"logging\"}[$__rate_interval])))",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "p99 push"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "B",
+              "expr": "histogram_quantile(0.99, sum by (le) (rate(loki_write_entry_propagation_latency_seconds_bucket{namespace=\"logging\"}[$__rate_interval])))",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "p99 end-to-end"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s",
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "drawStyle": "line",
+                "lineWidth": 1,
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "barAlignment": 0,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                },
+                "axisSoftMin": 0,
+                "insertNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "sortBy": "Mean",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 41,
+          "type": "timeseries",
+          "title": "Loki request latency p99",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 78,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "histogram_quantile(0.99, sum by (le, route) (rate(loki_request_duration_seconds_bucket{namespace=\"logging\", route=~\"loki_api_v1_push|loki_api_v1_query_range|loki_api_v1_query|loki_api_v1_index_volume.*|loki_api_v1_series|loki_api_v1_labels\"}[$__rate_interval])))",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "{{route}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s",
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "drawStyle": "line",
+                "lineWidth": 1,
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "barAlignment": 0,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                },
+                "axisSoftMin": 0,
+                "insertNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "sortBy": "Mean",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 42,
+          "type": "timeseries",
+          "title": "Loki 5xx responses",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 0,
+            "y": 86,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum by (route) (rate(loki_request_duration_seconds_count{namespace=\"logging\", status_code=~\"5..\"}[$__rate_interval]))",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "{{route}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "reqps",
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "drawStyle": "line",
+                "lineWidth": 1,
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "barAlignment": 0,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "normal",
+                  "group": "A"
+                },
+                "axisSoftMin": 0,
+                "insertNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "calcs": [
+                "sum"
+              ],
+              "sortBy": "Sum",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        },
+        {
+          "id": 43,
+          "type": "timeseries",
+          "title": "Alloy resources",
+          "description": "",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${prometheus}"
+          },
+          "gridPos": {
+            "x": 12,
+            "y": 86,
+            "w": 12,
+            "h": 8
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "A",
+              "expr": "sum by (pod) (alloy_resources_process_resident_memory_bytes{namespace=\"logging\"})",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "{{pod}} rss"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${prometheus}"
+              },
+              "refId": "B",
+              "expr": "sum by (pod) (rate(alloy_resources_process_cpu_seconds_total{namespace=\"logging\"}[$__rate_interval]))",
+              "editorMode": "code",
+              "instant": false,
+              "range": true,
+              "legendFormat": "{{pod}} cpu"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "bytes",
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "drawStyle": "line",
+                "lineWidth": 1,
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "barAlignment": 0,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "mode": "none",
+                  "group": "A"
+                },
+                "axisSoftMin": 0,
+                "insertNulls": false
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": ".* cpu"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "calcs": [
+                "mean",
+                "max"
+              ],
+              "sortBy": "Mean",
+              "sortDesc": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

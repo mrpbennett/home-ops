@@ -121,6 +121,10 @@ spec:
             memcached:
               enabled: false
 
+            monitoring:
+              serviceMonitor:
+                enabled: true
+
       destination:
         name: '{{.cluster}}'
         namespace: logging

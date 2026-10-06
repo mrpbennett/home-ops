@@ -67,6 +67,24 @@ spec:
                       source_labels = ["__meta_kubernetes_pod_container_name"]
                       target_label  = "container"
                     }
+
+                    rule {
+                      source_labels = ["__meta_kubernetes_pod_node_name"]
+                      target_label  = "node"
+                    }
+
+                    // app: prefer app.kubernetes.io/name, fall back to the legacy "app" label
+                    rule {
+                      source_labels = ["__meta_kubernetes_pod_label_app"]
+                      regex         = "(.+)"
+                      target_label  = "app"
+                    }
+
+                    rule {
+                      source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+                      regex         = "(.+)"
+                      target_label  = "app"
+                    }
                   }
 
                   loki.source.kubernetes "pods" {
@@ -75,6 +93,9 @@ spec:
                   }
 
               extraArgs: []
+
+            serviceMonitor:
+              enabled: true
       destination:
         name: '{{.cluster}}'
         namespace: logging
