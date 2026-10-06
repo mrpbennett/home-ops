@@ -61,6 +61,8 @@ spec:
                 http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
                 http-server.authentication.oauth2.scopes=openid,profile,email
                 http-server.authentication.oauth2.principal-field=preferred_username
+                # Keycloak "groups" claim (Group Membership mapper) is used for access control
+                http-server.authentication.oauth2.groups-field=groups
 
             autoscaling:
               enabled: true
@@ -111,6 +113,21 @@ spec:
                 metallb.universe.tf/loadBalancerIPs: 192.168.7.81
 
             auth: {}
+
+            # Only members of the Keycloak group TrinoUsers may use any catalog.
+            # Everyone else can sign in but can't query. Change "all" to "read-only" to stop writes.
+            accessControl:
+              type: configmap
+              refreshPeriod: 60s
+              configFile: rules.json
+              rules:
+                rules.json: |-
+                  {
+                    "catalogs": [
+                      { "group": "TrinoUsers", "catalog": ".*", "allow": "all" },
+                      { "catalog": ".*", "allow": "none" }
+                    ]
+                  }
 
             coordinator:
               jvm:
