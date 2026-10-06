@@ -53,7 +53,7 @@ spec:
                 - headlamp.70ld.dev
 
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: '{{.app_name}}'
       syncPolicy:
         automated:

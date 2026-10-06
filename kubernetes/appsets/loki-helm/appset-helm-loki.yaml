@@ -122,7 +122,7 @@ spec:
               enabled: false
 
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: logging
       syncPolicy:
         automated:

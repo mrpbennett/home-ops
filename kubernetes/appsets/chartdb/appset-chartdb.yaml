@@ -30,7 +30,7 @@ spec:
         directory:
           recurse: true
       destination:
-        server: '{{.clusterURL}}'
+        name: '{{.cluster}}'
         namespace: '{{.app_name}}'
       syncPolicy:
         automated:
