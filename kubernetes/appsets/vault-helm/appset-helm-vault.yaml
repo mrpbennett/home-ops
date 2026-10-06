@@ -68,6 +68,13 @@ spec:
       destination:
         name: "{{.cluster}}"
         namespace: vault
+      # The agent injector patches its own caBundle into this webhook at runtime.
+      ignoreDifferences:
+        - group: admissionregistration.k8s.io
+          kind: MutatingWebhookConfiguration
+          name: vault-agent-injector-cfg
+          jqPathExpressions:
+            - .webhooks[]?.clientConfig.caBundle
       syncPolicy:
         automated:
           prune: true
