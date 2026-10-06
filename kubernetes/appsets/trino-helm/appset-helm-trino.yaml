@@ -56,7 +56,7 @@ spec:
                 web-ui.authentication.type=oauth2
                 # TLS terminates at Envoy; treat X-Forwarded-Proto=https requests as secure
                 http-server.process-forwarded=true
-                http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
+                http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/homelab
                 http-server.authentication.oauth2.client-id=trino
                 http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
                 http-server.authentication.oauth2.scopes=openid,profile,email
