@@ -44,6 +44,13 @@ terraform.tfvars ──► vault-setup.tf ──► Vault kv/<path>
 - Vault deployed by Argo CD (`kubernetes/appsets/vault-helm`) and reachable at the provider `address` in `vault-setup.tf`, currently `http://192.168.7.12:8200`. The IP is pinned in the Vault appset (`metallb.io/loadBalancerIPs`); update both together if it changes.
 - A Vault token with admin rights, passed as an environment variable so it never lands in a file:
 
+**To start the vault**
+
+```sh
+# save the output in your password manager
+kubectl exec -n vault vault-0 -- vault operator init -key-shares=1 -key-threshold=1
+```
+
   ```sh
   export TF_VAR_vault_token=<root-or-admin-token>
   ```
