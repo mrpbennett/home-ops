@@ -33,9 +33,8 @@ spec:
           helm:
             valuesObject:
               ingress:
-                enabled: true
-
-                web:
+                # Airflow 3 serves the UI from the api-server; ingress.web is the Airflow 2 webserver
+                apiServer:
                   enabled: true
                   annotations:
                     cert-manager.io/cluster-issuer: letsencrypt-cloudflare-dns-issuer
