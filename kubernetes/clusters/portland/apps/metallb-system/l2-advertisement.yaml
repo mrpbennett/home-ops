@@ -6,4 +6,4 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - k3s-pool
+    - portland-pool
