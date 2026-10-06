@@ -97,7 +97,7 @@
 #                   config:
 #                     region: 70ld-west-1
 #                     s3ForcePathStyle: "true"
-#                     s3Url: http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333
+#                     s3Url: http://192.168.6.2:8333
 #                     insecureSkipTLSVerify: "false"
 #
 #               volumeSnapshotLocation: []

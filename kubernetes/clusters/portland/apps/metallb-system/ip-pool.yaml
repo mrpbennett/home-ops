@@ -2,8 +2,8 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: k3s-pool
+  name: portland-pool
   namespace: metallb-system
 spec:
   addresses:
-    - 192.168.7.10-192.168.7.99
+    - 192.168.7.10-192.168.7.110

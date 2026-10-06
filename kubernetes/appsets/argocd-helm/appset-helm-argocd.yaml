@@ -113,8 +113,6 @@ spec:
                 # Keep the existing MetalLB IP used by the argocd CLI context
                 service:
                   type: LoadBalancer
-                  annotations:
-                    metallb.io/loadBalancerIPs: 192.168.7.10
                 httproute:
                   enabled: true
                   parentRefs:

@@ -103,7 +103,7 @@ data:
 
       - SeaweedFS:
           icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
-          href: http://192.168.6.6:23646/admin
+          href: http://192.168.6.2:23646/admin
           description: Object Storage
 
       - TrueNAS Scale:
