@@ -61,8 +61,6 @@ spec:
                 http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
                 http-server.authentication.oauth2.scopes=openid,profile,email
                 http-server.authentication.oauth2.principal-field=preferred_username
-                # Keycloak "groups" claim (Group Membership mapper) is used for access control
-                http-server.authentication.oauth2.groups-field=groups
 
             autoscaling:
               enabled: true
