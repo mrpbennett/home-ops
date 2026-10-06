@@ -225,24 +225,24 @@ resource "vault_kv_secret_v2" "pgadmin" {
 # TRINO --
 resource "vault_kv_secret_v2" "trino" {
   mount = vault_mount.kv.path
-  name  = "trino"
+  name  = "trino/internal"
 
   data_json = jsonencode({
-    TRINO_CNPG_CATALOG_USERNAME  = var.TRINO_CNPG_CATALOG_USERNAME
-    TRINO_CNPG_CATALOG_PASSWORD  = var.TRINO_CNPG_CATALOG_PASSWORD
     TRINO_INTERNAL_SHARED_SECRET = var.TRINO_INTERNAL_SHARED_SECRET
   })
 }
 
-# Mounted by the Trino chart as a file (auth.passwordAuthSecret), so the key must be "password.db".
-resource "vault_kv_secret_v2" "trino_password_auth" {
+# Trino Catalogs
+resource "vault_kv_secret_v2" "trino_catalogs" {
   mount = vault_mount.kv.path
-  name  = "trino/password-auth"
+  name  = "trino/catalogs"
 
   data_json = jsonencode({
-    "password.db" = var.TRINO_PASSWORD_DB
+    TRINO_CNPG_CATALOG_USERNAME  = var.TRINO_CNPG_CATALOG_USERNAME
+    TRINO_CNPG_CATALOG_PASSWORD  = var.TRINO_CNPG_CATALOG_PASSWORD
   })
 }
+
 
 
 # SEADWEEDFS / LOKI
@@ -365,9 +365,4 @@ variable "TRINO_CNPG_CATALOG_PASSWORD" {
 variable "TRINO_INTERNAL_SHARED_SECRET" {
   type      = string
   sensitive = true
-}
-variable "TRINO_PASSWORD_DB" {
-  type        = string
-  sensitive   = true
-  description = "Contents of Trino's password.db: htpasswd bcrypt lines (htpasswd -B -C 10 -n <user>)."
 }

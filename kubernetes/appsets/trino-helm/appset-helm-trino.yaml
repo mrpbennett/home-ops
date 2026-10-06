@@ -48,12 +48,11 @@ spec:
                   port: 8443
                   keystore:
                     path: ""
-                # authenticationType: "OAUTH2"
-                authenticationType: "PASSWORD"
+                authenticationType: "OAUTH2"
                 query:
                   maxMemory: "2GB"
-                  # coordinatorExtraConfig: |
-                  #   web-ui.authentication.type=oauth2
+                  coordinatorExtraConfig: |
+                    web-ui.authentication.type=oauth2
 
             autoscaling:
               enabled: true
@@ -80,25 +79,26 @@ spec:
 
             # https://trino.io/docs/current/admin/properties.html
             additionalConfigProperties:
-              # CHANGE: PASSWORD auth refuses plain HTTP by default; TLS is terminated at the envoy gateway
-              - http-server.authentication.allow-insecure-over-http=true
-              # CHANGE: trust X-Forwarded-* headers from the envoy gateway
+              - http-server.authentication.type=oauth2
+
+              - http-server.https.port=8433
+              - http-server.https.enabled=true
               - http-server.process-forwarded=true
-              # CHANGE: required for internal communication when authentication is enabled
+
+              - http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
+              - http-server.authentication.oauth2.client-id=trino
+              - http-server.authentication.oauth2.scopes=openid,profile,email
+
+              - web-ui.authentication.type=oauth2
+
               - internal-communication.shared-secret=${ENV:TRINO_INTERNAL_SHARED_SECRET}
-            # - http-server.process-forwarded=true
-            # - http-server.authentication.type=oauth2
-            #
-            # - http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
-            # - http-server.authentication.oauth2.client-id=trino
-            # - http-server.authentication.oauth2.scopes=openid,profile,email
-            #
-            # - internal-communication.shared-secret=${ENV:TRINO_INTERNAL_SHARED_SECRET}
-            # - http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
+              - http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
 
             envFrom:
               - secretRef:
                   name: trino-secrets
+              - secretRef:
+                  name: trino-auth-catalogs
 
             # CATALOGS
             catalogs:
@@ -115,11 +115,7 @@ spec:
               annotations:
                 metallb.universe.tf/loadBalancerIPs: 192.168.7.81
 
-            # CHANGE: PASSWORD auth needs a password file; point at a pre-created secret
-            # (key "password.db", htpasswd bcrypt: htpasswd -B -C 10 -c password.db <user>)
-            auth:
-              passwordAuthSecret: trino-password-auth
-            # auth: {}
+            auth: {}
 
             coordinator:
               jvm:

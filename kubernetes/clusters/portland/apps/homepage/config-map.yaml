@@ -56,12 +56,12 @@ data:
           icon: proxmox.png
           href: http://192.168.7.5:8006
           description: Hypervisor
-          widget:
-            type: proxmox
-            url: http://192.168.7.5:8006
-            username: api@pam!homepage
-            password: b09ab10a-8725-4f28-9fad-9d116790b82f
-            fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
+          # widget:
+          #   type: proxmox
+          #   url: http://192.168.7.5:8006
+          #   username: api@pam!homepage
+          #   password: b09ab10a-8725-4f28-9fad-9d116790b82f
+          #   fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
 
       - AdGuard Home:
             icon: adguard-home.png
@@ -136,7 +136,7 @@ data:
 
       - Airflow:
           icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
-          href: https://192.168.7.69
+          href: https://airflow.70ld.dev
           description: Workflow Management Platform
 
       - ArgoCD:
