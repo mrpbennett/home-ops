@@ -10,8 +10,14 @@ terraform {
 
 # provider.tf
 provider "vault" {
-  address = "http://192.168.7.12:8200" # pinned in kubernetes/appsets/vault-helm
+  address = var.vault_address
   token   = var.vault_token
+}
+
+variable "vault_address" {
+  type        = string
+  default     = "http://192.168.7.12:8200" # pinned in kubernetes/appsets/vault-helm
+  description = "Vault API address. Override with http://127.0.0.1:8200 when using kubectl port-forward."
 }
 
 variable "vault_token" {
@@ -114,6 +120,9 @@ resource "vault_policy" "trino_read" {
   name   = "trino-read"
   policy = <<EOT
 path "kv/data/trino" {
+  capabilities = ["read"]
+}
+path "kv/data/trino/*" {
   capabilities = ["read"]
 }
 EOT
@@ -222,6 +231,16 @@ resource "vault_kv_secret_v2" "trino" {
     TRINO_CNPG_CATALOG_USERNAME  = var.TRINO_CNPG_CATALOG_USERNAME
     TRINO_CNPG_CATALOG_PASSWORD  = var.TRINO_CNPG_CATALOG_PASSWORD
     TRINO_INTERNAL_SHARED_SECRET = var.TRINO_INTERNAL_SHARED_SECRET
+  })
+}
+
+# Mounted by the Trino chart as a file (auth.passwordAuthSecret), so the key must be "password.db".
+resource "vault_kv_secret_v2" "trino_password_auth" {
+  mount = vault_mount.kv.path
+  name  = "trino/password-auth"
+
+  data_json = jsonencode({
+    "password.db" = var.TRINO_PASSWORD_DB
   })
 }
 
@@ -346,4 +365,9 @@ variable "TRINO_CNPG_CATALOG_PASSWORD" {
 variable "TRINO_INTERNAL_SHARED_SECRET" {
   type      = string
   sensitive = true
+}
+variable "TRINO_PASSWORD_DB" {
+  type        = string
+  sensitive   = true
+  description = "Contents of Trino's password.db: htpasswd bcrypt lines (htpasswd -B -C 10 -n <user>)."
 }

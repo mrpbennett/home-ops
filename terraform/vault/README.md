@@ -36,6 +36,7 @@ terraform.tfvars ──► vault-setup.tf ──► Vault kv/<path>
 | `pgadmin/config` | `pgadmin-credentials` (pgadmin) | `email`, `password` |
 | `seaweedfs/loki` | `seaweedfs-loki` (logging) | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` (envFrom) |
 | `trino` | `trino-secrets` (trino) | `TRINO_*` (envFrom, read as `${ENV:...}` in the Trino config) |
+| `trino/password-auth` | `trino-password-auth` (trino) | `password.db` (htpasswd bcrypt file, mounted by the chart via `auth.passwordAuthSecret`) |
 
 ## Prerequisites
 
