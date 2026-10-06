@@ -81,13 +81,13 @@ spec:
             additionalConfigProperties:
               - http-server.authentication.type=oauth2
 
-              - http-server.https.port=8433
-              - http-server.https.enabled=true
+              # TLS terminates at Envoy; treat X-Forwarded-Proto=https requests as secure
               - http-server.process-forwarded=true
 
               - http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
               - http-server.authentication.oauth2.client-id=trino
               - http-server.authentication.oauth2.scopes=openid,profile,email
+              - http-server.authentication.oauth2.principal-field=preferred_username
 
               - web-ui.authentication.type=oauth2
 
@@ -98,7 +98,7 @@ spec:
               - secretRef:
                   name: trino-secrets
               - secretRef:
-                  name: trino-auth-catalogs
+                  name: trino-catalogs
 
             # CATALOGS
             catalogs:

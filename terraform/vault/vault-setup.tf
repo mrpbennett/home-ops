@@ -229,6 +229,7 @@ resource "vault_kv_secret_v2" "trino" {
 
   data_json = jsonencode({
     TRINO_INTERNAL_SHARED_SECRET = var.TRINO_INTERNAL_SHARED_SECRET
+    TRINO_OAUTH_CLIENT_SECRET    = var.TRINO_OAUTH_CLIENT_SECRET
   })
 }
 
@@ -359,6 +360,10 @@ variable "TRINO_CNPG_CATALOG_USERNAME" {
   sensitive = true
 }
 variable "TRINO_CNPG_CATALOG_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+variable "TRINO_OAUTH_CLIENT_SECRET" {
   type      = string
   sensitive = true
 }
