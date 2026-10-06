@@ -51,8 +51,16 @@ spec:
                 authenticationType: "OAUTH2"
                 query:
                   maxMemory: "2GB"
-                  coordinatorExtraConfig: |
-                    web-ui.authentication.type=oauth2
+              # OAuth2 is coordinator-only; workers fail to start if given these properties
+              coordinatorExtraConfig: |
+                web-ui.authentication.type=oauth2
+                # TLS terminates at Envoy; treat X-Forwarded-Proto=https requests as secure
+                http-server.process-forwarded=true
+                http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
+                http-server.authentication.oauth2.client-id=trino
+                http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
+                http-server.authentication.oauth2.scopes=openid,profile,email
+                http-server.authentication.oauth2.principal-field=preferred_username
 
             autoscaling:
               enabled: true
@@ -79,20 +87,7 @@ spec:
 
             # https://trino.io/docs/current/admin/properties.html
             additionalConfigProperties:
-              - http-server.authentication.type=oauth2
-
-              # TLS terminates at Envoy; treat X-Forwarded-Proto=https requests as secure
-              - http-server.process-forwarded=true
-
-              - http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
-              - http-server.authentication.oauth2.client-id=trino
-              - http-server.authentication.oauth2.scopes=openid,profile,email
-              - http-server.authentication.oauth2.principal-field=preferred_username
-
-              - web-ui.authentication.type=oauth2
-
               - internal-communication.shared-secret=${ENV:TRINO_INTERNAL_SHARED_SECRET}
-              - http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
 
             envFrom:
               - secretRef:
