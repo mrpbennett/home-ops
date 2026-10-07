@@ -76,6 +76,7 @@ spec:
                 interval: 30s
 
             extraObjects:
+              # TODO: Migrate this secret over to the vault
               - apiVersion: v1
                 kind: Secret
                 metadata:
@@ -86,6 +87,7 @@ spec:
                   username: cGF1bA==
                   password: MTIzcXdlISE=
 
+              # Weekly system-backup
               - apiVersion: longhorn.io/v1beta2
                 kind: RecurringJob
                 metadata:
@@ -98,6 +100,7 @@ spec:
                   parameters:
                     volume-backup-policy: if-not-present
 
+              # Daily snapshot job for pvc
               - apiVersion: longhorn.io/v1beta2
                 kind: RecurringJob
                 metadata:
