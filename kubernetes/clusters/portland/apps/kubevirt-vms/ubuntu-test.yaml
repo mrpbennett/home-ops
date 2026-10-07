@@ -53,7 +53,7 @@ spec:
                   lock_passwd: false
               chpasswd:
                 list: |
-                  sysadm:ubuntu
+                  pb:pb
                 expire: false
               ssh_pwauth: true
 ---
