@@ -19,6 +19,9 @@ spec:
             url: docker://quay.io/containerdisks/ubuntu:22.04
         storage:
           storageClassName: longhorn
+          accessModes:
+            - ReadWriteMany
+          volumeMode: Block
           resources:
             requests:
               storage: 20Gi
