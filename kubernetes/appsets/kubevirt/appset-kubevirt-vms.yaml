@@ -1,4 +1,3 @@
-
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -16,7 +15,7 @@ spec:
                 - cluster: portland
           - list:
               elements:
-                - app_name: kubevirt
+                - app_name: kubevirt-vms
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
   template:
@@ -29,7 +28,7 @@ spec:
       project: "{{.project}}"
       sources:
         - repoURL: "{{.repo_url}}"
-          path: "kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}/vms"
+          path: "kubernetes/clusters/{{.cluster}}/apps/kubevirt/vms"
           targetRevision: main
           directory:
             recurse: true

@@ -15,7 +15,7 @@ spec:
                 - cluster: portland
           - list:
               elements:
-                - app_name: kubevirt
+                - app_name: kubevirt-cdi
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
   template:
@@ -28,7 +28,7 @@ spec:
       project: "{{.project}}"
       sources:
         - repoURL: "{{.repo_url}}"
-          path: "kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}/cdi"
+          path: "kubernetes/clusters/{{.cluster}}/apps/kubevirt/cdi"
           targetRevision: main
           directory:
             recurse: true
