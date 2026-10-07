@@ -61,3 +61,12 @@ machine:
           - bind
           - rshared
           - rw
+  files:
+    # Raw block volumes (KubeVirt/CDI on longhorn-kubevirt) are opened by non-root pods (UID 107).
+    # containerd only chowns the device node from the pod's securityContext when this is set.
+    - path: /etc/cri/conf.d/20-customization.part
+      op: create
+      permissions: 0o644
+      content: |
+        [plugins."io.containerd.cri.v1.runtime"]
+          device_ownership_from_security_context = true
