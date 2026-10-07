@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: &app_name kubevirt
+  name: kubevirt-cdi
   namespace: argocd
 spec:
   goTemplate: true
@@ -15,7 +15,7 @@ spec:
                 - cluster: portland
           - list:
               elements:
-                - app_name: *app_name
+                - app_name: kubevirt
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
   template:
@@ -28,14 +28,14 @@ spec:
       project: "{{.project}}"
       sources:
         - repoURL: "{{.repo_url}}"
-          path: "kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}/operator"
+          path: "kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}/cdi"
           targetRevision: main
           directory:
             recurse: true
 
       destination:
         name: "{{.cluster}}"
-        namespace: *app_name
+        namespace: cdi
       syncPolicy:
         automated:
           prune: true

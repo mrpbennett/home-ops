@@ -16,7 +16,7 @@ spec:
                 - cluster: portland
           - list:
               elements:
-                - app_name: *app_name
+                - app_name: kubevirt
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
   template:
@@ -29,7 +29,7 @@ spec:
       project: "{{.project}}"
       sources:
         - repoURL: "{{.repo_url}}"
-          path: "kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}"
+          path: "kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}/vms"
           targetRevision: main
           directory:
             recurse: true
