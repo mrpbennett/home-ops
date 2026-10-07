@@ -5,14 +5,14 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   labels:
-    kubevirt.io/vm: ubuntu-vm
-  name: ubuntu-vm
+    kubevirt.io/vm: &vm_name
+  name: *vm_name
 spec:
   runStrategy: Always
   template:
     metadata:
       labels:
-        kubevirt.io/vm: ubuntu-vm
+        kubevirt.io/vm: *vm_name
     spec:
       domain:
         cpu:
@@ -29,7 +29,7 @@ spec:
             - name: default
               masquerade: {}
         machine:
-          type: virt
+          type: q35
         resources:
           requests:
             memory: 2Gi
@@ -63,7 +63,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    vm.kubevirt.io/name: ubuntu-vm
+    vm.kubevirt.io/name: *vm_name
   ports:
     - port: 22
       targetPort: 22
