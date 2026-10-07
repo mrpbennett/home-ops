@@ -30,6 +30,10 @@ spec:
       labels:
         kubevirt.io/vm: *vm_name
     spec:
+      # TODO: uncomment the hostname selector when kube-wk-1 is up.
+      # Run VM on kube-wk-1
+      # nodeSelector:
+      #   kubernetes.io/hostname: kube-wk-1
       domain:
         cpu:
           cores: 1
