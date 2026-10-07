@@ -33,6 +33,8 @@ spec:
             config:
               inCluster: true
               inClusterContextName: "main"
+              # let the main container hot-reload plugins the manager updates without recreating the Pod
+              watchPlugins: true
               oidc:
                 secret:
                   create: false
@@ -51,6 +53,17 @@ spec:
                   sectionName: https
               hostnames:
                 - headlamp.70ld.dev
+
+            pluginsManager:
+              enabled: true
+              configContent: |
+                plugins:
+                  - name: headlamp_kubevirt
+                    source: https://artifacthub.io/packages/headlamp/headlamp-kubevirt/headlamp_kubevirt
+                    version: 0.3.1
+                installOptions:
+                  parallel: true
+                  maxConcurrent: 3
 
       destination:
         name: '{{.cluster}}'

@@ -239,8 +239,8 @@ resource "vault_kv_secret_v2" "trino_catalogs" {
   name  = "trino/catalogs"
 
   data_json = jsonencode({
-    TRINO_CNPG_CATALOG_USERNAME  = var.TRINO_CNPG_CATALOG_USERNAME
-    TRINO_CNPG_CATALOG_PASSWORD  = var.TRINO_CNPG_CATALOG_PASSWORD
+    TRINO_CNPG_CATALOG_USERNAME = var.TRINO_CNPG_CATALOG_USERNAME
+    TRINO_CNPG_CATALOG_PASSWORD = var.TRINO_CNPG_CATALOG_PASSWORD
   })
 }
 
