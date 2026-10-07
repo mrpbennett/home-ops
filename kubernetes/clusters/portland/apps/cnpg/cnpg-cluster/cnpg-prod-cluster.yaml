@@ -65,7 +65,7 @@ spec:
     retentionPolicy: "7d"
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
-      endpointURL: http://192.168.6.6:8333
+      endpointURL: http://192.168.6.2:8333
       wal:
         compression: gzip
       s3Credentials:
