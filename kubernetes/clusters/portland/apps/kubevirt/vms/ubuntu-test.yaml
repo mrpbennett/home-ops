@@ -10,6 +10,18 @@ metadata:
   namespace: kubevirt
 spec:
   runStrategy: Always
+  dataVolumeTemplates:
+    - metadata:
+        name: ubuntu-vm-rootdisk
+      spec:
+        source:
+          registry:
+            url: docker://quay.io/containerdisks/ubuntu:22.04
+        storage:
+          storageClassName: longhorn
+          resources:
+            requests:
+              storage: 20Gi
   template:
     metadata:
       labels:
@@ -22,7 +34,8 @@ spec:
           disks:
             - disk:
                 bus: virtio
-              name: containerdisk
+              name: rootdisk
+              bootOrder: 1
             - disk:
                 bus: virtio
               name: cloudinitdisk
@@ -39,9 +52,9 @@ spec:
           pod: {}
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: containerdisk
-          containerDisk:
-            image: quay.io/containerdisks/ubuntu:22.04
+        - name: rootdisk
+          dataVolume:
+            name: ubuntu-vm-rootdisk
         - name: cloudinitdisk
           cloudInitNoCloud:
             userData: |
@@ -53,7 +66,7 @@ spec:
                   lock_passwd: false
               chpasswd:
                 list: |
-                  pb:pb
+                  sysadm:ubuntu
                 expire: false
               ssh_pwauth: true
 ---
