@@ -108,6 +108,23 @@ spec:
                   cron: "0 1 * * *"
                   retain: 1
                   concurrency: 2
+
+              # RWX + volumeMode: Block (KubeVirt live migration) requires migratable: "true"
+              - apiVersion: storage.k8s.io/v1
+                kind: StorageClass
+                metadata:
+                  name: longhorn-kubevirt
+                provisioner: driver.longhorn.io
+                allowVolumeExpansion: true
+                reclaimPolicy: Delete
+                volumeBindingMode: Immediate
+                parameters:
+                  numberOfReplicas: "3"
+                  staleReplicaTimeout: "30"
+                  fsType: ext4
+                  dataEngine: v1
+                  migratable: "true"
+
       destination:
         name: "{{.cluster}}"
         namespace: longhorn-system
