@@ -63,7 +63,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    vm.kubevirt.io/name: *vm_name
+    vm.kubevirt.io/name: ubuntu-vm
   ports:
     - port: 22
       targetPort: 22
