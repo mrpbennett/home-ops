@@ -1,0 +1,49 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: discord
+  namespace: monitoring
+spec:
+  route:
+    receiver: discord-warning
+    groupBy: ["alertname", "cluster", "service"]
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 3h
+    routes:
+      - receiver: "null"
+        matchers:
+          - name: alertname
+            value: Watchdog
+      - receiver: "null"
+        matchers:
+          - name: severity
+            value: warning
+          - name: alertname
+            value: KubeMemoryOvercommit
+      - receiver: "null"
+        matchers:
+          - name: severity
+            value: critical
+          - name: alertname
+            value: KubeSchedulerDown|KubeProxyDown|KubeControllerManagerDown
+            matchType: =~
+      - receiver: discord-critical
+        matchers:
+          - name: severity
+            value: critical
+  receivers:
+    - name: "null"
+    - name: discord-critical
+      discordConfigs:
+        - apiURL:
+            name: alertmanager-discord
+            key: alertmanager-critical
+          sendResolved: true
+    - name: discord-warning
+      discordConfigs:
+        - apiURL:
+            name: alertmanager-discord
+            key: alertmanager-warning
+          sendResolved: true
