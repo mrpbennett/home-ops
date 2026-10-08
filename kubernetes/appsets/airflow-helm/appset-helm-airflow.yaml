@@ -111,12 +111,15 @@ spec:
                   email: pbennett.uk@outlook.com
 
               # Settings for ArgoCD
+              # ttlSecondsAfterFinished: null stops k8s deleting completed Jobs, which Argo reports as OutOfSync
               createUserJob:
                 useHelmHooks: false
                 applyCustomEnv: false
+                ttlSecondsAfterFinished: null
               migrateDatabaseJob:
                 useHelmHooks: false
                 applyCustomEnv: false
+                ttlSecondsAfterFinished: null
 
               # Configuration for the redis provisioned by the chart
               redis:
