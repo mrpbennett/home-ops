@@ -41,6 +41,10 @@ spec:
 
             defaultRules:
               create: true
+              # Talos issues short-lived component client certs and rotates them itself,
+              # so this alert fires on normal rotation
+              disabled:
+                KubeClientCertificateExpiration: true
               rules:
                 alertmanager: true
                 etcd: true
