@@ -65,7 +65,7 @@ data:
 
       - AdGuard Home:
             icon: adguard-home.png
-            href: http://dns.70ld.local
+            href: http://dns.70ld.dev
             description: Primary DNS
             widget:
                 type: adguard
