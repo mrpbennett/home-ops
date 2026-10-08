@@ -108,8 +108,25 @@ spec:
               dex:
                 enabled: false
 
+              # Metrics + ServiceMonitors feed the argocd alerts in apps/alertmanager-rules
+              controller:
+                metrics:
+                  enabled: true
+                  serviceMonitor:
+                    enabled: true
+
+              applicationSet:
+                metrics:
+                  enabled: true
+                  serviceMonitor:
+                    enabled: true
+
               server:
                 replicas: 2
+                metrics:
+                  enabled: true
+                  serviceMonitor:
+                    enabled: true
                 # Keep the existing MetalLB IP used by the argocd CLI context
                 service:
                   type: LoadBalancer
@@ -131,6 +148,10 @@ spec:
               repoServer:
                 name: repo-server
                 replicas: 2
+                metrics:
+                  enabled: true
+                  serviceMonitor:
+                    enabled: true
 
 
       destination:

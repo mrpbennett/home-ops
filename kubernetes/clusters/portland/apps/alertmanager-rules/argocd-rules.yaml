@@ -1,0 +1,35 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: argocd-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: argocd
+      rules:
+        - alert: ArgoAppOutOfSync
+          expr: argocd_app_info{sync_status="OutOfSync"} == 1
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Argo CD app {{ $labels.name }} is out of sync"
+            description: "Application {{ $labels.name }} (project {{ $labels.project }}) has been OutOfSync for 30 minutes."
+
+        - alert: ArgoAppUnhealthy
+          expr: argocd_app_info{health_status=~"Degraded|Missing"} == 1
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Argo CD app {{ $labels.name }} is {{ $labels.health_status }}"
+            description: "Application {{ $labels.name }} has been {{ $labels.health_status }} for 15 minutes."
+
+        - alert: ArgoAppSyncFailed
+          expr: increase(argocd_app_sync_total{phase=~"Error|Failed"}[30m]) > 0
+          labels:
+            severity: warning
+          annotations:
+            summary: "Argo CD sync failed for {{ $labels.name }}"
+            description: "Application {{ $labels.name }} had a sync end in {{ $labels.phase }} in the last 30 minutes."

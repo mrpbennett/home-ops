@@ -1,0 +1,71 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: platform-alerts
+  namespace: monitoring
+spec:
+  groups:
+    # Vault exposes no metrics here, so readiness comes from kube-state-metrics.
+    # A sealed Vault fails its readiness probe while the pod stays Running.
+    - name: vault
+      rules:
+        - alert: VaultNotReady
+          expr: kube_pod_status_ready{namespace="vault", pod=~"vault-[0-9]+", condition="true"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Vault pod {{ $labels.pod }} is not ready (sealed?)"
+            description: "{{ $labels.pod }} has failed its readiness probe for 5 minutes. This usually means Vault is sealed after a restart."
+
+    - name: external-dns
+      rules:
+        - alert: ExternalDNSSyncErrors
+          expr: external_dns_controller_consecutive_soft_errors > 3
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "external-dns is failing to sync records"
+            description: "{{ $labels.pod }} has had {{ $value }} consecutive sync errors."
+
+        - alert: ExternalDNSSyncStale
+          expr: time() - external_dns_controller_last_sync_timestamp_seconds > 900
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "external-dns has not synced for 15 minutes"
+            description: "{{ $labels.pod }} last synced {{ $value | humanizeDuration }} ago."
+
+    - name: loki
+      rules:
+        - alert: LokiCompactorStale
+          expr: time() - loki_boltdb_shipper_compact_tables_operation_last_successful_run_timestamp_seconds > 1800
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Loki compactor has not succeeded recently"
+            description: "The last successful Loki compaction on {{ $labels.pod }} was {{ $value | humanizeDuration }} ago."
+
+        - alert: LokiRequestErrors
+          expr: |
+            sum by (namespace, job) (rate(loki_request_duration_seconds_count{status_code=~"5.."}[5m]))
+              / sum by (namespace, job) (rate(loki_request_duration_seconds_count[5m])) > 0.05
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Loki is returning 5xx errors"
+            description: "{{ $value | humanizePercentage }} of requests to {{ $labels.job }} are failing."
+
+        - alert: AlloyDown
+          expr: up{job="alloy"} == 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Alloy on {{ $labels.instance }} is down"
+            description: "Log collection from {{ $labels.instance }} has stopped."

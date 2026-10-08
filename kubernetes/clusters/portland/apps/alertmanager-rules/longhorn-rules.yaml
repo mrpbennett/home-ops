@@ -1,0 +1,63 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: longhorn-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: longhorn
+      rules:
+        - alert: LonghornVolumeDegraded
+          expr: longhorn_volume_robustness{state="degraded"} == 1
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn volume {{ $labels.pvc }} is degraded"
+            description: "Volume {{ $labels.pvc_namespace }}/{{ $labels.pvc }} has been degraded for 30 minutes (replica rebuild not finishing?)."
+
+        - alert: LonghornVolumeFaulted
+          expr: longhorn_volume_robustness{state="faulted"} == 1
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn volume {{ $labels.pvc }} is faulted"
+            description: "Volume {{ $labels.pvc_namespace }}/{{ $labels.pvc }} has no healthy replicas."
+
+        - alert: LonghornNodeNotReady
+          expr: longhorn_node_status{condition="ready"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn node {{ $labels.node }} is not ready"
+            description: "Longhorn reports node {{ $labels.node }} as not ready for 5 minutes."
+
+        - alert: LonghornDiskNotReady
+          expr: longhorn_disk_status{condition="ready"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn disk on {{ $labels.node }} is not ready"
+            description: "Disk {{ $labels.disk }} on node {{ $labels.node }} is not ready."
+
+        - alert: LonghornDiskUsageHigh
+          expr: longhorn_disk_usage_bytes / longhorn_disk_capacity_bytes > 0.8
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn disk on {{ $labels.node }} is over 80% full"
+            description: "Disk {{ $labels.disk }} on {{ $labels.node }} is {{ $value | humanizePercentage }} full."
+
+        - alert: LonghornDiskUsageCritical
+          expr: longhorn_disk_usage_bytes / longhorn_disk_capacity_bytes > 0.9
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Longhorn disk on {{ $labels.node }} is over 90% full"
+            description: "Disk {{ $labels.disk }} on {{ $labels.node }} is {{ $value | humanizePercentage }} full."

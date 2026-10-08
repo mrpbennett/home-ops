@@ -1,0 +1,67 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cnpg-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: cnpg
+      rules:
+        - alert: CNPGInstanceDown
+          expr: cnpg_collector_up == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "CNPG instance {{ $labels.pod }} is down"
+            description: "PostgreSQL in {{ $labels.namespace }}/{{ $labels.pod }} has not been healthy for 5 minutes."
+
+        - alert: CNPGReplicationLagHigh
+          expr: cnpg_pg_replication_lag > 30
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CNPG replica {{ $labels.pod }} is lagging"
+            description: "Replication lag on {{ $labels.namespace }}/{{ $labels.pod }} has been {{ $value | humanizeDuration }} for 10 minutes."
+
+        # Backups are weekly. Only the primary reports a non-zero timestamp, so take the max across pods.
+        # 8 days = one weekly cycle plus a day of slack.
+        - alert: CNPGBackupStale
+          expr: time() - max by (namespace) (cnpg_collector_last_available_backup_timestamp) > 8 * 86400
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "No CNPG backup in {{ $labels.namespace }} for over 8 days"
+            description: "The last successful backup in {{ $labels.namespace }} was {{ $value | humanizeDuration }} ago. Backups are expected weekly."
+
+        - alert: CNPGBackupFailed
+          expr: max by (namespace) (cnpg_collector_last_failed_backup_timestamp) > max by (namespace) (cnpg_collector_last_available_backup_timestamp)
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Latest CNPG backup in {{ $labels.namespace }} failed"
+            description: "The most recent backup attempt in {{ $labels.namespace }} failed and no successful backup has happened since."
+
+        - alert: CNPGWALArchiveBacklog
+          expr: cnpg_collector_pg_wal_archive_status{value="ready"} > 20
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "WAL archiving is backed up on {{ $labels.pod }}"
+            description: "{{ $value }} WAL files are waiting to be archived on {{ $labels.namespace }}/{{ $labels.pod }}."
+
+        - alert: CNPGConnectionsHigh
+          expr: |
+            sum by (namespace, pod) (cnpg_backends_total)
+              / on (namespace, pod) max by (namespace, pod) (cnpg_pg_settings_setting{name="max_connections"}) > 0.8
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CNPG connections above 80% on {{ $labels.pod }}"
+            description: "{{ $labels.namespace }}/{{ $labels.pod }} is using {{ $value | humanizePercentage }} of max_connections."
