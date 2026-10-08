@@ -50,6 +50,14 @@ spec:
         passwordSecret:
           name: cnpg-cluster-user
 
+      - name: keycloak
+        ensure: present
+        comment: "Keycloak user for keycloak db"
+        login: true
+        superuser: false
+        passwordSecret:
+          name: cnpg-keycloack-db
+
     services:
       additional:
         - selectorType: rw

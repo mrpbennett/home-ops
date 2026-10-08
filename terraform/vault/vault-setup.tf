@@ -176,6 +176,16 @@ resource "vault_kv_secret_v2" "cnpg_cluster_user" {
   })
 }
 
+resource "vault_kv_secret_v2" "cnpg_keycloack_db" {
+  mount = vault_mount.kv.path
+  name  = "cloudnativepg/keycloak-db"
+
+  data_json = jsonencode({
+    username = var.CNPG_KEYCLOAK_USERNAME
+    password = var.CNPG_KEYCLOAK_PASSWORD
+  })
+}
+
 resource "vault_kv_secret_v2" "cnpg_backup" {
   mount = vault_mount.kv.path
   name  = "cloudnativepg/backup"
@@ -304,6 +314,15 @@ variable "CNPG_USERNAME" {
   sensitive = true
 }
 variable "CNPG_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+
+variable "CNPG_KEYCLOAK_USERNAME" {
+  type      = string
+  sensitive = true
+}
+variable "CNPG_KEYCLOAK_PASSWORD" {
   type      = string
   sensitive = true
 }
