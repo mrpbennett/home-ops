@@ -69,7 +69,7 @@ data:
             description: Primary DNS
             widget:
                 type: adguard
-                url: http://192.168.4.2
+                url: https://dns.70ld.dev
                 username: admin
                 password: 123qwe!!
                 fields: ["queries", "blocked", "filtered", "latency"]
