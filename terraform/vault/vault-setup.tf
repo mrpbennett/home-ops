@@ -176,7 +176,7 @@ resource "vault_kv_secret_v2" "cnpg_cluster_user" {
   })
 }
 
-resource "vault_kv_secret_v2" "cnpg_keycloack_db" {
+resource "vault_kv_secret_v2" "cnpg_keycloak_db" {
   mount = vault_mount.kv.path
   name  = "cloudnativepg/keycloak-db"
 
