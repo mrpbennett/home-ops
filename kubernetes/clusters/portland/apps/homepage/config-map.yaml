@@ -40,7 +40,7 @@ data:
       Platform:
         icon: mdi-kubernetes
         style: row
-        columns: 2
+        columns: 3
 
       Security:
         icon: mdi-shield-lock
@@ -147,6 +147,11 @@ data:
             type: argocd
             url: https://argocd.70ld.dev
             key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmdvY2QiLCJzdWIiOiJob21lcGFnZTphcGlLZXkiLCJuYmYiOjE3OTEyODUzMjEsImlhdCI6MTc5MTI4NTMyMSwianRpIjoiYWEwYzE0YjctMmQwMy00ZTg4LWI5ZTctN2EyZGVjOWNkZTJiIn0.O8O5e7IDTUtT2IRefh3bn1Hym9DqlyMBwhY2nPQ7n5A
+
+      - Registry:
+          icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/docker.svg
+          href: https://registry.70ld.dev/v2/_catalog
+          description: Image registry
 
     - Security:
 
