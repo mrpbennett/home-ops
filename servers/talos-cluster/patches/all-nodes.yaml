@@ -70,3 +70,10 @@ machine:
       content: |
         [plugins."io.containerd.cri.v1.runtime"]
           device_ownership_from_security_context = true
+---
+# Private registry ---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: registry.70ld.dev:5000 # registry name as it appears in the image reference
+endpoints:
+  - url: https://registry.70ld.dev:5000

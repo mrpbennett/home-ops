@@ -33,7 +33,8 @@ spec:
         helm:
           valuesObject:
             server:
-              workers: 2
+              # 0 = single-node: coordinator also runs queries (one user, one JDBC catalog)
+              workers: 0
               node:
                 environment: production
                 dataDir: /data/trino
@@ -50,7 +51,7 @@ spec:
                     path: ""
                 authenticationType: "OAUTH2"
                 query:
-                  maxMemory: "2GB"
+                  maxMemory: "1GB"
               # OAuth2 is coordinator-only; workers fail to start if given these properties
               coordinatorExtraConfig: |
                 web-ui.authentication.type=oauth2
@@ -63,7 +64,7 @@ spec:
                 http-server.authentication.oauth2.principal-field=preferred_username
 
             autoscaling:
-              enabled: true
+              enabled: false
               maxReplicas: 5
               targetCPUUtilizationPercentage: ""
               targetMemoryUtilizationPercentage: 80
@@ -128,19 +129,22 @@ spec:
                   }
 
             coordinator:
+              config:
+                nodeScheduler:
+                  includeCoordinator: true
               jvm:
-                maxHeapSize: "2G"
+                maxHeapSize: "1536M"
                 gcMethod:
                   type: "UseG1GC"
                   g1:
                     heapRegionSize: "16M"
               resources:
                 requests:
-                  cpu: "500m"
+                  cpu: "250m"
                   memory: "1Gi"
                 limits:
                   cpu: "1500m"
-                  memory: "2560Mi"
+                  memory: "2Gi"
 
             worker:
               jvm:
