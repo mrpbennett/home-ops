@@ -8,14 +8,14 @@ spec:
   groups:
     - name: argocd
       rules:
-        - alert: ArgoAppOutOfSync
-          expr: argocd_app_info{sync_status="OutOfSync"} == 1
-          for: 30m
-          labels:
-            severity: warning
-          annotations:
-            summary: "Argo CD app {{ $labels.name }} is out of sync"
-            description: "Application {{ $labels.name }} (project {{ $labels.project }}) has been OutOfSync for 30 minutes."
+        # - alert: ArgoAppOutOfSync
+        #   expr: argocd_app_info{sync_status="OutOfSync"} == 1
+        #   for: 30m
+        #   labels:
+        #     severity: warning
+        #   annotations:
+        #     summary: "Argo CD app {{ $labels.name }} is out of sync"
+        #     description: "Application {{ $labels.name }} (project {{ $labels.project }}) has been OutOfSync for 30 minutes."
 
         - alert: ArgoAppUnhealthy
           expr: argocd_app_info{health_status=~"Degraded|Missing"} == 1
