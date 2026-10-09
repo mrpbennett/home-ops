@@ -6,9 +6,9 @@
   ],
   "kubernetes": {
     "managerFilePatterns": [
-      "/kubernetes/k3s-prod/registry/helm/.+\\.ya?ml$/",
-      "/kubernetes/k3s-prod/registry/helm/.+/Chart\\.ya?ml$/",
-      "/kubernetes/k3s-prod/apps/.+\\.ya?ml$/"
+      "/kubernetes/appsets/.+\\.ya?ml$/",
+      "/kubernetes/clusters/portland/apps/.+\\.ya?ml$/",
+      "/kubernetes/clusters/portland/CLUSTER/.+\\.ya?ml$/"
     ]
   },
   "packageRules": [
@@ -21,5 +21,5 @@
       ]
     }
   ],
-  "platformAutomerge": false
+  "platformAutomerge": true
 }
