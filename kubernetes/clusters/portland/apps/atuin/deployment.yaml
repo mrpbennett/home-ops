@@ -28,7 +28,7 @@ spec:
           envFrom:
             - secretRef:
                 name: atuin-secret
-          image: ghcr.io/atuinsh/atuin:18.22.0
+          image: ghcr.io/atuinsh/atuin:18.23.0
           name: atuin
           ports:
             - containerPort: 8888
