@@ -58,6 +58,14 @@ spec:
         passwordSecret:
           name: cnpg-keycloak-db
 
+      - name: gitea
+        ensure: present
+        comment: "Gitea user for gitea db"
+        login: true
+        superuser: false
+        passwordSecret:
+          name: cnpg-gitea-db
+
     services:
       additional:
         - selectorType: rw

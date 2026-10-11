@@ -186,6 +186,16 @@ resource "vault_kv_secret_v2" "cnpg_keycloak_db" {
   })
 }
 
+resource "vault_kv_secret_v2" "cnpg_gitea_db" {
+  mount = vault_mount.kv.path
+  name  = "cloudnativepg/gitea-db"
+
+  data_json = jsonencode({
+    username = var.CNPG_GITEA_USERNAME
+    password = var.CNPG_GITEA_PASSWORD
+  })
+}
+
 resource "vault_kv_secret_v2" "cnpg_backup" {
   mount = vault_mount.kv.path
   name  = "cloudnativepg/backup"
@@ -323,6 +333,14 @@ variable "CNPG_KEYCLOAK_USERNAME" {
   sensitive = true
 }
 variable "CNPG_KEYCLOAK_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+variable "CNPG_GITEA_USERNAME" {
+  type      = string
+  sensitive = true
+}
+variable "CNPG_GITEA_PASSWORD" {
   type      = string
   sensitive = true
 }
