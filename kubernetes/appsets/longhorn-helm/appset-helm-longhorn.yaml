@@ -117,6 +117,9 @@ spec:
                 kind: StorageClass
                 metadata:
                   name: longhorn-kubevirt
+                  annotations:
+                    # Virt default is checked before the k8s default by CDI/KubeVirt; keeps CDIDefaultStorageClassDegraded quiet
+                    storageclass.kubevirt.io/is-default-virt-class: "true"
                 provisioner: driver.longhorn.io
                 allowVolumeExpansion: true
                 reclaimPolicy: Delete

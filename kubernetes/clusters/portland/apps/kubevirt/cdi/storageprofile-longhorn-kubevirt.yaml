@@ -1,0 +1,8 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: StorageProfile
+metadata:
+  name: longhorn-kubevirt
+spec:
+  # Longhorn supports CSI volume cloning, so use it instead of host-assisted copy.
+  # Required for CDIDefaultStorageClassDegraded to clear (smart clone + RWX on the default virt class).
+  cloneStrategy: csi-clone
