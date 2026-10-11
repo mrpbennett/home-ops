@@ -341,6 +341,21 @@ spec:
             grafana:
               adminPassword: password
 
+              resources:
+                requests:
+                  cpu: 25m
+                  memory: 128Mi
+                limits:
+                  memory: 384Mi
+
+              sidecar:
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 96Mi
+                  limits:
+                    memory: 192Mi
+
               defaultDashboardsTimezone: Europe/London
               defaultDashboardsEditable: true
 
@@ -452,7 +467,10 @@ spec:
               prometheusSpec:
                 resources:
                   requests:
-                    memory: 200Mi
+                    cpu: 100m
+                    memory: 1536Mi
+                  limits:
+                    memory: 2560Mi
 
                 serviceMonitorSelectorNilUsesHelmValues: false
                 serviceMonitorSelector: {}

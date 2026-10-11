@@ -12,4 +12,6 @@ spec:
     imagePullPolicy: IfNotPresent
   customizeComponents: {}
   imagePullPolicy: IfNotPresent
+  infra:
+    replicas: 1
   workloadUpdateStrategy: {}

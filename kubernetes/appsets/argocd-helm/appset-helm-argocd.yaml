@@ -110,19 +110,53 @@ spec:
 
               # Metrics + ServiceMonitors feed the argocd alerts in apps/alertmanager-rules
               controller:
+                resources:
+                  requests:
+                    cpu: 50m
+                    memory: 640Mi
+                  limits:
+                    memory: 1280Mi
                 metrics:
                   enabled: true
                   serviceMonitor:
                     enabled: true
 
               applicationSet:
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 96Mi
+                  limits:
+                    memory: 256Mi
                 metrics:
                   enabled: true
                   serviceMonitor:
                     enabled: true
 
+              notifications:
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 48Mi
+                  limits:
+                    memory: 128Mi
+
+              redis:
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 32Mi
+                  limits:
+                    memory: 128Mi
+
               server:
                 replicas: 2
+                resources:
+                  requests:
+                    cpu: 25m
+                    memory: 128Mi
+                  limits:
+                    memory: 384Mi
                 metrics:
                   enabled: true
                   serviceMonitor:
@@ -148,6 +182,12 @@ spec:
               repoServer:
                 name: repo-server
                 replicas: 2
+                resources:
+                  requests:
+                    cpu: 25m
+                    memory: 128Mi
+                  limits:
+                    memory: 768Mi
                 metrics:
                   enabled: true
                   serviceMonitor:
