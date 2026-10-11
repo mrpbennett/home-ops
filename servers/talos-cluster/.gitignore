@@ -3,4 +3,5 @@ controlplane.yaml
 worker.yaml
 talosconfig
 secrets.yaml
-kube-cp-*.yaml
+# Full per-node configs rendered by `mise run talos:render`
+rendered/

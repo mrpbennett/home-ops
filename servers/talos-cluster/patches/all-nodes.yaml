@@ -1,6 +1,8 @@
 ---
-# Shared patch for every node, applied on top of the generated base config:
-#   talosctl patch machineconfig --nodes <ip> --patch @patches/all-nodes.yaml
+# Shared patch for every node, layered on the generated base config before patches/kube-cp-N.yaml.
+# Don't `talosctl patch` live nodes with it: render and apply full configs instead (see ../mise.toml):
+#   mise run talos:diff      # review live vs rendered
+#   mise run talos:apply N   # one node at a time
 #
 # Talos 1.14 splits most settings into separate documents, so the old
 # machine.install / machine.network.nameservers / cluster.allowSchedulingOnControlPlanes
@@ -25,12 +27,19 @@ kind: ResolverConfig
 nameservers:
   - address: 192.168.4.2 # AdGuard
 ---
-# All three nodes are control planes that also run workloads: drop the NoSchedule taint
+# All three nodes are control planes that also run workloads: drop the NoSchedule taint.
+# A key-level `$patch: delete` on the taint fails ("lookup failed": the dots in the key are read as a
+# path), so delete the whole document and recreate it without taints. Keep labels in sync with gen config.
 apiVersion: v1alpha1
 kind: KubeNodeConfig
-taints:
-  node-role.kubernetes.io/control-plane:
-    $patch: delete
+$patch: delete
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+nodeIP: {}
+labels:
+  node-role.kubernetes.io/control-plane: ""
+  node.kubernetes.io/exclude-from-external-load-balancers: ""
 ---
 # Replace the KubeletConfig document with the v1alpha1 block so extraMounts can be set.
 # Keep image/seccomp in sync with the values the generated config uses.
@@ -61,15 +70,23 @@ machine:
           - bind
           - rshared
           - rw
-  files:
-    # Raw block volumes (KubeVirt/CDI on longhorn-kubevirt) are opened by non-root pods (UID 107).
-    # containerd only chowns the device node from the pod's securityContext when this is set.
-    - path: /etc/cri/conf.d/20-customization.part
-      op: create
-      permissions: 0o644
-      content: |
-        [plugins."io.containerd.cri.v1.runtime"]
-          device_ownership_from_security_context = true
+---
+# Raw block volumes (KubeVirt/CDI on longhorn-kubevirt) are opened by non-root pods (UID 107).
+# containerd only chowns the device node from the pod's securityContext when this is set.
+# Replaces the deprecated machine.files /etc/cri/conf.d/20-customization.part; applying it restarts CRI.
+apiVersion: v1alpha1
+kind: CRICustomizationConfig
+name: device-ownership
+content: |
+  [plugins."io.containerd.cri.v1.runtime"]
+    device_ownership_from_security_context = true
+---
+# kube-proxy metrics default to 127.0.0.1:10249, so Prometheus can't scrape them (TargetDown).
+# Talos 1.14 rejects cluster.proxy alongside this document.
+apiVersion: v1alpha1
+kind: KubeProxyConfig
+config:
+  metricsBindAddress: 0.0.0.0:10249
 ---
 # Private registry ---
 apiVersion: v1alpha1

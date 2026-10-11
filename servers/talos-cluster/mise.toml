@@ -1,2 +1,97 @@
 [tools]
 talosctl = "latest"
+hunk = "latest"
+yq = "latest"
+
+[env]
+TALOSCONFIG = "{{config_root}}/talosconfig"
+
+[vars]
+# Kubernetes version the cluster runs; used by talos:render and talos:sync-k8s
+k8s_version = "1.37.1"
+
+# Full machine configs are rendered from scratch (base + patches/all-nodes.yaml + patches/<node>.yaml)
+# and applied with apply-config, which replaces the node's config. Unlike `talosctl patch`, re-running
+# is idempotent and removing a setting from a patch removes it from the node.
+# Nodes are kube-cp-1..3 at 192.168.7.1..3.
+
+[tasks."talos:render"]
+description = "Render full machine configs for every node into rendered/"
+run = '''
+set -euo pipefail
+[ -f secrets.yaml ] || { echo "secrets.yaml missing; run: mise run talos:secrets" >&2; exit 1; }
+mkdir -p rendered
+for n in 1 2 3; do
+  talosctl gen config portland https://192.168.7.200:6443 \
+    --with-secrets secrets.yaml \
+    --talos-version v1.14 \
+    --kubernetes-version {{vars.k8s_version}} \
+    --output-types controlplane \
+    --with-docs=false --with-examples=false \
+    --config-patch @patches/all-nodes.yaml \
+    --config-patch @patches/kube-cp-$n.yaml \
+    --output rendered/kube-cp-$n.yaml --force
+  talosctl validate --mode metal --config rendered/kube-cp-$n.yaml
+done
+'''
+
+[tasks."talos:diff"]
+description = "Render, then review live vs rendered configs in hunk"
+depends = ["talos:render"]
+usage = 'arg "[node]" help="1, 2 or 3; all nodes if omitted"'
+run = '''
+set -euo pipefail
+# Live configs hold the cluster PKI: keep them in a temp dir that is removed on exit
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+for n in ${usage_node:-1 2 3}; do
+  talosctl --nodes 192.168.7.$n get machineconfig v1alpha1 -o jsonpath='{.spec}' > "$tmp/live-$n.yaml"
+  # Strip comments and normalise formatting on both sides so only real changes show
+  # (a node's config may have been applied with or without gen config's doc comments)
+  yq '... comments="" | ... style=""' "$tmp/live-$n.yaml" > "$tmp/a-$n.yaml"
+  yq '... comments="" | ... style=""' rendered/kube-cp-$n.yaml > "$tmp/b-$n.yaml"
+  diff -u --label kube-cp-$n.yaml --label kube-cp-$n.yaml \
+    "$tmp/a-$n.yaml" "$tmp/b-$n.yaml" >> "$tmp/changes.patch" || true
+  # The dry run reports whether applying needs a reboot
+  summary=$(talosctl apply-config --nodes 192.168.7.$n --file rendered/kube-cp-$n.yaml --dry-run 2>&1 \
+    | grep -A1 '^Dry run summary:' | tail -1)
+  echo "kube-cp-$n: $summary"
+done
+if [ -s "$tmp/changes.patch" ]; then
+  hunk patch "$tmp/changes.patch"
+else
+  echo "No changes: live configs match rendered/"
+fi
+'''
+
+[tasks."talos:apply"]
+description = "Render and apply the config to one node"
+depends = ["talos:render"]
+usage = 'arg "<node>" help="1, 2 or 3 — one node at a time so the control plane keeps quorum"'
+run = '''
+set -euo pipefail
+talosctl apply-config --nodes 192.168.7.${usage_node} --file rendered/kube-cp-${usage_node}.yaml
+'''
+
+# Talos creates its Kubernetes manifests (kube-proxy, CoreDNS, flannel) but never updates existing ones,
+# so KubeProxyConfig/KubeCoreDNSConfig/KubeFlannelCNIConfig changes need this after talos:apply.
+# Running upgrade-k8s at the current version only syncs manifests; kube-proxy pods roll one node at a time.
+[tasks."talos:sync-k8s"]
+description = "Sync Talos-managed Kubernetes manifests to the applied machine configs"
+usage = 'flag "--dry-run" help="Preview the manifest changes without applying them"'
+run = '''
+set -euo pipefail
+talosctl --nodes 192.168.7.1 upgrade-k8s --to {{vars.k8s_version}} ${usage_dry_run:+--dry-run}
+'''
+
+# If secrets.yaml is lost, recover it from a running node (keep it out of git; back it up):
+[tasks."talos:secrets"]
+description = "Recreate secrets.yaml from kube-cp-1's live config"
+run = '''
+set -euo pipefail
+[ ! -f secrets.yaml ] || { echo "secrets.yaml already exists" >&2; exit 1; }
+live=$(mktemp)
+trap 'rm -f "$live"' EXIT
+talosctl --nodes 192.168.7.1 get machineconfig v1alpha1 -o jsonpath='{.spec}' > "$live"
+talosctl gen secrets --from-controlplane-config "$live" -o secrets.yaml
+'''
