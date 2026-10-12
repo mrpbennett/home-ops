@@ -1,7 +1,7 @@
 [tools]
 argocd = "latest"
 kubectl = "latest"
-logcli = "latest"
+loki-logcli = "latest"
 talosctl = "latest"
 hunk = "latest"
 jq = "latest"
