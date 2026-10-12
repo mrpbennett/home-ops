@@ -2168,6 +2168,7 @@ spec:
         - args:
             - --port=9120
             - --log-level=info
+            - --ignore-exclude-lb
           env:
             - name: METALLB_NODE_NAME
               valueFrom:
