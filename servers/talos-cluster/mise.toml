@@ -17,6 +17,7 @@ k8s_version = "1.37.1"
 
 [tasks."talos:render"]
 description = "Render full machine configs for every node into rendered/"
+shell = "zsh -c"
 run = '''
 set -euo pipefail
 [ -f secrets.yaml ] || { echo "secrets.yaml missing; run: mise run talos:secrets" >&2; exit 1; }
@@ -39,12 +40,13 @@ done
 description = "Render, then review live vs rendered configs in hunk"
 depends = ["talos:render"]
 usage = 'arg "[node]" help="1, 2 or 3; all nodes if omitted"'
+shell = "zsh -c"
 run = '''
 set -euo pipefail
 # Live configs hold the cluster PKI: keep them in a temp dir that is removed on exit
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
-for n in ${usage_node:-1 2 3}; do
+for n in ${=usage_node:-1 2 3}; do
   talosctl --nodes 192.168.7.$n get machineconfig v1alpha1 -o jsonpath='{.spec}' > "$tmp/live-$n.yaml"
   # Strip comments and normalise formatting on both sides so only real changes show
   # (a node's config may have been applied with or without gen config's doc comments)
@@ -68,6 +70,7 @@ fi
 description = "Render and apply the config to one node"
 depends = ["talos:render"]
 usage = 'arg "<node>" help="1, 2 or 3 — one node at a time so the control plane keeps quorum"'
+shell = "zsh -c"
 run = '''
 set -euo pipefail
 talosctl apply-config --nodes 192.168.7.${usage_node} --file rendered/kube-cp-${usage_node}.yaml
@@ -79,6 +82,7 @@ talosctl apply-config --nodes 192.168.7.${usage_node} --file rendered/kube-cp-${
 [tasks."talos:sync-k8s"]
 description = "Sync Talos-managed Kubernetes manifests to the applied machine configs"
 usage = 'flag "--dry-run" help="Preview the manifest changes without applying them"'
+shell = "zsh -c"
 run = '''
 set -euo pipefail
 talosctl --nodes 192.168.7.1 upgrade-k8s --to {{vars.k8s_version}} ${usage_dry_run:+--dry-run}
@@ -87,6 +91,7 @@ talosctl --nodes 192.168.7.1 upgrade-k8s --to {{vars.k8s_version}} ${usage_dry_r
 # If secrets.yaml is lost, recover it from a running node (keep it out of git; back it up):
 [tasks."talos:secrets"]
 description = "Recreate secrets.yaml from kube-cp-1's live config"
+shell = "zsh -c"
 run = '''
 set -euo pipefail
 [ ! -f secrets.yaml ] || { echo "secrets.yaml already exists" >&2; exit 1; }
