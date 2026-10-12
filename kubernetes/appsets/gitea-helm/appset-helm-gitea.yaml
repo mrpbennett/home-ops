@@ -32,57 +32,87 @@ spec:
         targetRevision: 12.7.0
         helm:
           valuesObject:
-            deployment:
-              enalbed: true
+            # NOTE: the chart bundles its own postgres and valkey, both on by default
+            # (postgresql-ha, valkey-cluster). We use the cluster's CNPG instead, and
+            # with valkey off Gitea falls back to in-memory cache/session + leveldb queue.
+            postgresql-ha:
+              enabled: false
+            postgresql:
+              enabled: false
+            valkey-cluster:
+              enabled: false
+            valkey:
+              enabled: false
 
-            dnsConfig:
-              nameservers:
-                - 192.168.4.2
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                cpu: "1"
+                memory: 768Mi
 
-            gitea:
-              envFrom:
-                - secretRef:
-                    name: gitea-db
+            service:
+              ssh:
+                type: LoadBalancer
+                port: 22
+                # chart default is None (headless), which cannot be a LoadBalancer
+                clusterIP: ""
+                annotations:
+                  metallb.universe.tf/loadBalancerIPs: 192.168.7.16
+                  external-dns.alpha.kubernetes.io/hostname: git-ssh.70ld.dev
 
-              resources:
-                limits:
-                  cpu: 100m
-                  ephemeral: 100Mi
-                  memory: 128Mi
-                requests:
-                  cpu: 100m
-                  ephemeral: 100m
-                  memory: 128Mi
-                config:
-                  database:
-                    DB_TYPE: postgres
-                    HOST: cnpg-prod-cluster-rw.cnpg-prod-cluster.svc.cluster.local:5432
-                    NAME: gitea
-                    USER: gitea
-                    PASSWD: gitea
-                    SCHEMA: gitea
-
-              gatewayAPI:
-                enalbed: true
+            gatewayAPI:
+              enabled: true
+              core:
                 httpRoute:
                   enabled: true
+                  # upstream gateway terminates TLS, so ROOT_URL becomes https://
+                  tls: true
                   parentRefs:
                     - name: envoy-shared-gateway
                       namespace: envoy-gateway-system
+                      sectionName: https
                   hostnames:
-                    - 'git.70ld.dev'
-                  rules:
-                    - matches:
-                        - path:
-                            type: PathPrefix
-                            value: /
-                      backendRefs:
-                        - name: gitea-svc
-                          port: 8080
+                    - git.70ld.dev
 
-            # NOTE: disabling built in cnpg for clusters own cnpg instance
-            cloudnativePG:
-              enalbed: false
+            gitea:
+              admin:
+                existingSecret: gitea-admin
+                passwordMode: keepUpdated
+
+              # Keycloak SSO. Client secret comes from Vault via the gitea-oauth Secret.
+              # The name here is the auth source name and appears in the callback URL:
+              # https://git.70ld.dev/user/oauth2/keycloak/callback
+              oauth:
+                - name: keycloak
+                  provider: openidConnect
+                  existingSecret: gitea-oauth
+                  autoDiscoverUrl: https://keycloak.70ld.dev/realms/master/.well-known/openid-configuration
+
+              # DB password is injected as GITEA__database__PASSWD, never in git
+              additionalConfigFromEnvs:
+                - name: GITEA__database__PASSWD
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea-db
+                      key: password
+
+              config:
+                server:
+                  DOMAIN: git.70ld.dev
+                  SSH_DOMAIN: git-ssh.70ld.dev
+                database:
+                  DB_TYPE: postgres
+                  HOST: cnpg-prod-cluster-rw.cnpg-prod-cluster.svc.cluster.local:5432
+                  NAME: gitea
+                  USER: gitea
+                # accounts are only created through Keycloak sign-in
+                service:
+                  DISABLE_REGISTRATION: true
+                  ALLOW_ONLY_EXTERNAL_REGISTRATION: true
+                oauth2_client:
+                  ENABLE_AUTO_REGISTRATION: true
 
       destination:
         name: "{{.cluster}}"

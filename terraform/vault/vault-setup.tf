@@ -85,6 +85,16 @@ path "kv/data/external-dns/*" {
 EOT
 }
 
+# -- GITEA --
+resource "vault_policy" "gitea_read" {
+  name   = "gitea-read"
+  policy = <<EOT
+path "kv/data/gitea/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 # -- HEADLAMP --
 resource "vault_policy" "headlamp_read" {
   name   = "headlamp-read"
@@ -137,7 +147,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "headlamp-read", "pgadmin-read", "seaweedfs-read", "trino-read", "external-dns-read"]
+  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gitea-read", "headlamp-read", "pgadmin-read", "seaweedfs-read", "trino-read", "external-dns-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -193,6 +203,29 @@ resource "vault_kv_secret_v2" "cnpg_gitea_db" {
   data_json = jsonencode({
     username = var.CNPG_GITEA_USERNAME
     password = var.CNPG_GITEA_PASSWORD
+  })
+}
+
+# GITEA --
+resource "vault_kv_secret_v2" "gitea_admin" {
+  mount = vault_mount.kv.path
+  name  = "gitea/admin"
+
+  data_json = jsonencode({
+    username = var.GITEA_ADMIN_USERNAME
+    password = var.GITEA_ADMIN_PASSWORD
+    email    = var.GITEA_ADMIN_EMAIL
+  })
+}
+
+# Keycloak OIDC client "gitea": key = client id, secret = client secret
+resource "vault_kv_secret_v2" "gitea_oauth" {
+  mount = vault_mount.kv.path
+  name  = "gitea/oauth"
+
+  data_json = jsonencode({
+    key    = var.GITEA_OAUTH_CLIENT_ID
+    secret = var.GITEA_OAUTH_CLIENT_SECRET
   })
 }
 
@@ -344,6 +377,29 @@ variable "CNPG_GITEA_PASSWORD" {
   type      = string
   sensitive = true
 }
+
+# GITEA ---
+variable "GITEA_ADMIN_USERNAME" {
+  type      = string
+  sensitive = true
+}
+variable "GITEA_ADMIN_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+variable "GITEA_ADMIN_EMAIL" {
+  type      = string
+  sensitive = true
+}
+variable "GITEA_OAUTH_CLIENT_ID" {
+  type      = string
+  sensitive = true
+}
+variable "GITEA_OAUTH_CLIENT_SECRET" {
+  type      = string
+  sensitive = true
+}
+
 variable "CNPG_BACKUP_AWS_ACCESS_KEY_ID" {
   type      = string
   sensitive = true
