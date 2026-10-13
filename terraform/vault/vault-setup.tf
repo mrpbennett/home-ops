@@ -300,13 +300,23 @@ resource "vault_kv_secret_v2" "trino_catalogs" {
 
 
 # SEADWEEDFS / LOKI
-resource "vault_kv_secret_v2" "seadweedfs" {
+resource "vault_kv_secret_v2" "seadweedfs_loki" {
   mount = vault_mount.kv.path
   name  = "seaweedfs/loki"
 
   data_json = jsonencode({
     AWS_ACCESS_KEY_ID     = var.SEAWEEDFS_LOKI_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY = var.SEAWEEDFS_LOKI_AWS_SECRET_ACCESS_KEY
+  })
+}
+
+resource "vault_kv_secret_v2" "seadweedfs_velero" {
+  mount = vault_mount.kv.path
+  name  = "seaweedfs/velero"
+
+  data_json = jsonencode({
+    AWS_ACCESS_KEY_ID     = var.SEAWEEDFS_VELERO_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY = var.SEAWEEDFS_VELERO_AWS_SECRET_ACCESS_KEY
   })
 }
 
@@ -437,12 +447,23 @@ variable "PGADMIN_DEFAULT_PASSWORD" {
   sensitive = true
 }
 
-# SEAWEEDFS - LOKI
+# SEAWEEDFS --
+# LOKI
 variable "SEAWEEDFS_LOKI_AWS_ACCESS_KEY_ID" {
   type      = string
   sensitive = true
 }
 variable "SEAWEEDFS_LOKI_AWS_SECRET_ACCESS_KEY" {
+  type      = string
+  sensitive = true
+}
+
+# VELERO
+variable "SEAWEEDFS_VELERO_AWS_ACCESS_KEY_ID" {
+  type      = string
+  sensitive = true
+}
+variable "SEAWEEDFS_VELERO_AWS_SECRET_ACCESS_KEY" {
   type      = string
   sensitive = true
 }
