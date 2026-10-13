@@ -2,9 +2,10 @@
 *.vscode
 
 # Ignore Terraform
-*.tfstate
+*.tfstate*
 *.tfvars
 *.terraform/
+
 
 docs/plans/
 
