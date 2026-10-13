@@ -104,7 +104,7 @@ spec:
                   excludedClusterScopedResources:
                     - persistentVolumeClaims
       destination:
-        server: "{{.cluster}}"
+        name: "{{.cluster}}"
         namespace: velero
       syncPolicy:
         automated:
