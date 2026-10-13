@@ -43,8 +43,8 @@ spec:
               value: "false"
             - name: KC_HEALTH_ENABLED
               value: "true"
-            - name: 'KC_CACHE'
-              value: 'ispn'
+            - name: "KC_CACHE"
+              value: "ispn"
             # Passing the Pod's IP primary address to the JGroups clustering as this is required in IPv6 only setups
             - name: POD_IP
               valueFrom:
@@ -53,23 +53,23 @@ spec:
             # Instruct JGroups which DNS hostname to use to discover other Keycloak nodes
             # Needs to be unique for each Keycloak cluster
             - name: KC_CACHE_EMBEDDED_NETWORK_BIND_ADDRESS
-              value: '$(POD_IP)'
-            - name: 'KC_DB_URL_DATABASE'
-              value: 'keycloak'
-            - name: 'KC_DB_URL_HOST'
-              value: 'cnpg-prod-cluster-rw.cnpg-prod-cluster.svc.cluster.local'
-            - name: 'KC_DB_URL_PORT'
-              value: '5432'
-            - name: 'KC_DB'
-              value: 'postgres'
+              value: "$(POD_IP)"
+            - name: "KC_DB_URL_DATABASE"
+              value: "keycloak"
+            - name: "KC_DB_URL_HOST"
+              value: "cnpg-prod-cluster-rw.cnpg-prod-cluster.svc.cluster.local"
+            - name: "KC_DB_URL_PORT"
+              value: "5432"
+            - name: "KC_DB"
+              value: "postgres"
             # In a production environment, use a secret to store username and password to the database
-            - name: 'KC_DB_PASSWORD'
+            - name: "KC_DB_PASSWORD"
               valueFrom:
                 secretKeyRef:
                   name: cnpg-keycloak-db
                   key: password
 
-            - name: 'KC_DB_USERNAME'
+            - name: "KC_DB_USERNAME"
               valueFrom:
                 secretKeyRef:
                   name: cnpg-keycloak-db

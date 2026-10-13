@@ -129,7 +129,6 @@ The Vault steps, and how sync ordering works, are in [`terraform/vault/README.md
 | Name                                                           | Description                                                  |
 | -------------------------------------------------------------- | ------------------------------------------------------------ |
 | [ArgoCD](https://argoproj.github.io/cd)                        | GitOps tool built to deploy applications to Kubernetes       |
-| [Argo Workflows](https://argoproj.github.io/workflows)         | Workflow management to help with CronWorkflows               |
 | [Cert Manager](https://cert-manager.io)                        | Certificate management                                       |
 | [Docker Registry](https://docker.com/)                         | Private container registry                                   |
 | [Envoy Gateway](https://gateway.envoyproxy.io/)                | API Gateway                                                  |
@@ -178,28 +177,28 @@ Artificial intelligence for IT operations (AIOps) is a process where you use art
 
 <details>
   <summary>What is the difference between AIOps and other related terms?</summary>
-  AIOps is a relatively new concept that uses machine learning and big-data processing to improve IT operations. Here's how it compares to several related terms.
 
-AIOps vs. DevOps
+**AIOps** is a relatively new concept that uses machine learning and big-data processing to improve IT operations. Here's how it compares to several related terms.
+
+### AIOps vs. DevOps
+
 DevOps is a software practice that bridges the gap between development and operations workflows. It helps organizations move software from development to production and share information between software and operations teams.
 
-On the other hand, AIOps is an approach for using AI technologies to support existing IT operations processes outside of software development.
+### AIOps vs. MLOps
 
-AIOps vs. MLOps
 MLOps is a practice that helps teams develop and deploy ML models across the organization. It involves model selection and data preparation. It includes the process of training, evaluating, and deploying the ML application in the production environment.
 
-Meanwhile, AIOps is the application of ML solutions to generate actionable insights and improve the process efficiency of new and existing IT systems.
+### AIOps vs. SRE
 
-AIOps vs. SRE
 Site reliability engineering (SRE) is an approach that engineering teams can use to maintain systems within a defined operational window. Instead of relying on manual approaches, SRE teams improve system reliability and, consequently, the customer experience by setting performance goals. This practice automates system operations and performs checks with software tools to meet those goals.
 
-AIOps complements SRE by helping organizations meet their SRE goals.
+### AIOps vs. DataOps
 
-AIOps vs. DataOps
 DataOps is an initiative that allows organizations to optimize data usage for business intelligence applications. It involves setting up data pipelines that data engineers can use to ingest, transform, and transfer data from different domains to support business operations.
 
-AIOps involves more complex data transformations, leveraging information from DataOps to detect, analyze, and resolve incidents.
 </details>
+
+---
 
 For more information on how I am using AiOps check out my fork of [NanoClaw](https://github.com/mrpbennett/nanoclaw-homeaiops) where I go into more detail on how my agents perform tasks related to my infrastructure.
 
