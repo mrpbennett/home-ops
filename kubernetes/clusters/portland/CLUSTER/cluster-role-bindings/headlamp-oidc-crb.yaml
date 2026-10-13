@@ -2,12 +2,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: admin-user-clusterrolebinding
+  name: admin-user-headlamp
 subjects:
   - kind: User
     name: pbennett.uk@outlook.com
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
-  name: admin-portland
+  name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
