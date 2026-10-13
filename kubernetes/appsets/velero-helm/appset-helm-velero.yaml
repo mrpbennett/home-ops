@@ -8,14 +8,15 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-    - list:
-        elements:
-          - cluster: portland
-    - list:
-        elements:
-          - app_name: *app_name
-            project: default
-            clusterURL: "https://kubernetes.default.svc"
+    - matrix:
+        - list:
+            elements:
+              - cluster: portland
+        - list:
+            elements:
+              - app_name: *app_name
+                project: default
+                clusterURL: "https://kubernetes.default.svc"
   template:
     metadata:
       name: "{{.app_name}}"
