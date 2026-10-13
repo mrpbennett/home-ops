@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ['missingkey=error']
+  goTemplateOptions: ["missingkey=error"]
   generators:
     - matrix:
         generators:
@@ -20,12 +20,12 @@ spec:
                   repo_url: https://github.com/mrpbennett/home-ops.git
   template:
     metadata:
-      name: '{{.app_name}}'
+      name: "{{.app_name}}"
       namespace: argocd
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
-      project: '{{.project}}'
+      project: "{{.project}}"
       source:
         chart: csi-driver-nfs
         repoURL: https://kubernetes-csi.github.io/csi-driver-nfs
@@ -108,18 +108,18 @@ spec:
               nodeSelector: {}
               priorityClassName: system-cluster-critical
               tolerations:
-                - key: 'node-role.kubernetes.io/master'
-                  operator: 'Exists'
-                  effect: 'NoSchedule'
-                - key: 'node-role.kubernetes.io/controlplane'
-                  operator: 'Exists'
-                  effect: 'NoSchedule'
-                - key: 'node-role.kubernetes.io/control-plane'
-                  operator: 'Exists'
-                  effect: 'NoSchedule'
-                - key: 'CriticalAddonsOnly'
-                  operator: 'Exists'
-                  effect: 'NoSchedule'
+                - key: "node-role.kubernetes.io/master"
+                  operator: "Exists"
+                  effect: "NoSchedule"
+                - key: "node-role.kubernetes.io/controlplane"
+                  operator: "Exists"
+                  effect: "NoSchedule"
+                - key: "node-role.kubernetes.io/control-plane"
+                  operator: "Exists"
+                  effect: "NoSchedule"
+                - key: "CriticalAddonsOnly"
+                  operator: "Exists"
+                  effect: "NoSchedule"
               resources:
                 csiProvisioner:
                   limits:
@@ -174,7 +174,7 @@ spec:
               nodeSelector: {}
               priorityClassName: system-cluster-critical
               tolerations:
-                - operator: 'Exists'
+                - operator: "Exists"
               resources:
                 livenessProbe:
                   limits:
@@ -229,7 +229,7 @@ spec:
 
             ## StorageClass resource example:
             storageClass:
-              create: false
+              create: true
               name: nfs-csi
               parameters:
                 server: 192.168.4.110
@@ -275,7 +275,7 @@ spec:
               #       - nfsvers=4.1
 
       destination:
-        name: '{{.cluster}}'
+        name: "{{.cluster}}"
         namespace: kube-system
       syncPolicy:
         automated:
