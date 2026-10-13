@@ -14,7 +14,7 @@
 
 ### My Home Operations Repository :octocat:
 
-_... managed with ArgoCD, Renovate and GitHub Actions_ 🤖
+_... managed with ArgoCD, Renovate and GitHub Actions with a sprinkling of AiOps 🤖
 
 </div>
 
@@ -133,6 +133,7 @@ The Vault steps, and how sync ordering works, are in [`terraform/vault/README.md
 | [Cert Manager](https://cert-manager.io)                        | Certificate management                                       |
 | [Docker Registry](https://docker.com/)                         | Private container registry                                   |
 | [Envoy Gateway](https://gateway.envoyproxy.io/)                | API Gateway                                                  |
+| [Gitea](https://docs.gitea.com/installation/install-on-kubernetes/) | Version Control |
 | [Grafana](https://grafana.com)                                 | Observability platform                                       |
 | [Helm](https://helm.sh)                                        | The package manager for Kubernetes                           |
 | [Talos Linux](https://talos.dev)                               | Kubernetes OS                                                |
@@ -163,6 +164,44 @@ In my cluster there is one instance of [ExternalDNS](https://github.com/kubernet
 | Dell 7060 micro | 1     | -      | 256GB SSD    | 1TB NVMe       | 16GB | Proxmox          | Hypervisor                      |
 
 ---
+
+## 🤖 AiOps
+
+Artificial intelligence for IT operations (AIOps) is a process where you use artificial intelligence (AI) techniques to maintain IT infrastructure. This process automates critical operational tasks, including performance monitoring, workload scheduling, and data backups.
+
+**What are some AIOps use cases?**
+
+- Application performance monitoring (APM)
+- Root cause analysis
+- Anomaly detection
+- Cloud automation and optimization
+
+<details>
+  <summary>What is the difference between AIOps and other related terms?</summary>
+  AIOps is a relatively new concept that uses machine learning and big-data processing to improve IT operations. Here's how it compares to several related terms.
+
+AIOps vs. DevOps
+DevOps is a software practice that bridges the gap between development and operations workflows. It helps organizations move software from development to production and share information between software and operations teams.
+
+On the other hand, AIOps is an approach for using AI technologies to support existing IT operations processes outside of software development.
+
+AIOps vs. MLOps
+MLOps is a practice that helps teams develop and deploy ML models across the organization. It involves model selection and data preparation. It includes the process of training, evaluating, and deploying the ML application in the production environment.
+
+Meanwhile, AIOps is the application of ML solutions to generate actionable insights and improve the process efficiency of new and existing IT systems.
+
+AIOps vs. SRE
+Site reliability engineering (SRE) is an approach that engineering teams can use to maintain systems within a defined operational window. Instead of relying on manual approaches, SRE teams improve system reliability and, consequently, the customer experience by setting performance goals. This practice automates system operations and performs checks with software tools to meet those goals.
+
+AIOps complements SRE by helping organizations meet their SRE goals.
+
+AIOps vs. DataOps
+DataOps is an initiative that allows organizations to optimize data usage for business intelligence applications. It involves setting up data pipelines that data engineers can use to ingest, transform, and transfer data from different domains to support business operations.
+
+AIOps involves more complex data transformations, leveraging information from DataOps to detect, analyze, and resolve incidents.
+</details>
+
+For more information on how I am using AiOps check out my fork of [NanoClaw](https://github.com/mrpbennett/nanoclaw-homeaiops) where I go into more detail on how my agents perform tasks related to my infrastructure.
 
 ## ⭐ Stargazers
 
