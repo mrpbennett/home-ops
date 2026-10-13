@@ -260,6 +260,7 @@ resource "vault_kv_secret_v2" "headlamp" {
     OIDC_CLIENT_ID     = var.HEADLAMP_OIDC_CLIENT_ID
     OIDC_CLIENT_SECRET = var.HEADLAMP_OIDC_CLIENT_SECRET
     OIDC_ISSUER_URL    = var.HEADLAMP_OIDC_ISSUER_URL
+    OIDC_CALLBACK_URL  = var.HEADLAMP_OIDC_CALLBACK_URL
     OIDC_SCOPES        = var.HEADLAMP_OIDC_SCOPES
   })
 }
@@ -429,6 +430,10 @@ variable "HEADLAMP_OIDC_CLIENT_SECRET" {
   sensitive = true
 }
 variable "HEADLAMP_OIDC_ISSUER_URL" {
+  type      = string
+  sensitive = false
+}
+variable "HEADLAMP_OIDC_CALLBACK_URL" {
   type      = string
   sensitive = false
 }
