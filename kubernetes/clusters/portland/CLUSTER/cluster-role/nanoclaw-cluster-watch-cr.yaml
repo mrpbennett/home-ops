@@ -1,0 +1,49 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nanoclaw-cluster-watch
+  labels:
+    nanoclaw: "cluster-watch"
+rules:
+  - apiGroups: [""]
+    resources: ["nodes", "pods", "pods/log", "events", "namespaces", "apps"]
+    verbs: ["get", "list", "watch"]
+
+  - apiGroups: ["apps"]
+    resources: ["*"]
+    verbs: ["get", "list", "watch"]
+
+  - apiGroups: ["batch"]
+    resources: ["jobs", "cronjobs"]
+    verbs: ["get", "list", "watch"]
+
+    # watch metrics
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["nodes", "pods"]
+    verbs: ["get", "list", "watch"]
+
+    # watch longhorn volumes
+  - apiGroups: ["longhorn.io"]
+    resources: ["volumes"]
+    verbs: ["get", "list", "watch"]
+
+    # watch argocd applications
+  - apiGroups: ["argoproj.io"]
+    resources: ["applications"]
+    verbs: ["get", "list", "watch"]
+
+    # watch certmanager certs
+  - apiGroups: ["cert-manager.io"]
+    resources: ["certificates"]
+    verbs: ["get", "list", "watch"]
+
+    # watch cnpg
+  - apiGroups: ["postgresql.cnpg.io"]
+    resources: ["backups", "clusters", "databases", "scheduledbackups"]
+    verbs: ["get", "list", "watch"]
+
+    # watch velero backups and uploads
+  - apiGroups: ["velero.io"]
+    resources: ["backups", "datauploads", "schedules"]
+    verbs: ["get", "list", "watch"]
