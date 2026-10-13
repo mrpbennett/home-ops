@@ -7,7 +7,7 @@ metadata:
     nanoclaw: "cluster-watch"
 rules:
   - apiGroups: [""]
-    resources: ["nodes", "pods", "pods/log", "events", "namespaces", "apps"]
+    resources: ["nodes", "pods", "pods/log", "events", "namespaces"]
     verbs: ["get", "list", "watch"]
 
   - apiGroups: ["apps"]
