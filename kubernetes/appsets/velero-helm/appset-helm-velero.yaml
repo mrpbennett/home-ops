@@ -9,14 +9,15 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
     - matrix:
-        - list:
-            elements:
-              - cluster: portland
-        - list:
-            elements:
-              - app_name: *app_name
-                project: default
-                clusterURL: "https://kubernetes.default.svc"
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
   template:
     metadata:
       name: "{{.app_name}}"
