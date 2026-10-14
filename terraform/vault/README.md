@@ -33,6 +33,7 @@ terraform.tfvars ──► vault-setup.tf ──► Vault kv/<path>
 | `cloudnativepg/backup` | `cloudnativepg-backup-secret` (cnpg-prod-cluster) | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` |
 | `external-dns/adguard` | `adguard-configuration` (external-dns) | `url`, `user`, `password` |
 | `headlamp` | `headlamp-oidc` (headlamp) | `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, `OIDC_ISSUER_URL`, `OIDC_SCOPES` |
+| `homepage` | `homepage-secrets` (homepage) | `HOMEPAGE_VAR_ADGUARD_USERNAME`, `HOMEPAGE_VAR_ADGUARD_PASSWORD`, `HOMEPAGE_VAR_ARGOCD_KEY` (envFrom, substituted into `{{HOMEPAGE_VAR_*}}` placeholders in the Homepage config) |
 | `pgadmin/config` | `pgadmin-credentials` (pgadmin) | `email`, `password` |
 | `seaweedfs/loki` | `seaweedfs-loki` (logging) | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` (envFrom) |
 | `trino` | `trino-secrets` (trino) | `TRINO_*` (envFrom, read as `${ENV:...}` in the Trino config) |

@@ -105,6 +105,16 @@ path "kv/data/headlamp" {
 EOT
 }
 
+# -- HOMEPAGE --
+resource "vault_policy" "homepage_read" {
+  name   = "homepage-read"
+  policy = <<EOT
+path "kv/data/homepage" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 # -- PGADMIN --
 resource "vault_policy" "pgadmin_read" {
   name   = "pgadmin-read"
@@ -147,7 +157,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gitea-read", "headlamp-read", "pgadmin-read", "seaweedfs-read", "trino-read", "external-dns-read"]
+  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gitea-read", "headlamp-read", "homepage-read", "pgadmin-read", "seaweedfs-read", "trino-read", "external-dns-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -262,6 +272,20 @@ resource "vault_kv_secret_v2" "headlamp" {
     OIDC_ISSUER_URL    = var.HEADLAMP_OIDC_ISSUER_URL
     OIDC_CALLBACK_URL  = var.HEADLAMP_OIDC_CALLBACK_URL
     OIDC_SCOPES        = var.HEADLAMP_OIDC_SCOPES
+  })
+}
+
+# HOMEPAGE --
+# Key names are the env vars the pod receives; Homepage substitutes
+# {{HOMEPAGE_VAR_*}} placeholders in its config with them.
+resource "vault_kv_secret_v2" "homepage" {
+  mount = vault_mount.kv.path
+  name  = "homepage"
+
+  data_json = jsonencode({
+    HOMEPAGE_VAR_ADGUARD_USERNAME = var.HOMEPAGE_ADGUARD_USERNAME
+    HOMEPAGE_VAR_ADGUARD_PASSWORD = var.HOMEPAGE_ADGUARD_PASSWORD
+    HOMEPAGE_VAR_ARGOCD_KEY       = var.HOMEPAGE_ARGOCD_KEY
   })
 }
 
@@ -440,6 +464,20 @@ variable "HEADLAMP_OIDC_CALLBACK_URL" {
 variable "HEADLAMP_OIDC_SCOPES" {
   type      = string
   sensitive = false
+}
+
+# HOMEPAGE ---
+variable "HOMEPAGE_ADGUARD_USERNAME" {
+  type      = string
+  sensitive = true
+}
+variable "HOMEPAGE_ADGUARD_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+variable "HOMEPAGE_ARGOCD_KEY" {
+  type      = string
+  sensitive = true
 }
 
 # PGADMIN ---

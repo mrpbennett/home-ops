@@ -11,171 +11,730 @@ data:
     mode: cluster
     ingress: true
     gateway: true
+
   settings.yaml: |
-    title: 70LD Homelab
+    title: 70LD // portland
     theme: dark
     color: slate
+    headerStyle: clean
+    statusStyle: dot
+    cardBlur: md
     useEqualHeights: true
+    fullWidth: true
+    hideVersion: true
+    target: _blank
 
+    # Type anywhere to search every service (name + description).
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: true
+
+    # Credentials for the Longhorn info widget (API is open in-cluster).
+    providers:
+      longhorn:
+        url: http://longhorn-frontend.longhorn-system.svc.cluster.local
+
+    # Tabs: Overview is the glance page; everything else is one click away.
     layout:
-      Infra:
-        style: row
-        columns: 2
-
-      Observability:
-        icon: mdi-chart-line
+      Cluster Pulse:
+        tab: Overview
+        icon: mdi-heart-pulse
         style: row
         columns: 4
 
-      Storage:
-        icon: mdi-harddisk
-        style: row
-        columns: 4
-
-      Data:
-        icon: mdi-database
+      Needs Attention:
+        tab: Overview
+        icon: mdi-alert-circle-outline
         style: row
         columns: 3
 
+      Shortcuts:
+        tab: Overview
+        icon: mdi-link-variant
+        style: row
+        columns: 5
+
       Platform:
+        tab: Platform
         icon: mdi-kubernetes
         style: row
         columns: 4
 
+      Observability:
+        tab: Platform
+        icon: mdi-chart-line
+        style: row
+        columns: 5
+
       Security:
+        tab: Platform
         icon: mdi-shield-lock
         style: row
         columns: 2
 
-  custom.css: ""
-  custom.js: ""
-  bookmarks.yaml: ""
-  services.yaml: |
-    - Infra:
-      - Promxox:
-          icon: proxmox.png
-          href: http://192.168.7.5:8006
-          description: Hypervisor
-          # widget:
-          #   type: proxmox
-          #   url: http://192.168.7.5:8006
-          #   username: api@pam!homepage
-          #   password: b09ab10a-8725-4f28-9fad-9d116790b82f
-          #   fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
+      Data:
+        tab: Data & Storage
+        icon: mdi-database
+        style: row
+        columns: 3
 
-      - AdGuard Home:
+      Storage:
+        tab: Data & Storage
+        icon: mdi-harddisk
+        style: row
+        columns: 4
+
+      Nodes:
+        tab: Infra
+        icon: mdi-server
+        style: row
+        columns: 3
+
+      Infra:
+        tab: Infra
+        icon: mdi-lan
+        style: row
+        columns: 2
+
+  custom.js: ""
+
+  bookmarks.yaml: |
+    - Shortcuts:
+        - home-ops:
+            - icon: github.png
+              href: https://github.com/mrpbennett/home-ops
+              description: GitOps repo
+        - Pull Requests:
+            - icon: mdi-source-pull
+              href: https://github.com/mrpbennett/home-ops/pulls
+              description: Renovate & changes
+        - CI:
+            - icon: mdi-play-circle-outline
+              href: https://github.com/mrpbennett/home-ops/actions
+              description: yamlfmt + kubescape
+        - Explore Logs:
+            - icon: grafana.png
+              href: https://grafana.70ld.dev/explore
+              description: Loki in Grafana
+        - Talos Docs:
+            - icon: talos.png
+              href: https://www.talos.dev/docs/
+              description: Node OS reference
+
+  services.yaml: |
+    # ---------------------------------------------------------------------
+    # OVERVIEW
+    # ---------------------------------------------------------------------
+    # Stat tiles: no link, just live Prometheus numbers. Colours come from the
+    # `highlight` rules (danger / good) and are styled in custom.css.
+    - Cluster Pulse:
+        - Workloads:
+            icon: mdi-kubernetes
+            description: Pods & deployments
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 30000
+              metrics:
+                - label: Running
+                  query: 'sum(kube_pod_status_phase{phase="Running"})'
+                  format: { type: number }
+                - label: Unhealthy
+                  query: 'sum(kube_pod_status_phase{phase=~"Pending|Failed|Unknown"}) or vector(0)'
+                  format: { type: number }
+                - label: Restarts 1h
+                  query: 'sum(increase(kube_pod_container_status_restarts_total[1h])) or vector(0)'
+                  format: { type: number, options: { maximumFractionDigits: 0 } }
+                - label: Unavailable
+                  query: 'sum(kube_deployment_status_replicas_unavailable) or vector(0)'
+                  format: { type: number }
+              highlight:
+                Unhealthy:
+                  numeric:
+                    - { level: danger, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+                Unavailable:
+                  numeric:
+                    - { level: danger, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+
+        - Alerts & Sync:
+            icon: mdi-bell-ring-outline
+            description: Alertmanager & Argo CD
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 30000
+              metrics:
+                - label: Critical
+                  query: 'count(ALERTS{alertstate="firing",severity="critical"}) or vector(0)'
+                  format: { type: number }
+                - label: Warning
+                  query: 'count(ALERTS{alertstate="firing",severity="warning"}) or vector(0)'
+                  format: { type: number }
+                - label: Out of sync
+                  query: 'count(argocd_app_info{sync_status!="Synced"}) or vector(0)'
+                  format: { type: number }
+                - label: Degraded
+                  query: 'count(argocd_app_info{health_status!="Healthy"}) or vector(0)'
+                  format: { type: number }
+              highlight:
+                Critical:
+                  numeric:
+                    - { level: danger, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+                Warning:
+                  numeric:
+                    - { level: warn, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+                Out of sync:
+                  numeric:
+                    - { level: warn, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+                Degraded:
+                  numeric:
+                    - { level: danger, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+
+        - Capacity:
+            icon: mdi-gauge
+            description: Cluster-wide, 3 nodes
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 30000
+              metrics:
+                - label: CPU
+                  query: '1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m]))'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Memory
+                  query: 'sum(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / sum(node_memory_MemTotal_bytes)'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Pod slots
+                  query: 'sum(kube_pod_info) / sum(kube_node_status_allocatable{resource="pods"})'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Net in
+                  query: 'sum(rate(node_network_receive_bytes_total{device=~"en.*|eth.*"}[5m]))'
+                  format: { type: byterate }
+              highlight:
+                CPU:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+                Memory:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+                Pod slots:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+
+        - Storage & Certs:
+            icon: mdi-harddisk
+            description: Longhorn & cert-manager
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 60000
+              metrics:
+                - label: Longhorn used
+                  query: 'sum(longhorn_disk_usage_bytes) / sum(longhorn_disk_capacity_bytes)'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Degraded vols
+                  query: 'count(longhorn_volume_robustness >= 2) or vector(0)'
+                  format: { type: number }
+                - label: Cert expiry
+                  query: 'min((certmanager_certificate_expiration_timestamp_seconds - time()) / 86400)'
+                  format: { type: number, suffix: "d", options: { maximumFractionDigits: 0 } }
+                - label: Certs not ready
+                  query: 'sum(certmanager_certificate_ready_status{condition="False"}) or vector(0)'
+                  format: { type: number }
+              highlight:
+                Longhorn used:
+                  numeric:
+                    - { level: danger, when: gte, value: 80 }
+                    - { level: good, when: lt, value: 80 }
+                Degraded vols:
+                  numeric:
+                    - { level: danger, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+                Cert expiry:
+                  numeric:
+                    - { level: danger, when: lt, value: 14 }
+                    - { level: good, when: gte, value: 14 }
+                Certs not ready:
+                  numeric:
+                    - { level: danger, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+
+    # "Needs Attention" is the log/alert glance: what is firing, and which
+    # namespaces / pods emitted the most error|fatal|panic lines in the last
+    # 15 minutes (queried straight from Loki, no extra components).
+    - Needs Attention:
+        - Active Alerts:
+            icon: mdi-bell-alert-outline
+            href: https://alertmanager.70ld.dev
+            description: Firing now, excluding Watchdog
+            widgets:
+              - type: customapi
+                url: "http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093/api/v2/alerts?active=true\
+                  &silenced=false&inhibited=false&filter=alertname%21~%22Watchdog%7CInfoInhibitor%22"
+                refreshInterval: 30000
+                display: block
+                mappings:
+                  - label: Firing
+                    format: size
+              - type: customapi
+                url: "http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093/api/v2/alerts?active=true\
+                  &silenced=false&inhibited=false&filter=alertname%21~%22Watchdog%7CInfoInhibitor%22"
+                refreshInterval: 30000
+                display: dynamic-list
+                mappings:
+                  name: labels.alertname
+                  label: labels.severity
+                  limit: 5
+
+        - Errors by Namespace:
+            icon: mdi-text-box-search-outline
+            href: https://grafana.70ld.dev/explore
+            description: error|fatal|panic lines, last 15m
+            widgets:
+              - type: customapi
+                url: "http://loki-gateway.logging.svc.cluster.local/loki/api/v1/query?query=sum%28count_over_time%28%7Bnamespace\
+                  %3D~%22.%2B%22%7D%20%7C~%20%22%28%3Fi%29%28error%7Cfatal%7Cpanic%29%22%20%5B15m%5D%29%29%20or%20vector\
+                  %280%29"
+                refreshInterval: 60000
+                display: block
+                mappings:
+                  - field: data.result.0.value.1
+                    label: Total lines
+                    format: number
+              - type: customapi
+                url: "http://loki-gateway.logging.svc.cluster.local/loki/api/v1/query?query=topk%285%2C%20sum%20by%20%28namespace\
+                  %29%28count_over_time%28%7Bnamespace%3D~%22.%2B%22%7D%20%7C~%20%22%28%3Fi%29%28error%7Cfatal%7Cpanic\
+                  %29%22%20%5B15m%5D%29%29%29"
+                refreshInterval: 60000
+                display: dynamic-list
+                mappings:
+                  items: data.result
+                  name: metric.namespace
+                  label: value.1
+                  format: number
+                  limit: 5
+
+        - Errors by Pod:
+            icon: mdi-bug-outline
+            href: https://grafana.70ld.dev/explore
+            description: Noisiest pods, last 15m
+            widget:
+              type: customapi
+              url: "http://loki-gateway.logging.svc.cluster.local/loki/api/v1/query?query=topk%285%2C%20sum%20by%20%28pod\
+                %29%28count_over_time%28%7Bnamespace%3D~%22.%2B%22%7D%20%7C~%20%22%28%3Fi%29%28error%7Cfatal%7Cpanic\
+                %29%22%20%5B15m%5D%29%29%29"
+              refreshInterval: 60000
+              display: dynamic-list
+              mappings:
+                items: data.result
+                name: metric.pod
+                label: value.1
+                format: number
+                limit: 5
+
+    # ---------------------------------------------------------------------
+    # INFRA
+    # ---------------------------------------------------------------------
+    - Nodes:
+        - kube-cp-1:
+            icon: mdi-server
+            description: 192.168.7.1 · control-plane
+            ping: 192.168.7.1
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 30000
+              metrics:
+                - label: CPU
+                  query: '1 - avg(rate(node_cpu_seconds_total{mode="idle",instance="192.168.7.1:9100"}[5m]))'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Memory
+                  query: '1 - node_memory_MemAvailable_bytes{instance="192.168.7.1:9100"} / node_memory_MemTotal_bytes{instance="192.168.7.1:9100"}'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Temp
+                  query: 'max(node_hwmon_temp_celsius{instance="192.168.7.1:9100"})'
+                  format: { type: number, suffix: "°C", options: { maximumFractionDigits: 0 } }
+                - label: Net in
+                  query: 'sum(rate(node_network_receive_bytes_total{device=~"en.*|eth.*",instance="192.168.7.1:9100"}[5m]))'
+                  format: { type: byterate }
+              highlight:
+                CPU:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+                Memory:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+                Temp:
+                  numeric:
+                    - { level: danger, when: gte, value: 80 }
+                    - { level: good, when: lt, value: 80 }
+
+        - kube-cp-2:
+            icon: mdi-server
+            description: 192.168.7.2 · control-plane
+            ping: 192.168.7.2
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 30000
+              metrics:
+                - label: CPU
+                  query: '1 - avg(rate(node_cpu_seconds_total{mode="idle",instance="192.168.7.2:9100"}[5m]))'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Memory
+                  query: '1 - node_memory_MemAvailable_bytes{instance="192.168.7.2:9100"} / node_memory_MemTotal_bytes{instance="192.168.7.2:9100"}'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Temp
+                  query: 'max(node_hwmon_temp_celsius{instance="192.168.7.2:9100"})'
+                  format: { type: number, suffix: "°C", options: { maximumFractionDigits: 0 } }
+                - label: Net in
+                  query: 'sum(rate(node_network_receive_bytes_total{device=~"en.*|eth.*",instance="192.168.7.2:9100"}[5m]))'
+                  format: { type: byterate }
+              highlight:
+                CPU:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+                Memory:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+                Temp:
+                  numeric:
+                    - { level: danger, when: gte, value: 80 }
+                    - { level: good, when: lt, value: 80 }
+
+        - kube-cp-3:
+            icon: mdi-server
+            description: 192.168.7.3 · control-plane
+            ping: 192.168.7.3
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 30000
+              metrics:
+                - label: CPU
+                  query: '1 - avg(rate(node_cpu_seconds_total{mode="idle",instance="192.168.7.3:9100"}[5m]))'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Memory
+                  query: '1 - node_memory_MemAvailable_bytes{instance="192.168.7.3:9100"} / node_memory_MemTotal_bytes{instance="192.168.7.3:9100"}'
+                  format: { type: number, scale: 100, suffix: "%", options: { maximumFractionDigits: 0 } }
+                - label: Temp
+                  query: 'max(node_hwmon_temp_celsius{instance="192.168.7.3:9100"})'
+                  format: { type: number, suffix: "°C", options: { maximumFractionDigits: 0 } }
+                - label: Net in
+                  query: 'sum(rate(node_network_receive_bytes_total{device=~"en.*|eth.*",instance="192.168.7.3:9100"}[5m]))'
+                  format: { type: byterate }
+              highlight:
+                CPU:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+                Memory:
+                  numeric:
+                    - { level: danger, when: gte, value: 85 }
+                    - { level: good, when: lt, value: 85 }
+                Temp:
+                  numeric:
+                    - { level: danger, when: gte, value: 80 }
+                    - { level: good, when: lt, value: 80 }
+
+    - Infra:
+        - Proxmox:
+            icon: proxmox.png
+            href: http://192.168.7.5:8006
+            description: Hypervisor
+            ping: 192.168.7.5
+            # Needs a PVEAuditor API token. Add HOMEPAGE_VAR_PROXMOX_* to the
+            # Vault secret, then uncomment.
+            # widget:
+            #   type: proxmox
+            #   url: https://192.168.7.5:8006
+            #   username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
+            #   password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
+            #   fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
+
+        - AdGuard Home:
             icon: adguard-home.png
             href: https://dns.70ld.dev
             description: Primary DNS
             widget:
-                type: adguard
-                url: https://dns.70ld.dev
-                username: admin
-                password: 123qwe!!
-                fields: ["queries", "blocked", "filtered", "latency"]
+              type: adguard
+              url: https://dns.70ld.dev
+              username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+              password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
+              fields: ["queries", "blocked", "filtered", "latency"]
+
+    # ---------------------------------------------------------------------
+    # PLATFORM
+    # `namespace` + blank `podSelector` adds the pod-health dot (click it for
+    # CPU / memory); `siteMonitor` hits the in-cluster Service directly so the
+    # dot reflects the app, not DNS or the gateway.
+    # ---------------------------------------------------------------------
+    - Platform:
+        - ArgoCD:
+            icon: argo-cd.png
+            href: https://argocd.70ld.dev
+            description: Continuous Delivery
+            siteMonitor: https://argocd.70ld.dev
+            namespace: argocd
+            app: argocd
+            podSelector: ""
+            widget:
+              type: argocd
+              url: https://argocd.70ld.dev
+              key: "{{HOMEPAGE_VAR_ARGOCD_KEY}}"
+
+        - Gitea:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/gitea.svg
+            href: https://git.70ld.dev/
+            description: Version control
+            siteMonitor: http://gitea-http.gitea.svc.cluster.local:3000/api/healthz
+            namespace: gitea
+            app: gitea
+            podSelector: ""
+
+        - Registry:
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/docker.svg
+            href: https://registry.70ld.dev/v2/_catalog
+            description: Image registry
+            siteMonitor: http://docker-registry-svc.docker-registry.svc.cluster.local:5000/v2/
+            namespace: docker-registry
+            app: docker-registry
+            podSelector: ""
+            widget:
+              type: customapi
+              url: http://docker-registry-svc.docker-registry.svc.cluster.local:5000/v2/_catalog
+              refreshInterval: 60000
+              mappings:
+                - field: repositories
+                  label: Repositories
+                  format: size
+
+        - NanoClaw:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/nanoclaw.svg
+            href: https://portal.nanoclaw.dev/
+            description: Cluster agent
+
+        # Airflow is not deployed in the cluster right now (no namespace, no
+        # Argo app). Restore this when it comes back.
+        # - Airflow:
+        #     icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
+        #     href: https://airflow.70ld.dev
+        #     description: Workflow Management Platform
 
     - Observability:
-      - AlertManager:
-          icon: prometheus.png
-          href: https://alertmanager.70ld.dev
-          description: Alert Management
+        - Grafana:
+            icon: grafana.png
+            href: https://grafana.70ld.dev/dashboards?starred
+            description: Dashboards
+            siteMonitor: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local/api/health
+            namespace: monitoring
+            app: grafana
+            podSelector: app.kubernetes.io/name=grafana
 
-      - Headlamp:
-          icon: headlamp.png
-          href: https://headlamp.70ld.dev
-          description: Cluster Monitoring
+        - Prometheus:
+            icon: prometheus.png
+            href: http://prometheus.70ld.dev
+            description: Metrics
+            siteMonitor: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/-/healthy
+            namespace: monitoring
+            app: prometheus
+            podSelector: app.kubernetes.io/name=prometheus
+            widget:
+              type: prometheus
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
 
-      - Grafana:
-          icon: grafana.png
-          href: https://grafana.70ld.dev/dashboards?starred
-          description: Analytics & Monitoring
+        - AlertManager:
+            icon: alertmanager.png
+            href: https://alertmanager.70ld.dev
+            description: Alert routing
+            siteMonitor: http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093/-/healthy
+            namespace: monitoring
+            app: alertmanager
+            podSelector: app.kubernetes.io/name=alertmanager
 
-      - Prometheus:
-          icon: prometheus.png
-          href: http://prometheus.70ld.dev
-          description: Analytics & Monitoring
+        - Loki:
+            icon: loki.png
+            href: https://grafana.70ld.dev/explore
+            description: Logs (Loki + Alloy)
+            namespace: logging
+            app: loki
+            podSelector: ""
+            widget:
+              type: customapi
+              url: "http://loki-gateway.logging.svc.cluster.local/loki/api/v1/label/namespace/values"
+              refreshInterval: 120000
+              mappings:
+                - field: data
+                  label: Namespaces logging
+                  format: size
 
-    - Storage:
-      - Longhorn:
-          icon: longhorn.png
-          href: https://longhorn.70ld.dev
-          description: Persistent Block Storage
-
-      - SeaweedFS:
-          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
-          href: http://192.168.6.2:23646/admin
-          description: Object Storage
-
-      - TrueNAS Scale:
-          icon: truenas-scale.svg
-          href: http://192.168.4.50
-          description: Actually WD Cloud
-
-      - WDCloud:
-          icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/western-digital.svg
-          href: http://192.168.4.110
-          description: WD Cloud
-
-    - Data:
-      - ChartDB:
-          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/chartdb.png
-          href: https://chartdb.70ld.dev
-          description: Self hosted ERD
-
-      - PGAdmin:
-          icon: postgres.png
-          href: https://pgadmin.70ld.dev
-          description: Postgres Management
-
-      - Trino:
-          icon: https://cdn.simpleicons.org/trino/FFFFFF
-          href: http://trino.70ld.dev
-          description: SQL Query Engine
-
-    - Platform:
-
-      - Airflow:
-          icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
-          href: https://airflow.70ld.dev
-          description: Workflow Management Platform
-
-      - ArgoCD:
-          icon: argo-cd.png
-          href: https://argocd.70ld.dev
-          description: Continuous Delivery
-          widget:
-            type: argocd
-            url: https://argocd.70ld.dev
-            key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmdvY2QiLCJzdWIiOiJob21lcGFnZTphcGlLZXkiLCJuYmYiOjE3OTEyODUzMjEsImlhdCI6MTc5MTI4NTMyMSwianRpIjoiYWEwYzE0YjctMmQwMy00ZTg4LWI5ZTctN2EyZGVjOWNkZTJiIn0.O8O5e7IDTUtT2IRefh3bn1Hym9DqlyMBwhY2nPQ7n5A
-
-      - Gitea:
-          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/gitea.svg
-          href: https://git.70ld.dev/
-          description: Version control
-
-      - NanoClaw:
-          icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/nanoclaw.svg
-          href: https://portal.nanoclaw.dev/
-          description: Cluster agent
-
-      - Registry:
-          icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/docker.svg
-          href: https://registry.70ld.dev/v2/_catalog
-          description: Image registry
+        - Headlamp:
+            icon: headlamp.png
+            href: https://headlamp.70ld.dev
+            description: Cluster UI
+            siteMonitor: http://headlamp.headlamp.svc.cluster.local
+            namespace: headlamp
+            app: headlamp
+            podSelector: ""
 
     - Security:
+        - Keycloak:
+            icon: keycloak.png
+            href: https://keycloak.70ld.dev
+            description: Auth & OIDC
+            siteMonitor: http://keycloak.keycloak.svc.cluster.local:8080/realms/master
+            namespace: keycloak
+            app: keycloak
+            podSelector: ""
 
-      - Keycloak:
-          icon: keycloak.png
-          href: https://keycloak.70ld.dev
-          description: Auth & OIDC
+        - Vault:
+            icon: vault-light.png
+            href: http://vault.70ld.dev
+            description: Secret Management
+            siteMonitor: http://vault.vault.svc.cluster.local:8200/v1/sys/health?standbyok=true&sealedcode=200&uninitcode=200
+            namespace: vault
+            app: vault
+            podSelector: ""
+            widget:
+              type: customapi
+              url: http://vault.vault.svc.cluster.local:8200/v1/sys/health?standbyok=true&sealedcode=200&uninitcode=200
+              refreshInterval: 30000
+              mappings:
+                - field: sealed
+                  label: Sealed
+                  format: text
+                - field: initialized
+                  label: Initialized
+                  format: text
+                - field: version
+                  label: Version
+                  format: text
 
-      - Vault:
-          icon: vault-light.png
-          href: http://vault.70ld.dev
-          description: Secret Management
+    # ---------------------------------------------------------------------
+    # DATA & STORAGE
+    # ---------------------------------------------------------------------
+    - Data:
+        - ChartDB:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/chartdb.png
+            href: https://chartdb.70ld.dev
+            description: Self hosted ERD
+            siteMonitor: http://chartdb.chartdb.svc.cluster.local
+            namespace: chartdb
+            app: chartdb
+            podSelector: ""
+
+        - PGAdmin:
+            icon: postgres.png
+            href: https://pgadmin.70ld.dev
+            description: Postgres · cnpg-prod-cluster
+            siteMonitor: http://pgadmin-service.pgadmin.svc.cluster.local:5050/misc/ping
+            namespace: pgadmin
+            app: pgadmin
+            podSelector: ""
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 30000
+              metrics:
+                - label: Instances up
+                  query: 'sum(cnpg_collector_up) or vector(0)'
+                  format: { type: number }
+                - label: Connections
+                  query: 'sum(cnpg_backends_total) or vector(0)'
+                  format: { type: number }
+                - label: Max lag
+                  query: 'max(cnpg_pg_replication_lag) or vector(0)'
+                  format: { type: number, suffix: "s", options: { maximumFractionDigits: 1 } }
+                - label: DB size
+                  query: 'sum(cnpg_pg_database_size_bytes)'
+                  format: { type: bytes }
+              highlight:
+                Instances up:
+                  numeric:
+                    - { level: danger, when: lt, value: 3 }
+                    - { level: good, when: gte, value: 3 }
+                Max lag:
+                  numeric:
+                    - { level: danger, when: gte, value: 30 }
+                    - { level: good, when: lt, value: 30 }
+
+        - Trino:
+            icon: https://cdn.simpleicons.org/trino/FFFFFF
+            href: http://trino.70ld.dev
+            description: SQL Query Engine
+            siteMonitor: http://trino.trino.svc.cluster.local:8080/v1/info
+            namespace: trino
+            app: trino
+            podSelector: ""
+
+    - Storage:
+        - Longhorn:
+            icon: longhorn.png
+            href: https://longhorn.70ld.dev
+            description: Persistent Block Storage
+            siteMonitor: http://longhorn-frontend.longhorn-system.svc.cluster.local
+            namespace: longhorn-system
+            app: longhorn
+            podSelector: ""
+            widget:
+              type: prometheusmetric
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+              refreshInterval: 60000
+              metrics:
+                - label: Healthy vols
+                  query: 'count(longhorn_volume_robustness == 1) or vector(0)'
+                  format: { type: number }
+                - label: Degraded
+                  query: 'count(longhorn_volume_robustness >= 2) or vector(0)'
+                  format: { type: number }
+                - label: Used
+                  query: 'sum(longhorn_disk_usage_bytes)'
+                  format: { type: bytes }
+                - label: Capacity
+                  query: 'sum(longhorn_disk_capacity_bytes)'
+                  format: { type: bytes }
+              highlight:
+                Degraded:
+                  numeric:
+                    - { level: danger, when: gte, value: 1 }
+                    - { level: good, when: eq, value: 0 }
+
+        - SeaweedFS:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
+            href: http://192.168.6.2:23646/admin
+            description: Object Storage
+            siteMonitor: http://192.168.6.2:23646/admin
+
+        - TrueNAS Scale:
+            icon: truenas-scale.svg
+            href: http://192.168.4.50
+            description: Actually WD Cloud
+            ping: 192.168.4.50
+
+        - WDCloud:
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/western-digital.svg
+            href: http://192.168.4.110
+            description: WD Cloud
+            ping: 192.168.4.110
 
   widgets.yaml: |
+    - greeting:
+        text_size: 3xl
+        text: portland // 70ld.dev
+
     - kubernetes:
         cluster:
           show: true
@@ -189,4 +748,314 @@ data:
           memory: true
           showLabel: true
 
+    - longhorn:
+        expanded: false
+        total: true
+        labels: true
+
+    - datetime:
+        text_size: xl
+        format:
+          timeStyle: short
+          dateStyle: medium
+          hourCycle: h23
+
   docker.yaml: ""
+
+  custom.css: |
+    /* =====================================================================
+       70LD homelab / portland
+       Glass cards over a soft aurora background. Selectors target Homepage's
+       stable hooks (#ids, .service-*, .services-group, [data-name]); the
+       data-name selectors below must match the names in services.yaml.
+       ===================================================================== */
+
+    :root {
+      --bg: #070a12;
+      --accent: #7aa2ff;
+      --accent-2: #5eead4;
+      --violet: #a78bfa;
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      --glass: rgba(255, 255, 255, 0.035);
+      --glass-hi: rgba(255, 255, 255, 0.07);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-hi: rgba(122, 162, 255, 0.45);
+      --radius: 14px;
+    }
+
+    /* ---- background -------------------------------------------------- */
+    html,
+    body {
+      background-color: var(--bg) !important;
+      font-variant-numeric: tabular-nums;
+    }
+
+    body {
+      background-image:
+        radial-gradient(900px 500px at 12% -8%, rgba(122, 162, 255, 0.16), transparent 60%),
+        radial-gradient(800px 480px at 92% 6%, rgba(167, 139, 250, 0.13), transparent 60%),
+        radial-gradient(900px 600px at 50% 112%, rgba(94, 234, 212, 0.08), transparent 60%),
+        radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) !important;
+      background-size: auto, auto, auto, 26px 26px !important;
+      background-attachment: fixed !important;
+    }
+
+    #page_wrapper,
+    #inner_wrapper {
+      background: transparent !important;
+    }
+
+    ::selection {
+      background: rgba(122, 162, 255, 0.35);
+    }
+
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+    }
+
+    /* ---- header / info widgets --------------------------------------- */
+    #information-widgets {
+      padding-top: 0.5rem;
+    }
+
+    [class*="information-widget-"] {
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.3rem 0.7rem;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .information-widget-greeting {
+      background: transparent;
+      border: 0;
+      padding-left: 0;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      background-image: linear-gradient(90deg, #e8eefc, var(--accent) 60%, var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ---- tabs -------------------------------------------------------- */
+    #myTab {
+      background: var(--glass) !important;
+      border: 1px solid var(--line);
+      border-radius: 12px !important;
+      padding: 4px;
+      gap: 4px;
+      width: fit-content;
+    }
+
+    #myTab [role="tab"],
+    #myTab button {
+      border-radius: 9px !important;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    #myTab [role="tab"][aria-selected="true"],
+    #myTab [role="tab"][data-headlessui-state~="selected"] {
+      background: linear-gradient(135deg, rgba(122, 162, 255, 0.28), rgba(167, 139, 250, 0.22)) !important;
+      color: #fff !important;
+      box-shadow: inset 0 0 0 1px var(--line-hi);
+    }
+
+    /* ---- groups ------------------------------------------------------ */
+    .services-group,
+    .bookmark-group {
+      animation: rise 0.5s ease both;
+    }
+
+    .service-group-name,
+    .bookmark-group-name {
+      align-items: center;
+      font-size: 0.78rem !important;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #9fb0d0 !important;
+    }
+
+    .service-group-name::after,
+    .bookmark-group-name::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      margin-left: 0.75rem;
+      background: linear-gradient(90deg, var(--line), transparent);
+    }
+
+    .service-group-icon {
+      color: var(--accent);
+      opacity: 0.9;
+    }
+
+    /* ---- cards ------------------------------------------------------- */
+    .service-card {
+      background: linear-gradient(180deg, var(--glass-hi), var(--glass)) !important;
+      border: 1px solid var(--line);
+      border-radius: var(--radius) !important;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.04) inset,
+        0 8px 24px -12px rgba(0, 0, 0, 0.6) !important;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-hi);
+      box-shadow:
+        0 0 0 1px rgba(122, 162, 255, 0.15),
+        0 14px 32px -14px rgba(122, 162, 255, 0.35) !important;
+    }
+
+    .service-card:focus-within {
+      border-color: var(--accent);
+    }
+
+    .service-name {
+      font-weight: 600;
+      letter-spacing: 0.005em;
+      color: #e8eefc;
+    }
+
+    .service-description {
+      color: #8b9bb8 !important;
+      font-size: 0.72rem !important;
+    }
+
+    .service-icon {
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+      transition: transform 0.18s ease;
+    }
+
+    .service-card:hover .service-icon {
+      transform: scale(1.07);
+    }
+
+    /* ---- stat blocks (widgets) --------------------------------------- */
+    .service-block {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px !important;
+      padding: 0.45rem 0.25rem !important;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .service-block-value {
+      font-size: 1rem !important;
+      font-weight: 600 !important;
+      color: #f1f5ff;
+    }
+
+    .service-block-label {
+      font-size: 0.6rem !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    /* Threshold colours from `highlight:` rules in services.yaml */
+    .service-block[data-highlight-level="danger"] {
+      background: rgba(251, 113, 133, 0.14) !important;
+      border-color: rgba(251, 113, 133, 0.5);
+    }
+    .service-block[data-highlight-level="danger"] .service-block-value {
+      color: #fecdd3;
+    }
+
+    .service-block[data-highlight-level="warn"] {
+      background: rgba(251, 191, 36, 0.12) !important;
+      border-color: rgba(251, 191, 36, 0.45);
+    }
+    .service-block[data-highlight-level="warn"] .service-block-value {
+      color: #fde68a;
+    }
+
+    .service-block[data-highlight-level="good"] {
+      border-color: rgba(52, 211, 153, 0.22);
+    }
+    .service-block[data-highlight-level="good"] .service-block-value {
+      color: #a7f3d0;
+    }
+
+    /* ---- hero tiles (Cluster Pulse) ---------------------------------- */
+    li.service:is(
+        [data-name="Workloads"],
+        [data-name="Alerts & Sync"],
+        [data-name="Capacity"],
+        [data-name="Storage & Certs"]
+      ) .service-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--violet), var(--accent-2));
+      opacity: 0.9;
+    }
+
+    li.service:is(
+        [data-name="Workloads"],
+        [data-name="Alerts & Sync"],
+        [data-name="Capacity"],
+        [data-name="Storage & Certs"]
+      ) .service-block-value {
+      font-size: 1.4rem !important;
+      line-height: 1.7rem;
+    }
+
+    /* node cards get a teal edge instead */
+    li.service[data-name^="kube-cp"] .service-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent-2), transparent);
+    }
+
+    /* ---- bookmarks --------------------------------------------------- */
+    #bookmarks li > * {
+      border-radius: 12px !important;
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+    #bookmarks li:hover > * {
+      transform: translateY(-1px);
+    }
+
+    /* ---- motion / small screens -------------------------------------- */
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        background-attachment: scroll !important;
+      }
+      .service-block-value {
+        font-size: 0.95rem !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
