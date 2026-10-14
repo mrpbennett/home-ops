@@ -18,7 +18,6 @@ data:
     color: slate
     headerStyle: clean
     statusStyle: dot
-    cardBlur: md
     useEqualHeights: true
     fullWidth: true
     hideVersion: true
@@ -55,43 +54,43 @@ data:
         columns: 5
 
       Platform:
-        tab: Platform
+        tab: Services
         icon: mdi-kubernetes
         style: row
         columns: 4
 
       Observability:
-        tab: Platform
+        tab: Services
         icon: mdi-chart-line
         style: row
         columns: 5
 
       Security:
-        tab: Platform
+        tab: Services
         icon: mdi-shield-lock
         style: row
         columns: 2
 
       Data:
-        tab: Data & Storage
+        tab: Services
         icon: mdi-database
         style: row
         columns: 3
 
       Storage:
-        tab: Data & Storage
+        tab: Services
         icon: mdi-harddisk
         style: row
         columns: 4
 
       Nodes:
-        tab: Infra
+        tab: Overview
         icon: mdi-server
         style: row
         columns: 3
 
       Infra:
-        tab: Infra
+        tab: Services
         icon: mdi-lan
         style: row
         columns: 2
@@ -450,32 +449,6 @@ data:
                     - { level: danger, when: gte, value: 80 }
                     - { level: good, when: lt, value: 80 }
 
-    - Infra:
-        - Proxmox:
-            icon: proxmox.png
-            href: http://192.168.7.5:8006
-            description: Hypervisor
-            ping: 192.168.7.5
-            # Needs a PVEAuditor API token. Add HOMEPAGE_VAR_PROXMOX_* to the
-            # Vault secret, then uncomment.
-            # widget:
-            #   type: proxmox
-            #   url: https://192.168.7.5:8006
-            #   username: "{{HOMEPAGE_VAR_PROXMOX_USERNAME}}"
-            #   password: "{{HOMEPAGE_VAR_PROXMOX_PASSWORD}}"
-            #   fields: ["vms", "lxc", "resources.cpu", "resources.mem"]
-
-        - AdGuard Home:
-            icon: adguard-home.png
-            href: https://dns.70ld.dev
-            description: Primary DNS
-            widget:
-              type: adguard
-              url: https://dns.70ld.dev
-              username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
-              password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
-              fields: ["queries", "blocked", "filtered", "latency"]
-
     # ---------------------------------------------------------------------
     # PLATFORM
     # `namespace` + blank `podSelector` adds the pod-health dot (click it for
@@ -730,6 +703,18 @@ data:
             description: WD Cloud
             ping: 192.168.4.110
 
+    - Infra:
+        - AdGuard Home:
+            icon: adguard-home.png
+            href: https://dns.70ld.dev
+            description: Primary DNS
+            widget:
+              type: adguard
+              url: https://dns.70ld.dev
+              username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+              password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
+              fields: ["queries", "blocked", "filtered", "latency"]
+
   widgets.yaml: |
     - greeting:
         text_size: 3xl
@@ -743,10 +728,7 @@ data:
           showLabel: true
           label: "portland"
         nodes:
-          show: true
-          cpu: true
-          memory: true
-          showLabel: true
+          show: false
 
     - longhorn:
         expanded: false
@@ -763,299 +745,73 @@ data:
   docker.yaml: ""
 
   custom.css: |
-    /* =====================================================================
-       70LD homelab / portland
-       Glass cards over a soft aurora background. Selectors target Homepage's
-       stable hooks (#ids, .service-*, .services-group, [data-name]); the
-       data-name selectors below must match the names in services.yaml.
-       ===================================================================== */
+    /* 70LD homelab / portland: flat and minimal.
+       The data-name selectors below must match the names in services.yaml. */
 
-    :root {
-      --bg: #070a12;
-      --accent: #7aa2ff;
-      --accent-2: #5eead4;
-      --violet: #a78bfa;
-      --ok: #34d399;
-      --warn: #fbbf24;
-      --bad: #fb7185;
-      --glass: rgba(255, 255, 255, 0.035);
-      --glass-hi: rgba(255, 255, 255, 0.07);
-      --line: rgba(255, 255, 255, 0.08);
-      --line-hi: rgba(122, 162, 255, 0.45);
-      --radius: 14px;
-    }
-
-    /* ---- background -------------------------------------------------- */
     html,
     body {
-      background-color: var(--bg) !important;
       font-variant-numeric: tabular-nums;
     }
 
-    body {
-      background-image:
-        radial-gradient(900px 500px at 12% -8%, rgba(122, 162, 255, 0.16), transparent 60%),
-        radial-gradient(800px 480px at 92% 6%, rgba(167, 139, 250, 0.13), transparent 60%),
-        radial-gradient(900px 600px at 50% 112%, rgba(94, 234, 212, 0.08), transparent 60%),
-        radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) !important;
-      background-size: auto, auto, auto, 26px 26px !important;
-      background-attachment: fixed !important;
-    }
-
-    #page_wrapper,
-    #inner_wrapper {
-      background: transparent !important;
-    }
-
-    ::selection {
-      background: rgba(122, 162, 255, 0.35);
-    }
-
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
-    }
-
-    /* ---- header / info widgets --------------------------------------- */
-    #information-widgets {
-      padding-top: 0.5rem;
-    }
-
-    [class*="information-widget-"] {
-      background: var(--glass);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 0.3rem 0.7rem;
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-    }
-
-    .information-widget-greeting {
-      background: transparent;
-      border: 0;
-      padding-left: 0;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      background-image: linear-gradient(90deg, #e8eefc, var(--accent) 60%, var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* ---- tabs -------------------------------------------------------- */
-    #myTab {
-      background: var(--glass) !important;
-      border: 1px solid var(--line);
-      border-radius: 12px !important;
-      padding: 4px;
-      gap: 4px;
-      width: fit-content;
-    }
-
-    #myTab [role="tab"],
-    #myTab button {
-      border-radius: 9px !important;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: background 0.18s ease, color 0.18s ease;
-    }
-
-    #myTab [role="tab"][aria-selected="true"],
-    #myTab [role="tab"][data-headlessui-state~="selected"] {
-      background: linear-gradient(135deg, rgba(122, 162, 255, 0.28), rgba(167, 139, 250, 0.22)) !important;
-      color: #fff !important;
-      box-shadow: inset 0 0 0 1px var(--line-hi);
-    }
-
     /* ---- groups ------------------------------------------------------ */
-    .services-group,
-    .bookmark-group {
-      animation: rise 0.5s ease both;
-    }
-
     .service-group-name,
     .bookmark-group-name {
-      align-items: center;
-      font-size: 0.78rem !important;
+      font-size: 0.8rem !important;
       font-weight: 600;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #9fb0d0 !important;
-    }
-
-    .service-group-name::after,
-    .bookmark-group-name::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      margin-left: 0.75rem;
-      background: linear-gradient(90deg, var(--line), transparent);
-    }
-
-    .service-group-icon {
-      color: var(--accent);
-      opacity: 0.9;
     }
 
     /* ---- cards ------------------------------------------------------- */
     .service-card {
-      background: linear-gradient(180deg, var(--glass-hi), var(--glass)) !important;
-      border: 1px solid var(--line);
-      border-radius: var(--radius) !important;
-      box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.04) inset,
-        0 8px 24px -12px rgba(0, 0, 0, 0.6) !important;
-      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-    }
-
-    .service-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--line-hi);
-      box-shadow:
-        0 0 0 1px rgba(122, 162, 255, 0.15),
-        0 14px 32px -14px rgba(122, 162, 255, 0.35) !important;
-    }
-
-    .service-card:focus-within {
-      border-color: var(--accent);
-    }
-
-    .service-name {
-      font-weight: 600;
-      letter-spacing: 0.005em;
-      color: #e8eefc;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px !important;
+      box-shadow: none !important;
     }
 
     .service-description {
-      color: #8b9bb8 !important;
       font-size: 0.72rem !important;
-    }
-
-    .service-icon {
-      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
-      transition: transform 0.18s ease;
-    }
-
-    .service-card:hover .service-icon {
-      transform: scale(1.07);
     }
 
     /* ---- stat blocks (widgets) --------------------------------------- */
     .service-block {
-      background: rgba(255, 255, 255, 0.04) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 10px !important;
-      padding: 0.45rem 0.25rem !important;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      border-radius: 6px !important;
     }
 
     .service-block-value {
-      font-size: 1rem !important;
       font-weight: 600 !important;
-      color: #f1f5ff;
     }
 
     .service-block-label {
       font-size: 0.6rem !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.09em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       opacity: 0.6;
     }
 
     /* Threshold colours from `highlight:` rules in services.yaml */
     .service-block[data-highlight-level="danger"] {
-      background: rgba(251, 113, 133, 0.14) !important;
-      border-color: rgba(251, 113, 133, 0.5);
+      background: rgba(248, 113, 113, 0.18) !important;
     }
-    .service-block[data-highlight-level="danger"] .service-block-value {
-      color: #fecdd3;
-    }
-
     .service-block[data-highlight-level="warn"] {
-      background: rgba(251, 191, 36, 0.12) !important;
-      border-color: rgba(251, 191, 36, 0.45);
-    }
-    .service-block[data-highlight-level="warn"] .service-block-value {
-      color: #fde68a;
-    }
-
-    .service-block[data-highlight-level="good"] {
-      border-color: rgba(52, 211, 153, 0.22);
+      background: rgba(251, 191, 36, 0.16) !important;
     }
     .service-block[data-highlight-level="good"] .service-block-value {
-      color: #a7f3d0;
+      color: #86efac;
     }
 
-    /* ---- hero tiles (Cluster Pulse) ---------------------------------- */
-    li.service:is(
-        [data-name="Workloads"],
-        [data-name="Alerts & Sync"],
-        [data-name="Capacity"],
-        [data-name="Storage & Certs"]
-      ) .service-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--violet), var(--accent-2));
-      opacity: 0.9;
-    }
-
+    /* Bigger numbers on the Cluster Pulse tiles */
     li.service:is(
         [data-name="Workloads"],
         [data-name="Alerts & Sync"],
         [data-name="Capacity"],
         [data-name="Storage & Certs"]
       ) .service-block-value {
-      font-size: 1.4rem !important;
-      line-height: 1.7rem;
-    }
-
-    /* node cards get a teal edge instead */
-    li.service[data-name^="kube-cp"] .service-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 auto 0 0;
-      width: 3px;
-      background: linear-gradient(180deg, var(--accent-2), transparent);
-    }
-
-    /* ---- bookmarks --------------------------------------------------- */
-    #bookmarks li > * {
-      border-radius: 12px !important;
-      transition: transform 0.18s ease, border-color 0.18s ease;
-    }
-    #bookmarks li:hover > * {
-      transform: translateY(-1px);
-    }
-
-    /* ---- motion / small screens -------------------------------------- */
-    @keyframes rise {
-      from {
-        opacity: 0;
-        transform: translateY(6px);
-      }
-      to {
-        opacity: 1;
-        transform: none;
-      }
+      font-size: 1.25rem !important;
     }
 
     @media (max-width: 640px) {
-      body {
-        background-attachment: scroll !important;
-      }
       .service-block-value {
         font-size: 0.95rem !important;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation: none !important;
-        transition: none !important;
       }
     }
