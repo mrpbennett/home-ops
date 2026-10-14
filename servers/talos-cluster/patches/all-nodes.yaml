@@ -88,6 +88,19 @@ kind: KubeProxyConfig
 config:
   metricsBindAddress: 0.0.0.0:10249
 ---
+# controller-manager and scheduler bind to 127.0.0.1 by default, so Prometheus can't scrape
+# their secure metrics ports (TargetDown). The ports still require authentication.
+# Talos 1.14 rejects cluster.controllerManager/cluster.scheduler alongside these documents.
+apiVersion: v1alpha1
+kind: KubeControllerManagerConfig
+extraArgs:
+  bind-address: 0.0.0.0
+---
+apiVersion: v1alpha1
+kind: KubeSchedulerConfig
+extraArgs:
+  bind-address: 0.0.0.0
+---
 # Private registry ---
 apiVersion: v1alpha1
 kind: RegistryMirrorConfig
