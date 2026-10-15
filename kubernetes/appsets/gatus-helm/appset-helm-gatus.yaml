@@ -65,7 +65,6 @@ spec:
               scrapeTimeout: 30s
               relabelings: []
 
-            # Secret is created by the VaultStaticSecret in CLUSTER/secrets/gatus
             envFrom:
               - secretRef:
                   name: gatus-discord-webhook
@@ -73,7 +72,7 @@ spec:
             config:
               alerting:
                 discord:
-                  webhook-url: ${webhook_url}
+                  webhook-url: ${webhook-url}
 
               endpoints:
                 - name: website
