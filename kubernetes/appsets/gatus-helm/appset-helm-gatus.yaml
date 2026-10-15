@@ -65,30 +65,15 @@ spec:
               scrapeTimeout: 30s
               relabelings: []
 
-            env:
-              apiVersion: secrets.hashicorp.com/v1beta1
-              kind: VaultStaticSecret
-              metadata:
-                name: gatus-discord-webhook
-                namespace: gatus
-              spec:
-                vaultAuthRef: vault-secrets-operator/vault-auth
-                mount: kv
-                type: kv-v2
-                path: gatus/discord
-                refreshAfter: 60s
-                destination:
-                  name: gatus-discord-webhook
-                  create: true
-
+            # Secret is created by the VaultStaticSecret in CLUSTER/secrets/gatus
             envFrom:
-              - secrefRef:
+              - secretRef:
                   name: gatus-discord-webhook
 
             config:
               alerting:
                 discord:
-                  webhook-url: ${webhook-url}
+                  webhook-url: ${webhook_url}
 
               endpoints:
                 - name: website
