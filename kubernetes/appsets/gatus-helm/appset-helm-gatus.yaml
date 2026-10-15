@@ -52,7 +52,7 @@ spec:
                 - ReadWriteOnce
               finalizers:
                 - kubernetes.io/pvc-protection
-              storageClass: nfs-csi
+              storageClassName: nfs-csi
 
             serviceMonitor:
               enabled: true
@@ -73,19 +73,151 @@ spec:
               alerting:
                 discord:
                   webhook-url: ${webhook-url}
+                  default-alert:
+                    description: "healthcheck failed"
+                    failure-threshold: 3
+                    success-threshold: 2
+                    send-on-resolved: true
 
               endpoints:
-                - name: website
-                  url: "https://twin.sh/health"
-                  interval: 5m
+
+                # infra: nodes and cluster platform services
+                - name: kube-cp-1 API
+                  group: infra
+                  url: "tcp://192.168.7.1:6443"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
+
+                - name: kube-cp-2 API
+                  group: infra
+                  url: "tcp://192.168.7.2:6443"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
+
+                - name: kube-cp-3 API
+                  group: infra
+                  url: "tcp://192.168.7.3:6443"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
+
+                - name: vault
+                  group: infra
+                  # 200 active, 429 standby; sealed (503) or down fails
+                  url: "http://vault.vault.svc:8200/v1/sys/health"
+                  interval: 1m
+                  conditions:
+                    - "[STATUS] == any(200, 429)"
+                  alerts: [{type: discord}]
+
+                - name: argocd
+                  group: infra
+                  url: "https://argocd-server.argocd.svc/healthz"
+                  interval: 1m
+                  client:
+                    insecure: true
                   conditions:
                     - "[STATUS] == 200"
-                    - "[BODY].status == UP"
-                    - "[RESPONSE_TIME] < 300"
-                  alerts:
-                    - type: discord
-                      description: "healthcheck failed"
-                      send-on-resolved: true
+                  alerts: [{type: discord}]
+
+                - name: longhorn
+                  group: infra
+                  url: "http://longhorn-frontend.longhorn-system.svc/"
+                  interval: 1m
+                  conditions:
+                    - "[STATUS] == 200"
+                  alerts: [{type: discord}]
+
+                - name: wildcard cert
+                  group: infra
+                  # exercises the gateway and checks the wildcard cert is not about to expire
+                  url: "https://argocd.70ld.dev"
+                  interval: 1h
+                  conditions:
+                    - "[CERTIFICATE_EXPIRATION] > 168h"
+                  alerts: [{type: discord}]
+
+                # apps: user-facing applications
+                - name: homepage
+                  group: apps
+                  url: "http://homepage.homepage.svc:3000/api/healthcheck"
+                  interval: 1m
+                  conditions:
+                    - "[STATUS] == 200"
+                  alerts: [{type: discord}]
+
+                - name: headlamp
+                  group: apps
+                  url: "http://headlamp.headlamp.svc/"
+                  interval: 1m
+                  conditions:
+                    - "[STATUS] == 200"
+                  alerts: [{type: discord}]
+
+                - name: chartdb
+                  group: apps
+                  url: "http://chartdb.chartdb.svc/"
+                  interval: 1m
+                  conditions:
+                    - "[STATUS] == 200"
+                  alerts: [{type: discord}]
+
+                - name: docker-registry
+                  group: apps
+                  # 401 is fine if auth is enabled; it still proves the registry is serving
+                  url: "http://docker-registry-svc.docker-registry.svc:5000/v2/"
+                  interval: 1m
+                  conditions:
+                    - "[STATUS] == any(200, 401)"
+                  alerts: [{type: discord}]
+
+                - name: keycloak
+                  group: apps
+                  url: "http://keycloak.keycloak.svc:8080/realms/master"
+                  interval: 1m
+                  conditions:
+                    - "[STATUS] == 200"
+                  alerts: [{type: discord}]
+
+                - name: ubuntu-vm SSH
+                  group: apps
+                  url: "tcp://192.168.7.15:22"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
+
+                # data: databases and query engines
+                - name: postgres
+                  group: data
+                  url: "tcp://192.168.7.80:5432"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
+
+                - name: trino
+                  group: data
+                  url: "http://trino.trino.svc:8080/v1/info"
+                  interval: 1m
+
+                  conditions:
+                    - "[STATUS] == 200"
+                    - "[BODY].starting == false"
+                  alerts: [{type: discord}]
+
+                - name: pgadmin
+                  group: data
+                  url: "tcp://192.168.7.99:5050"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
 
 
       destination:

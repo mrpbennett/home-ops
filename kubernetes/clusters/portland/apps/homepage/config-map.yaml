@@ -563,6 +563,15 @@ data:
             app: headlamp
             podSelector: ""
 
+        - Gatus:
+            icon: gatus.png
+            href: https://gatus.70ld.dev
+            description: External Monitoring
+            siteMonitor: http://gatus.gatus.svc.cluster.local
+            namespace: gatus
+            app: gatus
+            podSelector: ""
+
     - Security:
         - Keycloak:
             icon: keycloak.png
