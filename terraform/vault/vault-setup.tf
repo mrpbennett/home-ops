@@ -95,6 +95,16 @@ path "kv/data/gitea/*" {
 EOT
 }
 
+# -- GATUS --
+resource "vault_policy" "gatus_read" {
+  name   = "gatus-read"
+  policy = <<EOT
+path "kv/data/gatus/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 # -- HEADLAMP --
 resource "vault_policy" "headlamp_read" {
   name   = "headlamp-read"
@@ -157,7 +167,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gitea-read", "headlamp-read", "homepage-read", "pgadmin-read", "seaweedfs-read", "trino-read", "external-dns-read"]
+  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "headlamp-read", "homepage-read", "pgadmin-read", "seaweedfs-read", "trino-read", "external-dns-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -213,6 +223,15 @@ resource "vault_kv_secret_v2" "cnpg_gitea_db" {
   data_json = jsonencode({
     username = var.CNPG_GITEA_USERNAME
     password = var.CNPG_GITEA_PASSWORD
+  })
+}
+# GATUS --
+resource "vault_kv_secret_v2" "gatus_discord_webhook" {
+  mount = vault_mount.kv.path
+  name  = "gatus/discord"
+
+  data_json = jsonencode({
+    webhook_url = var.GATUS_DISCORD_WEBHOOK
   })
 }
 
@@ -413,6 +432,11 @@ variable "CNPG_GITEA_PASSWORD" {
   sensitive = true
 }
 
+# GATUS ---
+variable "GATUS_DISCORD_WEBHOOK" {
+  type      = string
+  sensitive = true
+}
 # GITEA ---
 variable "GITEA_ADMIN_USERNAME" {
   type      = string

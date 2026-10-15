@@ -1,0 +1,122 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name gatus
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      source:
+        chart: gatus
+        repoURL: https://twin.github.io/helm-charts
+        targetRevision: 1.5.0
+        helm:
+          valuesObject:
+            gateway:
+              route:
+                enabled: true
+                path: /
+                httpsRedirect: true
+                parentRefs:
+                  - name: envoy-shared-gateway
+                    namespace: envoy-gateway-system
+                    sectionName: https
+                hosts:
+                  - gatus.70ld.dev
+
+            persistence:
+              enabled: true
+              size: 5Gi
+              mountPath: /data
+              accessMode:
+                - ReadWriteOnce
+              finalizers:
+                - kubernetes.io/pvc-protection
+              storageClass: nfs-csi
+
+            serviceMonitor:
+              enabled: true
+              namespace: monitoring
+              interval: 1m
+              path: /metrics
+              scheme: http
+              tlsConfig: {}
+              labels: {}
+              scrapeTimeout: 30s
+              relabelings: []
+
+            env:
+              apiVersion: secrets.hashicorp.com/v1beta1
+              kind: VaultStaticSecret
+              metadata:
+                name: gatus-discord-webhook
+                namespace: gatus
+              spec:
+                vaultAuthRef: vault-secrets-operator/vault-auth
+                mount: kv
+                type: kv-v2
+                path: gatus/discord
+                refreshAfter: 60s
+                destination:
+                  name: gatus-discord-webhook
+                  create: true
+
+            envFrom:
+              - secrefRef:
+                  name: gatus-discord-webhook
+
+            config:
+              alerting:
+                discord:
+                  webhook-url: ${webhook-url}
+
+              endpoints:
+                - name: website
+                  url: "https://twin.sh/health"
+                  interval: 5m
+                  conditions:
+                    - "[STATUS] == 200"
+                    - "[BODY].status == UP"
+                    - "[RESPONSE_TIME] < 300"
+                  alerts:
+                    - type: discord
+                      description: "healthcheck failed"
+                      send-on-resolved: true
+
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: *app_name
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+          - CreateNamespace=true
+          - SkipDryRunOnMissingResource=true
+          - ApplyOutOfSyncOnly=true
+        retry:
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2

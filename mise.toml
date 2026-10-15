@@ -6,6 +6,7 @@ talosctl = "latest"
 hunk = "latest"
 jq = "latest"
 yq = "latest"
+helm = "latest"
 
 [env]
 TALOSCONFIG = "{{config_root}}/talosconfig"
