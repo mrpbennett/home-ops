@@ -38,14 +38,6 @@ My Kubernetes environment is deployed with [Talos Linux](https://talos.dev), wit
 
 [ArgoCD](https://argoproj.github.io/cd/) watches the `kubernetes` directory (see structure below) and changes the cluster to match the state of this Git repository. A single root application, `kubernetes/argo-root.yaml`, syncs every [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/) in `kubernetes/appsets/`. Each ApplicationSet generates the Application that deploys one app, following the [app of apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern).
 
-### Cluster Naming
-
-Clusters use short, Dorset-themed names rather than encoding distro or environment info into the directory name. This keeps paths concise and avoids churn if the underlying distro changes.
-
-| Cluster      | Environment | Description              |
-| ------------ | ----------- | ------------------------ |
-| **portland** | Production  | Primary workload cluster |
-
 ### Directories
 
 This Git repository contains the following directories:

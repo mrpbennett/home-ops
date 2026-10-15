@@ -1,0 +1,134 @@
+---
+# 70LD Cloud — inventory
+# Single source of truth for regions, clusters, networks and hosts.
+# Hostnames: <site>-<role>-<nn>. Numbers are never reused; retired hosts stay listed.
+# TODO markers flag things to confirm against the real kit.
+
+cloud:
+  name: 70LD Cloud
+  domain: 70ld.dev
+  internal_domain: int.70ld.dev
+
+regions:
+  uk-dor-1:
+    site_token: dor1
+    description: Home site, Poole
+    status: active
+    cidr: 10.70.0.0/16
+    zones:
+      uk-dor-1a:
+        description: Main rack (single circuit, single uplink)
+    vlans:
+      - {id: 10, name: mgmt, cidr: 10.70.10.0/24}
+      - {id: 20, name: servers, cidr: 10.70.20.0/24}
+      - {id: 30, name: k8s, cidr: 10.70.30.0/24}
+      - {id: 40, name: storage, cidr: 10.70.40.0/24}
+      - {id: 50, name: trusted, cidr: 10.70.50.0/24}
+      - {id: 60, name: iot, cidr: 10.70.60.0/24}
+      - {id: 70, name: dmz, cidr: 10.70.70.0/24}
+      - {id: 80, name: guest, cidr: 10.70.80.0/24}
+  uk-dor-2:
+    site_token: dor2
+    status: reserved
+    cidr: 10.71.0.0/16
+  uk-lon-1:
+    site_token: lon1
+    status: reserved
+    cidr: 10.72.0.0/16
+
+clusters:
+  uk-dor-1-prod-01:
+    region: uk-dor-1
+    env: prod
+    distro: talos
+    gitops: argocd
+    pod_cidr: 10.100.0.0/16
+    service_cidr: 10.101.0.0/16
+    api_vip: 10.70.30.240
+    api_fqdn: api.uk-dor-1-prod-01.int.70ld.dev
+    lb_pool: 10.70.30.200-10.70.30.219
+  uk-dor-1-dev-01:
+    region: uk-dor-1
+    env: dev
+    distro: k3s
+    pod_cidr: 10.102.0.0/16
+    service_cidr: 10.103.0.0/16
+    api_vip: 10.70.30.241
+    api_fqdn: api.uk-dor-1-dev-01.int.70ld.dev
+    lb_pool: 10.70.30.220-10.70.30.239
+
+hosts:
+  # --- prod control plane: Lenovo M720q, Talos ---
+  - hostname: dor1-cp-01
+    zone: uk-dor-1a
+    role: cp
+    cluster: uk-dor-1-prod-01
+    hardware: m720q
+    ip: 10.70.30.11
+    status: active
+  - hostname: dor1-cp-02
+    zone: uk-dor-1a
+    role: cp
+    cluster: uk-dor-1-prod-01
+    hardware: m720q
+    ip: 10.70.30.12
+    status: active
+  - hostname: dor1-cp-03
+    zone: uk-dor-1a
+    role: cp
+    cluster: uk-dor-1-prod-01
+    hardware: m720q
+    ip: 10.70.30.13
+    status: active
+
+  # --- prod workers: Dell OptiPlex 7060 Micro ---
+  # TODO: confirm these join prod as workers
+  - hostname: dor1-wk-01
+    zone: uk-dor-1a
+    role: wk
+    cluster: uk-dor-1-prod-01
+    hardware: optiplex-7060
+    ip: 10.70.30.21
+    status: planned
+  - hostname: dor1-wk-02
+    zone: uk-dor-1a
+    role: wk
+    cluster: uk-dor-1-prod-01
+    hardware: optiplex-7060
+    ip: 10.70.30.22
+    status: planned
+
+  # --- dev cluster: Raspberry Pi 5, k3s ---
+  # TODO: add one entry per Pi; server nodes are cp, agents are wk
+  - hostname: dor1-cp-04
+    zone: uk-dor-1a
+    role: cp
+    cluster: uk-dor-1-dev-01
+    hardware: rpi5
+    ip: 10.70.30.14
+    status: active
+
+  # --- storage: Synology DS925+ ---
+  - hostname: dor1-nas-01
+    zone: uk-dor-1a
+    role: nas
+    hardware: ds925plus
+    ip: 10.70.40.10
+    mgmt_ip: 10.70.10.20
+    services: [s3, smb, minecraft]
+    status: active
+
+  # --- network ---
+  # TODO: fill in router/switch/AP models
+  - hostname: dor1-gw-01
+    zone: uk-dor-1a
+    role: gw
+    ip: 10.70.10.1
+    status: active
+
+buckets:
+  - uk-dor-1-prod-01-longhorn
+  - uk-dor-1-prod-01-velero
+  - uk-dor-1-archive
+
+retired: [] # move hosts here when decommissioned; never reuse their names
