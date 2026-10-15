@@ -42,7 +42,7 @@ spec:
                     namespace: envoy-gateway-system
                     sectionName: https
                 hosts:
-                  - gatus.70ld.dev
+                  - status.70ld.dev
 
             persistence:
               enabled: true
@@ -70,19 +70,32 @@ spec:
                   name: gatus-discord-webhook
 
             config:
+              # https://github.com/TwiN/gatus#ui
+              ui:
+                title: "70LD : uk-south-1"
+                description: Monitoring uk-south-1
+                header: 70LD
+                default-sort-by: group
+
+              # https://github.com/TwiN/gatus#announcements
+              announcements:
+                - timestamp: 2025-11-07T12:00:00Z
+                  type: information
+                  message: "New monitoring dashboard features will be deployed next week"
+
               alerting:
                 discord:
                   webhook-url: ${webhook-url}
                   default-alert:
                     description: "healthcheck failed"
+                    header: 70LD
                     failure-threshold: 3
                     success-threshold: 2
                     send-on-resolved: true
 
               endpoints:
-
                 # infra: nodes and cluster platform services
-                - name: kube-cp-1 API
+                - name: kube-cp-1
                   group: infra
                   url: "tcp://192.168.7.1:6443"
                   interval: 1m
@@ -90,7 +103,7 @@ spec:
                     - "[CONNECTED] == true"
                   alerts: [{type: discord}]
 
-                - name: kube-cp-2 API
+                - name: kube-cp-2
                   group: infra
                   url: "tcp://192.168.7.2:6443"
                   interval: 1m
@@ -98,9 +111,34 @@ spec:
                     - "[CONNECTED] == true"
                   alerts: [{type: discord}]
 
-                - name: kube-cp-3 API
+                - name: kube-cp-3
                   group: infra
                   url: "tcp://192.168.7.3:6443"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
+
+                # rpi
+                - name: rpi-adguard
+                  group: infra
+                  url: "tcp://192.168.6.3:22"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
+
+                - name: rpi-seaweedfs
+                  group: infra
+                  url: "tcp://192.168.6.2:22"
+                  interval: 1m
+                  conditions:
+                    - "[CONNECTED] == true"
+                  alerts: [{type: discord}]
+
+                - name: rpi-nanoclaw
+                  group: infra
+                  url: "tcp://192.168.6.3:22"
                   interval: 1m
                   conditions:
                     - "[CONNECTED] == true"
@@ -184,8 +222,9 @@ spec:
                     - "[STATUS] == 200"
                   alerts: [{type: discord}]
 
-                - name: ubuntu-vm SSH
-                  group: apps
+                # kubevirt - virtual machines
+                - name: kv ubuntu-vm SSH
+                  group: vms
                   url: "tcp://192.168.7.15:22"
                   interval: 1m
                   conditions:
@@ -193,7 +232,7 @@ spec:
                   alerts: [{type: discord}]
 
                 # data: databases and query engines
-                - name: postgres
+                - name: cloudnativepg
                   group: data
                   url: "tcp://192.168.7.80:5432"
                   interval: 1m
@@ -205,7 +244,6 @@ spec:
                   group: data
                   url: "http://trino.trino.svc:8080/v1/info"
                   interval: 1m
-
                   conditions:
                     - "[STATUS] == 200"
                     - "[BODY].starting == false"

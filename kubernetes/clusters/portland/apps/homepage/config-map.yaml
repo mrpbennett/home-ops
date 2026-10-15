@@ -565,7 +565,7 @@ data:
 
         - Gatus:
             icon: gatus.png
-            href: https://gatus.70ld.dev
+            href: https://status.70ld.dev
             description: External Monitoring
             siteMonitor: http://gatus.gatus.svc.cluster.local
             namespace: gatus
