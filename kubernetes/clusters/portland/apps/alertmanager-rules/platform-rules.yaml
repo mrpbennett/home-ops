@@ -17,8 +17,10 @@ spec:
             severity: critical
           annotations:
             summary: "Vault pod {{ $labels.pod }} is not ready (sealed?)"
-            description: "{{ $labels.pod }} has failed its readiness probe for 5 minutes. This usually means Vault is sealed after a restart."
+            description: "{{ $labels.pod }} has failed its readiness probe for 5 minutes. This usually means Vault is sealed
+              after a restart."
 
+    # EXTERNALDNS_ALERT_RULES
     - name: external-dns
       rules:
         - alert: ExternalDNSSyncErrors
@@ -39,6 +41,7 @@ spec:
             summary: "external-dns has not synced for 15 minutes"
             description: "{{ $labels.pod }} last synced {{ $value | humanizeDuration }} ago."
 
+    # LOKE_ALERT_RULES
     - name: loki
       rules:
         - alert: LokiCompactorStale
@@ -69,3 +72,36 @@ spec:
           annotations:
             summary: "Alloy on {{ $labels.instance }} is down"
             description: "Log collection from {{ $labels.instance }} has stopped."
+
+    # CRONJOB_ALERT_RULES
+    - name: cronjob-alerts
+      rules:
+        # 1. Any CronJob-created Job that fails
+        - alert: CronJobJobFailed
+          expr: |
+            kube_job_failed{condition="true", job_name=~".+"}
+            * on(namespace, job_name)
+            group_left(owner_name)
+            kube_job_owner{
+              owner_kind="CronJob",
+              owner_is_controller="true"
+            } > 0
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CronJob Job failed: {{ $labels.namespace }}/{{ $labels.job_name }}"
+            description: "A Job owned by CronJob {{ $labels.owner_name }} has failed."
+
+        # 2. Any unsuspended CronJob that is overdue
+        - alert: CronJobNotStarting
+          expr: |
+            (time() - kube_cronjob_next_schedule_time) > 600
+            and on(namespace, cronjob)
+            (kube_cronjob_spec_suspend == 0)
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CronJob overdue: {{ $labels.namespace }}/{{ $labels.cronjob }}"
+            description: "The next scheduled execution is overdue by more than 10 minutes."
