@@ -223,7 +223,7 @@ spec:
                   alerts: [{type: discord}]
 
                 # kubevirt - virtual machines
-                - name: kv ubuntu-vm SSH
+                - name: ubuntu-vm SSH
                   group: vms
                   url: "tcp://192.168.7.15:22"
                   interval: 1m
