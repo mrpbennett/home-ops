@@ -85,7 +85,7 @@ spec:
 
               alerting:
                 discord:
-                  webhook-url: ${webhook-url}
+                  webhook-url: ${webhook_url}
                   default-alert:
                     description: "healthcheck failed"
                     header: 70LD
