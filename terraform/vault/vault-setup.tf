@@ -125,6 +125,16 @@ path "kv/data/homepage" {
 EOT
 }
 
+# PLANE --
+
+resource "vault_policy" "plane_read" {
+  name   = "plane-read"
+  policy = <<EOT
+path "kv/data/plane/*" {
+  capabilities = ["read"]
+}
+EOT
+}
 # -- PGADMIN --
 resource "vault_policy" "pgadmin_read" {
   name   = "pgadmin-read"
@@ -167,7 +177,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "headlamp-read", "homepage-read", "pgadmin-read", "seaweedfs-read", "trino-read", "external-dns-read"]
+  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "headlamp-read", "homepage-read", "pgadmin-read", "plane-read", "seaweedfs-read", "trino-read", "external-dns-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -316,6 +326,21 @@ resource "vault_kv_secret_v2" "pgadmin" {
   data_json = jsonencode({
     email    = var.PGADMIN_DEFAULT_EMAIL
     password = var.PGADMIN_DEFAULT_PASSWORD
+  })
+}
+
+# PLANE --
+resource "vault_kv_secret_v2" "plane" {
+  mount = vault_mount.kv.path
+  name  = "plane/config"
+
+  data_json = jsonencode({
+    db_user                = var.CNPG_PLANE_USERNAME
+    db_password            = var.CNPG_PLANE_PASSWORD
+    aws_access_key         = var.SEAWEEDFS_PLANE_AWS_ACCESS_KEY_ID
+    aws_secret_access_key  = var.SEAWEEDFS_PLANE_AWS_SECRET_ACCESS_KEY
+    secret_key             = var.PLANE_SECRET_KEY
+    live_server_secret_key = var.PLANE_LIVE_SERVER_SECRET_KEY
   })
 }
 
@@ -510,6 +535,32 @@ variable "PGADMIN_DEFAULT_EMAIL" {
   sensitive = true
 }
 variable "PGADMIN_DEFAULT_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+# PLANE --
+
+variable "CNPG_PLANE_USERNAME" {
+  type      = string
+  sensitive = true
+}
+variable "CNPG_PLANE_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+variable "SEAWEEDFS_PLANE_AWS_ACCESS_KEY_ID" {
+  type      = string
+  sensitive = true
+}
+variable "SEAWEEDFS_PLANE_AWS_SECRET_ACCESS_KEY" {
+  type      = string
+  sensitive = true
+}
+variable "PLANE_SECRET_KEY" {
+  type      = string
+  sensitive = true
+}
+variable "PLANE_LIVE_SERVER_SECRET_KEY" {
   type      = string
   sensitive = true
 }
