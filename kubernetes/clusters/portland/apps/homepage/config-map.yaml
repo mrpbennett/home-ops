@@ -500,6 +500,11 @@ data:
             href: https://portal.nanoclaw.dev/
             description: Cluster agent
 
+        - Plane:
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plane.svg
+            href: https://plane.70ld.dev
+            description: Jira replacement
+
         # Airflow is not deployed in the cluster right now (no namespace, no
         # Argo app). Restore this when it comes back.
         # - Airflow:
