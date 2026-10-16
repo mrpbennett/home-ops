@@ -68,11 +68,11 @@ spec:
 
       - name: plane
         ensure: present
-        comment: "Plane "
+        comment: "Plane user for plane db"
         login: true
         superuser: false
         passwordSecret:
-          name: plane-vault-secret
+          name: cnpg-plane-db
 
     services:
       additional:

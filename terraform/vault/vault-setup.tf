@@ -135,6 +135,7 @@ path "kv/data/plane/*" {
 }
 EOT
 }
+
 # -- PGADMIN --
 resource "vault_policy" "pgadmin_read" {
   name   = "pgadmin-read"

@@ -1,0 +1,159 @@
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name plane
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      source:
+        chart: plane-ce
+        repoURL: https://helm.plane.so
+        targetRevision: 1.8.5
+        helm:
+          valuesObject:
+            # served by Envoy Gateway (HTTPRoute in extraObjects), not ingress-nginx
+            ingress:
+              enabled: false
+              appHost: plane.70ld.dev
+
+            # TLS is terminated at the shared gateway; makes WEB_URL https://
+            ssl:
+              externalTermination: true
+
+            # fail the render rather than fall back to the chart's public default keys
+            env:
+              requireExplicitSecrets: true
+
+              pgdb_name: plane
+              docstore_bucket: plane
+              aws_region: us-east-1
+              # presigned upload URLs are handed to the browser, so this must be reachable from it
+              aws_s3_endpoint_url: http://192.168.6.2:8333
+
+            # secrets come from Vault via VSO (kubernetes/clusters/portland/CLUSTER/secrets/plane)
+            external_secrets:
+              # DATABASE_URL, REDIS_URL, AMQP_URL, SECRET_KEY, LIVE_SERVER_SECRET_KEY
+              app_env_existingSecret: plane-app-env
+              # shared signing keys; applied last in envFrom to api, live, worker, beatworker, migrator
+              app_keys_existingSecret: plane-app-env
+              storage:
+                secretName: plane-vault-secret
+                accessKeyIdKey: aws_access_key
+                secretAccessKeyKey: aws_secret_access_key
+
+            redis:
+              local_setup: true
+
+            # cnpg-prod-cluster
+            postgres:
+              local_setup: false
+
+            rabbitmq:
+              local_setup: true
+
+            # SeaweedFS
+            minio:
+              local_setup: false
+
+            web:
+              memoryLimit: 512Mi
+            space:
+              memoryLimit: 512Mi
+            admin:
+              memoryLimit: 512Mi
+            live:
+              memoryLimit: 512Mi
+
+            extraObjects:
+              - apiVersion: gateway.networking.k8s.io/v1
+                kind: HTTPRoute
+                metadata:
+                  name: plane-route
+                  namespace: plane
+                spec:
+                  parentRefs:
+                    - name: envoy-shared-gateway
+                      namespace: envoy-gateway-system
+                  hostnames:
+                    - plane.70ld.dev
+                  rules:
+                    - matches:
+                        - path:
+                            type: PathPrefix
+                            value: /
+                      backendRefs:
+                        - name: plane-web
+                          port: 3000
+                    - matches:
+                        - path:
+                            type: PathPrefix
+                            value: /api
+                        - path:
+                            type: PathPrefix
+                            value: /auth
+                        - path:
+                            type: PathPrefix
+                            value: /static/
+                      backendRefs:
+                        - name: plane-api
+                          port: 8000
+                    - matches:
+                        - path:
+                            type: PathPrefix
+                            value: /live/
+                      backendRefs:
+                        - name: plane-live
+                          port: 3000
+                    - matches:
+                        - path:
+                            type: PathPrefix
+                            value: /spaces
+                      backendRefs:
+                        - name: plane-space
+                          port: 3000
+                    - matches:
+                        - path:
+                            type: PathPrefix
+                            value: /god-mode
+                      backendRefs:
+                        - name: plane-admin
+                          port: 3000
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: *app_name
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+          - CreateNamespace=true
+          - SkipDryRunOnMissingResource=true
+          - ApplyOutOfSyncOnly=true
+        retry:
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
