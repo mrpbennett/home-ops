@@ -64,11 +64,12 @@ spec:
                     name: seaweedfs-velero-creds
                     create: true
                     transformation:
-                      template:
-                        cloud: |
-                          [default]
-                          AWS_ACCESS_KEY_ID={{ "{{`{{ .Secrets.SEAWEEDFS_VELERO_AWS_ACCESS_KEY_ID }}`}}" }}
-                          AWS_SECRET_ACCESS_KEY={{ "{{`{{ .Secrets.SEAWEEDFS_VELERO_AWS_SECRET_ACCESS_KEY }}`}}" }}
+                      templates:
+                        cloud:
+                          text: |
+                            [default]
+                            aws_access_key_id={{ "{{`{{ .Secrets.AWS_ACCESS_KEY_ID }}`}}" }}
+                            aws_secret_access_key={{ "{{`{{ .Secrets.AWS_SECRET_ACCESS_KEY }}`}}" }}
 
             configuration:
               backupStorageLocation:
