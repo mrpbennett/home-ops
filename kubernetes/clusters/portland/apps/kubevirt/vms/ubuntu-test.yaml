@@ -49,6 +49,9 @@ spec:
           interfaces:
             - name: default
               masquerade: {}
+              # pinned: the guest's /etc/netplan/50-cloud-init.yaml matches the NIC by MAC,
+              # and KubeVirt otherwise assigns a new random MAC on every VMI restart
+              macAddress: "f2:68:cb:8d:e5:fc"
         machine:
           type: q35
         resources:

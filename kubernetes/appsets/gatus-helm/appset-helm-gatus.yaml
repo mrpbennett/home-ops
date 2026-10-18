@@ -70,6 +70,10 @@ spec:
                   name: gatus-discord-webhook
 
             config:
+              # https://github.com/TwiN/gatus#metrics
+              # serves /metrics, which the ServiceMonitor scrapes
+              metrics: true
+
               # https://github.com/TwiN/gatus#ui
               ui:
                 title: "70LD : uk-south-1"
@@ -155,10 +159,9 @@ spec:
 
                 - name: argocd
                   group: infra
-                  url: "https://argocd-server.argocd.svc/healthz"
+                  # argocd-server runs with server.insecure=true, so both service ports speak plain HTTP
+                  url: "http://argocd-server.argocd.svc/healthz"
                   interval: 1m
-                  client:
-                    insecure: true
                   conditions:
                     - "[STATUS] == 200"
                   alerts: [{type: discord}]
