@@ -100,16 +100,19 @@ spec:
                   parameters:
                     volume-backup-policy: if-not-present
 
-              # Daily snapshot job for pvc
+              # Daily backup of every volume to the NAS backup target.
+              # The "default" group is attached to all volumes, so new PVCs are covered automatically.
               - apiVersion: longhorn.io/v1beta2
                 kind: RecurringJob
                 metadata:
-                  name: daily-snapshot-backup
+                  name: daily-backup
                   namespace: longhorn-system
                 spec:
-                  task: snapshot
+                  task: backup
                   cron: "0 1 * * *"
-                  retain: 1
+                  groups:
+                    - default
+                  retain: 7
                   concurrency: 2
 
               # RWX + volumeMode: Block (KubeVirt live migration) requires migratable: "true"

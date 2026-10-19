@@ -15,7 +15,8 @@ spec:
             severity: warning
           annotations:
             summary: "Longhorn volume {{ $labels.pvc }} is degraded"
-            description: "Volume {{ $labels.pvc_namespace }}/{{ $labels.pvc }} has been degraded for 30 minutes (replica rebuild not finishing?)."
+            description: "Volume {{ $labels.pvc_namespace }}/{{ $labels.pvc }} has been degraded for 30 minutes (replica rebuild
+              not finishing?)."
 
         - alert: LonghornVolumeFaulted
           expr: longhorn_volume_robustness{state="faulted"} == 1
@@ -43,6 +44,18 @@ spec:
           annotations:
             summary: "Longhorn disk on {{ $labels.node }} is not ready"
             description: "Disk {{ $labels.disk }} on node {{ $labels.node }} is not ready."
+
+        # longhorn_backup_state: 0=New 1=Pending 2=InProgress 3=Completed 4=Error 5=Unknown.
+        # There is no last-success timestamp metric, so this catches failed backups but not a job that stopped running.
+        - alert: LonghornBackupFailed
+          expr: longhorn_backup_state == 4
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Longhorn backup {{ $labels.backup }} failed"
+            description: "Backup {{ $labels.backup }} of volume {{ $labels.volume }} is in the Error state. Check the backup
+              target (NAS) is reachable."
 
         - alert: LonghornDiskUsageHigh
           expr: longhorn_disk_usage_bytes / longhorn_disk_capacity_bytes > 0.8

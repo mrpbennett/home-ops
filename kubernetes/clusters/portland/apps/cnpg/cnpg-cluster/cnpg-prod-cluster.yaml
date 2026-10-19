@@ -86,7 +86,7 @@ spec:
               type: LoadBalancer
 
   backup:
-    retentionPolicy: "7d"
+    retentionPolicy: "30d"
     barmanObjectStore:
       destinationPath: s3://cloudnativepg-backup
       endpointURL: http://192.168.6.2:8333
