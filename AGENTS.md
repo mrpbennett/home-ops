@@ -68,7 +68,7 @@ Fixed LoadBalancer IPs:
 ## Storage
 
 - **Longhorn** is the storage backend. It uses one filesystem disk per node at `/var/lib/longhorn/`.
-- StorageClasses: `longhorn` (default, Delete reclaim), `longhorn-kubevirt`, `longhorn-static`. All allow volume expansion.
+- StorageClasses: `longhorn` (default, Delete reclaim), `longhorn-kubevirt`, `longhorn-static` and `nfs-*`. All allow volume expansion.
 - The `docker-registry` app and Loki also use Longhorn volumes.
 - Backups: Velero and SeaweedFS ApplicationSets exist but are **commented out** (disabled).
 
