@@ -126,7 +126,6 @@ EOT
 }
 
 # PLANE --
-
 resource "vault_policy" "plane_read" {
   name   = "plane-read"
   policy = <<EOT
@@ -380,13 +379,13 @@ resource "vault_kv_secret_v2" "seadweedfs_loki" {
   })
 }
 
-resource "vault_kv_secret_v2" "seadweedfs_velero" {
+resource "vault_kv_secret_v2" "seadweedfs_etcdbackup" {
   mount = vault_mount.kv.path
-  name  = "seaweedfs/velero"
+  name  = "seaweedfs/etcd-backup"
 
   data_json = jsonencode({
-    AWS_ACCESS_KEY_ID     = var.SEAWEEDFS_VELERO_AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY = var.SEAWEEDFS_VELERO_AWS_SECRET_ACCESS_KEY
+    AWS_ACCESS_KEY_ID     = var.SEAWEEDFS_ETCD_BACKUP_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY = var.SEAWEEDFS_ETCD_BACKUP_AWS_SECRET_ACCESS_KEY
   })
 }
 
@@ -577,12 +576,12 @@ variable "SEAWEEDFS_LOKI_AWS_SECRET_ACCESS_KEY" {
   sensitive = true
 }
 
-# VELERO
-variable "SEAWEEDFS_VELERO_AWS_ACCESS_KEY_ID" {
+# ETCD BACKUP
+variable "SEAWEEDFS_ETCD_BACKUP_AWS_ACCESS_KEY_ID" {
   type      = string
   sensitive = true
 }
-variable "SEAWEEDFS_VELERO_AWS_SECRET_ACCESS_KEY" {
+variable "SEAWEEDFS_ETCD_BACKUP_AWS_SECRET_ACCESS_KEY" {
   type      = string
   sensitive = true
 }
