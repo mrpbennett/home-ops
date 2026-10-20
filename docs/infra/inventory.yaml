@@ -14,19 +14,15 @@ regions:
     site_token: dor1
     description: Home site, Poole
     status: active
-    cidr: 10.70.0.0/16
+    cidr: 192.168.4.0/22
     zones:
       uk-dor-1a:
         description: Main rack (single circuit, single uplink)
     vlans:
-      - {id: 10, name: mgmt, cidr: 10.70.10.0/24}
-      - {id: 20, name: servers, cidr: 10.70.20.0/24}
-      - {id: 30, name: k8s, cidr: 10.70.30.0/24}
-      - {id: 40, name: storage, cidr: 10.70.40.0/24}
-      - {id: 50, name: trusted, cidr: 10.70.50.0/24}
-      - {id: 60, name: iot, cidr: 10.70.60.0/24}
-      - {id: 70, name: dmz, cidr: 10.70.70.0/24}
-      - {id: 80, name: guest, cidr: 10.70.80.0/24}
+      - {id: 50, name: general, cidr: 192.168.4.0/24}
+      - {id: 60, name: iot, cidr: 192.168.5.0/24}
+      - {id: 20, name: servers, cidr: 192.168.6.0/24} # servers, pis, nas
+      - {id: 30, name: k8s, cidr: 192.168.7.0/24}
   uk-dor-2:
     site_token: dor2
     status: reserved
@@ -44,41 +40,41 @@ clusters:
     gitops: argocd
     pod_cidr: 10.100.0.0/16
     service_cidr: 10.101.0.0/16
-    api_vip: 10.70.30.240
+    api_vip: 192.168.7.240
     api_fqdn: api.uk-dor-1-prod-01.int.70ld.dev
-    lb_pool: 10.70.30.200-10.70.30.219
+    lb_pool: 192.168.7.200-192.168.7.239
   uk-dor-1-dev-01:
     region: uk-dor-1
     env: dev
     distro: k3s
     pod_cidr: 10.102.0.0/16
     service_cidr: 10.103.0.0/16
-    api_vip: 10.70.30.241
+    api_vip: 192.168.6.241
     api_fqdn: api.uk-dor-1-dev-01.int.70ld.dev
-    lb_pool: 10.70.30.220-10.70.30.239
+    lb_pool: 192.168.6.220-192.168.6.239
 
 hosts:
-  # --- prod control plane: Lenovo M720q, Talos ---
+  # --- prod control plane: Dell 7060, Talos ---
   - hostname: dor1-cp-01
     zone: uk-dor-1a
     role: cp
     cluster: uk-dor-1-prod-01
-    hardware: m720q
-    ip: 10.70.30.11
+    hardware: optiplex-7060
+    ip: 192.168.7.1
     status: active
   - hostname: dor1-cp-02
     zone: uk-dor-1a
     role: cp
     cluster: uk-dor-1-prod-01
-    hardware: m720q
-    ip: 10.70.30.12
+    hardware: optiplex-7060
+    ip: 192.168.7.2
     status: active
   - hostname: dor1-cp-03
     zone: uk-dor-1a
     role: cp
     cluster: uk-dor-1-prod-01
-    hardware: m720q
-    ip: 10.70.30.13
+    hardware: optiplex-7060
+    ip: 192.168.7.3
     status: active
 
   # --- prod workers: Dell OptiPlex 7060 Micro ---
@@ -88,24 +84,54 @@ hosts:
     role: wk
     cluster: uk-dor-1-prod-01
     hardware: optiplex-7060
-    ip: 10.70.30.21
+    ip: 192.168.7.4
     status: planned
   - hostname: dor1-wk-02
     zone: uk-dor-1a
     role: wk
     cluster: uk-dor-1-prod-01
     hardware: optiplex-7060
-    ip: 10.70.30.22
+    ip: 192.168.7.5
+    status: planned
+  - hostname: dor1-wk-03
+    zone: uk-dor-1a
+    role: wk
+    cluster: uk-dor-1-prod-01
+    hardware: optiplex-7060
+    ip: 192.168.7.6
+    status: planned
+
+  # --- Hypervisor ---
+
+  - hostname: dor1-pve-01
+    zone: uk-dor-1a
+    role: Hypervisor
+    cluster: ""
+    hardware: optiplex-7080
+    ip: 192.168.7.10
     status: planned
 
   # --- dev cluster: Raspberry Pi 5, k3s ---
-  # TODO: add one entry per Pi; server nodes are cp, agents are wk
-  - hostname: dor1-cp-04
+  - hostname: dor1-cp-01
     zone: uk-dor-1a
     role: cp
     cluster: uk-dor-1-dev-01
     hardware: rpi5
-    ip: 10.70.30.14
+    ip: 192.168.6.1
+    status: active
+  - hostname: dor1-cp-02
+    zone: uk-dor-1a
+    role: cp
+    cluster: uk-dor-1-dev-02
+    hardware: rpi5
+    ip: 192.168.6.2
+    status: active
+  - hostname: dor1-cp-03
+    zone: uk-dor-1a
+    role: cp
+    cluster: uk-dor-1-dev-03
+    hardware: rpi5
+    ip: 192.168.6.3
     status: active
 
   # --- storage: Synology DS925+ ---
@@ -113,9 +139,8 @@ hosts:
     zone: uk-dor-1a
     role: nas
     hardware: ds925plus
-    ip: 10.70.40.10
-    mgmt_ip: 10.70.10.20
-    services: [s3, smb, minecraft]
+    ip: 192.168.6.10
+    services: [s3, smb, nfs, minecraft]
     status: active
 
   # --- network ---
@@ -123,12 +148,16 @@ hosts:
   - hostname: dor1-gw-01
     zone: uk-dor-1a
     role: gw
-    ip: 10.70.10.1
+    ip: 192.168.4.1
     status: active
 
 buckets:
   - uk-dor-1-prod-01-longhorn
-  - uk-dor-1-prod-01-velero
+  - uk-dor-1-prod-01-etcd-backup
+  - uk-dor-1-prod-01-cnpg-backup
+  - uk-dor-1-prod-01-loki-admin
+  - uk-dor-1-prod-01-loki-ruler
+  - uk-dor-1-prod-01-loki-ruler
   - uk-dor-1-archive
 
 retired: [] # move hosts here when decommissioned; never reuse their names

@@ -32,8 +32,8 @@ spec:
               cpu: 500m
               memory: 512Mi
             requests:
-              cpu: 100m
-              memory: 256Mi
+              cpu: 4m
+              memory: 160Mi
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: "*"

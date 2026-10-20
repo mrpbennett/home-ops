@@ -140,8 +140,8 @@ spec:
                     heapRegionSize: "16M"
               resources:
                 requests:
-                  cpu: "250m"
-                  memory: "1Gi"
+                  cpu: "137m"
+                  memory: "851Mi"
                 limits:
                   cpu: "1500m"
                   memory: "2Gi"

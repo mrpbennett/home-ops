@@ -84,10 +84,10 @@ spec:
 
               resources:
                 requests:
-                  cpu: 100m
+                  cpu: 55m
                   memory: 512Mi
                 limits:
-                  cpu: 500m
+                  cpu: 200m
                   memory: 1Gi
               persistence:
                 size: 10Gi

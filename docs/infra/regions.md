@@ -60,7 +60,7 @@ The site token is the short form of the region (`dor1`, `lon1`, `fsn1`). It keep
 
 ## Clusters
 
-Clusters follow `<region>-<env>-<nn>`: production is `uk-dor-1-prod-01` (Talos on the M720qs, ArgoCD) and dev is `uk-dor-1-dev-01` (k3s on the Pis).
+Clusters follow `<region>-<env>-<nn>`: production is `uk-dor-1-prod-01` (Talos on the 7060s, ArgoCD) and dev is `uk-dor-1-dev-01` (k3s on the Pis).
 
 Environments are `prod`, `stage`, `dev`, `lab` (break it freely) and `edge`. The `-nn` suffix lets a replacement cluster run alongside the old one during a migration, then take over.
 
@@ -76,11 +76,11 @@ topology.kubernetes.io/zone: uk-dor-1a
 
 ## IP addressing
 
-Each region gets its own /16 and each cluster a pair of /16s from a separate block, so nothing overlaps when sites are routed together over Tailscale subnet routers.
+Each region gets its own block and each cluster a pair of /16s from a separate block, so nothing overlaps when sites are routed together over Tailscale subnet routers. The home site uses a /22 of `192.168.x` split into four /24s; later regions use /16s from `10.x`.
 
 | Block | Allocation |
 | --- | --- |
-| `10.70.0.0/16` | `uk-dor-1` |
+| `192.168.4.0/22` | `uk-dor-1` |
 | `10.71.0.0/16` | `uk-dor-2` (reserved) |
 | `10.72.0.0/16` | `uk-lon-1` (reserved) |
 | `10.73–10.99` | Future regions |
@@ -95,18 +95,14 @@ Set these explicitly in the Talos and k3s configs. The defaults (Talos 10.244/10
 
 ### VLANs
 
-The third octet matches the VLAN ID, so `10.70.20.0/24` is always VLAN 20.
+Each network is a /24 (`255.255.255.0`) inside the region's `192.168.4.0/22`. The third octet no longer matches the VLAN ID.
 
-| VLAN | Name | Subnet |
-| --- | --- | --- |
-| 10 | `mgmt` | `10.70.10.0/24` |
-| 20 | `servers` | `10.70.20.0/24` |
-| 30 | `k8s` | `10.70.30.0/24` |
-| 40 | `storage` | `10.70.40.0/24` |
-| 50 | `trusted` | `10.70.50.0/24` |
-| 60 | `iot` | `10.70.60.0/24` |
-| 70 | `dmz` | `10.70.70.0/24` |
-| 80 | `guest` | `10.70.80.0/24` |
+| VLAN | Name | Subnet | Contents |
+| --- | --- | --- | --- |
+| 50 | `general` | `192.168.4.0/24` | General computing, gateway |
+| 60 | `iot` | `192.168.5.0/24` | IoT devices |
+| 20 | `servers` | `192.168.6.0/24` | Servers, Raspberry Pis, NAS |
+| 30 | `k8s` | `192.168.7.0/24` | Prod Kubernetes nodes and LB pool |
 
 VLANs are named by purpose, never by the device that implements them.
 
@@ -197,7 +193,7 @@ Every likely addition slots in without renaming anything that already exists.
 | Cluster | `uk-dor-1-prod-01` |
 | Host | `dor1-cp-01` |
 | Host FQDN | `dor1-cp-01.int.70ld.dev` |
-| Region network | `10.70.0.0/16` (VLAN n = `10.70.n.0/24`) |
+| Region network | `192.168.4.0/22` (general `.4`, iot `.5`, servers `.6`, k8s `.7`) |
 | Pod / service CIDR | `10.100.0.0/16` / `10.101.0.0/16` |
 | Internal service | `grafana.int.70ld.dev` |
 | Public service | `photos.70ld.dev` |
