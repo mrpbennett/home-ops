@@ -1,20 +1,17 @@
 <div align="center">
 
-<p>Wife approved HomeOps driven by Kubernetes and GitOps using ArgoCD</p>
-
 <p align="center">
-  <a href="https://github.com/k8s-at-home" alt="Image used with permission from k8s-at-home"><img width="300" alt="Image used with permission from k8s-at-home" src="misc/homeops-logo.png" /></a>
-</p>
 
-<p align="center">
-    <a href="https://talos.dev"><img alt="talos" src="https://img.shields.io/badge/talos-v1.14.2-orange?logo=talos&logoColor=white&style=flat-square"></a>
-    <a href="https://github.com/mrpbennett/home-ops/commits/master"><img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/mrpbennett/home-ops?logo=git&logoColor=white&color=purple&style=flat-square"></a>
-    <a href="https://discord.gg/home-operations"><img alt="Home Operations Discord" src="https://img.shields.io/badge/discord-chat-7289DA.svg?logo=discord&logoColor=white&maxAge=60&style=flat-square"></a>
+[![Talos](https://img.shields.io/badge/talos-v1.14.2-orange?logo=talos&logoColor=white&style=for-the-badge)](https://talos.dev)
+[![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
+[![Renovate](https://img.shields.io/badge/Renovate-1A1F6C?style=for-the-badge&logo=renovatebot&logoColor=white)](https://www.mend.io/renovate/)
+[![Last Commit](https://img.shields.io/github/last-commit/mrpbennett/home-ops?logo=git&logoColor=white&color=purple&style=for-the-badge)](https://github.com/mrpbennett/home-ops/commits/main)
+[![Discord](https://img.shields.io/badge/discord-chat-7289DA.svg?logo=discord&logoColor=white&maxAge=60&style=for-the-badge)](https://discord.gg/home-operations)
 </p>
 
 ### My Home Operations Repository :octocat:
 
-_... managed with ArgoCD, Renovate and GitHub Actions with a sprinkling of AiOps 🤖
+Managed with ArgoCD, Renovate and GitHub Actions with a sprinkling of AiOps 🤖
 
 </div>
 
@@ -25,8 +22,6 @@ _... managed with ArgoCD, Renovate and GitHub Actions with a sprinkling of AiOps
 This is a mono repository for my home infrastructure and Kubernetes nodes. I try to adhere to Infrastructure as Code (IaC) and GitOps practices using tools like [Kubernetes](https://kubernetes.io/), [ArgoCD](https://argoproj.github.io/cd/), [Renovate](https://github.com/renovatebot/renovate) and [GitHub Actions](https://github.com/features/actions).
 
 I have a HA setup running 3 Dell OptiPlex 7060 Micros (6-core, 16GB) with [Talos Linux](https://talos.dev), all acting as control planes that also accept workloads.
-
-## The purpose here is to learn Kubernetes, while practising GitOps
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> Kubernetes
 
