@@ -169,7 +169,7 @@ EOT
 resource "vault_policy" "tailscale_read" {
   name   = "tailscale-read"
   policy = <<EOT
-path "kv/data/tailscale/*" {
+path "kv/data/tailscale" {
   capabilities = ["read"]
 }
 EOT
