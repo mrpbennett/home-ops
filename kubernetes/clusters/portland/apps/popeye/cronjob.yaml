@@ -1,0 +1,27 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: popeye
+  namespace: popeye
+spec:
+  schedule: "* */1 * * *" # Fire off Popeye once an hour
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: popeye
+          restartPolicy: Never
+          containers:
+            - name: popeye
+              image: derailed/popeye:v0.22.1
+              imagePullPolicy: IfNotPresent
+              args:
+                - -o
+                - yaml
+                - --force-exit-zero
+              resources:
+                limits:
+                  cpu: 500m
+                  memory: 100Mi
