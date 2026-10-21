@@ -22,8 +22,6 @@ spec:
                 - yaml
                 - --force-exit-zero
                 - -A
-                - --spinach
-                - /spinach/spinach.yml
               volumeMounts:
                 - name: spinach
                   mountPath: /spinach
