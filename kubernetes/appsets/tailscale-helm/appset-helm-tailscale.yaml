@@ -26,12 +26,28 @@ spec:
         - resources-finalizer.argocd.argoproj.io
     spec:
       project: "{{.project}}"
-      sources:
-        - repoURL: "{{.repo_url}}"
-          path: "kubernetes/clusters/{{.cluster}}/apps/{{.app_name}}"
-          targetRevision: main
-          directory:
-            recurse: true
+      source:
+        chart: tailscale-operator
+        repoURL: https://pkgs.tailscale.com/helmcharts
+        targetRevision: 1.104.1
+        helm:
+          valuesObject:
+            oauthSecretVolume:
+              secret:
+                secretName: operator-oauth
+
+            operatorConfig:
+              defaultTags:
+                - "tag:k8s-operator"
+
+            ingressClass:
+              name: tailscale
+              enabled: true
+
+            # kubectl access over the tailnet (tailscale configure kubeconfig tailscale-operator)
+            apiServerProxyConfig:
+              mode: "true"
+              allowImpersonation: "true"
 
       destination:
         name: "{{.cluster}}"
@@ -42,6 +58,7 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
         retry:
           limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
           backoff:
