@@ -75,6 +75,16 @@ path "kv/data/cloudnativepg/*" {
 EOT
 }
 
+# -- LONGHORN --
+resource "vault_policy" "longhorn_read" {
+  name   = "longhorn-read"
+  policy = <<EOT
+path "kv/data/longhorn/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 # -- EXTERNAL DNS --
 resource "vault_policy" "externaldns_read" {
   name   = "external-dns-read"
@@ -155,6 +165,16 @@ path "kv/data/seaweedfs/*" {
 EOT
 }
 
+# -- TAILSCALE --
+resource "vault_policy" "tailscale_read" {
+  name   = "tailscale-read"
+  policy = <<EOT
+path "kv/data/tailscale/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 # -- TRINO --
 resource "vault_policy" "trino_read" {
   name   = "trino-read"
@@ -177,7 +197,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "headlamp-read", "homepage-read", "pgadmin-read", "plane-read", "seaweedfs-read", "trino-read", "external-dns-read"]
+  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "headlamp-read", "homepage-read", "longhorn-read", "pgadmin-read", "plane-read", "seaweedfs-read", "tailscale-read", "trino-read", "external-dns-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -235,6 +255,7 @@ resource "vault_kv_secret_v2" "cnpg_gitea_db" {
     password = var.CNPG_GITEA_PASSWORD
   })
 }
+
 # GATUS --
 resource "vault_kv_secret_v2" "gatus_discord_webhook" {
   mount = vault_mount.kv.path
@@ -287,6 +308,17 @@ resource "vault_kv_secret_v2" "external_dns_adguard" {
     url      = var.EXTERNALDNS_URL
     user     = var.EXTERNALDNS_USER
     password = var.EXTERNALDNS_PASSWORD
+  })
+}
+
+# LONGHORN --
+resource "vault_kv_secret_v2" "longhorn_nfs" {
+  mount = vault_mount.kv.path
+  name  = "longhorn/nfs"
+
+  data_json = jsonencode({
+    username = var.LONGHORN_NFS_USERNAME
+    password = var.LONGHORN_NFS_PASSWORD
   })
 }
 
@@ -344,6 +376,16 @@ resource "vault_kv_secret_v2" "plane" {
   })
 }
 
+# TAILSCALE --
+resource "vault_kv_secret_v2" "tailscale" {
+  mount = vault_mount.kv.path
+  name  = "tailscale"
+
+  data_json = jsonencode({
+    client_id     = var.TAILSCALE_CLIENT_ID
+    client_secret = var.TAILSCALE_CLIENT_SECRET_ID
+  })
+}
 # TRINO --
 resource "vault_kv_secret_v2" "trino" {
   mount = vault_mount.kv.path
@@ -365,8 +407,6 @@ resource "vault_kv_secret_v2" "trino_catalogs" {
     TRINO_CNPG_CATALOG_PASSWORD = var.TRINO_CNPG_CATALOG_PASSWORD
   })
 }
-
-
 
 # SEADWEEDFS / LOKI
 resource "vault_kv_secret_v2" "seadweedfs_loki" {
@@ -529,6 +569,16 @@ variable "HOMEPAGE_ARGOCD_KEY" {
   sensitive = true
 }
 
+# LONGHORN ---
+variable "LONGHORN_NFS_USERNAME" {
+  type      = string
+  sensitive = true
+}
+variable "LONGHORN_NFS_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+
 # PGADMIN ---
 variable "PGADMIN_DEFAULT_EMAIL" {
   type      = string
@@ -539,7 +589,6 @@ variable "PGADMIN_DEFAULT_PASSWORD" {
   sensitive = true
 }
 # PLANE --
-
 variable "CNPG_PLANE_USERNAME" {
   type      = string
   sensitive = true
@@ -586,6 +635,16 @@ variable "SEAWEEDFS_ETCD_BACKUP_AWS_SECRET_ACCESS_KEY" {
   sensitive = true
 }
 
+# TAILSCALE --
+variable "TAILSCALE_CLIENT_ID" {
+  type      = string
+  sensitive = true
+}
+
+variable "TAILSCALE_CLIENT_SECRET_ID" {
+  type      = string
+  sensitive = true
+}
 # TRINO ---
 variable "TRINO_CNPG_CATALOG_USERNAME" {
   type      = string

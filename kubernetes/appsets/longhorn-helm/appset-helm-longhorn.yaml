@@ -76,16 +76,20 @@ spec:
                 interval: 30s
 
             extraObjects:
-              # TODO: Migrate this secret over to the vault
-              - apiVersion: v1
-                kind: Secret
+              - apiVersion: secrets.hashicorp.com/v1beta1
+                kind: VaultStaticSecret
                 metadata:
                   name: longhorn-nfs-backup-secret
                   namespace: longhorn-system
-                type: Opaque
-                data:
-                  username: cGF1bA==
-                  password: MTIzcXdlISE=
+                spec:
+                  vaultAuthRef: vault-secrets-operator/vault-auth
+                  mount: kv
+                  type: kv-v2
+                  path: longhorn/nfs
+                  refreshAfter: 60s
+                  destination:
+                    name: longhorn-nfs-backup-secret
+                    create: true
 
               # Weekly system-backup
               - apiVersion: longhorn.io/v1beta2
