@@ -81,6 +81,22 @@ rules:
     verbs:
       - get
       - list
+  # Adding new access per error on logs
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
+      - gateways
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+      - cronjobs
+    verbs:
+      - get
+      - list
 
 ---
 # ClusterRoleBinding to ties Popeye with the cluster
