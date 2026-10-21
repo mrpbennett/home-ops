@@ -18,7 +18,6 @@ rules:
       - policy
     resources:
       - poddisruptionbudgets
-      - podsecuritypolicies
     verbs:
       - get
       - list
@@ -85,7 +84,16 @@ rules:
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
+      - gatewayclasses
       - gateways
+      - httproutes
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - postgresql.cnpg.io
+    resources:
+      - clusters
     verbs:
       - get
       - list

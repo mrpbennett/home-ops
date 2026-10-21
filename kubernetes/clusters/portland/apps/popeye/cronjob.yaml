@@ -5,7 +5,7 @@ metadata:
   name: popeye
   namespace: popeye
 spec:
-  schedule: "* */1 * * *" # Fire off Popeye once an hour
+  schedule: "0 * * * *" # Fire off Popeye once an hour
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -21,7 +21,24 @@ spec:
                 - -o
                 - yaml
                 - --force-exit-zero
+                - -A
+                - --spinach
+                - /spinach/spinach.yml
+              volumeMounts:
+                - name: spinach
+                  mountPath: /spinach
+                  readOnly: true
               resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
                 limits:
                   cpu: 500m
-                  memory: 100Mi
+                  memory: 256Mi
+          volumes:
+            - name: spinach
+              configMap:
+                name: popeye
+                items:
+                  - key: spinach
+                    path: spinach.yml
