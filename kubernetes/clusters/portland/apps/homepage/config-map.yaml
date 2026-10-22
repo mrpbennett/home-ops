@@ -14,7 +14,7 @@ data:
 
   settings.yaml: |
     title: 70LD Cloud // portland
-    theme: light
+    theme: dark
     color: slate
     headerStyle: clean
     statusStyle: dot
@@ -79,25 +79,19 @@ data:
         style: row
         columns: 5
 
-      Security:
+      Identity & Access:
         tab: Products
         icon: mdi-shield-lock-outline
         style: row
         columns: 2
 
-      Databases:
+      Cloud SQL:
         tab: Products
         icon: mdi-database-outline
         style: row
-        columns: 2
+        columns: 3
 
-      Analytics:
-        tab: Products
-        icon: mdi-google-analytics
-        style: row
-        columns: 1
-
-      Storage:
+      Cloud Storage:
         tab: Products
         icon: mdi-harddisk
         style: row
@@ -366,7 +360,7 @@ data:
     - Compute Engine:
         - kube-cp-1:
             icon: mdi-server
-            description: 192.168.7.1 · control-plane
+            description: 192.168.7.1 - control-plane
             ping: 192.168.7.1
             widget:
               type: prometheusmetric
@@ -401,7 +395,7 @@ data:
 
         - kube-cp-2:
             icon: mdi-server
-            description: 192.168.7.2 · control-plane
+            description: 192.168.7.2 - control-plane
             ping: 192.168.7.2
             widget:
               type: prometheusmetric
@@ -436,7 +430,7 @@ data:
 
         - kube-cp-3:
             icon: mdi-server
-            description: 192.168.7.3 · control-plane
+            description: 192.168.7.3 - control-plane
             ping: 192.168.7.3
             widget:
               type: prometheusmetric
@@ -471,7 +465,7 @@ data:
 
     # ---------------------------------------------------------------------
     # PRODUCTS: same sections as the GCP navigation menu. Each description is
-    # "<what it does> · <GCP product it stands in for>".
+    # "<what it does> - <GCP product it stands in for>".
     # `namespace` + blank `podSelector` adds the pod-health dot (click it for
     # CPU / memory); `siteMonitor` hits the in-cluster Service directly so the
     # dot reflects the app, not DNS or the gateway.
@@ -480,7 +474,7 @@ data:
         - Headlamp:
             icon: headlamp.png
             href: https://headlamp.70ld.dev
-            description: Cluster UI · GKE workloads
+            description: Cluster UI
             siteMonitor: http://headlamp.headlamp.svc.cluster.local
             namespace: headlamp
             app: headlamp
@@ -489,7 +483,7 @@ data:
         - ArgoCD:
             icon: argo-cd.png
             href: https://argocd.70ld.dev
-            description: GitOps delivery · Config Sync
+            description: GitOps delivery - Config Sync
             siteMonitor: https://argocd.70ld.dev
             namespace: argocd
             app: argocd
@@ -503,7 +497,7 @@ data:
         - Gitea:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/gitea.svg
             href: https://git.70ld.dev/
-            description: Git hosting · Cloud Source Repositories
+            description: Git hosting - Cloud Source Repositories
             siteMonitor: http://gitea-http.gitea.svc.cluster.local:3000/api/healthz
             namespace: gitea
             app: gitea
@@ -512,7 +506,7 @@ data:
         - Registry:
             icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/docker.svg
             href: https://registry.70ld.dev/v2/_catalog
-            description: Image registry · Artifact Registry
+            description: Image registry - Artifact Registry
             siteMonitor: http://docker-registry-svc.docker-registry.svc.cluster.local:5000/v2/
             namespace: docker-registry
             app: docker-registry
@@ -530,7 +524,7 @@ data:
         - Grafana:
             icon: grafana.png
             href: https://grafana.70ld.dev/dashboards?starred
-            description: Dashboards · Cloud Monitoring
+            description: Dashboards - Cloud Monitoring
             siteMonitor: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local/api/health
             namespace: monitoring
             app: grafana
@@ -539,7 +533,7 @@ data:
         - Prometheus:
             icon: prometheus.png
             href: http://prometheus.70ld.dev
-            description: Metrics · Managed Prometheus
+            description: Metrics - Managed Prometheus
             siteMonitor: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/-/healthy
             namespace: monitoring
             app: prometheus
@@ -551,7 +545,7 @@ data:
         - AlertManager:
             icon: alertmanager.png
             href: https://alertmanager.70ld.dev
-            description: Alert routing · Alerting
+            description: Alert routing - Alerting
             siteMonitor: http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093/-/healthy
             namespace: monitoring
             app: alertmanager
@@ -560,7 +554,7 @@ data:
         - Loki:
             icon: loki.png
             href: https://grafana.70ld.dev/explore
-            description: Logs (Loki + Alloy) · Cloud Logging
+            description: Logs (Loki + Alloy) - Cloud Logging
             namespace: logging
             app: loki
             podSelector: ""
@@ -576,17 +570,17 @@ data:
         - Gatus:
             icon: gatus.png
             href: https://status.70ld.dev
-            description: External checks · Uptime checks
+            description: External checks - Uptime checks
             siteMonitor: http://gatus.gatus.svc.cluster.local
             namespace: gatus
             app: gatus
             podSelector: ""
 
-    - Security:
+    - Identity & Access:
         - Keycloak:
             icon: keycloak.png
             href: https://keycloak.70ld.dev
-            description: Auth & OIDC · Cloud IAM
+            description: Auth & OIDC - Cloud IAM
             siteMonitor: http://keycloak.keycloak.svc.cluster.local:8080/realms/master
             namespace: keycloak
             app: keycloak
@@ -595,7 +589,7 @@ data:
         - Vault:
             icon: vault-light.png
             href: http://vault.70ld.dev
-            description: Secrets · Secret Manager
+            description: Secrets - Secret Manager
             siteMonitor: http://vault.vault.svc.cluster.local:8200/v1/sys/health?standbyok=true&sealedcode=200&uninitcode=200
             namespace: vault
             app: vault
@@ -615,11 +609,11 @@ data:
                   label: Version
                   format: text
 
-    - Databases:
+    - Cloud SQL:
         - PGAdmin:
             icon: postgres.png
             href: https://pgadmin.70ld.dev
-            description: Postgres cnpg-prod-cluster · Cloud SQL
+            description: Cloud SQL
             siteMonitor: http://pgadmin-service.pgadmin.svc.cluster.local:5050/misc/ping
             namespace: pgadmin
             app: pgadmin
@@ -654,17 +648,16 @@ data:
         - ChartDB:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/chartdb.png
             href: https://chartdb.70ld.dev
-            description: Schema diagrams · Database Center
+            description: Schema diagrams - Database Center
             siteMonitor: http://chartdb.chartdb.svc.cluster.local
             namespace: chartdb
             app: chartdb
             podSelector: ""
 
-    - Analytics:
         - Trino:
             icon: https://cdn.simpleicons.org/trino/FFFFFF
             href: http://trino.70ld.dev
-            description: SQL query engine · BigQuery
+            description: SQL query engine
             siteMonitor: http://trino.trino.svc.cluster.local:8080/v1/info
             namespace: trino
             app: trino
@@ -675,13 +668,13 @@ data:
         # - Airflow:
         #     icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
         #     href: https://airflow.70ld.dev
-        #     description: Workflows · Cloud Composer
+        #     description: Workflows - Cloud Composer
 
-    - Storage:
+    - Cloud Storage:
         - Longhorn:
             icon: longhorn.png
             href: https://longhorn.70ld.dev
-            description: Block storage · Persistent Disk
+            description: Block storage - Persistent Disk
             siteMonitor: http://longhorn-frontend.longhorn-system.svc.cluster.local
             namespace: longhorn-system
             app: longhorn
@@ -712,26 +705,26 @@ data:
         - SeaweedFS:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
             href: http://192.168.6.2:23646/admin
-            description: Object storage · Cloud Storage
+            description: Buckets - Filestore
             siteMonitor: http://192.168.6.2:23646/admin
 
         - TrueNAS Scale:
             icon: truenas-scale.svg
             href: http://192.168.4.50
-            description: File storage · Filestore
+            description: File storage - Filestore
             ping: 192.168.4.50
 
         - WDCloud:
             icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/western-digital.svg
             href: http://192.168.4.110
-            description: File storage · Filestore
+            description: File storage - Filestore
             ping: 192.168.4.110
 
     - Networking:
         - AdGuard Home:
             icon: adguard-home.png
             href: https://dns.70ld.dev
-            description: Primary DNS · Cloud DNS
+            description: Primary DNS - Cloud DNS
             widget:
               type: adguard
               url: https://dns.70ld.dev
@@ -743,17 +736,17 @@ data:
         - Plane:
             icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plane.svg
             href: https://plane.70ld.dev
-            description: Issue tracking · Jira replacement
+            description: Issue tracking - Jira replacement
 
         - NanoClaw:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/nanoclaw.svg
             href: https://portal.nanoclaw.dev/
-            description: Cluster agent · Gemini Cloud Assist
+            description: Cluster agent - Gemini Cloud Assist
 
   widgets.yaml: |
     - greeting:
         text_size: 2xl
-        text: 70LD Cloud · portland
+        text: 70LD Cloud - portland
 
     - kubernetes:
         cluster:
