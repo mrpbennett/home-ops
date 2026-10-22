@@ -12,7 +12,7 @@ spec:
   runStrategy: Always
   dataVolumeTemplates:
     - metadata:
-        name: ubuntu-vm-rootdisk
+        name: dor1-kv-ubuntu-rootdisk
       spec:
         source:
           registry:
@@ -64,7 +64,7 @@ spec:
       volumes:
         - name: rootdisk
           dataVolume:
-            name: ubuntu-vm-rootdisk
+            name: dor1-kv-ubuntu-rootdisk
         - name: cloudinitdisk
           cloudInitNoCloud:
             userData: |
