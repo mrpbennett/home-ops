@@ -21,7 +21,6 @@ Regions follow `<country>-<area>-<n>`; `uk-dor-1` is the only active one today.
 | `uk-dor-1` | Home site, Poole | Active |
 | `uk-dor-2` | A second Dorset site (family house, office) | Reserved |
 | `uk-lon-1` | London VPS or colo | Reserved |
-| `de-fsn-1` | e.g. Hetzner Falkenstein | Example for going abroad |
 
 - A region is a distinct physical location with its own power and uplink.
 - The number increments only for a second site in the same area.

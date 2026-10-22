@@ -7,30 +7,31 @@
 cloud:
   name: 70LD Cloud
   domain: 70ld.dev
-  internal_domain: int.70ld.dev
+  internal_domain: <service-name>.70ld.dev
 
 regions:
   uk-dor-1:
     site_token: dor1
-    description: Home site, Poole
+    description: Home site, Poole.
     status: active
     cidr: 192.168.4.0/22
     zones:
       uk-dor-1a:
-        description: Main rack (single circuit, single uplink)
+        description: Main rack 1L
     vlans:
       - {id: 50, name: general, cidr: 192.168.4.0/24}
       - {id: 60, name: iot, cidr: 192.168.5.0/24}
       - {id: 20, name: servers, cidr: 192.168.6.0/24} # servers, pis, nas
-      - {id: 30, name: k8s, cidr: 192.168.7.0/24}
+      - {id: 30, name: k8s, cidr: 192.168.7.0/24,}
+
   uk-dor-2:
     site_token: dor2
+    description: Home site, Poole.
     status: reserved
     cidr: 10.71.0.0/16
-  uk-lon-1:
-    site_token: lon1
-    status: reserved
-    cidr: 10.72.0.0/16
+    zones:
+      uk-dor-2a:
+        description: Main rack 1 shelf X
 
 clusters:
   uk-dor-1-prod-01:
@@ -47,6 +48,7 @@ clusters:
     region: uk-dor-1
     env: dev
     distro: k3s
+    gitops: argocd
     pod_cidr: 10.102.0.0/16
     service_cidr: 10.103.0.0/16
     api_vip: 192.168.6.241
@@ -54,60 +56,66 @@ clusters:
     lb_pool: 192.168.6.220-192.168.6.239
 
 hosts:
-  # --- prod control plane: Dell 7060, Talos ---
+  # --- prod control planes ---
   - hostname: dor1-cp-01
     zone: uk-dor-1a
     role: cp
     cluster: uk-dor-1-prod-01
-    hardware: optiplex-7060
     ip: 192.168.7.1
     status: active
+    hardware:
+      - model: Dell OptiPlex 7060
+        cpu: 6c
+        ram: 16Gi
+        storage: 1TB Nvme
+
   - hostname: dor1-cp-02
     zone: uk-dor-1a
     role: cp
     cluster: uk-dor-1-prod-01
-    hardware: optiplex-7060
     ip: 192.168.7.2
     status: active
+    hardware:
+      - model: Dell OptiPlex 7060
+        cpu: 6c
+        ram: 16Gi
+        storage: 1TB Nvme
+
   - hostname: dor1-cp-03
     zone: uk-dor-1a
     role: cp
     cluster: uk-dor-1-prod-01
-    hardware: optiplex-7060
     ip: 192.168.7.3
     status: active
+    hardware:
+      - model: Dell OptiPlex 7060
+        cpu: 6c
+        ram: 16Gi
+        storage: 1TB Nvme
 
-  # --- prod workers: Dell OptiPlex 7060 Micro ---
-  # TODO: confirm these join prod as workers
-  - hostname: dor1-wk-01
+  # --- Workers ---
+  # future planning 
+  - hostname: dor1-compute-01
     zone: uk-dor-1a
-    role: wk
+    role: compute node
     cluster: uk-dor-1-prod-01
-    hardware: optiplex-7060
     ip: 192.168.7.4
-    status: planned
-  - hostname: dor1-wk-02
-    zone: uk-dor-1a
-    role: wk
-    cluster: uk-dor-1-prod-01
-    hardware: optiplex-7060
-    ip: 192.168.7.5
-    status: planned
-  - hostname: dor1-wk-03
-    zone: uk-dor-1a
-    role: wk
-    cluster: uk-dor-1-prod-01
-    hardware: optiplex-7060
-    ip: 192.168.7.6
-    status: planned
+    status: active
+    hardware:
+      - model: Dell OptiPlex 7020
+        cpu: 14c
+        ram: 64Gi
+        storage: 1TB Nvme
 
   # --- Hypervisor ---
-
   - hostname: dor1-pve-01
     zone: uk-dor-1a
     role: Hypervisor
     cluster: ""
-    hardware: optiplex-7080
+    hardware:
+      - model: Dell OptiPlex 7090
+        cpu: 14c
+        ram: 32Gi
     ip: 192.168.7.10
     status: planned
 

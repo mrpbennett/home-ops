@@ -13,8 +13,8 @@ data:
     gateway: true
 
   settings.yaml: |
-    title: 70LD // portland
-    theme: dark
+    title: 70LD Cloud // portland
+    theme: light
     color: slate
     headerStyle: clean
     statusStyle: dot
@@ -23,7 +23,8 @@ data:
     hideVersion: true
     target: _blank
 
-    # Type anywhere to search every service (name + description).
+    # Type anywhere to search every service (name + description). Descriptions
+    # carry the GCP product each app stands in for, so "bigquery" finds Trino.
     quicklaunch:
       searchDescriptions: true
       hideInternetSearch: true
@@ -33,72 +34,91 @@ data:
       longhorn:
         url: http://longhorn-frontend.longhorn-system.svc.cluster.local
 
-    # Tabs: Overview is the glance page; everything else is one click away.
+    # Two tabs, like the console: a dashboard, and "All products" grouped by
+    # the same sections as the GCP navigation menu.
     layout:
-      Cluster Pulse:
-        tab: Overview
-        icon: mdi-heart-pulse
+      Monitoring:
+        tab: Dashboard
+        icon: mdi-chart-timeline-variant
         style: row
         columns: 4
 
-      Needs Attention:
-        tab: Overview
+      Error Reporting:
+        tab: Dashboard
         icon: mdi-alert-circle-outline
         style: row
         columns: 3
 
-      Shortcuts:
-        tab: Overview
-        icon: mdi-link-variant
+      Compute Engine:
+        tab: Dashboard
+        icon: mdi-server
+        style: row
+        columns: 3
+
+      Quick access:
+        tab: Dashboard
+        icon: mdi-pin-outline
         style: row
         columns: 5
 
-      Platform:
-        tab: Services
+      Kubernetes Engine:
+        tab: Products
         icon: mdi-kubernetes
         style: row
-        columns: 4
+        columns: 2
 
-      Observability:
-        tab: Services
+      CI/CD:
+        tab: Products
+        icon: mdi-infinity
+        style: row
+        columns: 2
+
+      Operations:
+        tab: Products
         icon: mdi-chart-line
         style: row
         columns: 5
 
       Security:
-        tab: Services
-        icon: mdi-shield-lock
+        tab: Products
+        icon: mdi-shield-lock-outline
         style: row
         columns: 2
 
-      Data:
-        tab: Services
-        icon: mdi-database
+      Databases:
+        tab: Products
+        icon: mdi-database-outline
         style: row
-        columns: 3
+        columns: 2
+
+      Analytics:
+        tab: Products
+        icon: mdi-google-analytics
+        style: row
+        columns: 1
 
       Storage:
-        tab: Services
+        tab: Products
         icon: mdi-harddisk
         style: row
         columns: 4
 
-      Nodes:
-        tab: Overview
-        icon: mdi-server
-        style: row
-        columns: 3
-
-      Infra:
-        tab: Services
+      Networking:
+        tab: Products
         icon: mdi-lan
+        style: row
+        columns: 1
+
+      Tools:
+        tab: Products
+        icon: mdi-wrench-outline
         style: row
         columns: 2
 
   custom.js: ""
 
   bookmarks.yaml: |
-    - Shortcuts:
+    - Quick access:
         - home-ops:
             - icon: github.png
               href: https://github.com/mrpbennett/home-ops
@@ -122,11 +142,11 @@ data:
 
   services.yaml: |
     # ---------------------------------------------------------------------
-    # OVERVIEW
+    # DASHBOARD (console home): Monitoring, Error Reporting, Compute Engine
     # ---------------------------------------------------------------------
     # Stat tiles: no link, just live Prometheus numbers. Colours come from the
     # `highlight` rules (danger / good) and are styled in custom.css.
-    - Cluster Pulse:
+    - Monitoring:
         - Workloads:
             icon: mdi-kubernetes
             description: Pods & deployments
@@ -267,10 +287,10 @@ data:
                     - { level: danger, when: gte, value: 1 }
                     - { level: good, when: eq, value: 0 }
 
-    # "Needs Attention" is the log/alert glance: what is firing, and which
+    # "Error Reporting" is the log/alert glance: what is firing, and which
     # namespaces / pods emitted the most error|fatal|panic lines in the last
     # 15 minutes (queried straight from Loki, no extra components).
-    - Needs Attention:
+    - Error Reporting:
         - Active Alerts:
             icon: mdi-bell-alert-outline
             href: https://alertmanager.70ld.dev
@@ -341,9 +361,9 @@ data:
                 limit: 5
 
     # ---------------------------------------------------------------------
-    # INFRA
+    # COMPUTE ENGINE: the three nodes, like the "VM instances" card
     # ---------------------------------------------------------------------
-    - Nodes:
+    - Compute Engine:
         - kube-cp-1:
             icon: mdi-server
             description: 192.168.7.1 · control-plane
@@ -450,16 +470,26 @@ data:
                     - { level: good, when: lt, value: 80 }
 
     # ---------------------------------------------------------------------
-    # PLATFORM
+    # PRODUCTS: same sections as the GCP navigation menu. Each description is
+    # "<what it does> · <GCP product it stands in for>".
     # `namespace` + blank `podSelector` adds the pod-health dot (click it for
     # CPU / memory); `siteMonitor` hits the in-cluster Service directly so the
     # dot reflects the app, not DNS or the gateway.
     # ---------------------------------------------------------------------
-    - Platform:
+    - Kubernetes Engine:
+        - Headlamp:
+            icon: headlamp.png
+            href: https://headlamp.70ld.dev
+            description: Cluster UI · GKE workloads
+            siteMonitor: http://headlamp.headlamp.svc.cluster.local
+            namespace: headlamp
+            app: headlamp
+            podSelector: ""
+
         - ArgoCD:
             icon: argo-cd.png
             href: https://argocd.70ld.dev
-            description: Continuous Delivery
+            description: GitOps delivery · Config Sync
             siteMonitor: https://argocd.70ld.dev
             namespace: argocd
             app: argocd
@@ -469,10 +499,11 @@ data:
               url: https://argocd.70ld.dev
               key: "{{HOMEPAGE_VAR_ARGOCD_KEY}}"
 
+    - CI/CD:
         - Gitea:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/gitea.svg
             href: https://git.70ld.dev/
-            description: Version control
+            description: Git hosting · Cloud Source Repositories
             siteMonitor: http://gitea-http.gitea.svc.cluster.local:3000/api/healthz
             namespace: gitea
             app: gitea
@@ -481,7 +512,7 @@ data:
         - Registry:
             icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/docker.svg
             href: https://registry.70ld.dev/v2/_catalog
-            description: Image registry
+            description: Image registry · Artifact Registry
             siteMonitor: http://docker-registry-svc.docker-registry.svc.cluster.local:5000/v2/
             namespace: docker-registry
             app: docker-registry
@@ -495,28 +526,11 @@ data:
                   label: Repositories
                   format: size
 
-        - NanoClaw:
-            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/nanoclaw.svg
-            href: https://portal.nanoclaw.dev/
-            description: Cluster agent
-
-        - Plane:
-            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plane.svg
-            href: https://plane.70ld.dev
-            description: Jira replacement
-
-        # Airflow is not deployed in the cluster right now (no namespace, no
-        # Argo app). Restore this when it comes back.
-        # - Airflow:
-        #     icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
-        #     href: https://airflow.70ld.dev
-        #     description: Workflow Management Platform
-
-    - Observability:
+    - Operations:
         - Grafana:
             icon: grafana.png
             href: https://grafana.70ld.dev/dashboards?starred
-            description: Dashboards
+            description: Dashboards · Cloud Monitoring
             siteMonitor: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local/api/health
             namespace: monitoring
             app: grafana
@@ -525,7 +539,7 @@ data:
         - Prometheus:
             icon: prometheus.png
             href: http://prometheus.70ld.dev
-            description: Metrics
+            description: Metrics · Managed Prometheus
             siteMonitor: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/-/healthy
             namespace: monitoring
             app: prometheus
@@ -537,7 +551,7 @@ data:
         - AlertManager:
             icon: alertmanager.png
             href: https://alertmanager.70ld.dev
-            description: Alert routing
+            description: Alert routing · Alerting
             siteMonitor: http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093/-/healthy
             namespace: monitoring
             app: alertmanager
@@ -546,7 +560,7 @@ data:
         - Loki:
             icon: loki.png
             href: https://grafana.70ld.dev/explore
-            description: Logs (Loki + Alloy)
+            description: Logs (Loki + Alloy) · Cloud Logging
             namespace: logging
             app: loki
             podSelector: ""
@@ -559,19 +573,10 @@ data:
                   label: Namespaces logging
                   format: size
 
-        - Headlamp:
-            icon: headlamp.png
-            href: https://headlamp.70ld.dev
-            description: Cluster UI
-            siteMonitor: http://headlamp.headlamp.svc.cluster.local
-            namespace: headlamp
-            app: headlamp
-            podSelector: ""
-
         - Gatus:
             icon: gatus.png
             href: https://status.70ld.dev
-            description: External Monitoring
+            description: External checks · Uptime checks
             siteMonitor: http://gatus.gatus.svc.cluster.local
             namespace: gatus
             app: gatus
@@ -581,7 +586,7 @@ data:
         - Keycloak:
             icon: keycloak.png
             href: https://keycloak.70ld.dev
-            description: Auth & OIDC
+            description: Auth & OIDC · Cloud IAM
             siteMonitor: http://keycloak.keycloak.svc.cluster.local:8080/realms/master
             namespace: keycloak
             app: keycloak
@@ -590,7 +595,7 @@ data:
         - Vault:
             icon: vault-light.png
             href: http://vault.70ld.dev
-            description: Secret Management
+            description: Secrets · Secret Manager
             siteMonitor: http://vault.vault.svc.cluster.local:8200/v1/sys/health?standbyok=true&sealedcode=200&uninitcode=200
             namespace: vault
             app: vault
@@ -610,23 +615,11 @@ data:
                   label: Version
                   format: text
 
-    # ---------------------------------------------------------------------
-    # DATA & STORAGE
-    # ---------------------------------------------------------------------
-    - Data:
-        - ChartDB:
-            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/chartdb.png
-            href: https://chartdb.70ld.dev
-            description: Self hosted ERD
-            siteMonitor: http://chartdb.chartdb.svc.cluster.local
-            namespace: chartdb
-            app: chartdb
-            podSelector: ""
-
+    - Databases:
         - PGAdmin:
             icon: postgres.png
             href: https://pgadmin.70ld.dev
-            description: Postgres · cnpg-prod-cluster
+            description: Postgres cnpg-prod-cluster · Cloud SQL
             siteMonitor: http://pgadmin-service.pgadmin.svc.cluster.local:5050/misc/ping
             namespace: pgadmin
             app: pgadmin
@@ -658,20 +651,37 @@ data:
                     - { level: danger, when: gte, value: 30 }
                     - { level: good, when: lt, value: 30 }
 
+        - ChartDB:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/chartdb.png
+            href: https://chartdb.70ld.dev
+            description: Schema diagrams · Database Center
+            siteMonitor: http://chartdb.chartdb.svc.cluster.local
+            namespace: chartdb
+            app: chartdb
+            podSelector: ""
+
+    - Analytics:
         - Trino:
             icon: https://cdn.simpleicons.org/trino/FFFFFF
             href: http://trino.70ld.dev
-            description: SQL Query Engine
+            description: SQL query engine · BigQuery
             siteMonitor: http://trino.trino.svc.cluster.local:8080/v1/info
             namespace: trino
             app: trino
             podSelector: ""
 
+        # Airflow is not deployed in the cluster right now (no namespace, no
+        # Argo app). Restore this, in this group, when it comes back.
+        # - Airflow:
+        #     icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/apache-airflow.svg
+        #     href: https://airflow.70ld.dev
+        #     description: Workflows · Cloud Composer
+
     - Storage:
         - Longhorn:
             icon: longhorn.png
             href: https://longhorn.70ld.dev
-            description: Persistent Block Storage
+            description: Block storage · Persistent Disk
             siteMonitor: http://longhorn-frontend.longhorn-system.svc.cluster.local
             namespace: longhorn-system
             app: longhorn
@@ -702,26 +712,26 @@ data:
         - SeaweedFS:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
             href: http://192.168.6.2:23646/admin
-            description: Object Storage
+            description: Object storage · Cloud Storage
             siteMonitor: http://192.168.6.2:23646/admin
 
         - TrueNAS Scale:
             icon: truenas-scale.svg
             href: http://192.168.4.50
-            description: Actually WD Cloud
+            description: File storage · Filestore
             ping: 192.168.4.50
 
         - WDCloud:
             icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/western-digital.svg
             href: http://192.168.4.110
-            description: WD Cloud
+            description: File storage · Filestore
             ping: 192.168.4.110
 
-    - Infra:
+    - Networking:
         - AdGuard Home:
             icon: adguard-home.png
             href: https://dns.70ld.dev
-            description: Primary DNS
+            description: Primary DNS · Cloud DNS
             widget:
               type: adguard
               url: https://dns.70ld.dev
@@ -729,10 +739,21 @@ data:
               password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"
               fields: ["queries", "blocked", "filtered", "latency"]
 
+    - Tools:
+        - Plane:
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plane.svg
+            href: https://plane.70ld.dev
+            description: Issue tracking · Jira replacement
+
+        - NanoClaw:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/nanoclaw.svg
+            href: https://portal.nanoclaw.dev/
+            description: Cluster agent · Gemini Cloud Assist
+
   widgets.yaml: |
     - greeting:
-        text_size: 3xl
-        text: portland // 70ld.dev
+        text_size: 2xl
+        text: 70LD Cloud · portland
 
     - kubernetes:
         cluster:
@@ -759,62 +780,174 @@ data:
   docker.yaml: ""
 
   custom.css: |
-    /* 70LD homelab / portland: flat and minimal.
-       The data-name selectors below must match the names in services.yaml. */
+    /* 70LD Cloud / portland: a Google Cloud console look-alike.
+       Material-ish tokens, white cards on a pale canvas, blue accent, and
+       product-section headers like the console navigation menu.
+       Light is the default; the html.dark block below swaps the tokens.
+       The data-name selectors must match the names in services.yaml. */
+
+    :root {
+      --gc-bg: #f8f9fa;
+      --gc-surface: #ffffff;
+      --gc-border: #dadce0;
+      --gc-text: #202124;
+      --gc-text-2: #5f6368;
+      --gc-blue: #1a73e8;
+      --gc-blue-bg: #e8f0fe;
+      --gc-good: #1e8e3e;
+      --gc-good-bg: #e6f4ea;
+      --gc-warn-bg: #fef7e0;
+      --gc-danger-bg: #fce8e6;
+      --gc-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+      --gc-font: "Google Sans", "Google Sans Text", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    html.dark {
+      --gc-bg: #202124;
+      --gc-surface: #292a2d;
+      --gc-border: #3c4043;
+      --gc-text: #e8eaed;
+      --gc-text-2: #9aa0a6;
+      --gc-blue: #8ab4f8;
+      --gc-blue-bg: rgba(138, 180, 248, 0.16);
+      --gc-good: #81c995;
+      --gc-good-bg: rgba(129, 201, 149, 0.14);
+      --gc-warn-bg: rgba(253, 214, 99, 0.14);
+      --gc-danger-bg: rgba(242, 139, 130, 0.16);
+      --gc-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
 
     html,
-    body {
+    body,
+    #page_wrapper,
+    #inner_wrapper {
+      background: var(--gc-bg) !important;
+      color: var(--gc-text);
+      font-family: var(--gc-font) !important;
       font-variant-numeric: tabular-nums;
     }
 
-    /* ---- groups ------------------------------------------------------ */
+    /* ---- header bar ------------------------------------------------- */
+    #information-widgets {
+      background: var(--gc-surface);
+      border: 1px solid var(--gc-border);
+      border-radius: 8px;
+      box-shadow: var(--gc-shadow);
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+    }
+
+    #information-widgets,
+    #information-widgets * {
+      color: var(--gc-text) !important;
+    }
+
+    .information-widget-greeting span {
+      color: var(--gc-blue) !important;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+
+    /* ---- tabs (Dashboard / Products) -------------------------------- */
+    [role="tab"] {
+      color: var(--gc-text-2) !important;
+      background: transparent !important;
+      border: 0 !important;
+      border-bottom: 3px solid transparent !important;
+      border-radius: 0 !important;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.6rem 1.25rem;
+    }
+
+    [role="tab"][aria-selected="true"],
+    [role="tab"][data-selected] {
+      color: var(--gc-blue) !important;
+      border-bottom-color: var(--gc-blue) !important;
+    }
+
+    [role="tablist"] {
+      border-bottom: 1px solid var(--gc-border);
+    }
+
+    /* ---- product sections (service / bookmark groups) --------------- */
     .service-group-name,
     .bookmark-group-name {
-      font-size: 0.8rem !important;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      color: var(--gc-text) !important;
+      font-size: 0.95rem !important;
+      font-weight: 500;
+      letter-spacing: 0;
     }
 
-    /* ---- cards ------------------------------------------------------- */
-    .service-card {
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .service-group-icon,
+    .bookmark-group-icon {
+      color: var(--gc-blue) !important;
+      opacity: 1;
+    }
+
+    /* ---- cards ------------------------------------------------------ */
+    .service-card,
+    .bookmark > a,
+    .bookmark > div {
+      background: var(--gc-surface) !important;
+      border: 1px solid var(--gc-border);
       border-radius: 8px !important;
       box-shadow: none !important;
+      color: var(--gc-text);
+      transition: box-shadow 0.15s ease, border-color 0.15s ease;
     }
 
-    .service-description {
+    .service-card:hover,
+    .bookmark > a:hover {
+      border-color: transparent;
+      box-shadow: var(--gc-shadow) !important;
+    }
+
+    .service-name,
+    .bookmark-name {
+      color: var(--gc-text) !important;
+      font-weight: 500;
+    }
+
+    .service-description,
+    .bookmark-description {
+      color: var(--gc-text-2) !important;
       font-size: 0.72rem !important;
     }
 
-    /* ---- stat blocks (widgets) --------------------------------------- */
+    /* ---- stat blocks (widgets) -------------------------------------- */
     .service-block {
+      background: var(--gc-bg) !important;
       border-radius: 6px !important;
     }
 
     .service-block-value {
-      font-weight: 600 !important;
+      color: var(--gc-text) !important;
+      font-weight: 500 !important;
     }
 
     .service-block-label {
+      color: var(--gc-text-2) !important;
       font-size: 0.6rem !important;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      opacity: 0.6;
     }
 
     /* Threshold colours from `highlight:` rules in services.yaml */
     .service-block[data-highlight-level="danger"] {
-      background: rgba(248, 113, 113, 0.18) !important;
+      background: var(--gc-danger-bg) !important;
     }
     .service-block[data-highlight-level="warn"] {
-      background: rgba(251, 191, 36, 0.16) !important;
+      background: var(--gc-warn-bg) !important;
+    }
+    .service-block[data-highlight-level="good"] {
+      background: var(--gc-good-bg) !important;
     }
     .service-block[data-highlight-level="good"] .service-block-value {
-      color: #86efac;
+      color: var(--gc-good) !important;
     }
 
-    /* Bigger numbers on the Cluster Pulse tiles */
+    /* Bigger numbers on the Monitoring tiles */
     li.service:is(
         [data-name="Workloads"],
         [data-name="Alerts & Sync"],
