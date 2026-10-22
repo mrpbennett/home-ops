@@ -5,7 +5,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   labels:
-    kubevirt.io/vm: &vm_name ubuntu-vm
+    kubevirt.io/vm: &vm_name dor1-kv-ubuntu
   name: *vm_name
   namespace: kubevirt-vms
 spec:
@@ -33,7 +33,7 @@ spec:
       # TODO: uncomment the hostname selector when kube-wk-1 is up.
       # Run VM on kube-wk-1
       # nodeSelector:
-      #   kubernetes.io/hostname: kube-wk-1
+      #   kubernetes.io/hostname: dor1-k8s-compute-01
       domain:
         cpu:
           cores: 1
@@ -83,12 +83,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ubuntu-vm-ssh
+  name: dor1-kv-ubuntu-ssh
   namespace: kubevirt-vms
 spec:
   type: LoadBalancer
   selector:
-    vm.kubevirt.io/name: ubuntu-vm
+    vm.kubevirt.io/name: dor1-kv-ubuntu-ssh
   ports:
     - port: 22
       targetPort: 22

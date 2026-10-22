@@ -57,9 +57,10 @@ clusters:
 
 hosts:
   # --- prod control planes ---
-  - hostname: dor1-cp-01
+  - hostname: dor1-k8s-cp-01
     zone: uk-dor-1a
     role: cp
+    description: K8s control plane
     cluster: uk-dor-1-prod-01
     ip: 192.168.7.1
     status: active
@@ -69,9 +70,10 @@ hosts:
         ram: 16Gi
         storage: 1TB Nvme
 
-  - hostname: dor1-cp-02
+  - hostname: dor1-k8s-cp-02
     zone: uk-dor-1a
     role: cp
+    description: K8s control plane
     cluster: uk-dor-1-prod-01
     ip: 192.168.7.2
     status: active
@@ -81,9 +83,10 @@ hosts:
         ram: 16Gi
         storage: 1TB Nvme
 
-  - hostname: dor1-cp-03
+  - hostname: dor1-k8s-cp-03
     zone: uk-dor-1a
     role: cp
+    description: K8s control plane
     cluster: uk-dor-1-prod-01
     ip: 192.168.7.3
     status: active
@@ -95,9 +98,10 @@ hosts:
 
   # --- Workers ---
   # future planning 
-  - hostname: dor1-compute-01
+  - hostname: dor1-k8s-compute-01
     zone: uk-dor-1a
     role: compute node
+    description: K8s node for hosting virtual machines and resource heavy pods
     cluster: uk-dor-1-prod-01
     ip: 192.168.7.4
     status: active
