@@ -76,8 +76,10 @@ spec:
 
               # https://github.com/TwiN/gatus#ui
               ui:
-                title: "70LD : uk-south-1"
-                description: Monitoring uk-south-1
+                title: "70LD : uk-dor-1"
+                description: Monitoring uk-dor-1
+                dashboard-heading: uk-dor-1
+                dashboard-subheading: Monitoring health of region uk-dor-1
                 header: 70LD
                 default-sort-by: group
 
@@ -99,7 +101,7 @@ spec:
 
               endpoints:
                 # infra: nodes and cluster platform services
-                - name: kube-cp-1
+                - name: dor1-k8s-cp-1
                   group: infra
                   url: "tcp://192.168.7.1:6443"
                   interval: 1m
@@ -107,7 +109,7 @@ spec:
                     - "[CONNECTED] == true"
                   alerts: [{type: discord}]
 
-                - name: kube-cp-2
+                - name: dor1-k8s-cp-2
                   group: infra
                   url: "tcp://192.168.7.2:6443"
                   interval: 1m
@@ -115,7 +117,7 @@ spec:
                     - "[CONNECTED] == true"
                   alerts: [{type: discord}]
 
-                - name: kube-cp-3
+                - name: dor1-k8s-cp-3
                   group: infra
                   url: "tcp://192.168.7.3:6443"
                   interval: 1m
