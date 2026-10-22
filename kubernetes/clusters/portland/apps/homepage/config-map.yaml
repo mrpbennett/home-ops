@@ -13,7 +13,7 @@ data:
     gateway: true
 
   settings.yaml: |
-    title: 70LD Cloud :: uk-dor-1
+    title: 70LD Cloud - uk-dor-1
     theme: dark
     color: slate
     headerStyle: clean
