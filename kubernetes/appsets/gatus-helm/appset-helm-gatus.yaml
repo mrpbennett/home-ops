@@ -226,9 +226,9 @@ spec:
                   alerts: [{type: discord}]
 
                 # kubevirt - virtual machines
-                - name: ubuntu-vm SSH
+                - name: dor1-kv-ubuntu SSH
                   group: vms
-                  url: "tcp://192.168.7.15:22"
+                  url: "tcp://192.168.7.17:22"
                   interval: 1m
                   conditions:
                     - "[CONNECTED] == true"
