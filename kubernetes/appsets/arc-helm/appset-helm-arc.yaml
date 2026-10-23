@@ -1,0 +1,209 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name actions-runner-controller
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      sources:
+        - chart: actions-runner-controller
+          repoURL: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
+          targetRevision: 0.23.7
+          helm:
+            valuesObject:
+              # Default values for gha-runner-scale-set-controller.
+              # This is a YAML-formatted file.
+              # Declare variables to be passed into your templates.
+              labels: {}
+
+              # leaderElection will be enabled when replicaCount>1,
+              # So, only one replica will in charge of reconciliation at a given time
+              # leaderElectionId will be set to {{ define gha-runner-scale-set-controller.fullname }}.
+              replicaCount: 1
+
+              image:
+                repository: "ghcr.io/actions/gha-runner-scale-set-controller"
+                pullPolicy: IfNotPresent
+                # Overrides the image tag whose default is the chart appVersion.
+                tag: ""
+
+              imagePullSecrets: []
+              nameOverride: ""
+              fullnameOverride: ""
+
+              env:
+              ## Define environment variables for the controller pod
+              #  - name: "ENV_VAR_NAME_1"
+              #    value: "ENV_VAR_VALUE_1"
+              #  - name: "ENV_VAR_NAME_2"
+              #    valueFrom:
+              #      secretKeyRef:
+              #        key: ENV_VAR_NAME_2
+              #        name: secret-name
+              #        optional: true
+
+              serviceAccount:
+                # Specifies whether a service account should be created for running the controller pod
+                create: true
+                # Annotations to add to the service account
+                annotations: {}
+                # The name of the service account to use.
+                # If not set and create is true, a name is generated using the fullname template
+                # You can not use the default service account for this.
+                name: ""
+
+              podAnnotations: {}
+
+              podLabels: {}
+
+              podSecurityContext: {}
+              # fsGroup: 2000
+
+              securityContext: {}
+              # capabilities:
+              #   drop:
+              #   - ALL
+              # readOnlyRootFilesystem: true
+              # runAsNonRoot: true
+              # runAsUser: 1000
+
+              resources:
+                limits:
+                  cpu: 100m
+                  memory: 128Mi
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+
+              ## This must stay above the manager's graceful shutdown timeout (30s, controller-runtime's
+              ## default) so in-flight reconciles have a chance to finish before the kubelet sends SIGKILL.
+              terminationGracePeriodSeconds: 35
+
+              nodeSelector: {}
+
+              tolerations: []
+
+              affinity: {}
+
+              topologySpreadConstraints: []
+
+              # Mount volumes in the container.
+              volumes: []
+              volumeMounts: []
+
+              # Leverage a PriorityClass to ensure your pods survive resource shortages
+              # ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+              # PriorityClass: system-cluster-critical
+              priorityClassName: ""
+
+              ## If `metrics:` object is not provided, or commented out, the following flags
+              ## will be applied the controller-manager and listener pods with empty values:
+              ## `--metrics-addr`, `--listener-metrics-addr`, `--listener-metrics-endpoint`.
+              ## This will disable metrics.
+              ##
+              ## To enable metrics, uncomment the following lines.
+              ## Set controllerManagerAddr to "0" to disable only controller metrics while
+              ## keeping listener metrics enabled; no controller metrics containerPort is emitted.
+              metrics:
+                controllerManagerAddr: ":8080"
+                listenerAddr: ":8080"
+                listenerEndpoint: "/metrics"
+
+              ## To enable pprof, uncomment the addr field below.
+              pprof: {}
+              #   addr: ":6060"
+
+              flags:
+                ## Log level can be set here with one of the following values: "debug", "info", "warn", "error".
+                ## Defaults to "debug".
+                logLevel: "debug"
+                logFormat: "text"
+
+                ## Restricts the controller to only watch resources in the desired namespace.
+                ## Defaults to watch all namespaces when unset.
+                # watchSingleNamespace: ""
+
+                ## The maximum number of concurrent reconciles for each controller, set directly per controller.
+                # Increase these values to improve the throughput of the controller when running many runner scale sets.
+                # They may also increase the load on the API server and the external service (e.g. GitHub API).
+                autoscalingRunnerSetMaxConcurrentReconciles: 2
+                autoscalingListenerMaxConcurrentReconciles: 2
+                ephemeralRunnerSetMaxConcurrentReconciles: 2
+                ## The EphemeralRunner controller is higher because it is the only one of the four that routinely
+                ## has many distinct objects to reconcile at once, one per runner. controller-runtime serialises
+                ## reconciles per object, so extra workers on the other three only pay off when many runner scale
+                ## sets exist.
+                ephemeralRunnerMaxConcurrentReconciles: 4
+
+                ## How long a runner pod whose containers have all exited is kept before it is deleted.
+                ## Zero, the default, removes the pod as soon as its job is over instead of leaving it
+                ## Terminating while the kubelet cleans up locally, handing its name, its scheduling slot
+                ## and its share of any ResourceQuota straight to the runner replacing it.
+                ## Raise it to keep finished pods around for longer, for example to give a log collector
+                ## time to read them. A negative value leaves the pod's own terminationGracePeriodSeconds
+                ## in charge. Pods that are still running are always deleted gracefully.
+                # terminatedRunnerPodGracePeriodSeconds: 0
+
+                ## Defines a list of prefixes that should not be propagated to internal resources.
+                ## This is useful when you have labels that are used for internal purposes and should not be propagated to internal resources.
+                ## See https://github.com/actions/actions-runner-controller/issues/3533 for more information.
+                ##
+                ## By default, all labels are propagated to internal resources
+                ## Labels that match prefix specified in the list are excluded from propagation.
+                # excludeLabelPropagationPrefixes:
+                #   - "argocd.argoproj.io/instance"
+
+                ## Workqueue rate limiter configuration.
+                ## By default, controller-runtime uses a combined rate limiter with both a per-item
+                ## exponential backoff and an overall token bucket (10 QPS, 100 bucket size).
+                ## Valid names: "bucket_rate_limiter" (default), "typed_rate_limiter" (per-item only, no global token bucket).
+                # rateLimiter:
+                #   name: "bucket_rate_limiter"
+
+              # Overrides the default `.Release.Namespace` for all resources in this chart.
+              namespaceOverride: ""
+
+              ## The address the health probe endpoint binds to. Disabled if empty.
+              ## When set, liveness and readiness probes are added to the controller pod.
+              # healthProbeBindAddress: ":8081"
+
+              ## Defines the K8s client rate limiter parameters.
+              # k8sClientRateLimiterQPS: 20
+              # k8sClientRateLimiterBurst: 30
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: *app_name
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
