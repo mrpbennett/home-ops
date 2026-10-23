@@ -27,9 +27,9 @@ spec:
     spec:
       project: "{{.project}}"
       sources:
-        - chart: actions-runner-controller
+        - chart: gha-runner-scale-set-controller
           repoURL: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
-          targetRevision: 0.23.7
+          targetRevision: 0.15.1
           helm:
             valuesObject:
               # Default values for gha-runner-scale-set-controller.
@@ -194,7 +194,7 @@ spec:
 
       destination:
         name: "{{.cluster}}"
-        namespace: *app_name
+        namespace: arc-systems
       syncPolicy:
         automated:
           prune: true
