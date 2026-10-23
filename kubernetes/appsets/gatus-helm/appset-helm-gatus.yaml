@@ -80,6 +80,11 @@ spec:
                 description: Monitoring uk-dor-1
                 dashboard-heading: uk-dor-1
                 dashboard-subheading: Monitoring health of region uk-dor-1
+                logo: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/google-cloud.svg
+                favicon:
+                  default: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/google-cloud.svg
+                  size16x16: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/google-cloud.svg
+                  size32x32: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/google-cloud.svg
                 header: 70LD
                 default-sort-by: group
 
