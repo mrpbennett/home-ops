@@ -1,205 +1,205 @@
----
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: &app_name trino
-  namespace: argocd
-spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
-  generators:
-    - matrix:
-        generators:
-          - list:
-              elements:
-                - cluster: portland
-          - list:
-              elements:
-                - app_name: *app_name
-                  project: default
-                  repo_url: https://github.com/mrpbennett/home-ops.git
-  template:
-    metadata:
-      name: "{{.app_name}}"
-      namespace: argocd
-      finalizers:
-        - resources-finalizer.argocd.argoproj.io
-    spec:
-      project: "{{.project}}"
-      source:
-        chart: trino
-        repoURL: https://trinodb.github.io/charts
-        targetRevision: 1.42.2
-        helm:
-          valuesObject:
-            server:
-              # 0 = single-node: coordinator also runs queries (one user, one JDBC catalog)
-              workers: 0
-              node:
-                environment: production
-                dataDir: /data/trino
-                pluginDir: /usr/lib/trino/plugin
-              log:
-                trino:
-                  level: INFO
-              config:
-                path: /etc/trino
-                https:
-                  enabled: false
-                  port: 8443
-                  keystore:
-                    path: ""
-                authenticationType: "OAUTH2"
-                query:
-                  maxMemory: "1GB"
-              # OAuth2 is coordinator-only; workers fail to start if given these properties
-              coordinatorExtraConfig: |
-                web-ui.authentication.type=oauth2
-                # TLS terminates at Envoy; treat X-Forwarded-Proto=https requests as secure
-                http-server.process-forwarded=true
-                http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
-                http-server.authentication.oauth2.client-id=trino
-                http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
-                http-server.authentication.oauth2.scopes=openid,profile,email
-                http-server.authentication.oauth2.principal-field=preferred_username
-
-            autoscaling:
-              enabled: false
-              maxReplicas: 5
-              targetCPUUtilizationPercentage: ""
-              targetMemoryUtilizationPercentage: 80
-              behavior:
-                scaleDown:
-                  stabilizationWindowSeconds: 300
-                  policies:
-                    - type: Percent
-                      value: 100
-                      periodSeconds: 15
-                scaleUp:
-                  stabilizationWindowSeconds: 0
-                  policies:
-                    - type: Percent
-                      value: 100
-                      periodSeconds: 15
-                    - type: Pods
-                      value: 4
-                      periodSeconds: 15
-                  selectPolicy: Max
-
-            # https://trino.io/docs/current/admin/properties.html
-            additionalConfigProperties:
-              - internal-communication.shared-secret=${ENV:TRINO_INTERNAL_SHARED_SECRET}
-
-            envFrom:
-              - secretRef:
-                  name: trino-secrets
-              - secretRef:
-                  name: trino-catalogs
-
-            # CATALOGS
-            catalogs:
-              # CNPG Cluster main db [K8s]
-              cloudnativepg-prod: |
-                connector.name=postgresql
-                connection-url=jdbc:postgresql://192.168.7.80:5432/main
-                connection-user=${ENV:TRINO_CNPG_CATALOG_USERNAME}
-                connection-password=${ENV:TRINO_CNPG_CATALOG_PASSWORD}
-
-            service:
-              type: LoadBalancer
-              port: 8080
-              annotations:
-                metallb.universe.tf/loadBalancerIPs: 192.168.7.81
-
-            auth: {}
-
-            # Only members of the Keycloak group TrinoUsers may use any catalog.
-            # Everyone else can sign in but can't query. Change "all" to "read-only" to stop writes.
-            accessControl:
-              type: configmap
-              refreshPeriod: 60s
-              configFile: rules.json
-              rules:
-                rules.json: |-
-                  {
-                    "catalogs": [
-                      { "group": "TrinoUsers", "catalog": ".*", "allow": "all" },
-                      { "catalog": ".*", "allow": "none" }
-                    ]
-                  }
-
-            coordinator:
-              config:
-                nodeScheduler:
-                  includeCoordinator: true
-              jvm:
-                maxHeapSize: "1536M"
-                gcMethod:
-                  type: "UseG1GC"
-                  g1:
-                    heapRegionSize: "16M"
-              resources:
-                requests:
-                  cpu: "137m"
-                  memory: "851Mi"
-                limits:
-                  cpu: "1500m"
-                  memory: "2Gi"
-
-            worker:
-              jvm:
-                maxHeapSize: "2G"
-                gcMethod:
-                  type: "UseG1GC"
-                  g1:
-                    heapRegionSize: "16M"
-              resources:
-                requests:
-                  cpu: "500m"
-                  memory: "1Gi"
-                limits:
-                  cpu: "1500m"
-                  memory: "2560Mi"
-              config:
-                query:
-                  maxMemoryPerNode: "1GB"
-
-            kafka:
-              mountPath: "/etc/trino/schemas"
-
-            serviceMonitor:
-              enabled: true
-              labels:
-                prometheus: kube-prometheus
-              interval: 30s
-
-            gateway:
-              enabled: true
-              parentRefs:
-                - name: envoy-shared-gateway
-                  namespace: envoy-gateway-system
-                  sectionName: https
-              hostnames:
-                - trino.70ld.dev
-              rules:
-                - matches:
-                    - path:
-                        type: PathPrefix
-                        value: /
-
-      destination:
-        name: "{{.cluster}}"
-        namespace: "{{.app_name}}"
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-          - SkipDryRunOnMissingResource=true
-        retry:
-          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
-          backoff:
-            duration: 5s
-            maxDuration: 5m0s
-            factor: 2
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: &app_name trino
+#   namespace: argocd
+# spec:
+#   goTemplate: true
+#   goTemplateOptions: ["missingkey=error"]
+#   generators:
+#     - matrix:
+#         generators:
+#           - list:
+#               elements:
+#                 - cluster: portland
+#           - list:
+#               elements:
+#                 - app_name: *app_name
+#                   project: default
+#                   repo_url: https://github.com/mrpbennett/home-ops.git
+#   template:
+#     metadata:
+#       name: "{{.app_name}}"
+#       namespace: argocd
+#       finalizers:
+#         - resources-finalizer.argocd.argoproj.io
+#     spec:
+#       project: "{{.project}}"
+#       source:
+#         chart: trino
+#         repoURL: https://trinodb.github.io/charts
+#         targetRevision: 1.42.2
+#         helm:
+#           valuesObject:
+#             server:
+#               # 0 = single-node: coordinator also runs queries (one user, one JDBC catalog)
+#               workers: 0
+#               node:
+#                 environment: production
+#                 dataDir: /data/trino
+#                 pluginDir: /usr/lib/trino/plugin
+#               log:
+#                 trino:
+#                   level: INFO
+#               config:
+#                 path: /etc/trino
+#                 https:
+#                   enabled: false
+#                   port: 8443
+#                   keystore:
+#                     path: ""
+#                 authenticationType: "OAUTH2"
+#                 query:
+#                   maxMemory: "1GB"
+#               # OAuth2 is coordinator-only; workers fail to start if given these properties
+#               coordinatorExtraConfig: |
+#                 web-ui.authentication.type=oauth2
+#                 # TLS terminates at Envoy; treat X-Forwarded-Proto=https requests as secure
+#                 http-server.process-forwarded=true
+#                 http-server.authentication.oauth2.issuer=https://keycloak.70ld.dev/realms/master
+#                 http-server.authentication.oauth2.client-id=trino
+#                 http-server.authentication.oauth2.client-secret=${ENV:TRINO_OAUTH_CLIENT_SECRET}
+#                 http-server.authentication.oauth2.scopes=openid,profile,email
+#                 http-server.authentication.oauth2.principal-field=preferred_username
+#
+#             autoscaling:
+#               enabled: false
+#               maxReplicas: 5
+#               targetCPUUtilizationPercentage: ""
+#               targetMemoryUtilizationPercentage: 80
+#               behavior:
+#                 scaleDown:
+#                   stabilizationWindowSeconds: 300
+#                   policies:
+#                     - type: Percent
+#                       value: 100
+#                       periodSeconds: 15
+#                 scaleUp:
+#                   stabilizationWindowSeconds: 0
+#                   policies:
+#                     - type: Percent
+#                       value: 100
+#                       periodSeconds: 15
+#                     - type: Pods
+#                       value: 4
+#                       periodSeconds: 15
+#                   selectPolicy: Max
+#
+#             # https://trino.io/docs/current/admin/properties.html
+#             additionalConfigProperties:
+#               - internal-communication.shared-secret=${ENV:TRINO_INTERNAL_SHARED_SECRET}
+#
+#             envFrom:
+#               - secretRef:
+#                   name: trino-secrets
+#               - secretRef:
+#                   name: trino-catalogs
+#
+#             # CATALOGS
+#             catalogs:
+#               # CNPG Cluster main db [K8s]
+#               cloudnativepg-prod: |
+#                 connector.name=postgresql
+#                 connection-url=jdbc:postgresql://192.168.7.80:5432/main
+#                 connection-user=${ENV:TRINO_CNPG_CATALOG_USERNAME}
+#                 connection-password=${ENV:TRINO_CNPG_CATALOG_PASSWORD}
+#
+#             service:
+#               type: LoadBalancer
+#               port: 8080
+#               annotations:
+#                 metallb.universe.tf/loadBalancerIPs: 192.168.7.81
+#
+#             auth: {}
+#
+#             # Only members of the Keycloak group TrinoUsers may use any catalog.
+#             # Everyone else can sign in but can't query. Change "all" to "read-only" to stop writes.
+#             accessControl:
+#               type: configmap
+#               refreshPeriod: 60s
+#               configFile: rules.json
+#               rules:
+#                 rules.json: |-
+#                   {
+#                     "catalogs": [
+#                       { "group": "TrinoUsers", "catalog": ".*", "allow": "all" },
+#                       { "catalog": ".*", "allow": "none" }
+#                     ]
+#                   }
+#
+#             coordinator:
+#               config:
+#                 nodeScheduler:
+#                   includeCoordinator: true
+#               jvm:
+#                 maxHeapSize: "1536M"
+#                 gcMethod:
+#                   type: "UseG1GC"
+#                   g1:
+#                     heapRegionSize: "16M"
+#               resources:
+#                 requests:
+#                   cpu: "137m"
+#                   memory: "851Mi"
+#                 limits:
+#                   cpu: "1500m"
+#                   memory: "2Gi"
+#
+#             worker:
+#               jvm:
+#                 maxHeapSize: "2G"
+#                 gcMethod:
+#                   type: "UseG1GC"
+#                   g1:
+#                     heapRegionSize: "16M"
+#               resources:
+#                 requests:
+#                   cpu: "500m"
+#                   memory: "1Gi"
+#                 limits:
+#                   cpu: "1500m"
+#                   memory: "2560Mi"
+#               config:
+#                 query:
+#                   maxMemoryPerNode: "1GB"
+#
+#             kafka:
+#               mountPath: "/etc/trino/schemas"
+#
+#             serviceMonitor:
+#               enabled: true
+#               labels:
+#                 prometheus: kube-prometheus
+#               interval: 30s
+#
+#             gateway:
+#               enabled: true
+#               parentRefs:
+#                 - name: envoy-shared-gateway
+#                   namespace: envoy-gateway-system
+#                   sectionName: https
+#               hostnames:
+#                 - trino.70ld.dev
+#               rules:
+#                 - matches:
+#                     - path:
+#                         type: PathPrefix
+#                         value: /
+#
+#       destination:
+#         name: "{{.cluster}}"
+#         namespace: "{{.app_name}}"
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#           - CreateNamespace=true
+#           - SkipDryRunOnMissingResource=true
+#         retry:
+#           limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
+#           backoff:
+#             duration: 5s
+#             maxDuration: 5m0s
+#             factor: 2

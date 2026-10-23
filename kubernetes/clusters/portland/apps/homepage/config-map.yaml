@@ -24,7 +24,7 @@ data:
     target: _blank
 
     # Type anywhere to search every service (name + description). Descriptions
-    # carry the GCP product each app stands in for, so "bigquery" finds Trino.
+    # carry the GCP product each app stands in for, so "bigquery" finds.
     quicklaunch:
       searchDescriptions: true
       hideInternetSearch: true
@@ -654,14 +654,6 @@ data:
             app: chartdb
             podSelector: ""
 
-        - Trino:
-            icon: https://cdn.simpleicons.org/trino/FFFFFF
-            href: http://trino.70ld.dev
-            description: SQL query engine
-            siteMonitor: http://trino.trino.svc.cluster.local:8080/v1/info
-            namespace: trino
-            app: trino
-            podSelector: ""
 
         # Airflow is not deployed in the cluster right now (no namespace, no
         # Argo app). Restore this, in this group, when it comes back.

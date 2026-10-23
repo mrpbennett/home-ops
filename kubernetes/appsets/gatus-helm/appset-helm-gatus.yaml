@@ -250,15 +250,6 @@ spec:
                     - "[CONNECTED] == true"
                   alerts: [{type: discord}]
 
-                - name: trino
-                  group: data
-                  url: "http://trino.trino.svc:8080/v1/info"
-                  interval: 1m
-                  conditions:
-                    - "[STATUS] == 200"
-                    - "[BODY].starting == false"
-                  alerts: [{type: discord}]
-
                 - name: pgadmin
                   group: data
                   url: "tcp://192.168.7.99:5050"
