@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: &app_name arc-runners
+  name: &app_name action-runners-scale
   namespace: argocd
 spec:
   goTemplate: true
