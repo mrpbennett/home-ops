@@ -37,6 +37,12 @@ spec:
               githubConfigUrl: "https://github.com/mrpbennett/home-ops"
               githubConfigSecret: arc-github
 
+              # Argo CD renders with `helm template` (no cluster access), so the chart's
+              # `lookup` for the controller returns nothing. Name it explicitly.
+              controllerServiceAccount:
+                name: actions-runner-controller-gha-rs-controller
+                namespace: arc-systems
+
               ## listenerConfig holds configuration for the ghalistener pod.
               listenerConfig:
                 scaler:
