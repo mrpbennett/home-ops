@@ -88,7 +88,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    vm.kubevirt.io/name: dor1-kv-ubuntu-ssh
+    kubevirt.io/vm: dor1-kv-ubuntu
   ports:
     - port: 22
       targetPort: 22
