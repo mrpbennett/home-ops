@@ -16,7 +16,7 @@ spec:
       spec:
         source:
           registry:
-            url: docker://quay.io/containerdisks/ubuntu:22.04
+            url: docker://quay.io/containerdisks/ubuntu:24.04
         storage:
           storageClassName: longhorn-kubevirt
           accessModes:
@@ -85,6 +85,9 @@ kind: Service
 metadata:
   name: dor1-kv-ubuntu-ssh
   namespace: kubevirt-vms
+  annotations:
+    metallb.io/loadBalancerIPs: 192.168.7.17
+    external-dns.alpha.kubernetes.io/hostname: dor1-kv-ubuntu.70ld.dev
 spec:
   type: LoadBalancer
   selector:
