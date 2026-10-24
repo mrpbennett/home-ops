@@ -1,0 +1,6 @@
+---
+kubevirt-vms:
+  hosts:
+    dor1-kv-ubuntu:
+      ansible_host: 192.168.7.17
+      ansible_user: sysadm

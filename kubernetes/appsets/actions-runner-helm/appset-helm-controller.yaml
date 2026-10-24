@@ -31,6 +31,7 @@ spec:
           repoURL: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
           targetRevision: 0.15.1
           helm:
+            # https://github.com/actions/actions-runner-controller/blob/master/charts/gha-runner-scale-set-controller/values.yaml
             valuesObject:
               # Default values for gha-runner-scale-set-controller.
               # This is a YAML-formatted file.

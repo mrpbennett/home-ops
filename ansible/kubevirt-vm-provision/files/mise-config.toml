@@ -1,0 +1,9 @@
+[tools]
+atuin = "latest"
+gh = "latest"
+hunk = "latest"
+neovim = "latest"
+yazi = "latest"
+
+[settings.upgrade]
+auto_prune = false

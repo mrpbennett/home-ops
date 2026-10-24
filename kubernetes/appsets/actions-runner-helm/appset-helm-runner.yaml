@@ -1,0 +1,61 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name arc-runners
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      sources:
+        - chart: gha-runner-scale-set
+          repoURL: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
+          targetRevision: 0.15.1
+          helm:
+            # https://github.com/actions/actions-runner-controller/blob/master/charts/gha-runner-scale-set/values.yaml
+            releaseName: arc-runner-set
+            valuesObject:
+              githubConfigUrl: "https://github.com/mrpbennett/home-ops"
+              githubConfigSecret: arc-github
+
+              ## listenerConfig holds configuration for the ghalistener pod.
+              listenerConfig:
+                scaler:
+                  qps: 50
+                  burst: 100
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: arc-runners
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2

@@ -95,15 +95,6 @@ path "kv/data/external-dns/*" {
 EOT
 }
 
-# -- GITEA --
-resource "vault_policy" "gitea_read" {
-  name   = "gitea-read"
-  policy = <<EOT
-path "kv/data/gitea/*" {
-  capabilities = ["read"]
-}
-EOT
-}
 
 # -- GATUS --
 resource "vault_policy" "gatus_read" {
@@ -113,6 +104,24 @@ path "kv/data/gatus/*" {
   capabilities = ["read"]
 }
 EOT
+}
+# -- GITEA --
+resource "vault_policy" "gitea_read" {
+  name   = "gitea-read"
+  policy = <<EOT
+  path "kv/data/gitea/*" {
+  capabilities = ["read"]
+  }
+  EOT
+}
+# -- GITHUB RUNNER --
+resource "vault_policy" "github_read" {
+  name   = "github-read"
+  policy = <<EOT
+  path "kv/data/github/*" {
+  capabilities = ["read"]
+  }
+  EOT
 }
 
 # -- HEADLAMP --
@@ -197,7 +206,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "headlamp-read", "homepage-read", "longhorn-read", "pgadmin-read", "plane-read", "seaweedfs-read", "tailscale-read", "trino-read", "external-dns-read"]
+  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "github-read", "headlamp-read", "homepage-read", "longhorn-read", "pgadmin-read", "plane-read", "seaweedfs-read", "tailscale-read", "trino-read", "external-dns-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -275,6 +284,17 @@ resource "vault_kv_secret_v2" "gitea_admin" {
     username = var.GITEA_ADMIN_USERNAME
     password = var.GITEA_ADMIN_PASSWORD
     email    = var.GITEA_ADMIN_EMAIL
+  })
+}
+
+# GITHUB ---
+resource "vault_kv_secret_v2" "github_arc" {
+  mount = vault_mount.kv.path
+  name  = "github/arc"
+
+  data_json = jsonencode({
+    GITHUB_CONFIG_URL = var.GITHUB_CONFIG_URL
+    GITHUB_PAT        = var.GITHUB_PAT
   })
 }
 
@@ -520,6 +540,16 @@ variable "GITEA_OAUTH_CLIENT_ID" {
   sensitive = true
 }
 variable "GITEA_OAUTH_CLIENT_SECRET" {
+  type      = string
+  sensitive = true
+}
+
+# GITHUB ARC ---
+variable "GITHUB_CONFIG_URL" {
+  type      = string
+  sensitive = true
+}
+variable "GITHUB_PAT" {
   type      = string
   sensitive = true
 }

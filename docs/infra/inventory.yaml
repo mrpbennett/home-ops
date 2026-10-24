@@ -1,175 +1,199 @@
 ---
 # 70LD Cloud — inventory
-# Single source of truth for regions, clusters, networks and hosts.
-# Hostnames: <site>-<role>-<nn>. Numbers are never reused; retired hosts stay listed.
+# Single source of truth for regions, projects, networks and instances.
+# Names are unique within their parent: instances per project, clusters per project+region,
+# subnets per region. Resource paths are derived, e.g.
+#   projects/ld-prod/zones/uk-southwest1-a/instances/cp-01
+# Each instance has a name (unique within the project) and a hostname = <project>-<name>, e.g. ld-prod-cp-01;
+# the hostname is the OS hostname, Kubernetes node name and Tailscale name.
+# Numbers are never reused; retired instances stay listed.
 # TODO markers flag things to confirm against the real kit.
 
 cloud:
   name: 70LD Cloud
   domain: 70ld.dev
-  internal_domain: <service-name>.70ld.dev
+  internal_domain: int.70ld.dev
 
 regions:
-  uk-dor-1:
-    site_token: dor1
-    description: Home site, Poole.
+  uk-southwest1:
+    display_name: Dorset (Poole)
+    description: Home site.
     status: active
     cidr: 192.168.4.0/22
     zones:
-      uk-dor-1a:
+      uk-southwest1-a:
         description: Main rack 1L
-    vlans:
-      - {id: 50, name: general, cidr: 192.168.4.0/24}
-      - {id: 60, name: iot, cidr: 192.168.5.0/24}
-      - {id: 20, name: servers, cidr: 192.168.6.0/24} # servers, pis, nas
-      - {id: 30, name: k8s, cidr: 192.168.7.0/24,}
 
-  uk-dor-2:
-    site_token: dor2
-    description: Home site, Poole.
+  uk-southwest2:
+    display_name: Dorset (second site)
+    description: Second site in the same part of the country.
     status: reserved
     cidr: 10.71.0.0/16
     zones:
-      uk-dor-2a:
+      uk-southwest2-a:
         description: Main rack 1 shelf X
 
-clusters:
-  uk-dor-1-prod-01:
-    region: uk-dor-1
-    env: prod
-    distro: talos
-    gitops: argocd
-    pod_cidr: 10.100.0.0/16
-    service_cidr: 10.101.0.0/16
-    api_vip: 192.168.7.240
-    api_fqdn: api.uk-dor-1-prod-01.int.70ld.dev
-    lb_pool: 192.168.7.200-192.168.7.239
-  uk-dor-1-dev-01:
-    region: uk-dor-1
-    env: dev
-    distro: k3s
-    gitops: argocd
-    pod_cidr: 10.102.0.0/16
-    service_cidr: 10.103.0.0/16
-    api_vip: 192.168.6.241
-    api_fqdn: api.uk-dor-1-dev-01.int.70ld.dev
-    lb_pool: 192.168.6.220-192.168.6.239
+projects:
+  ld-prod:
+    description: Production cluster, its machines, storage and buckets.
+    clusters:
+      main:
+        region: uk-southwest1
+        env: prod
+        distro: talos
+        gitops: argocd
+        pod_cidr: 10.100.0.0/16
+        service_cidr: 10.101.0.0/16
+        api_vip: 192.168.7.240
+        api_fqdn: api.main.ld-prod.int.70ld.dev
+        lb_pool: 192.168.7.200-192.168.7.239
+    instances:
+      # --- control planes ---
+      - name: cp-01
+        hostname: ld-prod-cp-01
+        zone: uk-southwest1-a
+        role: control plane
+        description: K8s control plane
+        cluster: main
+        ip: 192.168.7.1
+        status: active
+        hardware:
+          - model: Dell OptiPlex 7060
+            cpu: 6c
+            ram: 16Gi
+            storage: 1TB Nvme
 
-hosts:
-  # --- prod control planes ---
-  - hostname: dor1-k8s-cp-01
-    zone: uk-dor-1a
-    role: cp
-    description: K8s control plane
-    cluster: uk-dor-1-prod-01
-    ip: 192.168.7.1
-    status: active
-    hardware:
-      - model: Dell OptiPlex 7060
-        cpu: 6c
-        ram: 16Gi
-        storage: 1TB Nvme
+      - name: cp-02
+        hostname: ld-prod-cp-02
+        zone: uk-southwest1-a
+        role: control plane
+        description: K8s control plane
+        cluster: main
+        ip: 192.168.7.2
+        status: active
+        hardware:
+          - model: Dell OptiPlex 7060
+            cpu: 6c
+            ram: 16Gi
+            storage: 1TB Nvme
 
-  - hostname: dor1-k8s-cp-02
-    zone: uk-dor-1a
-    role: cp
-    description: K8s control plane
-    cluster: uk-dor-1-prod-01
-    ip: 192.168.7.2
-    status: active
-    hardware:
-      - model: Dell OptiPlex 7060
-        cpu: 6c
-        ram: 16Gi
-        storage: 1TB Nvme
+      - name: cp-03
+        hostname: ld-prod-cp-03
+        zone: uk-southwest1-a
+        role: control plane
+        description: K8s control plane
+        cluster: main
+        ip: 192.168.7.3
+        status: active
+        hardware:
+          - model: Dell OptiPlex 7060
+            cpu: 6c
+            ram: 16Gi
+            storage: 1TB Nvme
 
-  - hostname: dor1-k8s-cp-03
-    zone: uk-dor-1a
-    role: cp
-    description: K8s control plane
-    cluster: uk-dor-1-prod-01
-    ip: 192.168.7.3
-    status: active
-    hardware:
-      - model: Dell OptiPlex 7060
-        cpu: 6c
-        ram: 16Gi
-        storage: 1TB Nvme
+      # --- workers ---
+      # TODO: future planning; confirm status once the machine is racked
+      - name: compute-01
+        hostname: ld-prod-compute-01
+        zone: uk-southwest1-a
+        role: worker
+        description: K8s node for hosting virtual machines and resource heavy pods
+        cluster: main
+        ip: 192.168.7.4
+        status: active
+        hardware:
+          - model: Dell OptiPlex 7020
+            cpu: 14c
+            ram: 64Gi
+            storage: 1TB Nvme
 
-  # --- Workers ---
-  # future planning 
-  - hostname: dor1-k8s-compute-01
-    zone: uk-dor-1a
-    role: compute node
-    description: K8s node for hosting virtual machines and resource heavy pods
-    cluster: uk-dor-1-prod-01
-    ip: 192.168.7.4
-    status: active
-    hardware:
-      - model: Dell OptiPlex 7020
-        cpu: 14c
-        ram: 64Gi
-        storage: 1TB Nvme
+      # --- hypervisor ---
+      - name: hv-01
+        hostname: ld-prod-hv-01
+        zone: uk-southwest1-a
+        role: hv
+        description: Proxmox hypervisor
+        hardware:
+          - model: Dell OptiPlex 7090
+            cpu: 14c
+            ram: 32Gi
+        ip: 192.168.7.10
+        status: planned
 
-  # --- Hypervisor ---
-  - hostname: dor1-pve-01
-    zone: uk-dor-1a
-    role: Hypervisor
-    cluster: ""
-    hardware:
-      - model: Dell OptiPlex 7090
-        cpu: 14c
-        ram: 32Gi
-    ip: 192.168.7.10
-    status: planned
+      # --- storage: Synology DS925+ ---
+      - name: nas-01
+        hostname: ld-prod-nas-01
+        zone: uk-southwest1-a
+        role: nas
+        hardware: ds925plus
+        ip: 192.168.6.10
+        services: [s3, smb, nfs, minecraft]
+        status: active
 
-  # --- dev cluster: Raspberry Pi 5, k3s ---
-  - hostname: dor1-cp-01
-    zone: uk-dor-1a
-    role: cp
-    cluster: uk-dor-1-dev-01
-    hardware: rpi5
-    ip: 192.168.6.1
-    status: active
-  - hostname: dor1-cp-02
-    zone: uk-dor-1a
-    role: cp
-    cluster: uk-dor-1-dev-02
-    hardware: rpi5
-    ip: 192.168.6.2
-    status: active
-  - hostname: dor1-cp-03
-    zone: uk-dor-1a
-    role: cp
-    cluster: uk-dor-1-dev-03
-    hardware: rpi5
-    ip: 192.168.6.3
-    status: active
+    buckets:
+      - ld-prod-longhorn
+      - ld-prod-etcd-backup
+      - ld-prod-cnpg-backup
+      - ld-prod-loki-admin
+      - ld-prod-loki-ruler
+      - ld-prod-archive
 
-  # --- storage: Synology DS925+ ---
-  - hostname: dor1-nas-01
-    zone: uk-dor-1a
-    role: nas
-    hardware: ds925plus
-    ip: 192.168.6.10
-    services: [s3, smb, nfs, minecraft]
-    status: active
+  ld-dev:
+    description: Raspberry Pi 5 dev cluster, k3s.
+    clusters:
+      main:
+        region: uk-southwest1
+        env: dev
+        distro: k3s
+        gitops: argocd
+        pod_cidr: 10.102.0.0/16
+        service_cidr: 10.103.0.0/16
+        api_vip: 192.168.6.241
+        api_fqdn: api.main.ld-dev.int.70ld.dev
+        lb_pool: 192.168.6.220-192.168.6.239
+    instances:
+      - name: cp-01
+        hostname: ld-dev-cp-01
+        zone: uk-southwest1-a
+        role: cp
+        cluster: main
+        hardware: rpi5
+        ip: 192.168.6.1
+        status: active
+      - name: cp-02
+        hostname: ld-dev-cp-02
+        zone: uk-southwest1-a
+        role: cp
+        cluster: main
+        hardware: rpi5
+        ip: 192.168.6.2
+        status: active
+      - name: cp-03
+        hostname: ld-dev-cp-03
+        zone: uk-southwest1-a
+        role: cp
+        cluster: main
+        hardware: rpi5
+        ip: 192.168.6.3
+        status: active
 
-  # --- network ---
-  # TODO: fill in router/switch/AP models
-  - hostname: dor1-gw-01
-    zone: uk-dor-1a
-    role: gw
-    ip: 192.168.4.1
-    status: active
+  ld-net:
+    description: Network, DNS, gateway and other shared plumbing.
+    networks:
+      home-vpc:
+        subnets:
+          # Subnets are regional; names are unique within the region.
+          - {name: general, region: uk-southwest1, vlan: 50, cidr: 192.168.4.0/24}
+          - {name: iot, region: uk-southwest1, vlan: 60, cidr: 192.168.5.0/24}
+          - {name: servers, region: uk-southwest1, vlan: 20, cidr: 192.168.6.0/24} # servers, pis, nas
+          - {name: k8s, region: uk-southwest1, vlan: 30, cidr: 192.168.7.0/24}
+    instances:
+      # TODO: fill in router/switch/AP models
+      - name: gw-01
+        hostname: ld-net-gw-01
+        zone: uk-southwest1-a
+        role: gw
+        ip: 192.168.4.1
+        status: active
 
-buckets:
-  - uk-dor-1-prod-01-longhorn
-  - uk-dor-1-prod-01-etcd-backup
-  - uk-dor-1-prod-01-cnpg-backup
-  - uk-dor-1-prod-01-loki-admin
-  - uk-dor-1-prod-01-loki-ruler
-  - uk-dor-1-prod-01-loki-ruler
-  - uk-dor-1-archive
-
-retired: [] # move hosts here when decommissioned; never reuse their names
+retired: [] # move instances here when decommissioned; never reuse their names

@@ -2,43 +2,80 @@
 
 ## Overview
 
-Every resource is named Cloud → Region → Zone → Cluster → Node/Service, and each level exists only when it represents something real. The domain is `70ld.dev` throughout; renaming the cloud means changing it in one place.
+Names follow Google Cloud's model: a resource's identity is its path through the things that contain it, so the leaf name stays short. Placement and ownership live in the path and in labels, never repeated in the name. The domain is `70ld.dev` throughout; renaming the cloud means changing it in one place.
 
 1. **Cloud** — `70LD Cloud`, the whole estate.
-2. **Region** — a physical site with its own power and uplink (`uk-dor-1`).
-3. **Zone** — an independent failure domain inside a region (`uk-dor-1a`).
-4. **Cluster** — a Kubernetes cluster scoped to one region (`uk-dor-1-prod-01`).
-5. **Node / service** — a machine (`dor1-cp-01`) or an endpoint (`grafana.int.70ld.dev`).
+2. **Region** — a physical site with its own power and uplink (`uk-southwest1`).
+3. **Zone** — an independent failure domain inside a region (`uk-southwest1-a`).
+4. **Project** — the unit that owns resources and scopes their names (`ld-prod`).
+5. **Resource** — an instance (`cp-01`), a cluster (`main`), a subnet (`k8s`) or a bucket (`ld-prod-longhorn`).
 
-Guiding rules: placement lives in labels, not names; numbers are never reused; nothing claims resilience the hardware doesn't have.
+Guiding rules: names are short and unique within their parent; the parent supplies the context; numbers are never reused; nothing claims resilience the hardware doesn't have.
+
+## How GCP names things
+
+This convention copies the parts of Google Cloud's that fit a home estate.
+
+**Regions** are `<geography>-<compass><n>`, such as `europe-west2` (London), `europe-west1` (Belgium) and `us-central1` (Iowa). A region names a broad area, not a city, and the number only separates regions in the same compass area. The city is metadata.
+
+**Zones** are the region plus a letter: `europe-west2-a`, `-b`, `-c`. A zone is a failure domain inside a region, with independent power, cooling and networking. The letter carries no meaning (`-a` is not the "edge" zone); workloads spread across zones for resilience, not for role.
+
+**Projects** own resources and scope their names. A project ID is globally unique, 6–30 characters, lowercase letters, digits and hyphens, starts with a letter and never changes.
+
+**Resource names** are unique within their parent, not globally:
+
+| Level | Rule | Example |
+| --- | --- | --- |
+| Project ID | Globally unique, 6–30 chars, starts with a letter, immutable | `my-homelab-123456` |
+| Instance, cluster | Unique within the project; 1–63 chars, RFC 1035 label, starts with a letter, no trailing hyphen | `web-1`, `prod-cluster` |
+| Network | Unique within the project; global | `prod-vpc` |
+| Subnet | Unique within the project and region | `prod-subnet-london` |
+| Full resource path | Unique everywhere, built from the parents | `projects/my-homelab/zones/europe-west2-a/instances/web-1` |
+
+- **The zone is not in the instance name.** The path carries it, and so does internal DNS (`web-1.europe-west2-a.c.my-homelab.internal`). Moving a VM never forces a rename.
+- **Names are immutable.** An instance can't be renamed, only recreated, which is why numbers are never reused.
+- **Labels carry everything else:** environment, team, hardware. Names stay short and labels are queryable.
+- **Kubeconfig contexts** are `gke_<project>_<location>_<cluster>`, so two clusters can both be called `main` without clashing.
 
 ## Regions
 
-Regions follow `<country>-<area>-<n>`; `uk-dor-1` is the only active one today.
+Regions follow `<country>-<compass><n>`, as in `europe-west2`. The compass point is the part of the country, and the number separates regions in the same part. The county or city goes in the region's `display_name`, not the ID.
 
-| Region | Meaning | Status |
-| --- | --- | --- |
-| `uk-dor-1` | Home site, Poole | Active |
-| `uk-dor-2` | A second Dorset site (family house, office) | Reserved |
-| `uk-lon-1` | London VPS or colo | Reserved |
+| Region | Display name | Meaning | Status |
+| --- | --- | --- | --- |
+| `uk-southwest1` | Dorset (Poole) | Home site | Active |
+| `uk-southwest2` | Dorset (second site) | A second site in the same part of the country (family house, office) | Reserved |
+| `uk-southeast1` | London | London VPS or colo | Reserved |
 
 - A region is a distinct physical location with its own power and uplink.
-- The number increments only for a second site in the same area.
+- The number increments only for a second site in the same compass area.
 - Roles such as DR or edge never appear in a region name; they are labels on whichever region plays that role.
 
 ## Zones
 
-Zones follow `<region><letter>`, and home has exactly one today: `uk-dor-1a`.
+Zones follow `<region>-<letter>`, and home has exactly one today: `uk-southwest1-a`.
 
-A zone is an independent failure domain inside a region, meaning separate power and/or network path. Everything in the rack shares one circuit and one uplink, so it is one zone. Add `uk-dor-1b` only when that stops being true, e.g. a second rack on its own circuit, UPS and switch.
+A zone is an independent failure domain inside a region, meaning separate power and/or network path. Everything in the rack shares one circuit and one uplink, so it is one zone. Add `uk-southwest1-b` only when that stops being true, e.g. a second rack on its own circuit, UPS and switch. Zones are never mapped to towns or to roles.
 
-Zones never appear in hostnames. They live in node labels and the inventory, so moving a machine never renames it.
+Zones never appear in instance names. They live in the resource path, in DNS and in node labels, so moving a machine never renames it.
 
-## Hostnames
+## Projects
 
-Hostnames follow `<site>-<role>-<nn>`, e.g. `dor1-cp-01`.
+A project owns a set of resources and gives their short names a scope. Project IDs start with a letter because they feed hostnames, and hostnames must.
 
-The site token is the short form of the region (`dor1`, `lon1`, `fsn1`). It keeps names unique across the tailnet, since Tailscale MagicDNS needs unique machine names, while staying short enough to type into `talosctl`.
+| Project | Owns |
+| --- | --- |
+| `ld-prod` | The production cluster, its machines, storage appliance and buckets |
+| `ld-dev` | The Raspberry Pi dev cluster and its machines |
+| `ld-net` | The network, DNS, gateway and other shared plumbing |
+
+Add a project when a set of resources needs its own owner, lifecycle or blast radius, not for every new service.
+
+## Instances and hostnames
+
+An instance's resource name is `<role>-<nn>`, unique within its project: `cp-01`, `nas-01`. Its OS hostname, Kubernetes node name and Tailscale name are `<project>-<name>`: `ld-prod-cp-01`.
+
+The project prefix is added only to the hostname. Tailscale MagicDNS needs unique machine names, and `ld-prod` and `ld-dev` would otherwise both have a `cp-01`.
 
 | Role | Use |
 | --- | --- |
@@ -53,25 +90,46 @@ The site token is the short form of the region (`dor1`, `lon1`, `fsn1`). It keep
 | `hv` | Hypervisor (reserved, for if Proxmox arrives) |
 | `edge` | Single-purpose remote node |
 
-- Numbers are two digits, unique per role per region, and never reused. A retired `dor1-wk-02` stays retired.
-- Hardware model, cluster and environment go in labels, not the name. A Pi in the dev cluster is just `dor1-cp-04` with `env=dev`.
-- Lowercase and hyphens only; no pet names.
+- Numbers are two digits, unique per role per project, and never reused. A retired `wk-02` stays retired.
+- Hardware model, cluster and environment go in labels, not the name.
+- Lowercase and hyphens only, starting with a letter; no pet names.
 
 ## Clusters
 
-Clusters follow `<region>-<env>-<nn>`: production is `uk-dor-1-prod-01` (Talos on the 7060s, ArgoCD) and dev is `uk-dor-1-dev-01` (k3s on the Pis).
+A cluster's name is unique within its project and region, and is just `main`, as in `prod-cluster`. The project says it is production and the region says where.
 
-Environments are `prod`, `stage`, `dev`, `lab` (break it freely) and `edge`. The `-nn` suffix lets a replacement cluster run alongside the old one during a migration, then take over.
+| Cluster path | Distro | Nodes |
+| --- | --- | --- |
+| `ld-prod/uk-southwest1/main` | Talos, Argo CD | The Dell 7060s |
+| `ld-dev/uk-southwest1/main` | k3s | The Raspberry Pis |
+
+A replacement cluster runs alongside the old one during a migration (`main-02`), then takes over.
+
+Kubeconfig contexts are `<project>_<region>_<cluster>`, e.g. `ld-prod_uk-southwest1_main`.
 
 Every node carries these labels:
 
 ```yaml
-topology.kubernetes.io/region: uk-dor-1
-topology.kubernetes.io/zone: uk-dor-1a
-70ld.dev/cluster: uk-dor-1-prod-01
-70ld.dev/hardware: m720q
+topology.kubernetes.io/region: uk-southwest1
+topology.kubernetes.io/zone: uk-southwest1-a
+70ld.dev/project: ld-prod
+70ld.dev/cluster: main
+70ld.dev/hardware: optiplex-7060
 70ld.dev/role: primary        # or dr, edge
 ```
+
+## Networks
+
+GCP separates a global network from regional subnets, and so do we. The network `home-vpc` belongs to `ld-net`; each subnet belongs to one region. Subnets are named by purpose, never by the device that implements them, and are unique within the region.
+
+| VLAN | Subnet | CIDR | Contents |
+| --- | --- | --- | --- |
+| 50 | `general` | `192.168.4.0/24` | General computing, gateway |
+| 60 | `iot` | `192.168.5.0/24` | IoT devices |
+| 20 | `servers` | `192.168.6.0/24` | Servers, Raspberry Pis, NAS |
+| 30 | `k8s` | `192.168.7.0/24` | Prod Kubernetes nodes and LB pool |
+
+A subnet's full path is `projects/ld-net/regions/uk-southwest1/subnetworks/k8s`.
 
 ## IP addressing
 
@@ -79,31 +137,18 @@ Each region gets its own block and each cluster a pair of /16s from a separate b
 
 | Block | Allocation |
 | --- | --- |
-| `192.168.4.0/22` | `uk-dor-1` |
-| `10.71.0.0/16` | `uk-dor-2` (reserved) |
-| `10.72.0.0/16` | `uk-lon-1` (reserved) |
+| `192.168.4.0/22` | `uk-southwest1` |
+| `10.71.0.0/16` | `uk-southwest2` (reserved) |
+| `10.72.0.0/16` | `uk-southeast1` (reserved) |
 | `10.73–10.99` | Future regions |
 | `10.100.0.0/14` | Cluster pod and service ranges |
 
 | Cluster | Pod CIDR | Service CIDR |
 | --- | --- | --- |
-| `uk-dor-1-prod-01` | `10.100.0.0/16` | `10.101.0.0/16` |
-| `uk-dor-1-dev-01` | `10.102.0.0/16` | `10.103.0.0/16` |
+| `ld-prod/main` | `10.100.0.0/16` | `10.101.0.0/16` |
+| `ld-dev/main` | `10.102.0.0/16` | `10.103.0.0/16` |
 
 Set these explicitly in the Talos and k3s configs. The defaults (Talos 10.244/10.96, k3s 10.42/10.43) collide as soon as there are two clusters of the same kind.
-
-### VLANs
-
-Each network is a /24 (`255.255.255.0`) inside the region's `192.168.4.0/22`. The third octet no longer matches the VLAN ID.
-
-| VLAN | Name | Subnet | Contents |
-| --- | --- | --- | --- |
-| 50 | `general` | `192.168.4.0/24` | General computing, gateway |
-| 60 | `iot` | `192.168.5.0/24` | IoT devices |
-| 20 | `servers` | `192.168.6.0/24` | Servers, Raspberry Pis, NAS |
-| 30 | `k8s` | `192.168.7.0/24` | Prod Kubernetes nodes and LB pool |
-
-VLANs are named by purpose, never by the device that implements them.
 
 ### Host layout within every subnet
 
@@ -118,15 +163,15 @@ VLANs are named by purpose, never by the device that implements them.
 
 ## DNS
 
-Public services sit at the apex; everything private sits under `int.70ld.dev`.
+Public services sit at the apex; everything private sits under `int.70ld.dev`. Private names follow GCP's internal DNS, which puts the zone and project in the name.
 
 | Namespace | Pattern | Example |
 | --- | --- | --- |
 | Public services | `<service>.70ld.dev` | `photos.70ld.dev` |
 | Internal services | `<service>.int.70ld.dev` | `grafana.int.70ld.dev` |
-| Hosts | `<host>.int.70ld.dev` | `dor1-cp-01.int.70ld.dev` |
-| Per-region endpoints | `<service>.<region>.int.70ld.dev` | `ingress.uk-dor-1.int.70ld.dev` |
-| Per-cluster endpoints | `<service>.<cluster>.int.70ld.dev` | `api.uk-dor-1-prod-01.int.70ld.dev` |
+| Instances | `<name>.<zone>.<project>.int.70ld.dev` | `cp-01.uk-southwest1-a.ld-prod.int.70ld.dev` |
+| Per-region endpoints | `<service>.<region>.int.70ld.dev` | `ingress.uk-southwest1.int.70ld.dev` |
+| Per-cluster endpoints | `<service>.<cluster>.<project>.int.70ld.dev` | `api.main.ld-prod.int.70ld.dev` |
 
 - `int` rather than `home`, so names stay accurate once a VPS joins.
 - One wildcard cert for `*.int.70ld.dev`, so internal hostnames never appear in Certificate Transparency logs.
@@ -139,36 +184,38 @@ Objects are named after what they are, and a namespace means the same thing in e
 
 - **Namespaces** by function: `platform`, `networking`, `observability`, `storage`, `identity`, `media`, `photos`, `games`, `home-automation`.
 - **Workloads** after the app (`immich-server`), never in hostname style.
-- **ArgoCD Applications** as `<app>-<cluster>`, e.g. `immich-uk-dor-1-prod-01`, generated by an ApplicationSet over the cluster list so adding a cluster is one line.
+- **Argo CD Applications** as `<app>-<project>`, e.g. `immich-ld-prod`, generated by an ApplicationSet over the project list so adding a cluster is one line.
 - **Labels** use the standard `app.kubernetes.io/*` set with `part-of: 70ld-cloud`.
 
 ## Storage, backups and access
 
-Buckets carry the cluster they serve; shares and tags carry purpose.
+Buckets carry the project that owns them, as GCP buckets do, and shares and tags carry purpose.
 
-- **S3 buckets** on the NAS: `<cluster>-<purpose>`, e.g. `uk-dor-1-prod-01-longhorn`, `uk-dor-1-prod-01-velero`, `uk-dor-1-prod-01-cnpg`. Region-wide buckets drop the cluster: `uk-dor-1-archive`.
+- **S3 buckets** on the NAS: `<project>-<purpose>`, e.g. `ld-prod-longhorn`, `ld-prod-velero`, `ld-prod-cnpg-backup`. Bucket names are globally unique in GCP, so the project prefix plays that role here.
 - **NAS shares** by purpose, never by user: `media`, `photos`, `backups`.
-- **Tailscale tags**: `tag:uk-dor-1`, `tag:k8s`, `tag:prod`, `tag:infra`. ACLs are written against tags, never machine names.
+- **Tailscale tags**: `tag:uk-southwest1`, `tag:k8s`, `tag:prod`, `tag:infra`. ACLs are written against tags, never machine names.
 
 ## Git layout and inventory
 
-`inventory.yaml` at the repo root is the single source of truth for every host, IP, role and zone; everything else follows the naming above.
+`inventory.yaml` is the single source of truth for every region, project, instance and subnet. A resource's path is derived from it, never stored twice.
 
 ```
 70ld-cloud/
-  inventory.yaml            # every host, IP, role, zone
-  regions/
-    uk-dor-1/
+  inventory.yaml
+  projects/
+    ld-prod/
+      clusters/
+        main/
+          talos/
+          apps/
+    ld-dev/
+      clusters/main/
+    ld-net/
       network/              # VLANs, IPAM, DNS records
-  clusters/
-    uk-dor-1-prod-01/
-      talos/
-      apps/
-    uk-dor-1-dev-01/
   apps/                     # shared app bases, overlaid per cluster
 ```
 
-The cluster folder names match the ArgoCD cluster names, so ApplicationSet paths can be derived from them.
+Project and cluster folder names match the inventory, so ApplicationSet paths can be derived from them.
 
 ## Growth scenarios
 
@@ -176,25 +223,29 @@ Every likely addition slots in without renaming anything that already exists.
 
 | You add… | What changes |
 | --- | --- |
-| A London VPS for ingress | Region `uk-lon-1`, host `lon1-edge-01`, subnet `10.72.0.0/16`, label `role=edge` |
-| A second cluster at home | `uk-dor-1-stage-01`, next pod/service pair from `10.100.0.0/14`, new folder in `clusters/` |
-| A prod rebuild | `uk-dor-1-prod-02` alongside `-01`; migrate, then retire `-01` |
-| Offsite DR at a relative's | Region `uk-dor-2` labelled `role=dr`; buckets replicate from `uk-dor-1-*` |
-| A second rack on its own circuit | Zone `uk-dor-1b`; existing hostnames unchanged |
-| A hypervisor | `dor1-hv-01`; its VMs follow the normal role scheme |
+| A London VPS for ingress | Region `uk-southeast1`, instance `edge-01` in `ld-prod`, subnet from `10.72.0.0/16`, label `role=edge` |
+| A second cluster at home | `ld-stage` project with cluster `main`, next pod/service pair from `10.100.0.0/14` |
+| A prod rebuild | `main-02` in `ld-prod`; migrate, then retire `main` |
+| Offsite DR at a relative's | Region `uk-southwest2` labelled `role=dr`; buckets replicate from `ld-prod-*` |
+| A second rack on its own circuit | Zone `uk-southwest1-b`; existing instance names unchanged |
+| A hypervisor | `hv-01` in `ld-prod`; its VMs follow the normal role scheme |
 
 ## Quick reference
 
 | Resource | Standard |
 | --- | --- |
-| Region | `uk-dor-1` |
-| Zone | `uk-dor-1a` |
-| Cluster | `uk-dor-1-prod-01` |
-| Host | `dor1-cp-01` |
-| Host FQDN | `dor1-cp-01.int.70ld.dev` |
+| Region | `uk-southwest1` |
+| Zone | `uk-southwest1-a` |
+| Project | `ld-prod` |
+| Instance | `cp-01` |
+| Hostname / Tailscale name | `ld-prod-cp-01` |
+| Instance path | `projects/ld-prod/zones/uk-southwest1-a/instances/cp-01` |
+| Cluster | `main` (context `ld-prod_uk-southwest1_main`) |
+| Instance DNS | `cp-01.uk-southwest1-a.ld-prod.int.70ld.dev` |
+| Network / subnet | `home-vpc` / `k8s` |
 | Region network | `192.168.4.0/22` (general `.4`, iot `.5`, servers `.6`, k8s `.7`) |
 | Pod / service CIDR | `10.100.0.0/16` / `10.101.0.0/16` |
 | Internal service | `grafana.int.70ld.dev` |
 | Public service | `photos.70ld.dev` |
-| Bucket | `uk-dor-1-prod-01-velero` |
-| ArgoCD app | `immich-uk-dor-1-prod-01` |
+| Bucket | `ld-prod-velero` |
+| Argo CD app | `immich-ld-prod` |

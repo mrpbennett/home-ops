@@ -1,0 +1,53 @@
+---
+- name: Provision dev VM with mise
+  hosts: kubevirt-vms
+  vars:
+    mise_user: sysadm
+    mise_home: "/home/{{ mise_user }}"
+    mise_bin: "{{ mise_home }}/.local/bin/mise"
+
+  tasks:
+    - name: Install base packages
+      ansible.builtin.apt:
+        name:
+          - curl
+          - ca-certificates
+          - git
+          - build-essential
+          - unzip
+        update_cache: true
+        cache_valid_time: 3600
+      become: true
+
+    - name: Install mise
+      ansible.builtin.shell: |
+        set -o pipefail
+        curl -fsSL https://mise.run | sh
+      args:
+        executable: /bin/bash
+        creates: "{{ mise_bin }}"
+
+    - name: Create mise config directory
+      ansible.builtin.file:
+        path: "{{ mise_home }}/.config/mise"
+        state: directory
+        mode: "0755"
+
+    - name: Deploy mise config
+      ansible.builtin.copy:
+        src: files/mise-config.toml
+        dest: "{{ mise_home }}/.config/mise/config.toml"
+        mode: "0644"
+      register: mise_config
+
+    - name: Activate mise in .bashrc
+      ansible.builtin.lineinfile:
+        path: "{{ mise_home }}/.bashrc"
+        line: 'eval "$({{ mise_bin }} activate bash)"'
+        create: true
+        mode: "0644"
+
+    - name: Install tools with mise
+      ansible.builtin.command: "{{ mise_bin }} install --yes"
+      register: mise_install
+      changed_when: mise_install.stderr | length > 0
