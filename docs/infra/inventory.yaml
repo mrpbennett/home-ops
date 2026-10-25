@@ -38,6 +38,7 @@ projects:
     description: Production cluster, its machines, storage and buckets.
     clusters:
       main:
+        name: ld-prod-k8s
         region: uk-southwest1
         env: prod
         distro: talos

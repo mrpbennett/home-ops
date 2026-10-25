@@ -1,0 +1,40 @@
+---
+- name: Update Pi OS
+  hosts: rasberry_pis
+  become: true
+  # one Pi at a time so local DNS (AdGuard) stays up while others reboot
+  serial: 1
+
+  tasks:
+    - name: update ubuntu os
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: true
+        autoremove: true
+        autoclean: true
+
+    - name: check if a reboot is required
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    # node-pi-3 is the host running this playbook (see update-hosts-cj.sh).
+    # Rebooting it here would kill ansible mid-run; it is rebooted in the next play.
+    - name: reboot if required
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+      when:
+        - reboot_required.stat.exists
+        - inventory_hostname != 'node-pi-3'
+
+- name: Reboot the ansible controller last
+  hosts: node-pi-3
+  become: true
+  gather_facts: false
+
+  tasks:
+    # delayed so ansible can finish and exit before the host goes down
+    - name: schedule reboot in 1 minute if required
+      ansible.builtin.command: shutdown -r +1 "ansible patching"
+      changed_when: true
+      when: reboot_required.stat.exists

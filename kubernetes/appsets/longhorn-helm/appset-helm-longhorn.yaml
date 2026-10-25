@@ -92,6 +92,8 @@ spec:
                     create: true
 
               # Weekly system-backup
+              # Runs at 04:00, after daily-backup (01:00) finishes. Overlapping them backed up the
+              # large KubeVirt disk twice at once and wedged the SystemBackup controller.
               - apiVersion: longhorn.io/v1beta2
                 kind: RecurringJob
                 metadata:
@@ -99,7 +101,7 @@ spec:
                   namespace: longhorn-system
                 spec:
                   task: system-backup
-                  cron: "0 1 * * SUN"
+                  cron: "0 4 * * SUN"
                   retain: 1
                   parameters:
                     volume-backup-policy: if-not-present

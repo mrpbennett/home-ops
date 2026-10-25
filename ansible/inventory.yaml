@@ -1,0 +1,18 @@
+---
+rasberry_pis:
+  hosts:
+    node-pi-1:
+      ansible_host: 192.168.4.2
+      ansible_user: pb
+    node-pi-2:
+      ansible_host: 192.168.6.2
+      ansible_user: pb
+    node-pi-3:
+      ansible_host: 192.168.6.3
+      ansible_user: pb
+
+kubevirt_vms:
+  hosts:
+    dor1-kv-ubuntu:
+      ansible_host: 192.168.7.17
+      ansible_user: sysadm

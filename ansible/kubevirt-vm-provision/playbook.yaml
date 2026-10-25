@@ -1,6 +1,6 @@
 ---
 - name: Provision dev VM with mise
-  hosts: kubevirt-vms
+  hosts: kubevirt_vms
   vars:
     mise_user: sysadm
     mise_home: "/home/{{ mise_user }}"
