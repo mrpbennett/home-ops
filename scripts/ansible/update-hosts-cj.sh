@@ -7,11 +7,11 @@
 
 set -euo pipefail
 
-ansible_dir=/home/pb/home-operations/operations/ansible
+ansible_dir=/home/pb/home-operations/operations/ansible/rasberry-pis/
 export PATH="/home/pb/.local/bin:/usr/local/bin:/usr/bin:/bin"
 
 cd "$ansible_dir"
 
 flock -n -E 0 /var/lock/update-hosts-cj.lock \
-  ansible-playbook -i inventory.yaml rasberry-pis/playbook.yaml 2>&1 |
+  ansible-playbook -i ../../ansible/inventory.yaml playbook.yaml 2>&1 |
   logger -t update-hosts-cj

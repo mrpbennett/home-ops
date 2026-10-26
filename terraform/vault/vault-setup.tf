@@ -55,6 +55,16 @@ path "kv/data/alertmanager/*" {
 EOT
 }
 
+# -- ARGO --
+resource "vault_policy" "argo_read" {
+  name   = "argo-read"
+  policy = <<EOT
+path "kv/data/argo/*" {
+  capabilities = ["read"]
+}
+EOT
+}
+
 # -- ATUIN --
 resource "vault_policy" "atuin_read" {
   name   = "atuin-read"
@@ -206,7 +216,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["alertmanager-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "github-read", "headlamp-read", "homepage-read", "longhorn-read", "pgadmin-read", "plane-read", "seaweedfs-read", "tailscale-read", "trino-read", "external-dns-read"]
+  token_policies                   = ["alertmanager-read", "argo-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "github-read", "headlamp-read", "homepage-read", "longhorn-read", "pgadmin-read", "plane-read", "seaweedfs-read", "tailscale-read", "trino-read", "external-dns-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -223,6 +233,16 @@ resource "vault_kv_secret_v2" "atuin" {
   })
 }
 
+# ARGO
+resource "vault_kv_secret_v2" "argo" {
+  mount = vault_mount.kv.path
+  name  = "argo/workflow"
+
+  data_json = jsonencode({
+    client-id     = var.ARGO_WORKFLOW_CLIENT_ID
+    client-secret = var.ARGO_WORKFLOW_CLIENT_SECRET
+  })
+}
 # ALERTMANAGER --
 resource "vault_kv_secret_v2" "alertmanager" {
   mount = vault_mount.kv.path
@@ -464,6 +484,17 @@ variable "ATUIN_HOST" {
 variable "ATUIN_OPEN_REGISTRATION" {
   type      = string
   sensitive = false
+}
+
+# ARGO
+variable "ARGO_WORKFLOW_CLIENT_ID" {
+  type      = string
+  sensitive = true
+}
+
+variable "ARGO_WORKFLOW_CLIENT_SECRET" {
+  type      = string
+  sensitive = true
 }
 
 # ALERT MANAGER

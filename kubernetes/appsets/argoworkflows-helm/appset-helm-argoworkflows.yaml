@@ -1,0 +1,115 @@
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name argo-workflows
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+    spec:
+      project: "{{.project}}"
+      sources:
+        - chart: argo-workflows
+          repoURL: https://argoproj.github.io/argo-helm
+          targetRevision: 2.0.14
+          helm:
+            valuesObject:
+              # https://github.com/argoproj/argo-helm/blob/main/charts/argo-workflows/values.yaml
+              crds:
+                install: true
+                keep: false
+
+              controller:
+                # -- Specify all namespaces where this workflow controller instance will manage
+                # workflows. This controls where the service account and RBAC resources will
+                # be created.
+                workflowNamespaces:
+                  - argo-workflows
+                  - cron-jobs
+                  - dev
+
+                retentionPolicy:
+                  completed: 10
+                  failed: 3
+                  errored: 3
+
+              # Gateway API HTTPRoute configuration
+              server:
+                httproute:
+                  enabled: true
+                  labels: {}
+                  annotations:
+                    cert-manager.io/cluster-issuer: "letsencrypt-cloudflare-dns-issuer"
+                  parentRefs:
+                    - name: envoy-shared-gateway
+                      namespace: envoy-gateway-system
+                      sectionName: https
+                  hostnames:
+                    - argoworkflows.70ld.dev
+                  path: /
+                  pathType: PathPrefix
+
+                authModes:
+                  - sso
+
+                sso:
+                  enabled: true
+                  issuer: https://keycloak.70ld.dev/realms/master
+                  clientId:
+                    name: argo-workflow-sso
+                    key: client-id
+                  clientSecret:
+                    name: argo-workflow-sso
+                    key: client-secret
+                  redirectURL: https://argoworkflow.70ld.dev/auth/callback
+
+              extraObjects:
+                - apiVersion: secrets.hashicorp.com/v1beta1
+                  kind: VaultStaticSecret
+                  metadata:
+                    name: argo-workflow-sso
+                    namespace: argo-workflows
+                  spec:
+                    vaultAuthRef: vault-secrets-operator/vault-auth
+                    mount: kv
+                    type: kv-v2
+                    path: argo/workflow
+                    refreshAfter: 60s
+                    destination:
+                      name: argo-workflow-sso
+                      create: true
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: *app_name
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - SkipDryRunOnMissingResource=true
+          - ServerSideApply=true
+        retry:
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
