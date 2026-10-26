@@ -13,7 +13,7 @@ data:
     gateway: true
 
   settings.yaml: |
-    title: 70LD Cloud - uk-dor-1
+    title: 70LD Cloud - uk-southwest1
     theme: dark
     color: slate
     headerStyle: clean
@@ -71,7 +71,7 @@ data:
         tab: Products
         icon: mdi-infinity
         style: row
-        columns: 2
+        columns: 3
 
       Operations:
         tab: Products
@@ -494,6 +494,15 @@ data:
               key: "{{HOMEPAGE_VAR_ARGOCD_KEY}}"
 
     - CI/CD:
+        - ArgoWorkflows:
+            icon: argo-cd.png
+            href: https://argoworkflows.70ld.dev
+            description: GitOps Workflows & Events
+            siteMonitor: https://argoworkflows.70ld.dev
+            namespace: argo-workflows
+            app: argworklows
+            podSelector: ""
+
         - Gitea:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/gitea.svg
             href: https://git.70ld.dev/
@@ -738,7 +747,7 @@ data:
   widgets.yaml: |
     - greeting:
         text_size: 2xl
-        text: 70LD Cloud - portland
+        text: 70LD Cloud - uk-southwest1
 
     - kubernetes:
         cluster:
