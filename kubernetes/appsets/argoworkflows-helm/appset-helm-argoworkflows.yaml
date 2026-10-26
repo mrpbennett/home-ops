@@ -77,7 +77,7 @@ spec:
                   clientSecret:
                     name: argo-workflow-sso
                     key: client-secret
-                  redirectURL: https://argoworkflow.70ld.dev/auth/callback
+                  redirectURL: https://argoworkflows.70ld.dev/auth/callback
 
               extraObjects:
                 - apiVersion: secrets.hashicorp.com/v1beta1

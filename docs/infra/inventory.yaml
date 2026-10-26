@@ -16,8 +16,8 @@ cloud:
 
 regions:
   uk-southwest1:
-    display_name: Dorset (Poole)
-    description: Home site.
+    display_name: Dorset - House
+    description: Office Rack
     status: active
     cidr: 192.168.4.0/22
     zones:
@@ -25,8 +25,8 @@ regions:
         description: Main rack 1L
 
   uk-southwest2:
-    display_name: Dorset (second site)
-    description: Second site in the same part of the country.
+    display_name: Dorset - Garage
+    description: Garage Rack
     status: reserved
     cidr: 10.71.0.0/16
     zones:
