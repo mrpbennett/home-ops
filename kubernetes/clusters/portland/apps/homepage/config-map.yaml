@@ -734,11 +734,6 @@ data:
               fields: ["queries", "blocked", "filtered", "latency"]
 
     - Tools:
-        - Plane:
-            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plane.svg
-            href: https://plane.70ld.dev
-            description: Issue tracking - Jira replacement
-
         - NanoClaw:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/nanoclaw.svg
             href: https://portal.nanoclaw.dev/
