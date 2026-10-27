@@ -113,37 +113,12 @@ spec:
                     namespace: argo-workflows
                     annotations:
                       kubernetes.io/service-account.name: argo-admin
+                # ClusterRoleBinding (not per-namespace RoleBindings): the UI lists workflows
+                # and templates at cluster scope, and ClusterWorkflowTemplates are cluster-scoped.
                 - apiVersion: rbac.authorization.k8s.io/v1
-                  kind: RoleBinding
+                  kind: ClusterRoleBinding
                   metadata:
                     name: argo-admin
-                    namespace: argo-workflows
-                  roleRef:
-                    apiGroup: rbac.authorization.k8s.io
-                    kind: ClusterRole
-                    name: argo-workflows-admin
-                  subjects:
-                    - kind: ServiceAccount
-                      name: argo-admin
-                      namespace: argo-workflows
-                - apiVersion: rbac.authorization.k8s.io/v1
-                  kind: RoleBinding
-                  metadata:
-                    name: argo-admin
-                    namespace: cron-jobs
-                  roleRef:
-                    apiGroup: rbac.authorization.k8s.io
-                    kind: ClusterRole
-                    name: argo-workflows-admin
-                  subjects:
-                    - kind: ServiceAccount
-                      name: argo-admin
-                      namespace: argo-workflows
-                - apiVersion: rbac.authorization.k8s.io/v1
-                  kind: RoleBinding
-                  metadata:
-                    name: argo-admin
-                    namespace: dev
                   roleRef:
                     apiGroup: rbac.authorization.k8s.io
                     kind: ClusterRole
