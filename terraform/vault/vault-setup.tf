@@ -115,11 +115,11 @@ path "kv/data/gatus/*" {
 }
 EOT
 }
-# -- GITEA --
-resource "vault_policy" "gitea_read" {
-  name   = "gitea-read"
+# -- FORGEJO --
+resource "vault_policy" "forgejo_read" {
+  name   = "forgejo-read"
   policy = <<EOT
-  path "kv/data/gitea/*" {
+  path "kv/data/forgejo/*" {
   capabilities = ["read"]
   }
   EOT
@@ -216,7 +216,7 @@ resource "vault_kubernetes_auth_backend_role" "vso_role" {
   bound_service_account_names      = ["default"]
   bound_service_account_namespaces = ["*"]
   token_ttl                        = 3600
-  token_policies                   = ["alertmanager-read", "argo-read", "atuin-read", "cloudnativepg-read", "gatus-read", "gitea-read", "github-read", "headlamp-read", "homepage-read", "longhorn-read", "pgadmin-read", "plane-read", "seaweedfs-read", "tailscale-read", "trino-read", "external-dns-read"]
+  token_policies                   = ["alertmanager-read", "argo-read", "atuin-read", "cloudnativepg-read", "gatus-read", "forgejo-read", "github-read", "headlamp-read", "homepage-read", "longhorn-read", "pgadmin-read", "plane-read", "seaweedfs-read", "tailscale-read", "trino-read", "external-dns-read"]
 }
 
 # secrets.tf - Create the actual secrets
@@ -275,15 +275,6 @@ resource "vault_kv_secret_v2" "cnpg_keycloak_db" {
   })
 }
 
-resource "vault_kv_secret_v2" "cnpg_gitea_db" {
-  mount = vault_mount.kv.path
-  name  = "cloudnativepg/gitea-db"
-
-  data_json = jsonencode({
-    username = var.CNPG_GITEA_USERNAME
-    password = var.CNPG_GITEA_PASSWORD
-  })
-}
 
 # GATUS --
 resource "vault_kv_secret_v2" "gatus_discord_webhook" {
@@ -295,15 +286,25 @@ resource "vault_kv_secret_v2" "gatus_discord_webhook" {
   })
 }
 
-# GITEA --
-resource "vault_kv_secret_v2" "gitea_admin" {
+# FORGEJO --
+resource "vault_kv_secret_v2" "cnpg_forgejo_db" {
   mount = vault_mount.kv.path
-  name  = "gitea/admin"
+  name  = "cloudnativepg/forgejo-db"
 
   data_json = jsonencode({
-    username = var.GITEA_ADMIN_USERNAME
-    password = var.GITEA_ADMIN_PASSWORD
-    email    = var.GITEA_ADMIN_EMAIL
+    username = var.CNPG_FORGEJO_USERNAME
+    password = var.CNPG_FORGEJO_PASSWORD
+  })
+}
+
+resource "vault_kv_secret_v2" "forgejo_admin" {
+  mount = vault_mount.kv.path
+  name  = "forgejo/admin"
+
+  data_json = jsonencode({
+    username = var.FORGEJO_ADMIN_USERNAME
+    password = var.FORGEJO_ADMIN_PASSWORD
+    email    = var.FORGEJO_ADMIN_EMAIL
   })
 }
 
@@ -315,17 +316,6 @@ resource "vault_kv_secret_v2" "github_arc" {
   data_json = jsonencode({
     GITHUB_CONFIG_URL = var.GITHUB_CONFIG_URL
     GITHUB_PAT        = var.GITHUB_PAT
-  })
-}
-
-# Keycloak OIDC client "gitea": key = client id, secret = client secret
-resource "vault_kv_secret_v2" "gitea_oauth" {
-  mount = vault_mount.kv.path
-  name  = "gitea/oauth"
-
-  data_json = jsonencode({
-    key    = var.GITEA_OAUTH_CLIENT_ID
-    secret = var.GITEA_OAUTH_CLIENT_SECRET
   })
 }
 
@@ -539,11 +529,11 @@ variable "CNPG_KEYCLOAK_PASSWORD" {
   type      = string
   sensitive = true
 }
-variable "CNPG_GITEA_USERNAME" {
+variable "CNPG_FORGEJO_USERNAME" {
   type      = string
   sensitive = true
 }
-variable "CNPG_GITEA_PASSWORD" {
+variable "CNPG_FORGEJO_PASSWORD" {
   type      = string
   sensitive = true
 }
@@ -553,24 +543,16 @@ variable "GATUS_DISCORD_WEBHOOK" {
   type      = string
   sensitive = true
 }
-# GITEA ---
-variable "GITEA_ADMIN_USERNAME" {
+# FORGEJO ---
+variable "FORGEJO_ADMIN_USERNAME" {
   type      = string
   sensitive = true
 }
-variable "GITEA_ADMIN_PASSWORD" {
+variable "FORGEJO_ADMIN_PASSWORD" {
   type      = string
   sensitive = true
 }
-variable "GITEA_ADMIN_EMAIL" {
-  type      = string
-  sensitive = true
-}
-variable "GITEA_OAUTH_CLIENT_ID" {
-  type      = string
-  sensitive = true
-}
-variable "GITEA_OAUTH_CLIENT_SECRET" {
+variable "FORGEJO_ADMIN_EMAIL" {
   type      = string
   sensitive = true
 }

@@ -3,9 +3,9 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: gitea-db
+  name: forgejo-db
 spec:
-  name: gitea
-  owner: gitea
+  name: forgejo
+  owner: forgejo
   cluster:
     name: cnpg-prod-cluster

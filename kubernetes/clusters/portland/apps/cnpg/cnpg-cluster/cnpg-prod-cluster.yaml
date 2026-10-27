@@ -58,13 +58,13 @@ spec:
         passwordSecret:
           name: cnpg-keycloak-db
 
-      - name: gitea
+      - name: forgejo
         ensure: present
-        comment: "Gitea user for gitea db"
+        comment: "Forgejo user for forgejo db"
         login: true
         superuser: false
         passwordSecret:
-          name: cnpg-gitea-db
+          name: cnpg-forgejo-db
 
       - name: plane
         ensure: present
