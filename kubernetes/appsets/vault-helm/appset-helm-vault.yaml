@@ -51,7 +51,7 @@ spec:
 
               extraContainers:
                 - name: unsealer
-                  image: hashicorp/vault:1.21.2
+                  image: hashicorp/vault:1.21.4
                   command: ["/bin/sh", "-c"]
                   args:
                     - |
