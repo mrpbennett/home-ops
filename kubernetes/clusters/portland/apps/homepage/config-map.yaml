@@ -504,12 +504,12 @@ data:
             podSelector: ""
 
         - Gitea:
-            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/gitea.svg
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/forgejo.svg
             href: https://git.70ld.dev/
             description: Git hosting - Cloud Source Repositories
-            siteMonitor: http://gitea-http.gitea.svc.cluster.local:3000/api/healthz
-            namespace: gitea
-            app: gitea
+            siteMonitor: http://forgejo-http.forgejo.svc.cluster.local:3000/api/healthz
+            namespace: forgejo
+            app: forgejo
             podSelector: ""
 
         - Registry:
