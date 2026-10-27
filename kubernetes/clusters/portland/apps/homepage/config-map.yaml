@@ -421,7 +421,7 @@ data:
                     - { level: good, when: lt, value: 85 }
                 Memory:
                   numeric:
-                    - { level: danger, when: gte, value: 85 }
+                    - {level: danger, when: gte, value: 85 }
                     - { level: good, when: lt, value: 85 }
                 Temp:
                   numeric:
@@ -503,7 +503,7 @@ data:
             app: argworklows
             podSelector: ""
 
-        - Gitea:
+        - Forgejo:
             icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/forgejo.svg
             href: https://git.70ld.dev/
             description: Git hosting - Cloud Source Repositories
