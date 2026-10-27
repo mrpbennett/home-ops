@@ -15,7 +15,7 @@ apiVersion: v1alpha1
 kind: UnattendedInstallConfig
 installer:
   # Image Factory image built from ../schematic.yaml so the extensions persist across upgrades
-  image: factory.talos.dev/metal-installer/83848d3fcc873dd8b82510cc71cb6832ea59623fc2a7fd13d0fdad4535e3a97d:v1.14.2
+  image: factory.talos.dev/metal-installer/83848d3fcc873dd8b82510cc71cb6832ea59623fc2a7fd13d0fdad4535e3a97d:v1.14.5
 provisioning:
   # Each OptiPlex has a single 1TB NVMe
   diskSelector:

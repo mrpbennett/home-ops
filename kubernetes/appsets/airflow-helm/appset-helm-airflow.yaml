@@ -12,7 +12,8 @@
 #         generators:
 #           - list:
 #               elements:
-#                 - cluster: portland
+#                 - cluster: ld-prod-k8s
+#                 - cluster: ld-dev-k8s
 #           - list:
 #               elements:
 #                 - app_name: *app_name

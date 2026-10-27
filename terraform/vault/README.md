@@ -58,6 +58,22 @@ kubectl exec -n vault vault-0 -- vault operator init -key-shares=1 -key-threshol
 
 - Values in `../terraform.tfvars`. This file is gitignored and **never committed**. Every variable declared in `vault-setup.tf` needs a value; replace any `"CHANGEME"` placeholder before applying, or that text becomes the real secret.
 
+## Auto-unseal
+
+Vault seals itself on every restart (node reboot, pod reschedule). An `unsealer` sidecar on `vault-0` (`server.extraContainers` in `kubernetes/appsets/vault-helm`) checks every 10s and runs `vault operator unseal` with the key from the `vault-unseal-key` Secret in the `vault` namespace.
+
+That Secret is created by hand and **never committed**. Argo CD doesn't track it, so `prune` leaves it alone. Create it, or replace the key after re-initialising Vault, with:
+
+```sh
+printf 'Unseal key: '; read -rs K; echo; printf %s "$K" | kubectl --context portland -n vault create secret generic vault-unseal-key --from-file=key=/dev/stdin --dry-run=client -o yaml | kubectl --context portland apply -f -; unset K
+```
+
+Run it in a normal terminal, not through Claude Code's `!` prefix (no stdin there). Paste the key once after the prompt; the input is hidden. To sanity-check without printing the key: `kubectl --context portland -n vault get secret vault-unseal-key -o json | jq '.data.key | length'` should be non-zero.
+
+- **The pod won't start without the Secret** (the volume is required). On a fresh install, create it with a placeholder key first, run `operator init` above, then replace it with the real unseal key. The sidecar just logs errors until the key is valid.
+- **Anyone who can read Secrets in `vault` can read the unseal key.** Keep an offline copy of the key as well.
+- **Check it works** by deleting `vault-0`; it should return 2/2 Ready with no manual unseal.
+
 ## Day-to-day changes
 
 **Change a secret value:** edit `../terraform.tfvars`, then `plan` and `apply`. VSO picks up the new version within `refreshAfter` (60s). Trino restarts automatically through `rolloutRestartTargets`; other apps may need a manual restart if they read the secret only at startup.

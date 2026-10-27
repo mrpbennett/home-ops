@@ -107,7 +107,7 @@ kubectl -n argocd delete secret -l owner=helm,name=argocd
 - **After step 4, never run `helm upgrade`.** Upgrade Argo CD by changing the appset in git.
 - **`configs.clusterCredentials`** in the appset registers this cluster as `portland`, the destination every appset targets.
 - **Expect sync errors at first.** Apps retry until the resource types and namespaces they depend on exist, so the cluster converges in about 5–15 minutes.
-- **Vault needs manual steps.** It starts sealed, so initialise and unseal it, then apply the Terraform; until then, the apps that need its secrets wait.
+- **Vault needs manual steps.** It starts sealed, so initialise it, create the `vault-unseal-key` Secret for the auto-unseal sidecar, then apply the Terraform; until then, the apps that need its secrets wait.
 
 The Vault steps, and how sync ordering works, are in [`terraform/vault/README.md`](./terraform/vault/README.md).
 

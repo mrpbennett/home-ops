@@ -43,6 +43,38 @@ spec:
                 limits:
                   memory: 512Mi
 
+              # Re-unseals Vault after restarts. The key lives in the vault-unseal-key
+              # Secret, which is created by hand and never committed (see README).
+              extraVolumes:
+                - type: secret
+                  name: vault-unseal-key
+
+              extraContainers:
+                - name: unsealer
+                  image: hashicorp/vault:1.21.2
+                  command: ["/bin/sh", "-c"]
+                  args:
+                    - |
+                      while true; do
+                        if vault status -format=json 2>/dev/null | grep -q '"sealed": true'; then
+                          vault operator unseal - < /vault/userconfig/vault-unseal-key/key > /dev/null
+                        fi
+                        sleep 10
+                      done
+                  env:
+                    - name: VAULT_ADDR
+                      value: http://127.0.0.1:8200
+                  volumeMounts:
+                    - name: userconfig-vault-unseal-key
+                      mountPath: /vault/userconfig/vault-unseal-key
+                      readOnly: true
+                  resources:
+                    requests:
+                      cpu: 5m
+                      memory: 16Mi
+                    limits:
+                      memory: 64Mi
+
               ingress:
                 enabled: true
                 annotations:
