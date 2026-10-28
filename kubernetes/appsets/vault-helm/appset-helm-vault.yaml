@@ -57,7 +57,7 @@ spec:
                     - |
                       while true; do
                         if vault status -format=json 2>/dev/null | grep -q '"sealed": true'; then
-                          vault operator unseal - < /vault/userconfig/vault-unseal-key/key > /dev/null
+                          vault operator unseal "$(cat /vault/userconfig/vault-unseal-key/key)" > /dev/null
                         fi
                         sleep 10
                       done
