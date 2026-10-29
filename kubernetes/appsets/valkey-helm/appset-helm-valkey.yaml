@@ -1,0 +1,122 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name valkey
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ['missingkey=error']
+  generators:
+    - list:
+        elements:
+          - app_name: *app_name
+            project: default
+            repo_url: https://github.com/mrpbennett/home-ops.git
+            cluster: portland
+            clusterURL: 'https://kubernetes.default.svc'
+  template:
+    metadata:
+      name: '{{.app_name}}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: '{{.project}}'
+      source:
+        chart: valkey
+        repoURL: https://valkey.io/valkey-helm
+        targetRevision: 0.12.1
+        helm:
+          valuesObject:
+            resources:
+              limits:
+                cpu: 100m
+                memory: 128Mi
+              requests:
+                cpu: 100m
+                memory: 128Mi
+
+
+              persistence:
+                enabled: true
+                size: 10Gi
+                storageClass: longhorn
+                accessModes:
+                  - ReadWriteOnce
+                keepOnUninstall: false
+
+              extraVolumes: []
+              #  - name: valkey-extra-conf
+              #    secret:
+              #      secretName: my-valkey-conf
+              extraVolumeMounts: []
+              #  - name: valkey-extra-conf
+              #    mountPath: /extra-conf
+              #    readOnly: true
+
+              auth:
+                enabled: false
+
+              metrics:
+                enabled: true
+
+              # PrometheusRule configuration for alerting rules (used by kube-prometheus-stack)
+              prometheusRule:
+                enabled: true
+                labels: {}
+                annotations: {}
+                # List of Prometheus alerting rules
+                rules:
+                  - alert: ValkeyDown
+                    annotations:
+                      summary: Valkey instance {{ "{{ $labels.instance }}" }} down
+                      description: Valkey instance {{ "{{ $labels.instance }}" }} is down.
+                    expr: |
+                      redis_up{service="{{ include "valkey.fullname" . }}-metrics"} == 0
+                    for: 2m
+                    labels:
+                      severity: error
+                  - alert: ValkeyMemoryHigh
+                    annotations:
+                      summary: Valkey instance {{ "{{ $labels.instance }}" }} is using too much memory
+                      description: |
+                        Valkey instance {{ "{{ $labels.instance }}" }} is using {{ "{{ $value }}" }}% of its available memory.
+                    expr: |
+                      redis_memory_used_bytes{service="{{ include "valkey.fullname" . }}-metrics"} * 100
+                      /
+                      redis_memory_max_bytes{service="{{ include "valkey.fullname" . }}-metrics"}
+                      > 90 <= 100
+                    for: 2m
+                    labels:
+                      severity: error
+                  - alert: ValkeyKeyEviction
+                    annotations:
+                      summary: Valkey instance {{ "{{ $labels.instance }}" }} has evicted keys
+                      description: |
+                        Valkey instance {{ "{{ $labels.instance }}" }} has evicted {{ "{{ $value }}" }} keys in the last 5 minutes.
+                    expr: |
+                      increase(redis_evicted_keys_total{service="{{ include "valkey.fullname" . }}-metrics"}[5m]) > 0
+                    for: 1s
+                    labels:
+                      severity: error
+
+
+
+      destination:
+        name: '{{.cluster}}'
+        namespace: '{{.app_name}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - Validate=true
+          - CreateNamespace=true
+          - SkipDryRunOnMissingResource=true
+        retry:
+          limit: -1 # retry forever; apps converge as their dependencies (CRDs, namespaces) appear
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
