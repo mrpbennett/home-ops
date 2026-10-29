@@ -29,6 +29,14 @@ spec:
         targetRevision: 0.4.0
         helm:
           valuesObject:
+            fullnameOverrider: cache
+
+            metrics:
+              podMonitor:
+                enabled: true
+                labels:
+                  release: prometheus
+
             cluster:
               spec:
                 shards: 3
@@ -38,11 +46,6 @@ spec:
                   size: 10Gi
                   storageClassName: longhorn
 
-            metrics:
-              podMonitor:
-                enabled: true
-                labels:
-                  release: prometheus
 
       destination:
         name: '{{.cluster}}'
