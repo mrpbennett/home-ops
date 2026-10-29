@@ -36,6 +36,8 @@ spec:
               enabled: true
 
             server:
+              updateStrategyType: RollingUpdate
+              logLevel: info
               resources:
                 requests:
                   cpu: 50m
