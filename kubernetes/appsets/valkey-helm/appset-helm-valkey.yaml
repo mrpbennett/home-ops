@@ -29,7 +29,7 @@ spec:
         targetRevision: 0.4.0
         helm:
           valuesObject:
-            fullnameOverrider: cache
+            fullnameOverride: cache
 
             metrics:
               podMonitor:
