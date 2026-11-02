@@ -132,12 +132,10 @@ projects:
         status: active
 
     buckets:
-      - ld-prod-longhorn
       - ld-prod-etcd-backup
       - ld-prod-cnpg-backup
       - ld-prod-loki-admin
       - ld-prod-loki-ruler
-      - ld-prod-archive
 
   ld-dev:
     description: Raspberry Pi 5 dev cluster, k3s.
