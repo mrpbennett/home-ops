@@ -255,8 +255,6 @@ spec:
             #       storageclass.kubernetes.io/is-default-class: "false"
             #     parameters:
             #       server: 192.168.4.110
-            #       share: /mnt/HD/HD_a2/kubernetes
-            #       mountPermissions: "0755"
             #       reclaimPolicy: Delete
             #       volumeBindingMode: Immediate
             #       mountOptions:
