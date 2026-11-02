@@ -414,6 +414,16 @@ resource "vault_kv_secret_v2" "trino_catalogs" {
   })
 }
 
+resource "vault_kv_secret_v2" "seadweedfs_admin" {
+  mount = vault_mount.kv.path
+  name  = "seaweedfs/admin"
+
+  data_json = jsonencode({
+    username = var.SEAWEEDFS_ADMIN_USER
+    password = var.SEAWEEDFS_ADMIN_PASSWORD
+  })
+}
+
 # SEADWEEDFS / LOKI
 resource "vault_kv_secret_v2" "seadweedfs_loki" {
   mount = vault_mount.kv.path
@@ -425,6 +435,7 @@ resource "vault_kv_secret_v2" "seadweedfs_loki" {
   })
 }
 
+# SEAWEEDFS / etcd
 resource "vault_kv_secret_v2" "seadweedfs_etcdbackup" {
   mount = vault_mount.kv.path
   name  = "seaweedfs/etcd-backup"
@@ -609,6 +620,14 @@ variable "PGADMIN_DEFAULT_PASSWORD" {
 }
 
 # SEAWEEDFS --
+variable "SEAWEEDFS_ADMIN_USER" {
+  type      = string
+  sensitive = true
+}
+variable "SEAWEEDFS_ADMIN_PASSWORD" {
+  type      = string
+  sensitive = true
+}
 # LOKI
 variable "SEAWEEDFS_LOKI_AWS_ACCESS_KEY_ID" {
   type      = string
