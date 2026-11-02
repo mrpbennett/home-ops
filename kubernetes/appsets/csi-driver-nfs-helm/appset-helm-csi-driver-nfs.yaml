@@ -247,35 +247,24 @@ spec:
                 - soft
                 - timeo=300
 
-            ## StorageClass resources for creating multiple storage classes:
-            ## If you want multiple storage classes with different configurations, use this instead of storageClass above
-            # storageClasses:
-            #   - name: nfs-csi
-            #     annotations:
-            #       storageclass.kubernetes.io/is-default-class: "false"
-            #     parameters:
-            #       server: 192.168.4.110
-            #       reclaimPolicy: Delete
-            #       volumeBindingMode: Immediate
-            #       mountOptions:
-            #         # - nfsvers=4.1
-            #         - nfsvers=3
-            #         - nolock
-            #         - soft
-            #         - timeo=300
-            #
-            #   - name: nfs-seaweedfs
-            #     parameters:
-            #       server: 192.168.4.110
-            #       share: /mnt/HD/HD_a2/kubernetes/seaweedfs
-            #       mountPermissions: "0755"
-            #     reclaimPolicy: Retain
-            #     volumeBindingMode: Immediate
-            #     mountOptions:
-            #       - nfsvers=4.1
-            #       - nolock
-            #       - soft
-            #       - timeo=300
+            ## Additional StorageClasses (the general nfs-csi class above is kept via `storageClass`).
+            ## nfs-seaweedfs backs SeaweedFS volume data: hard mounts (no I/O errors on NAS blips)
+            ## and Retain so removing the app never deletes the object data.
+            ## The share directory must already exist on the NAS.
+            storageClasses:
+              - name: nfs-seaweedfs
+                parameters:
+                  server: 192.168.4.110
+                  share: /mnt/HD/HD_a2/kubernetes/seaweedfs
+                  mountPermissions: "0755"
+                reclaimPolicy: Retain
+                volumeBindingMode: Immediate
+                mountOptions:
+                  - nfsvers=3
+                  - nolock
+                  - hard
+                  - timeo=600
+                  - retrans=2
 
       destination:
         name: "{{.cluster}}"
