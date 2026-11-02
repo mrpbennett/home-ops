@@ -51,7 +51,7 @@ projects:
     instances:
       # --- control planes ---
       - name: cp-01
-        hostname: ld-prod-cp-01
+        hostname: ld-prod-k8s-cp-01
         zone: uk-southwest1-a
         role: control plane
         description: K8s control plane
@@ -65,7 +65,7 @@ projects:
             storage: 1TB Nvme
 
       - name: cp-02
-        hostname: ld-prod-cp-02
+        hostname: ld-prod-k8s-cp-02
         zone: uk-southwest1-a
         role: control plane
         description: K8s control plane
@@ -79,7 +79,7 @@ projects:
             storage: 1TB Nvme
 
       - name: cp-03
-        hostname: ld-prod-cp-03
+        hostname: ld-prod-k8s-cp-03
         zone: uk-southwest1-a
         role: control plane
         description: K8s control plane
@@ -95,7 +95,7 @@ projects:
       # --- workers ---
       # TODO: future planning; confirm status once the machine is racked
       - name: compute-01
-        hostname: ld-prod-compute-01
+        hostname: ld-prod-k8s-compute-01
         zone: uk-southwest1-a
         role: worker
         description: K8s node for hosting virtual machines and resource heavy pods

@@ -106,7 +106,7 @@ spec:
 
               endpoints:
                 # infra: nodes and cluster platform services
-                - name: dor1-k8s-cp-1
+                - name: ld-prod-k8s-cp-01
                   group: infra
                   url: "tcp://192.168.7.1:6443"
                   interval: 1m
@@ -114,7 +114,7 @@ spec:
                     - "[CONNECTED] == true"
                   alerts: [{type: discord}]
 
-                - name: dor1-k8s-cp-2
+                - name: ld-prod-k8s-cp-02
                   group: infra
                   url: "tcp://192.168.7.2:6443"
                   interval: 1m
@@ -122,7 +122,7 @@ spec:
                     - "[CONNECTED] == true"
                   alerts: [{type: discord}]
 
-                - name: dor1-k8s-cp-3
+                - name: ld-prod-k8s-cp-03
                   group: infra
                   url: "tcp://192.168.7.3:6443"
                   interval: 1m
@@ -217,7 +217,7 @@ spec:
 
                 - name: seaweedfs-s3
                   group: apps
-                  url: "http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333"
+                  url: "http://seaweedfs-s3.seaweedfs.svc.cluster.local:8333/healthz"
                   interval: 1m
                   conditions:
                     - "[STATUS] == 200"
