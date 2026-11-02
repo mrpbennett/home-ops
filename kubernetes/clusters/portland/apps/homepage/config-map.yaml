@@ -705,9 +705,9 @@ data:
 
         - SeaweedFS:
             icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/seaweedfs.svg
-            href: http://192.168.6.2:23646/admin
+            href: https://seaweedfs.70ld.dev
             description: Buckets - Filestore
-            siteMonitor: http://192.168.6.2:23646/admin
+            siteMonitor: http://seaweedfs-admin.seaweedfs.svc.cluster.local
 
         - TrueNAS Scale:
             icon: truenas-scale.svg
