@@ -1,0 +1,179 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: &app_name seaweedfs
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: portland
+          - list:
+              elements:
+                - app_name: *app_name
+                  project: default
+                  repo_url: https://github.com/mrpbennett/home-ops.git
+  template:
+    metadata:
+      name: "{{.app_name}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: "{{.project}}"
+      source:
+        chart: seaweedfs
+        repoURL: https://seaweedfs.github.io/seaweedfs/helm
+        targetRevision: 4.51.0
+        helm:
+          valuesObject:
+            global:
+              seaweedfs:
+                createClusterRole: true
+                enableReplication: true
+                replicationPlacement: "000"
+
+                monitoring:
+                  enabled: true
+
+            master:
+              enabled: true
+              replicas: 1
+              port: 9333
+
+              data:
+                type: "persistentVolumeClaim"
+                size: 5Gi
+                storageClass: longhorn
+
+              logs:
+                type: "emptyDir"
+
+              httpRoute:
+                enabled: true
+                parentRefs:
+                  - name: envoy-shared-gateway
+                    namespace: envoy-gateway-system
+                    sectionName: https
+                hostnames:
+                  - master-seaweedfs.70ld.dev
+
+
+            volume:
+              enabled: true
+              port: 8080
+              replicas: 1
+
+              dataDirs:
+                - name: data1
+                  type: "persistentVolumeClaim"
+                  size: 50Gi
+                  storageClass: nfs-seaweedfs
+                  maxVolumes: 0
+
+              resizeHook:
+                enabled: true
+
+              rack: "ld-prod-r1"
+              dataCenter: "uk-southwest1"
+
+              httpRoute:
+                enabled: true
+                parentRefs:
+                  - name: envoy-shared-gateway
+                    namespace: envoy-gateway-system
+                    sectionName: https
+                hostnames:
+                  - volume-seaweedfs.70ld.dev
+
+            filer:
+              enabled: true
+              replicas: 1
+              port: 8888
+              data:
+                type: "persistentVolumeClaim"
+                size: 10Gi
+                storageClass: longhorn
+              logs:
+                type: "emptyDir"
+
+            s3:
+              enabled: true
+              replicas: 1
+              port: 8333
+              httpsPort: 0
+              icebergPort: 8553
+              enabledAuth: true
+              createBuckets:
+                - name: general
+                  anonymousRead: true
+                # -- needed --
+                - name: cloudnativepg-backup
+                  anonymousRead: true
+                - name: loki-admin
+                  anonymousRead: true
+                - name: loki-chunks
+                  anonymousRead: true
+                - name: loki-ruler
+                  anonymousRead: true
+                - etcd-backup:
+                  anonymousRead: true
+
+              domainName: "s3-seaweedfs.70ld.dev"
+
+              logs:
+                type: "emptyDir"
+
+              httpRoute:
+                enabled: true
+                parentRefs:
+                  - name: envoy-shared-gateway
+                    namespace: envoy-gateway-system
+                    sectionName: https
+                hostnames:
+                  - s3-seaweedfs.70ld.dev
+
+            admin:
+              enabled: true
+              replicas: 1
+              port: 12535
+              secret:
+                adminUser: "admin"
+                adminPassword: ""
+
+              data:
+                type: "emptyDir"
+
+              logs:
+                type: "emptyDir"
+
+              httpRoute:
+                enabled: true
+                parentRefs:
+                  - name: envoy-shared-gateway
+                    namespace: envoy-gateway-system
+                    sectionName: https
+                hostnames:
+                  - admin-seaweedfs.70ld.dev
+
+
+      destination:
+        name: "{{.cluster}}"
+        namespace: seaweedfs
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            maxDuration: 5m0s
+            factor: 2
