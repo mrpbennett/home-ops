@@ -121,7 +121,7 @@ spec:
                   anonymousRead: true
                 - name: loki-ruler
                   anonymousRead: true
-                - etcd-backup:
+                - name: etcd-backup
                   anonymousRead: true
 
               domainName: "s3-seaweedfs.70ld.dev"
@@ -160,7 +160,7 @@ spec:
                     namespace: envoy-gateway-system
                     sectionName: https
                 hostnames:
-                  - admin-seaweedfs.70ld.dev
+                  - seaweedfs.70ld.dev
 
 
       destination:
