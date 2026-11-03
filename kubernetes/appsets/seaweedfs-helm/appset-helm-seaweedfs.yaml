@@ -95,6 +95,8 @@ spec:
               enabled: true
               replicas: 1
               port: 8888
+              dataCenter: uk-southwest1
+              rack: ld-prod-r1
               data:
                 type: "persistentVolumeClaim"
                 size: 10Gi
