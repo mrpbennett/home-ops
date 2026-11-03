@@ -140,6 +140,40 @@ spec:
                 hostnames:
                   - s3-seaweedfs.70ld.dev
 
+              service:
+                type: LoadBalancer
+                loadBalancerClass: ""
+                loadBalancerIP: ""
+                loadBalancerSourceRanges: []
+                # fixed nodePorts, used only when type is NodePort or LoadBalancer
+                nodePorts:
+                  http: 80
+                  https: 443
+                  iceberg: null
+                  lance: null
+                  metrics: null
+
+            sftp:
+              enabled: false
+
+              # SSH server configuration
+              sshPrivateKey: "" # Optional path to a single SSH host key file; the server fails to start if set but missing. Host keys come from hostKeysFolder by default.
+              hostKeysFolder: "/etc/sw/ssh" # path to folder containing SSH private key files for host authentication
+              authMethods: "password,publickey"
+              maxAuthTries: 6
+              bannerMessage: "SeaweedFS SFTP Server" # Message displayed before authentication
+              loginGraceTime: "2m"
+              clientAliveInterval: "5s"
+              clientAliveCountMax: 3
+              dataCenter: "uk-southwest1"
+              localSocket: "" # Default to /tmp/seaweedfs-sftp-<port>.sock
+
+              service:
+                type: LoadBalancer
+
+                nodePorts:
+                  sftp: 22
+
             admin:
               enabled: true
               replicas: 1
