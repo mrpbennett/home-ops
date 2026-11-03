@@ -76,10 +76,10 @@ spec:
 
               # https://github.com/TwiN/gatus#ui
               ui:
-                title: "70LD : uk-dor-1"
-                description: Monitoring uk-dor-1
-                dashboard-heading: uk-dor-1
-                dashboard-subheading: Monitoring health of region uk-dor-1
+                title: "70LD: uk-southwest1 - ld-prod-r1"
+                description: Monitoring uk-southwest1
+                dashboard-heading: uk-southwest1
+                dashboard-subheading: "Monitoring health of region: uk-southwest1 rack: ld-prod-r1"
                 logo: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/google-cloud.svg
                 favicon:
                   default: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/google-cloud.svg
@@ -133,7 +133,7 @@ spec:
                 # rpi
                 - name: rpi-adguard
                   group: infra
-                  url: "tcp://192.168.6.3:22"
+                  url: "tcp://192.168.4.2:22"
                   interval: 1m
                   conditions:
                     - "[CONNECTED] == true"
