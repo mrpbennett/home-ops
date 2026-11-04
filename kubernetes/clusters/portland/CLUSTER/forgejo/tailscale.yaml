@@ -1,0 +1,38 @@
+---
+# Remote access to Forgejo over the tailnet. LAN access stays on the chart's
+# httpRoute (git.70ld.dev), because the chart rejects ingress + httpRoute together.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: forgejo-tailscale
+  namespace: forgejo
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: forgejo-http
+      port:
+        number: 3000
+  # first label is the tailnet hostname, so this gives git.<tailnet>
+  tls:
+    - hosts:
+        - git
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forgejo-ssh-tailscale
+  namespace: forgejo
+  annotations:
+    tailscale.com/hostname: git-ssh
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app.kubernetes.io/instance: forgejo
+    app.kubernetes.io/name: forgejo
+  ports:
+    - name: ssh
+      port: 22
+      protocol: TCP
+      targetPort: ssh

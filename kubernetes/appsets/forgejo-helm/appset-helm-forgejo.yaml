@@ -18,7 +18,6 @@ spec:
                 - app_name: *app_name
                   project: default
                   repo_url: https://github.com/mrpbennett/home-ops.git
-                  tailnet: nessie-tet.ts.net
   template:
     metadata:
       name: "{{.app_name}}"
@@ -51,21 +50,9 @@ spec:
               ssh:
                 type: LoadBalancer
                 port: 22
-                loadBalancerClass: tailscale
                 annotations:
-                  tailscale.com/hostname: git-ssh
-
-            ingress:
-              enabled: true
-              className: tailscale
-              hosts:
-                - host: "git.{{.tailnet}}"
-                  paths:
-                    - path: /
-                      pathType: Prefix
-              tls:
-                - hosts:
-                    - forgejo
+                  metallb.universe.tf/loadBalancerIPs: 192.168.7.16
+                  external-dns.alpha.kubernetes.io/hostname: git-ssh.70ld.dev
 
             httpRoute:
               enabled: true
@@ -106,9 +93,9 @@ spec:
               config:
                 APP_NAME: Forgejo
                 server:
-                  DOMAIN: "git.{{.tailnet}}"
-                  ROOT_URL: "https://git.{{.tailnet}}"
-                  SSH_DOMAIN: "git-ssh.{{.tailnet}}"
+                  DOMAIN: git.70ld.dev
+                  ROOT_URL: https://git.70ld.dev
+                  SSH_DOMAIN: git-ssh.70ld.dev
                   SSH_PORT: 22
                 database:
                   DB_TYPE: postgres
