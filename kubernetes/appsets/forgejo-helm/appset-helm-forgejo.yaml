@@ -106,9 +106,9 @@ spec:
               config:
                 APP_NAME: Forgejo
                 server:
-                  DOMAIN: forgejo.<tailnet-name>.ts.net
-                  ROOT_URL: https://forgejo.<tailnet-name>.ts.net/
-                  SSH_DOMAIN: forgejo-ssh.<tailnet-name>.ts.net
+                  DOMAIN: "git.{{.tailnet}}"
+                  ROOT_URL: "https://git.{{.tailnet}}"
+                  SSH_DOMAIN: "git-ssh.{{.tailnet}}"
                   SSH_PORT: 22
                 database:
                   DB_TYPE: postgres
