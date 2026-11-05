@@ -2092,7 +2092,7 @@ spec:
               value: memberlist
             - name: METALLB_DEPLOYMENT
               value: controller
-          image: quay.io/metallb/controller:v0.16.1
+          image: quay.io/metallb/controller:v0.16.2
           livenessProbe:
             failureThreshold: 3
             httpGet:
