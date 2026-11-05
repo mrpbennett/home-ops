@@ -2,16 +2,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: seaweedfs-tailscale
+  name: seaweedfs-admin-tailscale
   namespace: seaweedfs
 spec:
   ingressClassName: tailscale
   defaultBackend:
     service:
-      name: seaweedfs-s3
+      name: seaweedfs-admin
       port:
-        number: 8333
-  # first label is the tailnet hostname, so this gives s3.<tailnet>
+        number: 12535
+  # first label is the tailnet hostname, so this gives seaweedfs.<tailnet>
   tls:
     - hosts:
-        - s3
+        - seaweedfs

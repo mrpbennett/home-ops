@@ -198,6 +198,10 @@ spec:
                 hostnames:
                   - seaweedfs.70ld.dev
 
+                service:
+                  type: LoadBalancer
+                  loadBalancerClass: tailscale
+
 
       destination:
         name: "{{.cluster}}"
