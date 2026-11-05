@@ -376,8 +376,9 @@ resource "vault_kv_secret_v2" "pgadmin" {
   name  = "pgadmin/config"
 
   data_json = jsonencode({
-    email    = var.PGADMIN_DEFAULT_EMAIL
-    password = var.PGADMIN_DEFAULT_PASSWORD
+    email              = var.PGADMIN_DEFAULT_EMAIL
+    password           = var.PGADMIN_DEFAULT_PASSWORD
+    OIDC_CLIENT_SECRET = var.PGADMIN_OIDC_CLIENT_SECRET
   })
 }
 
@@ -615,6 +616,10 @@ variable "PGADMIN_DEFAULT_EMAIL" {
   sensitive = true
 }
 variable "PGADMIN_DEFAULT_PASSWORD" {
+  type      = string
+  sensitive = true
+}
+variable "PGADMIN_OIDC_CLIENT_SECRET" {
   type      = string
   sensitive = true
 }

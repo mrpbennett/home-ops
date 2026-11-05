@@ -46,6 +46,21 @@ spec:
             - name: PGADMIN_LISTEN_PORT
               value: "80"
 
+            # Keycloak OIDC. Must be defined before PGADMIN_CONFIG_OAUTH2_CONFIG so $(OIDC_CLIENT_SECRET) expands.
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: pgadmin-credentials
+                  key: OIDC_CLIENT_SECRET
+            - name: PGADMIN_CONFIG_AUTHENTICATION_SOURCES
+              value: "['oauth2', 'internal']"
+            - name: PGADMIN_CONFIG_OAUTH2_CONFIG
+              value: >-
+                [{ 'OAUTH2_NAME': 'keycloak', 'OAUTH2_DISPLAY_NAME': 'Keycloak', 'OAUTH2_CLIENT_ID': 'pgadmin', 'OAUTH2_CLIENT_SECRET':
+                '$(oidc_client_secret)', 'OAUTH2_SERVER_METADATA_URL': 'https://keycloak.70ld.dev/realms/master/.well-known/openid-configuration',
+                'OAUTH2_SCOPE': 'openid email profile', 'OAUTH2_USERNAME_CLAIM': 'email', 'OAUTH2_AUTO_CREATE_USER': True,
+                'OAUTH2_ICON': 'fa-key', 'OAUTH2_BUTTON_COLOR': '#4d4d4d' }]
+
           ports:
             - name: http
               containerPort: 80
