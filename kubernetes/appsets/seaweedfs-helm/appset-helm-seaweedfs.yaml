@@ -142,6 +142,8 @@ spec:
 
               service:
                 type: LoadBalancer
+                annotations:
+                  tailscale.com/hostname: s3
                 loadBalancerClass: tailscale
                 loadBalancerIP: ""
                 loadBalancerSourceRanges: []
@@ -200,6 +202,8 @@ spec:
 
               service:
                 type: LoadBalancer
+                annotations:
+                  tailscale.com/hostname: seaweedfs
                 loadBalancerClass: tailscale
 
 

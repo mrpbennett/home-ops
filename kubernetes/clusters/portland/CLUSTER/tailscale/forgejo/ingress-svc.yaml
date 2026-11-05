@@ -1,4 +1,3 @@
-
 ---
 # Remote access to Forgejo over the tailnet. LAN access stays on the chart's
 # httpRoute (git.70ld.dev), because the chart rejects ingress + httpRoute together.
