@@ -42,7 +42,6 @@ spec:
                 workflowNamespaces:
                   - argo-workflows
                   - cron-jobs
-                  - dev
 
                 retentionPolicy:
                   completed: 10
