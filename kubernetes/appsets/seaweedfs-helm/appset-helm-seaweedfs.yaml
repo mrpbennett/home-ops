@@ -142,13 +142,13 @@ spec:
 
               service:
                 type: LoadBalancer
-                loadBalancerClass: ""
+                loadBalancerClass: tailscale
                 loadBalancerIP: ""
                 loadBalancerSourceRanges: []
                 # fixed nodePorts, used only when type is NodePort or LoadBalancer
                 nodePorts:
-                  http: 80
-                  https: 443
+                  http: null
+                  https: null
                   iceberg: null
                   lance: null
                   metrics: null
