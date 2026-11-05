@@ -15,6 +15,6 @@ data:
         "Host": "192.168.7.80",
         "SSLMode": "prefer",
         "MaintenanceDB": "postgres"
-      },
+      }
     }
     }

@@ -63,7 +63,6 @@ Fixed LoadBalancer IPs:
 | 192.168.7.69   | ingress-nginx controller                                   |
 | 192.168.7.80   | Postgres read-write (`cnpg-prod-cluster`, 5432)            |
 | 192.168.7.81   | Trino (8080)                                               |
-| 192.168.7.99   | pgAdmin (5050)                                             |
 
 ## Storage
 

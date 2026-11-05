@@ -260,10 +260,10 @@ spec:
 
                 - name: pgadmin
                   group: data
-                  url: "tcp://192.168.7.99:5050"
+                  url: "http://pgadmin-service.pgadmin.svc:5050/misc/ping"
                   interval: 1m
                   conditions:
-                    - "[CONNECTED] == true"
+                    - "[STATUS] == 200"
                   alerts: [{type: discord}]
 
 
