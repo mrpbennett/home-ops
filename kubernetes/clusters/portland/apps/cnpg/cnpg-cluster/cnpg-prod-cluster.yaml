@@ -23,10 +23,9 @@ spec:
   resources:
     requests:
       memory: 512Mi
-      cpu: 23m
+      cpu: 250m
     limits:
       memory: 1Gi
-      cpu: 750m
   storage:
     storageClass: longhorn
     size: 8Gi
