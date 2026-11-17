@@ -739,6 +739,11 @@ data:
             href: https://portal.nanoclaw.dev/
             description: Cluster agent - Gemini Cloud Assist
 
+        - FreshRSS:
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/freshrss.png
+            href: https://freshrss.70ld.dev
+            description: RSS Aggregator
+
   widgets.yaml: |
     - greeting:
         text_size: 2xl
