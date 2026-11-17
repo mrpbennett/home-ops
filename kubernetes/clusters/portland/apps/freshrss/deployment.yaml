@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freshrss
+  namespace: freshrss
+  labels:
+    app: freshrss
+spec:
+  replicas: 1
+  # Longhorn volumes are ReadWriteOnce, so never run two pods at once
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: freshrss
+  template:
+    metadata:
+      labels:
+        app: freshrss
+    spec:
+      # the image runs Apache/php as www-data (uid/gid 33); make the Longhorn mounts writable for it
+      securityContext:
+        fsGroup: 33
+      containers:
+        - name: freshrss
+          image: freshrss/freshrss:edge
+          env:
+            - name: TZ
+              value: Europe/London
+            - name: CRON_MIN
+              value: "1,31"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: data
+              mountPath: /var/www/FreshRSS/data
+            - name: extensions
+              mountPath: /var/www/FreshRSS/extensions
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: freshrss-data
+        - name: extensions
+          persistentVolumeClaim:
+            claimName: freshrss-extensions
