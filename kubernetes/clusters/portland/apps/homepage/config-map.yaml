@@ -109,6 +109,12 @@ data:
         style: row
         columns: 2
 
+      Media Server:
+        tab: Media
+        icon: mdi-movie-open-outline
+        style: row
+        columns: 3
+
   custom.js: ""
 
   bookmarks.yaml: |
@@ -743,6 +749,47 @@ data:
             icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/freshrss.png
             href: https://freshrss.70ld.dev
             description: RSS Aggregator
+
+    # ---------------------------------------------------------------------
+    # MEDIA: the compose media server on 192.168.7.10 (outside the cluster,
+    # so `siteMonitor` hits the host directly and there is no pod selector).
+    # ---------------------------------------------------------------------
+    - Media Server:
+        - Jellyfin:
+            icon: jellyfin.png
+            href: http://192.168.7.10:8096/web
+            description: Media player
+            siteMonitor: http://192.168.7.10:8096
+
+        - Seerr:
+            icon: jellyseerr.png
+            href: http://192.168.7.10:5055/
+            description: Media requests
+            siteMonitor: http://192.168.7.10:5055
+
+        - Radarr:
+            icon: radarr.png
+            href: http://192.168.7.10:7878/
+            description: Movie management
+            siteMonitor: http://192.168.7.10:7878
+
+        - Sonarr:
+            icon: sonarr.png
+            href: http://192.168.7.10:8989/
+            description: TV management
+            siteMonitor: http://192.168.7.10:8989
+
+        - Prowlarr:
+            icon: prowlarr.png
+            href: http://192.168.7.10:9696/
+            description: Indexer manager
+            siteMonitor: http://192.168.7.10:9696
+
+        - qBittorrent:
+            icon: qbittorrent.png
+            href: http://192.168.7.10:8080/
+            description: Download client
+            siteMonitor: http://192.168.7.10:8080
 
   widgets.yaml: |
     - greeting:
