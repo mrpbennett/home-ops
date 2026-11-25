@@ -1,8 +1,6 @@
----
 # Combined media server stack.
 # Source templates live in the per-app directories alongside this file.
 name: media-svr
-
 # ---------------------------------------------------------------------------
 # Shared defaults
 #
@@ -22,86 +20,90 @@ x-common: &common
   #   options:
   #     max-size: 10m
   #     max-file: "3"
-
-# Docker host gateway - needed by jellyfin and open-webui.
+# Docker host gateway - needed by jellyfin and some apps.
 x-host-gateway: &host-gateway
   extra_hosts:
     - host.docker.internal:host-gateway
-
 # LinuxServer.io images (prowlarr, radarr, sonarr) all take these.
 x-linuxserver-env: &linuxserver-env
-  PUID: "1000"
-  PGID: "1000"
-  TZ: Etc/UTC
-
-# Everything runs in UTC.
+  PUID: ${PUID:-1000}
+  PGID: ${PGID:-1000}
+  TZ: ${TZ:-Etc/UTC}
+# Everything runs in UTC by default.
 x-tz-env: &tz-env
-  TZ: Etc/UTC
-
+  TZ: ${TZ:-Etc/UTC}
+# Host paths below are relative to this compose file. Config/cache/media
+# directories should be owned by PUID:PGID (defaults to 1000:1000).
 services:
   jellyfin:
     !!merge <<: [*common, *host-gateway]
     image: jellyfin/jellyfin
     container_name: jellyfin
     # Optional - specify the uid and gid you would like Jellyfin to use instead of root
-    # user: uid:gid
+    # user: "${PUID:-1000}:${PGID:-1000}"
     ports:
       - 8096:8096/tcp
       - 7359:7359/udp
     volumes:
-      - /path/to/config:/config
-      - /path/to/cache:/cache
-      - type: bind
-        source: /path/to/media
-        target: /media
-      - type: bind
-        source: /path/to/media2
-        target: /media2
-        read_only: true
-      # Optional - extra fonts to be used during transcoding with subtitle burn-in
-      - type: bind
-        source: /path/to/fonts
-        target: /usr/local/share/fonts/custom
-        read_only: true
+      - ./jellyfin/config:/config
+      - ./jellyfin/cache:/cache
+      # Shared media tree: Radarr/Sonarr write here, Jellyfin only reads it.
+      # Drop :ro if a plugin needs to write alongside the media files.
+      - ./media:/media:ro
+      # Optional - second media root:
+      # - ./media2:/media2:ro
+      # Optional - extra fonts to be used during transcoding with subtitle burn-in:
+      # - ./fonts:/usr/local/share/fonts/custom:ro
     environment:
       !!merge <<: *tz-env
       # Optional - alternative address used for autodiscovery
-      JELLYFIN_PublishedServerUrl: http://example.com
-
+      JELLYFIN_PublishedServerUrl: ${JELLYFIN_PUBLISHED_URL:-http://localhost:8096}
   prowlarr:
     !!merge <<: *common
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     environment: *linuxserver-env
     volumes:
-      - /path/to/prowlarr/data:/config
+      - ./prowlarr/config:/config
     ports:
       - 9696:9696
-
   radarr:
     !!merge <<: *common
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     environment: *linuxserver-env
     volumes:
-      - /path/to/radarr/data:/config
-      - /path/to/movies:/movies #optional
-      - /path/to/download-client-downloads:/downloads #optional
+      - ./radarr/config:/config
+      - ./media/movies:/movies
+      - ./downloads:/downloads
     ports:
       - 7878:7878
-
   sonarr:
     !!merge <<: *common
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     environment: *linuxserver-env
     volumes:
-      - /path/to/sonarr/data:/config
-      - /path/to/tvseries:/tv #optional
-      - /path/to/downloadclient-downloads:/downloads #optional
+      - ./sonarr/config:/config
+      - ./media/tv:/tv
+      - ./downloads:/downloads
     ports:
       - 8989:8989
-
+  qbittorrent:
+    !!merge <<: *common
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      !!merge <<: *linuxserver-env
+      WEBUI_PORT: "8081"
+      TORRENTING_PORT: "6881"
+    ports:
+      - "8081:8081"
+      - "6881:6881"
+      - "6881:6881/udp"
+    volumes:
+      - ./qbittorrent/config:/config
+      - ./downloads:/downloads
   seerr:
     !!merge <<: *common
     image: ghcr.io/seerr-team/seerr:latest
@@ -109,12 +111,12 @@ services:
     container_name: seerr
     environment:
       !!merge <<: *tz-env
-      LOG_LEVEL: debug
-      PORT: "5055" #optional
+      LOG_LEVEL: ${SEERR_LOG_LEVEL:-info}
+      PORT: ${SEERR_PORT:-5055} #optional
     ports:
-      - 5055:5055
+      - ${SEERR_PORT:-5055}:5055
     volumes:
-      - /path/to/appdata/config:/app/config
+      - ./seerr/config:/app/config
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/settings/public || exit 1
       start_period: 20s
@@ -125,17 +127,3 @@ services:
       - no-new-privileges
     cap_drop:
       - ALL
-
-  open-webui:
-    !!merge <<: [*common, *host-gateway]
-    image: ghcr.io/open-webui/open-webui:main
-    ports:
-      - "3000:8080"
-    volumes:
-      - open-webui:/app/backend/data
-    environment:
-      !!merge <<: *tz-env
-      WEBUI_SECRET_KEY: your-secret-key
-
-volumes:
-  open-webui:
