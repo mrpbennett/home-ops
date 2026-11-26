@@ -1,3 +1,5 @@
+---
+
 # Combined media server stack.
 # Source templates live in the per-app directories alongside this file.
 name: media-svr

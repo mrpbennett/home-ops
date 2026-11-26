@@ -787,9 +787,15 @@ data:
 
         - qBittorrent:
             icon: qbittorrent.png
-            href: http://192.168.7.10:8080/
+            href: http://192.168.7.10:8081/
             description: Download client
-            siteMonitor: http://192.168.7.10:8080
+            siteMonitor: http://192.168.7.10:8081
+
+        - OpenWebUI:
+            icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/open-webui.svg
+            href: http://192.168.7.10:3000/
+            description: LocalLLM UI
+            siteMonitor: http://192.168.7.10:3000
 
   widgets.yaml: |
     - greeting:
